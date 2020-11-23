@@ -1,0 +1,118 @@
+name: Build & deploy
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+  BUILD_NAME: SecretSanta
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  testAndBuildAndDeploy:
+    name: ${{ matrix.targetPlatform }} - ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./
+        unityVersion:
+          - 2019.3.11f1
+        targetPlatform:
+          - StandaloneOSX
+          - StandaloneWindows64
+          - StandaloneLinux64
+          # - WebGL
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Set RELEASE_VERSION
+        run: echo ::set-env name=RELEASE_VERSION::$(git describe --abbrev=0 --tags)
+
+      - uses: actions/cache@v1.1.0
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-
+            Library-
+
+      - name: Activate Unity
+        uses: webbertakken/unity-activate@v1.2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - uses: webbertakken/unity-test-runner@v1.6
+        id: testRunner
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+
+      - uses: webbertakken/unity-builder@v1.0
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: ${{ env.BUILD_NAME }}
+          buildMethod: UnityBuilderAction.Builder.BuildProject
+          versioning: Custom
+          version: ${{ env.RELEASE_VERSION }}
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
+
+      - name: Deploy (Windows)
+        if: env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: windows
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
+          PACKAGE: build/StandaloneWindows64
+          VERSION: ${{ env.RELEASE_VERSION }}
+
+      - name: Deploy (MacOS)
+        if: env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: mac
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
+          PACKAGE: build/StandaloneOSX
+          VERSION: ${{ env.RELEASE_VERSION }}
+
+      - name: Deploy (Linux)
+        if: env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: linux
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
+          PACKAGE: build/StandaloneLinux64
+          VERSION: ${{ env.RELEASE_VERSION }}
+
+      - name: Deploy (WebGL)
+        if: env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: webgl
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
+          PACKAGE: build/WebGL
+          VERSION: ${{ env.RELEASE_VERSION }}
