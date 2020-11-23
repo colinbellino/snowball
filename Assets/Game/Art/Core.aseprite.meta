@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dc202e955177df1418a7bcf1157ce843
+guid: 36d28fda26f604071b8fa19fbf2c4980
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -23,10 +23,7 @@ ScriptedImporter:
     tileSize: {x: 32, y: 32}
     tilePadding: {x: 0, y: 0}
     tileOffset: {x: 0, y: 0}
-  animationSettings:
-  - animationName: Anim1
-    loopTime: 1
-    about: "Animation Type:\tForward\r\nAnimation:\tFrom: 0; To: 1"
+  animationSettings: []
   atlas: {instanceID: 0}
   importType: 0
   bindType: 0
