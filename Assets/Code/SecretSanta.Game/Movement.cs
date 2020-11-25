@@ -23,4 +23,13 @@ public class Movement : MonoBehaviour
 	{
 		transform.up = direction;
 	}
+
+	public void Follow(Vector3 target, float distance = 1f)
+	{
+		var direction = target - transform.position;
+		if (direction.magnitude > distance)
+		{
+			transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
+		}
+	}
 }
