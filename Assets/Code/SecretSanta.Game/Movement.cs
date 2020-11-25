@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-	[SerializeField] private float _speed = 10f;
+	public float Speed;
 
 	public void MoveInDirection(Vector2 direction, bool stayInBounds = false)
 	{
 		var size = transform.localScale;
 		var areaSize = GameManager.AreaSize;
 
-		var position = transform.position + (Vector3) direction * (Time.deltaTime * _speed);
+		var position = transform.position + (Vector3) direction * (Time.deltaTime * Speed);
 		if (stayInBounds)
 		{
 			position.x = Mathf.Clamp(position.x, -areaSize.x / 2f + size.x / 2f, areaSize.x / 2f - size.x / 2f);
@@ -29,7 +29,7 @@ public class Movement : MonoBehaviour
 		var direction = target - transform.position;
 		if (direction.magnitude > distance)
 		{
-			transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
+			transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * Speed);
 		}
 	}
 }

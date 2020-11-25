@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 7487877722726770805}
   - component: {fileID: -8577002832285378328}
   - component: {fileID: -7730097307009629672}
+  - component: {fileID: -8143466253665810664}
   m_Layer: 0
-  m_Name: Player
+  m_Name: RecruitBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250062366a7b485398c5a321326ecd65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
+  Speed: 0
 --- !u!114 &-8577002832285378328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +106,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bodyCollider: {fileID: 5119727303412183494}
   _current: 0
+--- !u!114 &-8143466253665810664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30529547288562001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af16552cfaee4a55afd1cdf430c97a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyRenderer: {fileID: 7281399740775172911}
+  _coreRenderer: {fileID: 4365935670865977067}
+  Color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1952642399919634003
 GameObject:
   m_ObjectHideFlags: 0

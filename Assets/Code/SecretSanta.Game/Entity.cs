@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
 	public Target Target { get; private set; }
 	public Alliance Alliance { get; private set; }
 	public Projectile Projectile { get; private set; }
+	public Renderer Renderer { get; private set; }
 
 	private void Awake()
 	{
@@ -16,5 +17,6 @@ public class Entity : MonoBehaviour
 		Target = GetComponent<Target>();
 		Alliance = GetComponent<Alliance>();
 		Projectile = GetComponent<Projectile>();
+		Renderer = GetComponent<Renderer>();
 	}
 }

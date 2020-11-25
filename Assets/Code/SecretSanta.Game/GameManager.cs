@@ -6,15 +6,18 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	[SerializeField] private Spawn[] _spawns;
-	[SerializeField] private Entity[] _recruits;
+	[SerializeField] private Recruit[] _recruits;
+	[SerializeField] private Entity _enemyPrefab;
+	[SerializeField] private Entity _recruitPrefab;
 	private GameControls _controls;
 
-	public GameState State  { get; private set; }
+	public Entity EnemyPrefab => _enemyPrefab;
+	public Entity RecruitPrefab => _recruitPrefab;
+	public GameState State { get; private set; }
 	public GameUI GameUI { get; private set; }
 	public GameStateMachine Machine { get; private set; }
 
 	public static GameManager Instance { get; private set; }
-
 	public static readonly Vector2 AreaSize = new Vector2(32, 18);
 
 	private void Awake()
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour
 
 		State = new GameState();
 		State.Inputs = new PlayerInput();
-		State.Team = new List<Entity>();
+		State.Team = new List<Recruit>();
 
 		State.SpawnsQueue = new Queue<Spawn>();
 		foreach (var spawn in _spawns)
@@ -37,7 +40,7 @@ public class GameManager : MonoBehaviour
 			State.SpawnsQueue.Enqueue(spawn);
 		}
 
-		State.RecruitsQueue = new Queue<Entity>();
+		State.RecruitsQueue = new Queue<Recruit>();
 		var randomizedRecruits = _recruits
 			.OrderBy(a => Guid.NewGuid())
 			.ToList();
@@ -64,8 +67,8 @@ public class GameManager : MonoBehaviour
 public class GameState
 {
 	public PlayerInput Inputs;
-	public List<Entity> Team;
-	public Queue<Entity> RecruitsQueue;
+	public List<Recruit> Team;
+	public Queue<Recruit> RecruitsQueue;
 	public Queue<Spawn> SpawnsQueue;
 }
 

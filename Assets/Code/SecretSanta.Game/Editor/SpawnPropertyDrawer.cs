@@ -12,7 +12,7 @@ public class SpawnPropertyDrawer : PropertyDrawer
 
 		var timeField = new PropertyField(property.FindPropertyRelative("Time"));
 		var positionField = new PropertyField(property.FindPropertyRelative("Position"));
-		var prefabField = new PropertyField(property.FindPropertyRelative("Prefab"));
+		var prefabField = new PropertyField(property.FindPropertyRelative("Data"));
 
 		container.Add(timeField);
 		container.Add(positionField);
@@ -38,7 +38,7 @@ public class SpawnPropertyDrawer : PropertyDrawer
 		// Draw fields - pass GUIContent.none to each so they are drawn without labels
 		EditorGUI.PropertyField(timeRect, property.FindPropertyRelative("Time"), GUIContent.none);
 		EditorGUI.PropertyField(positionRect, property.FindPropertyRelative("Position"), GUIContent.none);
-		EditorGUI.PropertyField(prefabRect, property.FindPropertyRelative("Prefab"), GUIContent.none);
+		EditorGUI.PropertyField(prefabRect, property.FindPropertyRelative("Data"), GUIContent.none);
 
 		// Set indent back to what it was
 		EditorGUI.indentLevel = indent;
