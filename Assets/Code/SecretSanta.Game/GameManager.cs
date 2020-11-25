@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 			.ToList();
 		foreach (var recruit in randomizedRecruits)
 		{
-			State.RecruitsQueue.Enqueue(recruit);
+			State.RecruitsQueue.Enqueue(Instantiate(recruit));
 		}
 	}
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-	public float Speed;
+	[HideInInspector] public float Speed;
 
 	public void MoveInDirection(Vector2 direction, bool stayInBounds = false)
 	{

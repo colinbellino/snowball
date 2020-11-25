@@ -19,6 +19,9 @@ public class GameplayState : IState
 			entity.Renderer.Color = recruit.Color;
 			_team.Add(entity);
 		}
+
+		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
+		GameManager.Instance.GameUI.Gameplay.Show();
 	}
 
 	public void Tick()
@@ -51,11 +54,15 @@ public class GameplayState : IState
 			{
 				var entity = GameObject.Instantiate(GameManager.Instance.EnemyPrefab);
 				entity.Movement.Speed = nextSpawn.Data.MoveSpeed;
+				entity.Brain.FireDelay = nextSpawn.Data.FireDelay;
 				entity.Transform.position = nextSpawn.Position;
 				GameManager.Instance.State.SpawnsQueue.Dequeue();
 			}
 		}
 	}
 
-	public async Task Exit() { }
+	public async Task Exit()
+	{
+		GameManager.Instance.GameUI.Gameplay.Hide();
+	}
 }

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Brain : MonoBehaviour
 {
-	[SerializeField] private float _fireDelay = 0.5f;
-	// [SerializeField] private Aim _aimType;
+	[HideInInspector] public float FireDelay;
 
 	private Entity _entity;
 	private double _fireCooldownTimestamp;
@@ -25,7 +24,7 @@ public class Brain : MonoBehaviour
 			if (Time.time >= _fireCooldownTimestamp)
 			{
 				_entity.Weapon.Fire();
-				_fireCooldownTimestamp = Time.time + _fireDelay;
+				_fireCooldownTimestamp = Time.time + FireDelay;
 			}
 		}
 	}
