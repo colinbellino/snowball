@@ -164,29 +164,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02960bc0b997c4d1592140237bbcaf10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityPrefab: {fileID: 1542170405098826978, guid: 24bf88dfb80024c8197a4f23d0120848,
-    type: 3}
   _spawns:
   - Time: 0
-    Position: {x: 0, y: 11}
+    Position: {x: 0, y: 10}
     Prefab: {fileID: 4245884596422472085, guid: 99f2e62031ffb4dcda3b7442c8cf4072,
       type: 3}
   - Time: 2
-    Position: {x: -5, y: 11}
+    Position: {x: -5, y: 10}
     Prefab: {fileID: 4245884596422472085, guid: 99f2e62031ffb4dcda3b7442c8cf4072,
       type: 3}
   - Time: 2
-    Position: {x: 5, y: 11}
+    Position: {x: 5, y: 10}
     Prefab: {fileID: 4245884596422472085, guid: 99f2e62031ffb4dcda3b7442c8cf4072,
       type: 3}
   - Time: 4
-    Position: {x: 5, y: 11}
+    Position: {x: 5, y: 10}
     Prefab: {fileID: 4245884596422472085, guid: 99f2e62031ffb4dcda3b7442c8cf4072,
       type: 3}
   - Time: 4
-    Position: {x: 5, y: 11}
+    Position: {x: 5, y: 10}
     Prefab: {fileID: 4245884596422472085, guid: 99f2e62031ffb4dcda3b7442c8cf4072,
       type: 3}
+  _recruits:
+  - {fileID: 2395563351848866098, guid: f0d4db0dbd1d44ec0b0640a7c84633f5, type: 3}
+  - {fileID: 2395563351848866098, guid: 2f457335af7194db19eb033c8863937e, type: 3}
+  - {fileID: 2395563351848866098, guid: c02fc901976744e69a4683e8cebeea2c, type: 3}
 --- !u!1 &1944563622
 GameObject:
   m_ObjectHideFlags: 0
