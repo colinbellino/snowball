@@ -5,84 +5,59 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	// [SerializeField] private Entity entityPrefab;
 	[SerializeField] private Spawn[] _spawns;
 	[SerializeField] private Entity[] _recruits;
+	private GameControls _controls;
 
-	private Queue<Entity> _recruitsQueue;
-	private Queue<Spawn> _spawnsQueue;
-	private GameState _gameState;
-	private GameControls _gameControls;
+	public GameState State  { get; private set; }
+	public GameUI GameUI { get; private set; }
+	public GameStateMachine Machine { get; private set; }
 
-	public static Action<Entity> EntityDestroyed;
+	public static GameManager Instance { get; private set; }
+
 	public static readonly Vector2 AreaSize = new Vector2(32, 18);
-
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-	static void Init()
-	{
-		EntityDestroyed = null;
-	}
 
 	private void Awake()
 	{
-		_gameControls = new GameControls();
+		Instance = this;
 
-		_gameState = new GameState();
-		_gameState.Inputs = new PlayerInput();
-		_gameState.Team = new List<Entity>();
+		Machine = new GameStateMachine();
+		GameUI = FindObjectOfType<GameUI>();
 
-		_spawnsQueue = new Queue<Spawn>();
+		_controls = new GameControls();
+		_controls.Enable();
+
+		State = new GameState();
+		State.Inputs = new PlayerInput();
+		State.Team = new List<Entity>();
+
+		State.SpawnsQueue = new Queue<Spawn>();
 		foreach (var spawn in _spawns)
 		{
-			_spawnsQueue.Enqueue(spawn);
+			State.SpawnsQueue.Enqueue(spawn);
 		}
 
-		_recruitsQueue = new Queue<Entity>();
+		State.RecruitsQueue = new Queue<Entity>();
 		var randomizedRecruits = _recruits
 			.OrderBy(a => Guid.NewGuid())
 			.ToList();
 		foreach (var recruit in randomizedRecruits)
 		{
-			_recruitsQueue.Enqueue(recruit);
+			State.RecruitsQueue.Enqueue(recruit);
 		}
 	}
 
 	private void Start()
 	{
-		_gameControls.Enable();
-
-		var player = GameObject.Instantiate(_recruitsQueue.Dequeue());
-		player.Transform.position = new Vector3(0, -6);
-		_gameState.Team.Add(player);
+		Machine.Start();
 	}
 
 	private void Update()
 	{
-		_gameState.Inputs.Move = _gameControls.Gameplay.Move.ReadValue<Vector2>();
-		_gameState.Inputs.Fire = _gameControls.Gameplay.Fire.ReadValue<float>() > 0f;
+		State.Inputs.Move = _controls.Gameplay.Move.ReadValue<Vector2>();
+		State.Inputs.Fire = _controls.Gameplay.Fire.ReadValue<float>() > 0f;
 
-		if (_gameState.Team.Count > 0)
-		{
-			_gameState.Team[0].Movement.MoveInDirection(_gameState.Inputs.Move, true);
-
-			if (_gameState.Inputs.Fire)
-			{
-				_gameState.Team[0].Weapon.Fire();
-			}
-		}
-
-		{
-			if (_spawnsQueue.Count > 0)
-			{
-				var nextSpawn = _spawnsQueue.Peek();
-				if (Time.time >= nextSpawn.Time)
-				{
-					var enemy = GameObject.Instantiate(nextSpawn.Prefab);
-					enemy.Transform.position = nextSpawn.Position;
-					_spawnsQueue.Dequeue();
-				}
-			}
-		}
+		Machine.Tick();
 	}
 }
 
@@ -90,6 +65,8 @@ public class GameState
 {
 	public PlayerInput Inputs;
 	public List<Entity> Team;
+	public Queue<Entity> RecruitsQueue;
+	public Queue<Spawn> SpawnsQueue;
 }
 
 public class PlayerInput
