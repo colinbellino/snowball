@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private Entity entityPrefab;
+	// [SerializeField] private Entity entityPrefab;
 	[SerializeField] private Spawn[] _spawns;
+	[SerializeField] private Entity[] _recruits;
 
+	private Queue<Entity> _recruitsQueue;
 	private Queue<Spawn> _spawnsQueue;
 	private GameState _gameState;
+	private GameControls _gameControls;
 
 	public static Action<Entity> EntityDestroyed;
 	public static readonly Vector2 AreaSize = new Vector2(32, 18);
@@ -20,40 +23,51 @@ public class GameManager : MonoBehaviour
 		EntityDestroyed = null;
 	}
 
-	void Awake()
+	private void Awake()
 	{
+		_gameControls = new GameControls();
+
 		_gameState = new GameState();
 		_gameState.Inputs = new PlayerInput();
+		_gameState.Team = new List<Entity>();
 
 		_spawnsQueue = new Queue<Spawn>();
 		foreach (var spawn in _spawns)
 		{
 			_spawnsQueue.Enqueue(spawn);
 		}
-	}
 
-	void Start()
-	{
-		var player = GameObject.Instantiate(entityPrefab);
-		player.Transform.position = new Vector3(0, -6);
-		_gameState.Player = player;
-	}
-
-	void Update()
-	{
-		_gameState.Inputs.Move = new Vector2(
-			Input.GetAxis("Horizontal"),
-			Input.GetAxis("Vertical")
-		);
-		_gameState.Inputs.Fire = Input.GetButton("Jump");
-
-		if (_gameState.Player)
+		_recruitsQueue = new Queue<Entity>();
+		var randomizedRecruits = _recruits
+			.OrderBy(a => Guid.NewGuid())
+			.ToList();
+		foreach (var recruit in randomizedRecruits)
 		{
-			_gameState.Player.Movement.MoveInDirection(_gameState.Inputs.Move, true);
+			_recruitsQueue.Enqueue(recruit);
+		}
+	}
+
+	private void Start()
+	{
+		_gameControls.Enable();
+
+		var player = GameObject.Instantiate(_recruitsQueue.Dequeue());
+		player.Transform.position = new Vector3(0, -6);
+		_gameState.Team.Add(player);
+	}
+
+	private void Update()
+	{
+		_gameState.Inputs.Move = _gameControls.Gameplay.Move.ReadValue<Vector2>();
+		_gameState.Inputs.Fire = _gameControls.Gameplay.Fire.ReadValue<float>() > 0f;
+
+		if (_gameState.Team.Count > 0)
+		{
+			_gameState.Team[0].Movement.MoveInDirection(_gameState.Inputs.Move, true);
 
 			if (_gameState.Inputs.Fire)
 			{
-				_gameState.Player.Weapon.Fire();
+				_gameState.Team[0].Weapon.Fire();
 			}
 		}
 
@@ -75,19 +89,11 @@ public class GameManager : MonoBehaviour
 public class GameState
 {
 	public PlayerInput Inputs;
-	public Entity Player;
+	public List<Entity> Team;
 }
 
 public class PlayerInput
 {
 	public Vector2 Move;
 	public bool Fire;
-}
-
-[Serializable]
-public class Spawn
-{
-	public float Time;
-	public Vector2 Position;
-	public Entity Prefab;
 }
