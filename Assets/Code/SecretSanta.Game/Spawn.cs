@@ -6,5 +6,5 @@ public class Spawn
 {
 	public float Time;
 	public Vector2 Position;
-	public Entity Prefab;
+	public Enemy Data;
 }
