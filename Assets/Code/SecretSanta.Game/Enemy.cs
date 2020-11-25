@@ -3,7 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SecretSanta/Enemy")]
 public class Enemy : ScriptableObject
 {
-	public string Id;
+	public string Id => name;
+
+	[Header("Renderer")]
 	public Color Color = Color.magenta;
-	public float MoveSpeed;
+
+	[Header("Movement")]
+	public float MoveSpeed = 10;
+
+	[Header("Brain")]
+	public float FireDelay = 1f;
 }

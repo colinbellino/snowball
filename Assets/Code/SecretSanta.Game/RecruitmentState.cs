@@ -4,6 +4,7 @@ using UnityEngine;
 public class RecruitmentState : IState
 {
 	private Recruit[] _recruits;
+	private Recruit _newRecruit;
 
 	public async Task Enter(object[] parameters)
 	{
@@ -13,8 +14,9 @@ public class RecruitmentState : IState
 			GameManager.Instance.State.RecruitsQueue.Dequeue(),
 			GameManager.Instance.State.RecruitsQueue.Dequeue(),
 		};
-		GameManager.Instance.GameUI.Recruitment.Show(_recruits);
+		GameManager.Instance.GameUI.Recruitment.ShowRecruits(_recruits);
 		GameManager.Instance.GameUI.Recruitment.RecruitSelected += OnRecruitSelected;
+		GameManager.Instance.GameUI.Recruitment.RecruitNamed += OnRecruitNamed;
 	}
 
 	public void Tick() { }
@@ -26,20 +28,31 @@ public class RecruitmentState : IState
 
 	private void OnRecruitSelected(string id)
 	{
-		GameManager.Instance.GameUI.Recruitment.Hide();
-
 		foreach (var recruit in _recruits)
 		{
 			if (recruit.Id == id)
 			{
-				Debug.Log($"Recruited: {recruit.Id}");
-				GameManager.Instance.State.Team.Add(recruit);
+				_newRecruit = recruit;
+				GameManager.Instance.GameUI.Recruitment.FocusRecruit(recruit.Id);
 			}
 			else
 			{
 				GameManager.Instance.State.RecruitsQueue.Enqueue(recruit);
+				GameManager.Instance.GameUI.Recruitment.HideRecruit(recruit.Id);
 			}
 		}
+
+		GameManager.Instance.GameUI.Recruitment.ShowName();
+	}
+
+	private void OnRecruitNamed(string name)
+	{
+		_newRecruit.Name = name;
+		Debug.Log($"Recruited: {_newRecruit.Id} -> {_newRecruit.Name}");
+		GameManager.Instance.State.Team.Add(_newRecruit);
+
+		GameManager.Instance.GameUI.Recruitment.HideRecruits();
+		GameManager.Instance.GameUI.Recruitment.HideName();
 
 		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.StartGameplay);
 	}

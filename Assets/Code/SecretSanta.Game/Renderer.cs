@@ -5,7 +5,7 @@ public class Renderer : MonoBehaviour
 	[SerializeField] private SpriteRenderer _bodyRenderer;
 	[SerializeField] private SpriteRenderer _coreRenderer;
 
-	public Color Color;
+	[HideInInspector] public Color Color;
 
 	private void Update()
 	{
