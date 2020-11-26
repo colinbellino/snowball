@@ -51,9 +51,10 @@ public class RecruitmentUI : MonoBehaviour
 		_recruitsPanel.gameObject.SetActive(false);
 	}
 
-	public void ShowName()
+	public void ShowName(string name)
 	{
 		_namePanel.gameObject.SetActive(true);
+		_nameInput.text = name;
 		_eventSystem.SetSelectedGameObject(_nameSubmitButton.gameObject, null);
 	}
 
