@@ -30,6 +30,9 @@ public class GameStateMachine
 			.Permit(Triggers.StartRecruitment, States.Recruitment);
 		_machine.Configure(States.Recruitment)
 			.Permit(Triggers.StartGameplay, States.Gameplay);
+		_machine.Configure(States.Gameplay)
+			.Permit(Triggers.Win, States.Recruitment)
+			.Permit(Triggers.Lose, States.Bootstrap);
 	}
 
 	public void Start()

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -8,12 +9,13 @@ public class RecruitmentState : IState
 
 	public async Task Enter(object[] parameters)
 	{
-		_recruits = new Recruit[]
+		var count = Math.Min(GameManager.Instance.State.RecruitsQueue.Count, 3);
+		_recruits = new Recruit[count];
+		for (var recruitIndex = 0; recruitIndex < count; recruitIndex++)
 		{
-			GameManager.Instance.State.RecruitsQueue.Dequeue(),
-			GameManager.Instance.State.RecruitsQueue.Dequeue(),
-			GameManager.Instance.State.RecruitsQueue.Dequeue(),
-		};
+			_recruits[recruitIndex] = GameManager.Instance.State.RecruitsQueue.Dequeue();
+		}
+
 		GameManager.Instance.GameUI.Recruitment.ShowRecruits(_recruits);
 		GameManager.Instance.GameUI.Recruitment.RecruitSelected += OnRecruitSelected;
 		GameManager.Instance.GameUI.Recruitment.RecruitNamed += OnRecruitNamed;
@@ -24,6 +26,7 @@ public class RecruitmentState : IState
 	public async Task Exit()
 	{
 		GameManager.Instance.GameUI.Recruitment.RecruitSelected -= OnRecruitSelected;
+		GameManager.Instance.GameUI.Recruitment.RecruitNamed -= OnRecruitNamed;
 	}
 
 	private void OnRecruitSelected(string id)

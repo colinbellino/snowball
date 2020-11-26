@@ -18,7 +18,7 @@ public class Brain : MonoBehaviour
 		_entity.Movement.MoveInDirection(moveDirection);
 		_entity.Movement.RotateInDirection(moveDirection);
 
-		var bounds = new Bounds(Vector3.zero, GameManager.AreaSize);
+		var bounds = new Bounds(Vector3.zero, GameManager.Instance.Config.AreaSize);
 		if (bounds.Contains(transform.position))
 		{
 			if (Time.time >= _fireCooldownTimestamp)
@@ -29,5 +29,3 @@ public class Brain : MonoBehaviour
 		}
 	}
 }
-
-// public enum Aim { Direction, Target }
