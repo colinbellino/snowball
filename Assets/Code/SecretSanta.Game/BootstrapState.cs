@@ -8,10 +8,11 @@ public class BootstrapState : IState
 {
 	public async Task Enter(object[] parameters)
 	{
-		GameManager.Instance.State.Inputs = new PlayerInput();
 		GameManager.Instance.State.Team = new List<Recruit>();
 		GameManager.Instance.State.RecruitsQueue = new Queue<Recruit>();
 		GameManager.Instance.State.SpawnsQueue = new Queue<Spawn>();
+		GameManager.Instance.State.Controls = new GameControls();
+		GameManager.Instance.State.Controls.Enable();
 
 		var randomizedRecruits = GameManager.Instance.Config.Recruits
 			.OrderBy(a => Guid.NewGuid())
