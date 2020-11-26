@@ -7,6 +7,7 @@ public class GameplayState : IState
 	private float _startTime;
 	private List<Entity> _team;
 	private List<Entity> _enemies;
+	private List<Entity> _projectiles;
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 
 	public async Task Enter(object[] parameters)
@@ -14,6 +15,7 @@ public class GameplayState : IState
 		_startTime = Time.time;
 		_team = new List<Entity>();
 		_enemies = new List<Entity>();
+		_projectiles = new List<Entity>();
 
 		var level = GameManager.Instance.Config.Levels[0];
 		foreach (var spawn in level.Spawns)
@@ -23,13 +25,10 @@ public class GameplayState : IState
 
 		foreach (var recruit in GameManager.Instance.State.Team)
 		{
-			var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab);
-			entity.Movement.Speed = recruit.MoveSpeed;
-			entity.Transform.position = _recruitSpawnPosition;
-			entity.Renderer.Color = recruit.Color;
-			entity.Target.OnDestroyed += OnTeamMemberDestroy;
-			_team.Add(entity);
+			SpawnTeamMember(recruit, _recruitSpawnPosition);
 		}
+
+		Projectile.OnDestroyed += OnProjectileDestroyed;
 
 		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 		GameManager.Instance.GameUI.Gameplay.Show();
@@ -63,14 +62,8 @@ public class GameplayState : IState
 			var nextSpawn = GameManager.Instance.State.SpawnsQueue.Peek();
 			if (Time.time >= _startTime + nextSpawn.Time)
 			{
+				SpawnEnemy(nextSpawn.Data, nextSpawn.Position);
 				GameManager.Instance.State.SpawnsQueue.Dequeue();
-
-				var entity = GameObject.Instantiate(GameManager.Instance.Config.EnemyPrefab);
-				entity.Movement.Speed = nextSpawn.Data.MoveSpeed;
-				entity.Brain.FireDelay = nextSpawn.Data.FireDelay;
-				entity.Transform.position = nextSpawn.Position;
-				entity.Target.OnDestroyed += OnEnemyDestroyed;
-				_enemies.Add(entity);
 			}
 		}
 	}
@@ -79,6 +72,10 @@ public class GameplayState : IState
 	{
 		GameManager.Instance.GameUI.Gameplay.Hide();
 
+		foreach (var entity in _projectiles)
+		{
+			GameObject.Destroy(entity.gameObject);
+		}
 		foreach (var entity in _team)
 		{
 			GameObject.Destroy(entity.gameObject);
@@ -87,14 +84,39 @@ public class GameplayState : IState
 		{
 			GameObject.Destroy(entity.gameObject);
 		}
+
+		Projectile.OnDestroyed -= OnProjectileDestroyed;
 	}
 
-	private void OnTeamMemberDestroy(Entity entity)
+	private void SpawnTeamMember(Recruit data, Vector3 position)
+	{
+		var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab);
+		entity.Movement.Speed = data.MoveSpeed;
+		entity.Transform.position = position;
+		entity.Target.OnKilled += OnTeamMemberKilled;
+		entity.Weapon.OnFired += OnWeaponFired;
+		entity.Renderer.Color = data.Color;
+		_team.Add(entity);
+	}
+
+	private void SpawnEnemy(Enemy data, Vector2 position)
+	{
+		var entity = GameObject.Instantiate(GameManager.Instance.Config.EnemyPrefab);
+		entity.Movement.Speed = data.MoveSpeed;
+		entity.Transform.position = position;
+		entity.Target.OnKilled += OnEnemyKilled;
+		entity.Weapon.OnFired += OnWeaponFired;
+		entity.Renderer.Color = data.Color;
+		entity.Brain.FireDelay = data.FireDelay;
+		_enemies.Add(entity);
+	}
+
+	private void OnTeamMemberKilled(Entity entity)
 	{
 		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Lose);
 	}
 
-	private void OnEnemyDestroyed(Entity entity)
+	private void OnEnemyKilled(Entity entity)
 	{
 		_enemies.Remove(entity);
 
@@ -102,5 +124,15 @@ public class GameplayState : IState
 		{
 			GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
 		}
+	}
+
+	private void OnWeaponFired(Entity entity)
+	{
+		_projectiles.Add(entity);
+	}
+
+	private void OnProjectileDestroyed(Entity entity)
+	{
+		_projectiles.Remove(entity);
 	}
 }
