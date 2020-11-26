@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Helpers;
 
 public class GameplayState : IState
 {
@@ -36,13 +37,15 @@ public class GameplayState : IState
 
 	public void Tick()
 	{
+		var moveInput = GameManager.Instance.State.Controls.Gameplay.Move.ReadValue<Vector2>();
+
 		if (_team.Count > 0)
 		{
 			for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
 			{
 				if (recruitIndex == 0)
 				{
-					_team[recruitIndex].Movement.MoveInDirection(GameManager.Instance.State.Inputs.Move, true);
+					_team[recruitIndex].Movement.MoveInDirection(moveInput, true);
 				}
 				else
 				{
@@ -51,9 +54,26 @@ public class GameplayState : IState
 				}
 			}
 
-			if (GameManager.Instance.State.Inputs.Fire)
+			if (Inputs.IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
 			{
 				_team[0].Weapon.Fire();
+			}
+
+			if (Inputs.WasPressedThisFrame(GameManager.Instance.State.Controls.Gameplay.Switch))
+			{
+				{
+					var currentLeader = GameManager.Instance.State.Team[0];
+					GameManager.Instance.State.Team.Remove(currentLeader);
+					GameManager.Instance.State.Team.Add(currentLeader);
+				}
+				
+				{
+					var currentLeader = _team[0];
+					_team.Remove(currentLeader);
+					_team.Add(currentLeader);
+				}
+
+				GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 			}
 		}
 
