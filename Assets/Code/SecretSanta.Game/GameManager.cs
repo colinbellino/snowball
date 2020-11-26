@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private Spawn[] _spawns;
-	[SerializeField] private Recruit[] _recruits;
-	[SerializeField] private Entity _enemyPrefab;
-	[SerializeField] private Entity _recruitPrefab;
-	private GameControls _controls;
+	[SerializeField] private GameConfig _config;
 
-	public Entity EnemyPrefab => _enemyPrefab;
-	public Entity RecruitPrefab => _recruitPrefab;
-	public GameState State { get; private set; }
+	public GameConfig Config => _config;
+	public GameState State { get; } = new GameState();
 	public GameUI GameUI { get; private set; }
 	public GameStateMachine Machine { get; private set; }
 
 	public static GameManager Instance { get; private set; }
-	public static readonly Vector2 AreaSize = new Vector2(32, 18);
+
+	private GameControls _controls;
 
 	private void Awake()
 	{
@@ -26,28 +20,8 @@ public class GameManager : MonoBehaviour
 
 		Machine = new GameStateMachine();
 		GameUI = FindObjectOfType<GameUI>();
-
 		_controls = new GameControls();
 		_controls.Enable();
-
-		State = new GameState();
-		State.Inputs = new PlayerInput();
-		State.Team = new List<Recruit>();
-
-		State.SpawnsQueue = new Queue<Spawn>();
-		foreach (var spawn in _spawns)
-		{
-			State.SpawnsQueue.Enqueue(spawn);
-		}
-
-		State.RecruitsQueue = new Queue<Recruit>();
-		var randomizedRecruits = _recruits
-			.OrderBy(a => Guid.NewGuid())
-			.ToList();
-		foreach (var recruit in randomizedRecruits)
-		{
-			State.RecruitsQueue.Enqueue(Instantiate(recruit));
-		}
 	}
 
 	private void Start()

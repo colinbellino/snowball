@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class GameplayState : IState
 {
+	private float _startTime;
 	private List<Entity> _team;
+	private List<Entity> _enemies;
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 
 	public async Task Enter(object[] parameters)
 	{
+		_startTime = Time.time;
 		_team = new List<Entity>();
+		_enemies = new List<Entity>();
+
+		var level = GameManager.Instance.Config.Levels[0];
+		foreach (var spawn in level.Spawns)
+		{
+			GameManager.Instance.State.SpawnsQueue.Enqueue(spawn);
+		}
 
 		foreach (var recruit in GameManager.Instance.State.Team)
 		{
-			var entity = GameObject.Instantiate(GameManager.Instance.RecruitPrefab);
+			var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab);
 			entity.Movement.Speed = recruit.MoveSpeed;
 			entity.Transform.position = _recruitSpawnPosition;
 			entity.Renderer.Color = recruit.Color;
+			entity.Target.OnDestroyed += OnTeamMemberDestroy;
 			_team.Add(entity);
 		}
 
@@ -32,7 +43,7 @@ public class GameplayState : IState
 			{
 				if (recruitIndex == 0)
 				{
-					_team[0].Movement.MoveInDirection(GameManager.Instance.State.Inputs.Move, true);
+					_team[recruitIndex].Movement.MoveInDirection(GameManager.Instance.State.Inputs.Move, true);
 				}
 				else
 				{
@@ -50,13 +61,16 @@ public class GameplayState : IState
 		if (GameManager.Instance.State.SpawnsQueue.Count > 0)
 		{
 			var nextSpawn = GameManager.Instance.State.SpawnsQueue.Peek();
-			if (Time.time >= nextSpawn.Time)
+			if (Time.time >= _startTime + nextSpawn.Time)
 			{
-				var entity = GameObject.Instantiate(GameManager.Instance.EnemyPrefab);
+				GameManager.Instance.State.SpawnsQueue.Dequeue();
+
+				var entity = GameObject.Instantiate(GameManager.Instance.Config.EnemyPrefab);
 				entity.Movement.Speed = nextSpawn.Data.MoveSpeed;
 				entity.Brain.FireDelay = nextSpawn.Data.FireDelay;
 				entity.Transform.position = nextSpawn.Position;
-				GameManager.Instance.State.SpawnsQueue.Dequeue();
+				entity.Target.OnDestroyed += OnEnemyDestroyed;
+				_enemies.Add(entity);
 			}
 		}
 	}
@@ -64,5 +78,29 @@ public class GameplayState : IState
 	public async Task Exit()
 	{
 		GameManager.Instance.GameUI.Gameplay.Hide();
+
+		foreach (var entity in _team)
+		{
+			GameObject.Destroy(entity.gameObject);
+		}
+		foreach (var entity in _enemies)
+		{
+			GameObject.Destroy(entity.gameObject);
+		}
+	}
+
+	private void OnTeamMemberDestroy(Entity entity)
+	{
+		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Lose);
+	}
+
+	private void OnEnemyDestroyed(Entity entity)
+	{
+		_enemies.Remove(entity);
+
+		if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
+		{
+			GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
+		}
 	}
 }

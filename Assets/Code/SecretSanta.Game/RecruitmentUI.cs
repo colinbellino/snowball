@@ -28,11 +28,6 @@ public class RecruitmentUI : MonoBehaviour
 
 	public void ShowRecruits(Recruit[] recruits)
 	{
-		foreach (Transform child in _recruitsPanel)
-		{
-			Destroy(child.gameObject);
-		}
-
 		foreach (var recruit in recruits)
 		{
 			var panel = Instantiate(recruitPanelUIPrefab, _recruitsPanel);
@@ -47,6 +42,12 @@ public class RecruitmentUI : MonoBehaviour
 
 	public void HideRecruits()
 	{
+		foreach (Transform child in _recruitsPanel)
+		{
+			Destroy(child.gameObject);
+		}
+		_recruitPanels.Clear();
+
 		_recruitsPanel.gameObject.SetActive(false);
 	}
 

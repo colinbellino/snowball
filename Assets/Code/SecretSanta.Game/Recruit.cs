@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SecretSanta/Recruit")]
+[CreateAssetMenu(menuName = "Secret Santa/Recruit")]
 public class Recruit : ScriptableObject
 {
 	public string Id;

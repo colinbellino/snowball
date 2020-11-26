@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
 	public void MoveInDirection(Vector2 direction, bool stayInBounds = false)
 	{
 		var size = transform.localScale;
-		var areaSize = GameManager.AreaSize;
+		var areaSize = GameManager.Instance.Config.AreaSize;
 
 		var position = transform.position + (Vector3) direction * (Time.deltaTime * Speed);
 		if (stayInBounds)
