@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Helpers;
 
 public class RecruitmentState : IState
 {
@@ -45,7 +46,8 @@ public class RecruitmentState : IState
 			}
 		}
 
-		GameManager.Instance.GameUI.Recruitment.ShowName();
+		var randomName = RandomItem(GameManager.Instance.Config.PlaceholderNames);
+		GameManager.Instance.GameUI.Recruitment.ShowName(randomName);
 	}
 
 	private void OnRecruitNamed(string name)
