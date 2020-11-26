@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -5,8 +6,10 @@ public class Weapon : MonoBehaviour
 	[SerializeField] private Entity _projectilePrefab;
 	[SerializeField] private Transform _projectileOrigin;
 
-	private double _cooldownTimestamp;
 	private Entity _entity;
+	private double _cooldownTimestamp;
+
+	public event Action<Entity> OnFired;
 
 	private void Awake()
 	{
@@ -17,8 +20,9 @@ public class Weapon : MonoBehaviour
 	{
 		if (_cooldownTimestamp > Time.time) { return; }
 
-		var projectileEntity = GameObject.Instantiate(_projectilePrefab, _projectileOrigin.position, _projectileOrigin.rotation);
+		var projectileEntity = Instantiate(_projectilePrefab, _projectileOrigin.position, _projectileOrigin.rotation);
 		projectileEntity.Alliance.SetCurrent(_entity.Alliance.Current);
+		OnFired?.Invoke(projectileEntity);
 
 		_cooldownTimestamp = Time.time + projectileEntity.Projectile.Cooldown;
 	}
