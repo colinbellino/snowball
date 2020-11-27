@@ -55,14 +55,19 @@ public class RecruitmentState : IState
 		_newRecruit.Name = name;
 		Debug.Log($"Recruited: {_newRecruit.Id} -> {_newRecruit.Name}");
 
-		// GameManager.Instance.State.Team.Add(_newRecruit);
-		// TODO: Delete me
-		_recruits[0].Name = "Recruit0";
-		GameManager.Instance.State.Team.Add(_recruits[0]);
-		_recruits[1].Name = "Recruit1";
-		GameManager.Instance.State.Team.Add(_recruits[1]);
-		_recruits[2].Name = "Recruit2";
-		GameManager.Instance.State.Team.Add(_recruits[2]);
+		if (GameManager.Instance.Config.CheatsFullTeam)
+		{
+			_recruits[0].Name = "Recruit #0";
+			GameManager.Instance.State.Team.Add(_recruits[0]);
+			_recruits[1].Name = "Recruit #1";
+			GameManager.Instance.State.Team.Add(_recruits[1]);
+			_recruits[2].Name = "Recruit #2";
+			GameManager.Instance.State.Team.Add(_recruits[2]);
+		}
+		else
+		{
+			GameManager.Instance.State.Team.Add(_newRecruit);
+		}
 
 		GameManager.Instance.GameUI.Recruitment.HideRecruits();
 		GameManager.Instance.GameUI.Recruitment.HideName();

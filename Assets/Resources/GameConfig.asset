@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b27d17c24c496e944d9c9c4d4401a9, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  CheatsFullTeam: 1
   Recruits:
   - {fileID: 11400000, guid: 66d8d812f52364f02ac61507c44a80d6, type: 2}
   - {fileID: 11400000, guid: 36fbb38beaaf1466fbd806da0979b166, type: 2}
@@ -21,3 +22,17 @@ MonoBehaviour:
   EnemyPrefab: {fileID: 1625934959, guid: af9d1c06c49a84cd7b9c15cf198fccde, type: 3}
   RecruitPrefab: {fileID: 1542170405098826978, guid: 24bf88dfb80024c8197a4f23d0120848,
     type: 3}
+  PlaceholderNames:
+  - Anri
+  - Rena
+  - Riku
+  - Andre
+  - Thea
+  - Mariel
+  - Jesse
+  - Marceline
+  - Gaius
+  - Ursula
+  - Madeline
+  - Theo
+  - "R\xE9gis"
