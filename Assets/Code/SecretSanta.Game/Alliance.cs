@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Alliance : MonoBehaviour
 {
-	[SerializeField] private Collider2D _bodyCollider;
 	[SerializeField] private AllianceType _current;
 
 	public AllianceType Current => _current;
@@ -15,7 +14,7 @@ public class Alliance : MonoBehaviour
 
 	private void Update()
 	{
-		_bodyCollider.gameObject.layer = AllianceToLayer(_entity.Alliance.Current);
+		_entity.BodyCollider.gameObject.layer = AllianceToLayer(_entity.Alliance.Current);
 	}
 
 	public void SetCurrent(AllianceType alliance)

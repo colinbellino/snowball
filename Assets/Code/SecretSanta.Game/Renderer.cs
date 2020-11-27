@@ -11,4 +11,19 @@ public class Renderer : MonoBehaviour
 	{
 		_coreRenderer.color = Color;
 	}
+
+	public void SetSize(Size size)
+	{
+		switch (size)
+		{
+			case Size.Normal:
+				_bodyRenderer.transform.localScale = new Vector2(1f, 1f);
+				break;
+			default:
+				_bodyRenderer.transform.localScale = new Vector2(0.80f, 0.80f);
+				break;
+		}
+	}
+
+	public enum Size { Normal, Small }
 }

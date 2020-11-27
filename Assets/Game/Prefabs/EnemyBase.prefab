@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a57d83c1a6154b80bfeea927f58606e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bodyCollider: {fileID: 4138846601798082182}
 --- !u!50 &1445880755916273187
 Rigidbody2D:
   serializedVersion: 4
@@ -378,7 +379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2512755459b145b4b9ee19018f2c5772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bodyCollider: {fileID: 4138846601798082182}
   _current: 1
 --- !u!114 &-4898714559586558475
 MonoBehaviour:
