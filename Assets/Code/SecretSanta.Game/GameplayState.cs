@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using static Helpers;
@@ -10,6 +11,8 @@ public class GameplayState : IState
 	private List<Entity> _enemies;
 	private List<Entity> _projectiles;
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
+	private double _switchTimestamp;
+	private const double _switchCooldown = 0.2f;
 
 	public async Task Enter(object[] parameters)
 	{
@@ -17,6 +20,7 @@ public class GameplayState : IState
 		_team = new List<Entity>();
 		_enemies = new List<Entity>();
 		_projectiles = new List<Entity>();
+		_switchTimestamp = Time.time + _switchCooldown;
 
 		var level = GameManager.Instance.Config.Levels[0];
 		foreach (var spawn in level.Spawns)
@@ -24,10 +28,13 @@ public class GameplayState : IState
 			GameManager.Instance.State.SpawnsQueue.Enqueue(spawn);
 		}
 
-		foreach (var recruit in GameManager.Instance.State.Team)
+		for (var recruitIndex = 0; recruitIndex < GameManager.Instance.State.Team.Count; recruitIndex++)
 		{
-			SpawnTeamMember(recruit, _recruitSpawnPosition);
+			var recruit = GameManager.Instance.State.Team[recruitIndex];
+			SpawnTeamMember(recruit, _recruitSpawnPosition + new Vector3(1f * recruitIndex +1, 0));
 		}
+
+		UpdateTeam();
 
 		Projectile.OnDestroyed += OnProjectileDestroyed;
 
@@ -37,43 +44,56 @@ public class GameplayState : IState
 
 	public void Tick()
 	{
-		var moveInput = GameManager.Instance.State.Controls.Gameplay.Move.ReadValue<Vector2>();
-
 		if (_team.Count > 0)
 		{
-			for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+			if (IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
 			{
-				if (recruitIndex == 0)
+				// _team[0].Weapon.Fire();
+				// Note: all team mates shooting might be too overpowered
+				foreach (var entity in _team)
 				{
-					_team[recruitIndex].Movement.MoveInDirection(moveInput, true);
-				}
-				else
-				{
-					var target = _team[recruitIndex - 1].Transform.position;
-					_team[recruitIndex].Movement.Follow(target, 1.5f);
+					entity.Weapon.Fire();
 				}
 			}
 
-			if (Inputs.IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
+			if (Time.time > _switchTimestamp && WasReleasedThisFrame(GameManager.Instance.State.Controls.Gameplay.Switch))
 			{
-				_team[0].Weapon.Fire();
-			}
+				var positions = _team.Select(entity => entity.Transform.position).ToArray();
 
-			if (Inputs.WasPressedThisFrame(GameManager.Instance.State.Controls.Gameplay.Switch))
-			{
+				for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+				{
+					var previous = _team[(recruitIndex + _team.Count - 1) % _team.Count];
+					// var next = _team[(recruitIndex + 1) % _team.Count];
+					_team[recruitIndex].Movement.MoveToPosition(positions[(recruitIndex + _team.Count - 1) % _team.Count]);
+				}
+				{
+					var oldLeader = _team[0];
+
+					_team.Remove(oldLeader);
+					_team.Add(oldLeader);
+				}
 				{
 					var currentLeader = GameManager.Instance.State.Team[0];
 					GameManager.Instance.State.Team.Remove(currentLeader);
 					GameManager.Instance.State.Team.Add(currentLeader);
 				}
-				
-				{
-					var currentLeader = _team[0];
-					_team.Remove(currentLeader);
-					_team.Add(currentLeader);
-				}
+				UpdateTeam();
 
-				GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
+				_switchTimestamp = Time.time + _switchCooldown;
+			}
+
+			for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+			{
+				if (recruitIndex == 0)
+				{
+					var moveInput = GameManager.Instance.State.Controls.Gameplay.Move.ReadValue<Vector2>();
+					_team[recruitIndex].Movement.MoveInDirection(moveInput, true);
+				}
+				else
+				{
+					var target = _team[recruitIndex - 1].Transform.position;
+					_team[recruitIndex].Movement.Follow(target, _team[0].Movement.Speed, 1.5f);
+				}
 			}
 		}
 
@@ -111,6 +131,7 @@ public class GameplayState : IState
 	private void SpawnTeamMember(Recruit data, Vector3 position)
 	{
 		var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab);
+		entity.name = $"Recruit: {data.Name}";
 		entity.Movement.Speed = data.MoveSpeed;
 		entity.Transform.position = position;
 		entity.Target.OnKilled += OnTeamMemberKilled;
@@ -149,6 +170,19 @@ public class GameplayState : IState
 	private void OnWeaponFired(Entity entity)
 	{
 		_projectiles.Add(entity);
+	}
+
+	private void UpdateTeam()
+	{
+		for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+		{
+			var entity = _team[recruitIndex];
+
+			entity.Renderer.SetSize(recruitIndex == 0 ? Renderer.Size.Normal : Renderer.Size.Small);
+			entity.Target.Activate(recruitIndex == 0);
+		}
+
+		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 	}
 
 	private void OnProjectileDestroyed(Entity entity)
