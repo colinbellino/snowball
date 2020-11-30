@@ -8,6 +8,10 @@ public class BootstrapState : IState
 {
 	public async Task Enter(object[] parameters)
 	{
+		// var seed = DateTime.Now.Millisecond;
+		// UnityEngine.Random.InitState(seed);
+		// Debug.Log("Seed: " + seed);
+
 		GameManager.Instance.State.Team = new List<Recruit>();
 		GameManager.Instance.State.RecruitsQueue = new Queue<Recruit>();
 		GameManager.Instance.State.SpawnsQueue = new Queue<Spawn>();
@@ -24,7 +28,7 @@ public class BootstrapState : IState
 
 		GameManager.Instance.GameUI.Recruitment.HideRecruits();
 		GameManager.Instance.GameUI.Recruitment.HideName();
-		GameManager.Instance.GameUI.Gameplay.Hide();
+		GameManager.Instance.GameUI.Gameplay.HideAll();
 
 		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.StartRecruitment);
 	}

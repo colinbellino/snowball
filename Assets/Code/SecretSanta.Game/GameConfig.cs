@@ -16,4 +16,5 @@ public class GameConfig : ScriptableObject
 	public Entity RecruitPrefab;
 
 	public readonly Vector2 AreaSize = new Vector2(32, 18);
+
 }

@@ -39,7 +39,14 @@ public class GameplayState : IState
 		Projectile.OnDestroyed += OnProjectileDestroyed;
 
 		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
-		GameManager.Instance.GameUI.Gameplay.Show();
+		GameManager.Instance.GameUI.Gameplay.ShowTeam();
+
+		var barkingRecruit = GameManager.Instance.State.Team[0];
+		var bark = GameManager.Instance.BarkManager.GetRandomBark(BarkType.Recruited, barkingRecruit);
+		if (bark != null)
+		{
+			GameManager.Instance.GameUI.Gameplay.Bark.Show(barkingRecruit, bark, 2f);
+		}
 	}
 
 	public void Tick()
@@ -110,7 +117,7 @@ public class GameplayState : IState
 
 	public async Task Exit()
 	{
-		GameManager.Instance.GameUI.Gameplay.Hide();
+		GameManager.Instance.GameUI.Gameplay.HideAll();
 
 		foreach (var entity in _projectiles)
 		{
