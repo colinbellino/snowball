@@ -7,16 +7,15 @@ public class GameManager : MonoBehaviour
 
 	public GameConfig Config => _config;
 	public GameState State { get; } = new GameState();
+	public GameStateMachine Machine { get; } = new GameStateMachine();
+	public BarkManager BarkManager { get; } = new BarkManager();
 	public GameUI GameUI { get; private set; }
-	public GameStateMachine Machine { get; private set; }
 
 	public static GameManager Instance { get; private set; }
 
 	private void Awake()
 	{
 		Instance = this;
-
-		Machine = new GameStateMachine();
 		GameUI = FindObjectOfType<GameUI>();
 	}
 

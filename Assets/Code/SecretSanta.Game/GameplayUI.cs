@@ -5,13 +5,22 @@ public class GameplayUI : MonoBehaviour
 {
 	[SerializeField] private TeamMemberUI _teamMemberPrefab;
 	[SerializeField] private Transform _teamRoot;
+	[SerializeField] private BarkUI _barkUI;
 
-	public void Show()
+	public BarkUI Bark => _barkUI;
+
+	public void HideAll()
+	{
+		HideTeam();
+		_barkUI.Hide();
+	}
+
+	public void ShowTeam()
 	{
 		_teamRoot.gameObject.SetActive(true);
 	}
 
-	public void Hide()
+	public void HideTeam()
 	{
 		_teamRoot.gameObject.SetActive(false);
 	}
