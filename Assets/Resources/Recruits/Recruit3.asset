@@ -15,3 +15,13 @@ MonoBehaviour:
   Id: Recruit3
   Color: {r: 0.10495234, g: 0.85882354, b: 0, a: 1}
   MoveSpeed: 15
+  Barks:
+    Recruited:
+    - Text: Let's get this party started.
+    Died:
+    - Text: Keep going without me...
+    AllyDied:
+    - Text: We have to keep going without them!
+    LevelFinished:
+    - Text: I'm that good.
+  Name: 

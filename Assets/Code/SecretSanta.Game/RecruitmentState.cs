@@ -57,6 +57,8 @@ public class RecruitmentState : IState
 
 		if (GameManager.Instance.Config.CheatsFullTeam)
 		{
+			_newRecruit = _recruits[0];
+
 			_recruits[0].Name = "Recruit #0";
 			GameManager.Instance.State.Team.Add(_recruits[0]);
 			_recruits[1].Name = "Recruit #1";
@@ -71,6 +73,12 @@ public class RecruitmentState : IState
 
 		GameManager.Instance.GameUI.Recruitment.HideRecruits();
 		GameManager.Instance.GameUI.Recruitment.HideName();
+
+		var bark = GameManager.Instance.BarkManager.GetRandomBark(BarkType.Recruited, _newRecruit);
+		if (bark != null)
+		{
+			GameManager.Instance.GameUI.Gameplay.Bark.Show(_newRecruit, bark, 2000f);
+		}
 
 		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.StartGameplay);
 	}
