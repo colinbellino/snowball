@@ -15,3 +15,13 @@ MonoBehaviour:
   Id: Recruit2
   Color: {r: 0.8584906, g: 0, b: 0.047017477, a: 1}
   MoveSpeed: 20
+  Barks:
+    Recruited:
+    - Text: Glad to be of assistance!
+    Died:
+    - Text: I die... with honor.
+    AllyDied:
+    - Text: You did well, soldier.
+    LevelFinished:
+    - Text: Well done team!
+  Name: 

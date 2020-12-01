@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -33,8 +34,17 @@ public class Movement : MonoBehaviour
 		}
 	}
 
-	public void MoveToPosition(Vector3 position)
+	public void TeleportTo(Vector3 position)
 	{
 		transform.position = position;
+	}
+
+	public async void MoveTo(Vector3 position, float speed)
+	{
+		while ((position - transform.position).magnitude > 0.1f)
+		{
+			transform.position = Vector3.MoveTowards(transform.position, position, Time.deltaTime * speed);
+			await UniTask.NextFrame();
+		}
 	}
 }

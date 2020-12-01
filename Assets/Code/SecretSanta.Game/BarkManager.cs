@@ -21,7 +21,7 @@ public class BarkManager
 				barks = recruit.Barks.LevelFinished;
 				break;
 			default:
-				Debug.LogError("Unknown bark type: " + type);
+				Debug.LogError($"Unknown bark type: {type}");
 				break;
 		}
 

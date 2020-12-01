@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static Helpers;
+using Random = UnityEngine.Random;
 
 public class GameplayState : IState
 {
@@ -10,9 +13,10 @@ public class GameplayState : IState
 	private List<Entity> _team;
 	private List<Entity> _enemies;
 	private List<Entity> _projectiles;
-	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 	private double _switchTimestamp;
+	private bool _victoryAchieved;
 	private const double _switchCooldown = 0.2f;
+	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 
 	public async Task Enter(object[] parameters)
 	{
@@ -21,6 +25,7 @@ public class GameplayState : IState
 		_enemies = new List<Entity>();
 		_projectiles = new List<Entity>();
 		_switchTimestamp = Time.time + _switchCooldown;
+		_victoryAchieved = false;
 
 		var level = GameManager.Instance.Config.Levels[0];
 		foreach (var spawn in level.Spawns)
@@ -40,17 +45,15 @@ public class GameplayState : IState
 
 		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 		GameManager.Instance.GameUI.Gameplay.ShowTeam();
-
-		var barkingRecruit = GameManager.Instance.State.Team[0];
-		var bark = GameManager.Instance.BarkManager.GetRandomBark(BarkType.Recruited, barkingRecruit);
-		if (bark != null)
-		{
-			GameManager.Instance.GameUI.Gameplay.Bark.Show(barkingRecruit, bark, 2f);
-		}
 	}
 
 	public void Tick()
 	{
+		if (_victoryAchieved)
+		{
+			return;
+		}
+
 		if (_team.Count > 0)
 		{
 			if (IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
@@ -71,7 +74,7 @@ public class GameplayState : IState
 				{
 					var previous = _team[(recruitIndex + _team.Count - 1) % _team.Count];
 					// var next = _team[(recruitIndex + 1) % _team.Count];
-					_team[recruitIndex].Movement.MoveToPosition(positions[(recruitIndex + _team.Count - 1) % _team.Count]);
+					_team[recruitIndex].Movement.TeleportTo(positions[(recruitIndex + _team.Count - 1) % _team.Count]);
 				}
 				{
 					var oldLeader = _team[0];
@@ -113,24 +116,23 @@ public class GameplayState : IState
 				GameManager.Instance.State.SpawnsQueue.Dequeue();
 			}
 		}
+
+		if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
+		{
+			_victoryAchieved = true;
+			Victory();
+		}
 	}
 
 	public async Task Exit()
 	{
 		GameManager.Instance.GameUI.Gameplay.HideAll();
 
-		foreach (var entity in _projectiles)
-		{
-			GameObject.Destroy(entity.gameObject);
-		}
 		foreach (var entity in _team)
 		{
 			GameObject.Destroy(entity.gameObject);
 		}
-		foreach (var entity in _enemies)
-		{
-			GameObject.Destroy(entity.gameObject);
-		}
+		_team.Clear();
 
 		Projectile.OnDestroyed -= OnProjectileDestroyed;
 	}
@@ -167,11 +169,6 @@ public class GameplayState : IState
 	private void OnEnemyKilled(Entity entity)
 	{
 		_enemies.Remove(entity);
-
-		if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
-		{
-			GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
-		}
 	}
 
 	private void OnWeaponFired(Entity entity)
@@ -195,5 +192,38 @@ public class GameplayState : IState
 	private void OnProjectileDestroyed(Entity entity)
 	{
 		_projectiles.Remove(entity);
+	}
+
+	private async void Victory()
+	{
+		foreach (var entity in _projectiles)
+		{
+			GameObject.Destroy(entity.gameObject);
+		}
+		_projectiles.Clear();
+		foreach (var entity in _enemies)
+		{
+			GameObject.Destroy(entity.gameObject);
+		}
+		_enemies.Clear();
+
+		var randomRecruit = GameManager.Instance.State.Team[Random.Range(0, GameManager.Instance.State.Team.Count)];
+		var bark = GameManager.Instance.BarkManager.GetRandomBark(BarkType.LevelFinished, randomRecruit);
+		if (bark != null)
+		{
+			GameManager.Instance.GameUI.Gameplay.Bark.Show(randomRecruit, bark, 2000f);
+		}
+
+		await UniTask.Delay(1000);
+
+		foreach (var entity in _team)
+		{
+			var destination = entity.Transform.position + new Vector3(0, GameManager.Instance.Config.AreaSize.y);
+			entity.Movement.MoveTo(destination, _team[0].Movement.Speed);
+		}
+
+		await UniTask.Delay(2000);
+
+		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
 	}
 }
