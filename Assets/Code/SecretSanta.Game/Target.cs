@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-	public event Action<Entity> OnKilled;
+	public event Action<Entity> OnHit;
 
 	private Entity _entity;
 
@@ -15,8 +15,7 @@ public class Target : MonoBehaviour
 	public void Hit()
 	{
 		// Debug.Log("Hit -> " + name);
-		OnKilled(_entity);
-		Destroy(gameObject);
+		OnHit(_entity);
 	}
 
 	public void Activate(bool value)

@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
 	public float Cooldown => _cooldown;
 
-	public static event Action<Entity> OnDestroyed;
+	public static event Action<Entity> OnImpact;
 
 	private void Awake()
 	{
@@ -24,8 +24,7 @@ public class Projectile : MonoBehaviour
 		var bounds = new Bounds(Vector3.zero, GameManager.Instance.Config.AreaSize);
 		if (bounds.Contains(transform.position) == false)
 		{
-			OnDestroyed?.Invoke(_entity);
-			Destroy(gameObject);
+			OnImpact?.Invoke(_entity);
 		}
 	}
 

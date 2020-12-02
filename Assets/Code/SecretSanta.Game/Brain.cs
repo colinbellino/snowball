@@ -12,7 +12,7 @@ public class Brain : MonoBehaviour
 		_entity = GetComponent<Entity>();
 	}
 
-	private void Update()
+	public void Tick()
 	{
 		var moveDirection = new Vector2(0, -0.1f);
 		_entity.Movement.MoveInDirection(moveDirection);

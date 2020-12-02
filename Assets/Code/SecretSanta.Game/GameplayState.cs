@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static Helpers;
 using Random = UnityEngine.Random;
+using static Helpers;
 
 public class GameplayState : IState
 {
@@ -13,9 +12,11 @@ public class GameplayState : IState
 	private List<Entity> _team;
 	private List<Entity> _enemies;
 	private List<Entity> _projectiles;
+	private List<Entity> _toDestroy;
 	private double _switchTimestamp;
 	private bool _victoryAchieved;
 	private const double _switchCooldown = 0.2f;
+	private Bounds _killBox;
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 
 	public async Task Enter(object[] parameters)
@@ -24,8 +25,13 @@ public class GameplayState : IState
 		_team = new List<Entity>();
 		_enemies = new List<Entity>();
 		_projectiles = new List<Entity>();
+		_toDestroy = new List<Entity>();
 		_switchTimestamp = Time.time + _switchCooldown;
 		_victoryAchieved = false;
+		_killBox = new Bounds(
+			new Vector3(0f, -(GameManager.Instance.Config.AreaSize.y / 2) - 1, 0f),
+			new Vector3(GameManager.Instance.Config.AreaSize.x, 1f, 0f)
+		);
 
 		var level = GameManager.Instance.Config.Levels[0];
 		foreach (var spawn in level.Spawns)
@@ -41,7 +47,7 @@ public class GameplayState : IState
 
 		UpdateTeam();
 
-		Projectile.OnDestroyed += OnProjectileDestroyed;
+		Projectile.OnImpact += OnProjectileImpact;
 
 		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 		GameManager.Instance.GameUI.Gameplay.ShowTeam();
@@ -49,92 +55,92 @@ public class GameplayState : IState
 
 	public void Tick()
 	{
-		if (_victoryAchieved)
+		if (_victoryAchieved == false)
 		{
-			return;
-		}
-
-		if (_team.Count > 0)
-		{
-			if (IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
+			if (_team.Count > 0)
 			{
-				// _team[0].Weapon.Fire();
-				// Note: all team mates shooting might be too overpowered
-				foreach (var entity in _team)
+				if (IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
 				{
-					entity.Weapon.Fire();
+					// _team[0].Weapon.Fire();
+					// Note: all team mates shooting might be too overpowered
+					foreach (var entity in _team)
+					{
+						entity.Weapon.Fire();
+					}
 				}
-			}
 
-			if (Time.time > _switchTimestamp && WasReleasedThisFrame(GameManager.Instance.State.Controls.Gameplay.Switch))
-			{
-				var positions = _team.Select(entity => entity.Transform.position).ToArray();
+				if (Time.time > _switchTimestamp && WasReleasedThisFrame(GameManager.Instance.State.Controls.Gameplay.Switch))
+				{
+					SwitchTeamMember();
+					_switchTimestamp = Time.time + _switchCooldown;
+				}
 
 				for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
 				{
-					var previous = _team[(recruitIndex + _team.Count - 1) % _team.Count];
-					// var next = _team[(recruitIndex + 1) % _team.Count];
-					_team[recruitIndex].Movement.TeleportTo(positions[(recruitIndex + _team.Count - 1) % _team.Count]);
+					if (recruitIndex == 0)
+					{
+						var moveInput = GameManager.Instance.State.Controls.Gameplay.Move.ReadValue<Vector2>();
+						_team[recruitIndex].Movement.MoveInDirection(moveInput, true);
+					}
+					else
+					{
+						var target = _team[recruitIndex - 1].Transform.position;
+						_team[recruitIndex].Movement.Follow(target, _team[0].Movement.Speed, 1.5f);
+					}
 				}
-				{
-					var oldLeader = _team[0];
-
-					_team.Remove(oldLeader);
-					_team.Add(oldLeader);
-				}
-				{
-					var currentLeader = GameManager.Instance.State.Team[0];
-					GameManager.Instance.State.Team.Remove(currentLeader);
-					GameManager.Instance.State.Team.Add(currentLeader);
-				}
-				UpdateTeam();
-
-				_switchTimestamp = Time.time + _switchCooldown;
 			}
 
-			for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+			if (GameManager.Instance.State.SpawnsQueue.Count > 0)
 			{
-				if (recruitIndex == 0)
+				var nextSpawn = GameManager.Instance.State.SpawnsQueue.Peek();
+				if (Time.time >= _startTime + nextSpawn.Time)
 				{
-					var moveInput = GameManager.Instance.State.Controls.Gameplay.Move.ReadValue<Vector2>();
-					_team[recruitIndex].Movement.MoveInDirection(moveInput, true);
-				}
-				else
-				{
-					var target = _team[recruitIndex - 1].Transform.position;
-					_team[recruitIndex].Movement.Follow(target, _team[0].Movement.Speed, 1.5f);
+					SpawnEnemy(nextSpawn.Data, nextSpawn.Position);
+					GameManager.Instance.State.SpawnsQueue.Dequeue();
 				}
 			}
-		}
 
-		if (GameManager.Instance.State.SpawnsQueue.Count > 0)
-		{
-			var nextSpawn = GameManager.Instance.State.SpawnsQueue.Peek();
-			if (Time.time >= _startTime + nextSpawn.Time)
+			for (var i = _enemies.Count - 1; i >= 0; i--)
 			{
-				SpawnEnemy(nextSpawn.Data, nextSpawn.Position);
-				GameManager.Instance.State.SpawnsQueue.Dequeue();
+				var entity = _enemies[i];
+
+				entity.Brain?.Tick();
+
+				if (_killBox.Contains(entity.Transform.position))
+				{
+					_enemies.RemoveAt(i);
+					_toDestroy.Add(entity);
+				}
+			}
+
+			if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
+			{
+				_victoryAchieved = true;
+				Victory();
 			}
 		}
 
-		if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
+		foreach (var entity in _toDestroy)
 		{
-			_victoryAchieved = true;
-			Victory();
+			GameObject.Destroy(entity.gameObject);
 		}
+		_toDestroy.Clear();
 	}
 
 	public async Task Exit()
 	{
 		GameManager.Instance.GameUI.Gameplay.HideAll();
 
-		foreach (var entity in _team)
+		_toDestroy.AddRange(_team);
+		_team.Clear();
+
+		foreach (var entity in _toDestroy)
 		{
 			GameObject.Destroy(entity.gameObject);
 		}
-		_team.Clear();
+		_toDestroy.Clear();
 
-		Projectile.OnDestroyed -= OnProjectileDestroyed;
+		Projectile.OnImpact -= OnProjectileImpact;
 	}
 
 	private void SpawnTeamMember(Recruit data, Vector3 position)
@@ -143,7 +149,7 @@ public class GameplayState : IState
 		entity.name = $"Recruit: {data.Name}";
 		entity.Movement.Speed = data.MoveSpeed;
 		entity.Transform.position = position;
-		entity.Target.OnKilled += OnTeamMemberKilled;
+		entity.Target.OnHit += OnTeamMemberHit;
 		entity.Weapon.OnFired += OnWeaponFired;
 		entity.Renderer.Color = data.Color;
 		_team.Add(entity);
@@ -154,21 +160,66 @@ public class GameplayState : IState
 		var entity = GameObject.Instantiate(GameManager.Instance.Config.EnemyPrefab);
 		entity.Movement.Speed = data.MoveSpeed;
 		entity.Transform.position = position;
-		entity.Target.OnKilled += OnEnemyKilled;
+		entity.Target.OnHit += OnEnemyHit;
 		entity.Weapon.OnFired += OnWeaponFired;
 		entity.Renderer.Color = data.Color;
 		entity.Brain.FireDelay = data.FireDelay;
 		_enemies.Add(entity);
 	}
 
-	private void OnTeamMemberKilled(Entity entity)
+	private void SwitchTeamMember()
 	{
-		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Lose);
+		var positions = _team.Select(entity => entity.Transform.position).ToArray();
+
+		for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
+		{
+			var previous = _team[(recruitIndex + _team.Count - 1) % _team.Count];
+			// var next = _team[(recruitIndex + 1) % _team.Count];
+			_team[recruitIndex].Movement.TeleportTo(positions[(recruitIndex + _team.Count - 1) % _team.Count]);
+		}
+		{
+			var oldLeader = _team[0];
+
+			_team.Remove(oldLeader);
+			_team.Add(oldLeader);
+		}
+		{
+			var currentLeader = GameManager.Instance.State.Team[0];
+			GameManager.Instance.State.Team.Remove(currentLeader);
+			GameManager.Instance.State.Team.Add(currentLeader);
+		}
+		UpdateTeam();
 	}
 
-	private void OnEnemyKilled(Entity entity)
+	private void OnTeamMemberHit(Entity entity)
+	{
+		if (_victoryAchieved)
+		{
+			return;
+		}
+
+		var leader = GameManager.Instance.State.Team[0];
+		var bark = GameManager.Instance.BarkManager.GetRandomBark(BarkType.Died, leader);
+		if (bark != null)
+		{
+			GameManager.Instance.GameUI.Gameplay.Bark.Show(leader, bark, 2000f);
+		}
+
+		SwitchTeamMember();
+		_toDestroy.Add(_team[_team.Count - 1]);
+		_team.Remove(_team[_team.Count - 1]);
+		GameManager.Instance.State.Team.RemoveAt(GameManager.Instance.State.Team.Count - 1);
+
+		if (GameManager.Instance.State.Team.Count == 0)
+		{
+			Defeat();
+		}
+	}
+
+	private void OnEnemyHit(Entity entity)
 	{
 		_enemies.Remove(entity);
+		_toDestroy.Add(entity);
 	}
 
 	private void OnWeaponFired(Entity entity)
@@ -189,22 +240,18 @@ public class GameplayState : IState
 		GameManager.Instance.GameUI.Gameplay.UpdateTeam(GameManager.Instance.State.Team);
 	}
 
-	private void OnProjectileDestroyed(Entity entity)
+	private void OnProjectileImpact(Entity entity)
 	{
 		_projectiles.Remove(entity);
+		_toDestroy.Add(entity);
 	}
 
 	private async void Victory()
 	{
-		foreach (var entity in _projectiles)
-		{
-			GameObject.Destroy(entity.gameObject);
-		}
+		_toDestroy.AddRange(_projectiles);
 		_projectiles.Clear();
-		foreach (var entity in _enemies)
-		{
-			GameObject.Destroy(entity.gameObject);
-		}
+
+		_toDestroy.AddRange(_enemies);
 		_enemies.Clear();
 
 		var randomRecruit = GameManager.Instance.State.Team[Random.Range(0, GameManager.Instance.State.Team.Count)];
@@ -225,5 +272,16 @@ public class GameplayState : IState
 		await UniTask.Delay(2000);
 
 		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
+	}
+
+	private void Defeat()
+	{
+		_toDestroy.AddRange(_projectiles);
+		_projectiles.Clear();
+
+		_toDestroy.AddRange(_enemies);
+		_enemies.Clear();
+
+		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Lose);
 	}
 }
