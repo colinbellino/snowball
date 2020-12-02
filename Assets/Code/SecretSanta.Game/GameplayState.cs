@@ -17,7 +17,10 @@ public class GameplayState : IState
 	private bool _victoryAchieved;
 	private const double _switchCooldown = 0.2f;
 	private Bounds _killBox;
+	private Grid _levelGrid;
+
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
+	private const float _scrollSpeed = 1f;
 
 	public async Task Enter(object[] parameters)
 	{
@@ -34,6 +37,8 @@ public class GameplayState : IState
 		);
 
 		var level = GameManager.Instance.Config.Levels[GameManager.Instance.State.CurrentLevel];
+		// TODO: Get this from the level data
+		_levelGrid = GameObject.Find("Level").GetComponent<Grid>();
 		foreach (var spawn in level.Spawns)
 		{
 			GameManager.Instance.State.SpawnsQueue.Enqueue(spawn);
@@ -57,6 +62,8 @@ public class GameplayState : IState
 	{
 		if (_victoryAchieved == false)
 		{
+			_levelGrid.transform.position += Vector3.down * (Time.deltaTime * _scrollSpeed);
+
 			if (_team.Count > 0)
 			{
 				if (IsPressed(GameManager.Instance.State.Controls.Gameplay.Fire))
