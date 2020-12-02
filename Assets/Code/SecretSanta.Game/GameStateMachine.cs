@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameStateMachine
 {
 	private enum States { Bootstrap, Title, Recruitment, Gameplay, Victory, GameOver, Quit }
-	public enum Triggers { StartTitle, StartRecruitment, StartGameplay, Win, Lose, Quit }
+	public enum Triggers { StartTitle, StartRecruitment, StartLevel, FinishLevel, Win, Lose, Quit }
 
 	private StateMachine<States, Triggers> _machine;
 	private readonly Dictionary<States, IState> _states;
@@ -21,6 +21,7 @@ public class GameStateMachine
 			{ States.Title, new TitleState() },
 			{ States.Recruitment, new RecruitmentState() },
 			{ States.Gameplay, new GameplayState() },
+			{ States.Victory, new VictoryState() },
 		};
 
 		_machine = new StateMachine<States, Triggers>(States.Bootstrap);
@@ -29,10 +30,12 @@ public class GameStateMachine
 		_machine.Configure(States.Bootstrap)
 			.Permit(Triggers.StartRecruitment, States.Recruitment);
 		_machine.Configure(States.Recruitment)
-			.Permit(Triggers.StartGameplay, States.Gameplay);
+			.Permit(Triggers.StartLevel, States.Gameplay);
 		_machine.Configure(States.Gameplay)
-			.Permit(Triggers.Win, States.Recruitment)
+			.Permit(Triggers.FinishLevel, States.Recruitment)
+			.Permit(Triggers.Win, States.Victory)
 			.Permit(Triggers.Lose, States.Bootstrap);
+		_machine.Configure(States.Victory);
 	}
 
 	public void Start()

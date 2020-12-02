@@ -33,7 +33,7 @@ public class GameplayState : IState
 			new Vector3(GameManager.Instance.Config.AreaSize.x, 1f, 0f)
 		);
 
-		var level = GameManager.Instance.Config.Levels[0];
+		var level = GameManager.Instance.Config.Levels[GameManager.Instance.State.CurrentLevel];
 		foreach (var spawn in level.Spawns)
 		{
 			GameManager.Instance.State.SpawnsQueue.Enqueue(spawn);
@@ -271,7 +271,14 @@ public class GameplayState : IState
 
 		await UniTask.Delay(2000);
 
-		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
+		GameManager.Instance.State.CurrentLevel += 1;
+
+		if (GameManager.Instance.State.CurrentLevel > GameManager.Instance.Config.Levels.Length - 1)
+		{
+			GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.Win);
+		}
+
+		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.FinishLevel);
 	}
 
 	private void Defeat()

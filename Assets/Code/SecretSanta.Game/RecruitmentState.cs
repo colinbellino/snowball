@@ -80,6 +80,6 @@ public class RecruitmentState : IState
 			GameManager.Instance.GameUI.Gameplay.Bark.Show(_newRecruit, bark, 2000f);
 		}
 
-		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.StartGameplay);
+		GameManager.Instance.Machine.Fire(GameStateMachine.Triggers.StartLevel);
 	}
 }
