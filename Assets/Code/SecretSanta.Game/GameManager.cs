@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
 public class GameState
 {
+	public int CurrentLevel;
 	public GameControls Controls;
 	public List<Recruit> Team;
 	public Queue<Recruit> RecruitsQueue;

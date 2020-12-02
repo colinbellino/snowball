@@ -12,6 +12,7 @@ public class BootstrapState : IState
 		// UnityEngine.Random.InitState(seed);
 		// Debug.Log("Seed: " + seed);
 
+		GameManager.Instance.State.CurrentLevel = 0;
 		GameManager.Instance.State.Team = new List<Recruit>();
 		GameManager.Instance.State.RecruitsQueue = new Queue<Recruit>();
 		GameManager.Instance.State.SpawnsQueue = new Queue<Spawn>();
