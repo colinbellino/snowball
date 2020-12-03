@@ -14,12 +14,14 @@ public class Alliance : MonoBehaviour
 
 	private void Update()
 	{
-		_entity.BodyCollider.gameObject.layer = AllianceToLayer(_entity.Alliance.Current);
+		_entity.BodyCollider.gameObject.layer = AllianceToLayer(_current);
 	}
 
 	public void SetCurrent(AllianceType alliance)
 	{
 		_current = alliance;
+
+		_entity.BodyCollider.gameObject.layer = AllianceToLayer(_current);
 	}
 
 	public static int AllianceToLayer(AllianceType alliance)

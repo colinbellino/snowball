@@ -15,7 +15,6 @@ public class BootstrapState : IState
 		GameManager.Instance.State.CurrentLevel = 0;
 		GameManager.Instance.State.Team = new List<Recruit>();
 		GameManager.Instance.State.RecruitsQueue = new Queue<Recruit>();
-		GameManager.Instance.State.SpawnsQueue = new Queue<Spawn>();
 		GameManager.Instance.State.Controls = new GameControls();
 		GameManager.Instance.State.Controls.Enable();
 

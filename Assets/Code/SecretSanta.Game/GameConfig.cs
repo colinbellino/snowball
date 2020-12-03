@@ -8,7 +8,7 @@ public class GameConfig : ScriptableObject
 
 	[Header("Data")]
 	public Recruit[] Recruits;
-	public Level[] Levels;
+	public LevelAuthoring[] Levels;
 	public string[] PlaceholderNames = { "Anri", "Rena", "Riku", "Andre", "Thea", "Mariel", "Jesse", "Marceline", "Gaius", "Ursula", "Madeline", "Theo", "Régis" };
 
 	[Header("Prefabs")]
