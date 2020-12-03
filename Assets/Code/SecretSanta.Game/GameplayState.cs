@@ -8,7 +8,6 @@ using static Helpers;
 
 public class GameplayState : IState
 {
-	private float _startTime;
 	private List<Entity> _team;
 	private List<Entity> _enemies;
 	private List<Entity> _projectiles;
@@ -16,33 +15,29 @@ public class GameplayState : IState
 	private double _switchTimestamp;
 	private bool _victoryAchieved;
 	private const double _switchCooldown = 0.2f;
+	private Bounds _viewportBox;
 	private Bounds _killBox;
 	private Grid _levelGrid;
+	private LevelAuthoring _level;
 
 	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
 	private const float _scrollSpeed = 1f;
 
 	public async Task Enter(object[] parameters)
 	{
-		_startTime = Time.time;
 		_team = new List<Entity>();
 		_enemies = new List<Entity>();
 		_projectiles = new List<Entity>();
 		_toDestroy = new List<Entity>();
 		_switchTimestamp = Time.time + _switchCooldown;
 		_victoryAchieved = false;
+		_viewportBox = new Bounds(Vector3.zero, GameManager.Instance.Config.AreaSize);
 		_killBox = new Bounds(
 			new Vector3(0f, -(GameManager.Instance.Config.AreaSize.y / 2) - 1, 0f),
 			new Vector3(GameManager.Instance.Config.AreaSize.x, 1f, 0f)
 		);
-
-		var level = GameManager.Instance.Config.Levels[GameManager.Instance.State.CurrentLevel];
-		// TODO: Get this from the level data
-		_levelGrid = GameObject.Find("Level").GetComponent<Grid>();
-		foreach (var spawn in level.Spawns)
-		{
-			GameManager.Instance.State.SpawnsQueue.Enqueue(spawn);
-		}
+		_level = GameObject.Instantiate(GameManager.Instance.Config.Levels[GameManager.Instance.State.CurrentLevel]);
+		_level.Sync();
 
 		for (var recruitIndex = 0; recruitIndex < GameManager.Instance.State.Team.Count; recruitIndex++)
 		{
@@ -62,7 +57,18 @@ public class GameplayState : IState
 	{
 		if (_victoryAchieved == false)
 		{
-			_levelGrid.transform.position += Vector3.down * (Time.deltaTime * _scrollSpeed);
+			_level.Root.position += Vector3.down * (Time.deltaTime * _scrollSpeed);
+
+			for (var i = _level.Spawners.Count - 1; i >= 0; i--)
+			{
+				var spawner = _level.Spawners[i];
+
+				if (_viewportBox.Contains(spawner.transform.position))
+				{
+					SpawnEnemy(spawner.Data, spawner.transform.position);
+					_level.Spawners.RemoveAt(i);
+				}
+			}
 
 			if (_team.Count > 0)
 			{
@@ -97,16 +103,6 @@ public class GameplayState : IState
 				}
 			}
 
-			if (GameManager.Instance.State.SpawnsQueue.Count > 0)
-			{
-				var nextSpawn = GameManager.Instance.State.SpawnsQueue.Peek();
-				if (Time.time >= _startTime + nextSpawn.Time)
-				{
-					SpawnEnemy(nextSpawn.Data, nextSpawn.Position);
-					GameManager.Instance.State.SpawnsQueue.Dequeue();
-				}
-			}
-
 			for (var i = _enemies.Count - 1; i >= 0; i--)
 			{
 				var entity = _enemies[i];
@@ -120,7 +116,8 @@ public class GameplayState : IState
 				}
 			}
 
-			if (GameManager.Instance.State.SpawnsQueue.Count == 0 && _enemies.Count == 0)
+			// FIXME: Get this from level data
+			if (_level.Root.transform.position.y < -_level.WinTriggerPosition.y)
 			{
 				_victoryAchieved = true;
 				Victory();
@@ -147,12 +144,14 @@ public class GameplayState : IState
 		}
 		_toDestroy.Clear();
 
+		GameObject.Destroy(_level.gameObject);
+
 		Projectile.OnImpact -= OnProjectileImpact;
 	}
 
 	private void SpawnTeamMember(Recruit data, Vector3 position)
 	{
-		var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab);
+		var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab, _level.transform.position, _level.transform.rotation);
 		entity.name = $"Recruit: {data.Name}";
 		entity.Movement.Speed = data.MoveSpeed;
 		entity.Transform.position = position;

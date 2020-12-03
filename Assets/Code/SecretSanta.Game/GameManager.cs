@@ -46,5 +46,4 @@ public class GameState
 	public GameControls Controls;
 	public List<Recruit> Team;
 	public Queue<Recruit> RecruitsQueue;
-	public Queue<Spawn> SpawnsQueue;
 }
