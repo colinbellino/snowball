@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Enemy1
   m_EditorClassIdentifier: 
   Color: {r: 1, g: 0, b: 0, a: 1}
-  MoveSpeed: 20
+  MoveSpeed: 30
   FireDelay: 2

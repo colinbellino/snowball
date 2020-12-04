@@ -15,7 +15,7 @@ public class Target : MonoBehaviour
 	public void Hit()
 	{
 		// Debug.Log("Hit -> " + name);
-		OnHit(_entity);
+		OnHit?.Invoke(_entity);
 	}
 
 	public void Activate(bool value)

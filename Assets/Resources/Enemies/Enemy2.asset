@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892691ae57594d29a3fa7be68ac18d36, type: 3}
   m_Name: Enemy2
   m_EditorClassIdentifier: 
-  Name: Enemy2
   Color: {r: 0, g: 0.5893979, b: 1, a: 1}
-  MoveSpeed: 5
+  MoveSpeed: 20
+  FireDelay: 1

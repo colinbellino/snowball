@@ -5,6 +5,13 @@ public class Movement : MonoBehaviour
 {
 	[HideInInspector] public float Speed;
 
+	private Entity _entity;
+
+	private void Awake()
+	{
+		_entity = GetComponent<Entity>();
+	}
+
 	public void MoveInDirection(Vector2 direction, bool stayInBounds = false)
 	{
 		var size = transform.localScale;
@@ -18,6 +25,8 @@ public class Movement : MonoBehaviour
 		}
 
 		transform.position = position;
+
+		CheckForObstacles();
 	}
 
 	public void RotateInDirection(Vector2 direction)
@@ -45,6 +54,24 @@ public class Movement : MonoBehaviour
 		{
 			transform.position = Vector3.MoveTowards(transform.position, position, Time.deltaTime * speed);
 			await UniTask.NextFrame();
+		}
+	}
+
+	private void CheckForObstacles()
+	{
+		var layer = LayerMask.NameToLayer("Obstacles");
+		var hits = Physics2D.CircleCastAll (
+			transform.position, _entity.BodyCollider.radius,
+			Vector3.zero, 0f,
+			1 << layer
+		);
+		for (var i = 0; i < hits.Length; i++)
+		{
+			if (hits[i].collider)
+			{
+				Debug.Log(hits[i].collider.name);
+				_entity.Target.Hit();
+			}
 		}
 	}
 }
