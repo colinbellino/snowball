@@ -20,7 +20,7 @@ public class GameplayState : IState
 	private Grid _levelGrid;
 	private LevelAuthoring _level;
 
-	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -6);
+	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -5);
 	private const float _scrollSpeed = 1f;
 
 	public async Task Enter(object[] parameters)
