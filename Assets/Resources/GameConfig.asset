@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e04f3f730f1aa4bf5adb72ae79fa5dba, type: 2}
   Levels:
   - {fileID: 2979186146128037043, guid: f5b7ea6a953f74c19921a4e20cd9dc12, type: 3}
+  - {fileID: 2979186146128037043, guid: 9a684bc4907b34651a8a660c12e9494f, type: 3}
   PlaceholderNames:
   - Anri
   - Rena

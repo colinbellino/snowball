@@ -14,9 +14,9 @@ public class Brain : MonoBehaviour
 
 	public void Tick()
 	{
-		var moveDirection = new Vector2(0, -0.1f);
+		var moveDirection = transform.up * 0.1f;
 		_entity.Movement.MoveInDirection(moveDirection);
-		_entity.Movement.RotateInDirection(moveDirection);
+		// _entity.Movement.RotateInDirection(moveDirection);
 
 		var bounds = new Bounds(Vector3.zero, GameManager.Instance.Config.AreaSize);
 		if (bounds.Contains(transform.position))
