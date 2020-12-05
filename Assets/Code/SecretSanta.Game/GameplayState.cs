@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 using static Helpers;
 
@@ -35,6 +36,7 @@ public class GameplayState : IState
 		);
 		_level = GameObject.Instantiate(GameManager.Instance.Config.Levels[GameManager.Instance.State.CurrentLevel]);
 		_level.Sync();
+		Level.SetTilemapColor(_level.ObstaclesTilemap, _level.Color);
 
 		for (var recruitIndex = 0; recruitIndex < GameManager.Instance.State.Team.Count; recruitIndex++)
 		{
@@ -114,7 +116,7 @@ public class GameplayState : IState
 			}
 
 			var winBounds = new Bounds(_level.WinTrigger.position, _level.WinTrigger.localScale);
-			if (winBounds.Contains(_team[0].transform.position))
+			if (_team.Count > 0 && winBounds.Contains(_team[0].transform.position))
 			{
 				_victoryAchieved = true;
 				Victory();

@@ -9875,6 +9875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollDirection: {x: 0, y: -1, z: 0}
+  _color: {r: 0.2, g: 0.6, b: 0.8, a: 1}
 --- !u!1 &2106765469280412148
 GameObject:
   m_ObjectHideFlags: 0
