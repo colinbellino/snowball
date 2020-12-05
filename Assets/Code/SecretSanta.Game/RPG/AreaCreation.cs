@@ -7,9 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class AreaCreation : MonoBehaviour
 	{
 		[SerializeField] private Tilemap _tilemap;
-		
 		[SerializeField] private Area _area;
-		[SerializeField] private TileBase[] _tiles;
 
 		public void Clear()
 		{
@@ -30,8 +28,9 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					var index = x + y * _area.Size.x;
 					var tile = allTiles[index];
+					var tileId = Helpers.GetTileId(tile, Game.Instance.Config.Tiles);
 
-					_area.Tiles[index] = GetTileValue(tile);
+					_area.Tiles[index] = tileId;
 				}
 			}
 		}
@@ -39,30 +38,7 @@ namespace Code.SecretSanta.Game.RPG
 		public void Load()
 		{
 			Clear();
-
-			for (var x = 0; x < _area.Size.x; x++)
-			{
-				for (var y = 0; y < _area.Size.y; y++)
-				{
-					var index = x + y * _area.Size.x;
-					var position = new Vector3Int(x, y, 0);
-
-					_tilemap.SetTile(position, _tiles[_area.Tiles[index]]);
-				}
-			}
-		}
-
-		private int GetTileValue(TileBase tile)
-		{
-			for (var index = 0; index < _tiles.Length; index++)
-			{
-				if (_tiles[index] == tile)
-				{
-					return index;
-				}
-			}
-
-			return 0;
+			Helpers.LoadArea(_area, _tilemap, Game.Instance.Config.Tiles);
 		}
 	}
 
@@ -75,18 +51,21 @@ namespace Code.SecretSanta.Game.RPG
 
 			var stuff = (AreaCreation)target;
 
-			if (GUILayout.Button("Clear"))
-			{
-				stuff.Clear();
-			}
-			if (GUILayout.Button("Save"))
-			{
-				stuff.Save();
-			}
-			if (GUILayout.Button("Load"))
-			{
-				stuff.Load();
-			}
+			// if (Application.isPlaying)
+			// {
+				if (GUILayout.Button("Clear"))
+				{
+					stuff.Clear();
+				}
+				if (GUILayout.Button("Save"))
+				{
+					stuff.Save();
+				}
+				if (GUILayout.Button("Load"))
+				{
+					stuff.Load();
+				}
+			// }
 		}
 	}
 }

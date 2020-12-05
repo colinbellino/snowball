@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "level1"
+	"last_search.AB59B443" = "RPG"
 }
 providers = {
 	asset = {
