@@ -18,10 +18,7 @@ public class GameplayState : IState
 	private Bounds _viewportBox;
 	private Bounds _killBox;
 	private Grid _levelGrid;
-	private LevelAuthoring _level;
-
-	private readonly Vector3 _recruitSpawnPosition = new Vector3(0, -5);
-	private const float _scrollSpeed = 1f;
+	private Level _level;
 
 	public async Task Enter(object[] parameters)
 	{
@@ -42,7 +39,7 @@ public class GameplayState : IState
 		for (var recruitIndex = 0; recruitIndex < GameManager.Instance.State.Team.Count; recruitIndex++)
 		{
 			var recruit = GameManager.Instance.State.Team[recruitIndex];
-			SpawnTeamMember(recruit, _recruitSpawnPosition + new Vector3(1f * recruitIndex +1, 0));
+			SpawnTeamMember(recruit, _level.StartPosition + new Vector3(1f * recruitIndex +1, 0));
 		}
 
 		UpdateTeam();
@@ -57,7 +54,7 @@ public class GameplayState : IState
 	{
 		if (_victoryAchieved == false)
 		{
-			_level.Root.position += Vector3.down * (Time.deltaTime * _scrollSpeed);
+			_level.Root.position += _level.Scroll * Time.deltaTime;
 
 			for (var i = _level.Spawners.Count - 1; i >= 0; i--)
 			{
@@ -97,7 +94,7 @@ public class GameplayState : IState
 					}
 					else
 					{
-						var target = _team[recruitIndex - 1].Transform.position;
+						var target = _team[recruitIndex - 1].transform.position;
 						_team[recruitIndex].Movement.Follow(target, _team[0].Movement.Speed, 1.5f);
 					}
 				}
@@ -109,15 +106,15 @@ public class GameplayState : IState
 
 				entity.Brain?.Tick();
 
-				if (_killBox.Contains(entity.Transform.position))
+				if (_killBox.Contains(entity.transform.position))
 				{
 					_enemies.RemoveAt(i);
 					_toDestroy.Add(entity);
 				}
 			}
 
-			// FIXME: Get this from level data
-			if (_level.Root.transform.position.y < -_level.WinTriggerPosition.y)
+			var winBounds = new Bounds(_level.WinTrigger.position, _level.WinTrigger.localScale);
+			if (winBounds.Contains(_team[0].transform.position))
 			{
 				_victoryAchieved = true;
 				Victory();
@@ -154,7 +151,8 @@ public class GameplayState : IState
 		var entity = GameObject.Instantiate(GameManager.Instance.Config.RecruitPrefab, _level.transform.position, _level.transform.rotation);
 		entity.name = $"Recruit: {data.Name}";
 		entity.Movement.Speed = data.MoveSpeed;
-		entity.Transform.position = position;
+		entity.transform.position = position;
+		entity.transform.up = -_level.Scroll;
 		entity.Target.OnHit += OnTeamMemberHit;
 		entity.Weapon.OnFired += OnWeaponFired;
 		entity.Renderer.Color = data.Color;
@@ -165,7 +163,8 @@ public class GameplayState : IState
 	{
 		var entity = GameObject.Instantiate(GameManager.Instance.Config.EnemyPrefab);
 		entity.Movement.Speed = data.MoveSpeed;
-		entity.Transform.position = position;
+		entity.transform.position = position;
+		entity.transform.up = _level.Scroll;
 		entity.Target.OnHit += OnEnemyHit;
 		entity.Weapon.OnFired += OnWeaponFired;
 		entity.Renderer.Color = data.Color;
@@ -175,7 +174,7 @@ public class GameplayState : IState
 
 	private void SwitchTeamMember()
 	{
-		var positions = _team.Select(entity => entity.Transform.position).ToArray();
+		var positions = _team.Select(entity => entity.transform.position).ToArray();
 
 		for (var recruitIndex = 0; recruitIndex < _team.Count; recruitIndex++)
 		{
@@ -271,7 +270,7 @@ public class GameplayState : IState
 
 		foreach (var entity in _team)
 		{
-			var destination = entity.Transform.position + new Vector3(0, GameManager.Instance.Config.AreaSize.y);
+			var destination = entity.transform.position + -_level.Scroll * GameManager.Instance.Config.AreaSize.y;
 			entity.Movement.MoveTo(destination, _team[0].Movement.Speed);
 		}
 

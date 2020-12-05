@@ -4,7 +4,6 @@ public class Entity : MonoBehaviour
 {
 	[SerializeField] private CircleCollider2D _bodyCollider;
 
-	public Transform Transform => transform;
 	public Weapon Weapon { get; private set; }
 	public Movement Movement { get; private set; }
 	public Target Target { get; private set; }

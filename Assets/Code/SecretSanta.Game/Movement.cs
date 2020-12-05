@@ -69,7 +69,6 @@ public class Movement : MonoBehaviour
 		{
 			if (hits[i].collider)
 			{
-				Debug.Log(hits[i].collider.name);
 				_entity.Target.Hit();
 			}
 		}
