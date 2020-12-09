@@ -7,6 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class AreaCreation : MonoBehaviour
 	{
 		[SerializeField] private Tilemap _tilemap;
+		[SerializeField] private Tilemap _metaTilemap;
 		[SerializeField] private Area _area;
 
 		public void Clear()
@@ -18,19 +19,38 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_area.Size = new Vector2Int(32, 18);
 			_area.Tiles = new int[_area.Size.x * _area.Size.y];
-
 			var bounds = new BoundsInt(Vector3Int.zero, new Vector3Int(_area.Size.x, _area.Size.y, 1));
-			var allTiles = _tilemap.GetTilesBlock(bounds);
 
+			var allTiles = _tilemap.GetTilesBlock(bounds);
 			for (var x = 0; x < _area.Size.x; x++)
 			{
 				for (var y = 0; y < _area.Size.y; y++)
 				{
 					var index = x + y * _area.Size.x;
-					var tile = allTiles[index];
-					var tileId = Helpers.GetTileId(tile, Game.Instance.Config.Tiles);
+					var tileId = Helpers.GetTileId(allTiles[index], Game.Instance.Config.Tiles);
 
 					_area.Tiles[index] = tileId;
+				}
+			}
+
+			var allMeta = _metaTilemap.GetTilesBlock(bounds);
+			for (var x = 0; x < _area.Size.x; x++)
+			{
+				for (var y = 0; y < _area.Size.y; y++)
+				{
+					var index = x + y * _area.Size.x;
+					var position = new Vector2Int(x, y);
+					var tile = allMeta[index];
+					var tileId = Helpers.GetTileId(tile, Game.Instance.Config.Tiles);
+
+					if (tileId == 2)
+					{
+						_area.AllySpawnPoints.Add(position);
+					}
+					if (tileId == 3)
+					{
+						_area.FoeSpawnPoints.Add(position);
+					}
 				}
 			}
 		}
