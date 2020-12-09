@@ -11,5 +11,7 @@ namespace Code.SecretSanta.Game.RPG
 		// 2: Ally Spawn
 		// 3: Foe Spawn
 		public TileBase[] Tiles;
+
+		public UnitComponent UnitPrefab;
 	}
 }

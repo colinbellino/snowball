@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 892691ae57594d29a3fa7be68ac18d36, type: 3}
-  m_Name: Enemy1
+  m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
+  m_Name: Unit3
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0, b: 0, a: 1}
-  MoveSpeed: 30
-  FireDelay: 2
+  Color: {r: 0.6594756, g: 0, b: 0.8584906, a: 1}

@@ -17,3 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 30567134ed0f749cc8222af839678a89, type: 2}
   - {fileID: 11400000, guid: ebd44eed2a5824beca53cb86ba2cae2d, type: 2}
   - {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
+  UnitPrefab: {fileID: 40356880270672144, guid: f43b4dbd642334b7fa971aa92e0b62fe,
+    type: 3}
