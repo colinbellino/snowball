@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,12 +14,15 @@ namespace Code.SecretSanta.Game.RPG
 		public void Clear()
 		{
 			_tilemap.ClearAllTiles();
+			_metaTilemap.ClearAllTiles();
 		}
 
 		public void Save()
 		{
 			_area.Size = new Vector2Int(32, 18);
 			_area.Tiles = new int[_area.Size.x * _area.Size.y];
+			_area.AllySpawnPoints = new List<Vector2Int>();
+			_area.FoeSpawnPoints = new List<Vector2Int>();
 			var bounds = new BoundsInt(Vector3Int.zero, new Vector3Int(_area.Size.x, _area.Size.y, 1));
 
 			var allTiles = _tilemap.GetTilesBlock(bounds);
@@ -53,12 +57,15 @@ namespace Code.SecretSanta.Game.RPG
 					}
 				}
 			}
+
+			EditorUtility.SetDirty(_area);
 		}
 
 		public void Load()
 		{
 			Clear();
 			Helpers.LoadArea(_area, _tilemap, Game.Instance.Config.Tiles);
+			Helpers.LoadMeta(_area, _metaTilemap, Game.Instance.Config.Tiles);
 		}
 	}
 

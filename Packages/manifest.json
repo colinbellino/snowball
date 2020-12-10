@@ -59,7 +59,8 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.demigiant.dotween": "1.2.32"
   },
   "lock": {
     "com.cysharp.unitask": {
@@ -78,5 +79,15 @@
       "revision": "HEAD",
       "hash": "679ced480778379004af2f2e5e1617d288db79d0"
     }
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.demigiant.dotween",
+        "com.openupm"
+      ]
+    }
+  ]
 }
