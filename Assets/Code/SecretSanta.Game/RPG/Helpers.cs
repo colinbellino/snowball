@@ -5,6 +5,11 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public static class Helpers
 	{
+		public static TileBase GetTile(int index, TileBase[] tiles)
+		{
+			return tiles[index];
+		}
+
 		public static int GetTileId(TileBase tile, TileBase[] tiles)
 		{
 			for (var index = 0; index < tiles.Length; index++)
@@ -29,6 +34,18 @@ namespace Code.SecretSanta.Game.RPG
 
 					tilemap.SetTile((Vector3Int) position, tiles[area.Tiles[index]]);
 				}
+			}
+		}
+
+		public static void LoadMeta(Area area, Tilemap tilemap, TileBase[] tiles)
+		{
+			foreach (var position in area.AllySpawnPoints)
+			{
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), GetTile(2, tiles));
+			}
+			foreach (var position in area.FoeSpawnPoints)
+			{
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), GetTile(3, tiles));
 			}
 		}
 	}

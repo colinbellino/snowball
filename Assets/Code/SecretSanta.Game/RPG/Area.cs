@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		// |
 		// • - x >
 		public int[] Tiles;
-		public List<Vector2Int> AllySpawnPoints = new List<Vector2Int>();
-		public List<Vector2Int> FoeSpawnPoints = new List<Vector2Int>();
+		public List<Vector2Int> AllySpawnPoints;
+		public List<Vector2Int> FoeSpawnPoints;
 	}
 }
