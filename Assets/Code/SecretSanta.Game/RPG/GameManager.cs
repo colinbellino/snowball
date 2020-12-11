@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public enum Notifications { BattleStarted, BattleEnded, TurnStarted, TurnEnded }
-
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField] private Tilemap _tilemap;
@@ -32,7 +35,62 @@ namespace Code.SecretSanta.Game.RPG
 
 			Notification.Send("BattleStarted");
 			var battle = new Battle(allUnits);
-			await battle.Start();
+			var turn = battle.Start();
+
+			while (true)
+			{
+				turn.MoveNext();
+				var unit = turn.Current;
+
+				if (unit.IsPlayerControlled)
+				{
+					var foes = allUnits.Where(u => u.IsPlayerControlled == false);
+					var randomFoe = foes.OrderBy(qu => Guid.NewGuid()).First();
+
+					Task task = null;
+					while (task == null)
+					{
+						if (Keyboard.current.leftArrowKey.wasReleasedThisFrame || Keyboard.current.rightArrowKey.wasReleasedThisFrame)
+						{
+							var destination = unit.GridPosition + new Vector2Int(-1, 0);
+							task = unit.Move(destination);
+							break;
+						}
+
+						if (Keyboard.current.rightArrowKey.wasReleasedThisFrame)
+						{
+							var destination = unit.GridPosition + new Vector2Int(1, 0);
+							task = unit.Move(destination);
+							break;
+						}
+
+						if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+						{
+							var target = randomFoe;
+							task = unit.Attack(target);
+							break;
+						}
+
+						await UniTask.NextFrame();
+					}
+
+					await task;
+				}
+				else
+				{
+					var allies = allUnits.Where(u => u.IsPlayerControlled == true);
+					var randomAlly = allies.OrderBy(qu => Guid.NewGuid()).First();
+
+					await UniTask.Delay(300);
+					await unit.Attack(randomAlly);
+				}
+
+				if (battle.IsBattleOver())
+				{
+					break;
+				}
+			}
+
 			Notification.Send("BattleEnded");
 		}
 

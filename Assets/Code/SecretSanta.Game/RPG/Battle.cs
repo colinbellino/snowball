@@ -31,7 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 		            notify(turnEnded)
 		    notify(roundEnded)
 		*/
-		public async Task Start()
+		public IEnumerator<UnitComponent> Start()
 		{
 			while (true)
 			{
@@ -41,74 +41,22 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					if (CanTakeTurn(unit))
 					{
-						Debug.Log($"Turn [{_turnNumber}]: Started");
+						Debug.Log($"Turn [{_turnNumber}]: Started ({unit})");
 						Notification.Send("TurnStarted");
-						// ChangeTurn(unit);
 
-						if (unit.IsPlayerControlled)
-						{
-							await PlayerTurn(unit);
-						}
-						else
-						{
-							Debug.Log($"Turn [{_turnNumber}]: Computer...");
-							await UniTask.Delay(500);
-							await unit.Attack(units[0]);
-						}
+						yield return unit;
 
 						_turnNumber += 1;
 
 						// ConsumeCT();
 
 						Notification.Send("TurnEnded");
-
-						if (IsBattleOver())
-						{
-							return;
-						}
 					}
 				}
 			}
 		}
 
-		private async Task PlayerTurn(UnitComponent unit)
-		{
-			Debug.Log($"Turn [{_turnNumber}]: Player...");
-
-			var foes = _units.Where(u => u.IsPlayerControlled == false);
-			var randomFoe = foes.OrderBy(qu => Guid.NewGuid()).First();
-
-			Task task = null;
-			while (task == null)
-			{
-				await UniTask.NextFrame();
-
-				if (Keyboard.current.leftArrowKey.wasReleasedThisFrame)
-				{
-					var destination = unit.GridPosition + new Vector2Int(-1, 0);
-					task = unit.Move(destination);
-					break;
-				}
-
-				if (Keyboard.current.rightArrowKey.wasReleasedThisFrame)
-				{
-					var destination = unit.GridPosition + new Vector2Int(1, 0);
-					task = unit.Move(destination);
-					break;
-				}
-
-				if (Keyboard.current.spaceKey.wasReleasedThisFrame)
-				{
-					var target = randomFoe;
-					task = unit.Attack(target);
-					break;
-				}
-			}
-
-			await task;
-		}
-
-		private bool IsBattleOver()
+		public bool IsBattleOver()
 		{
 			return _turnNumber > 5;
 		}
