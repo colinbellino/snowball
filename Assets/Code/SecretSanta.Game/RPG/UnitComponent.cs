@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -44,8 +45,16 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Move(Vector2Int destination)
 		{
 			var worldDestination = new Vector3(destination.x, destination.y, 0f);
-			await transform.DOMove(worldDestination, 0.5f);
-			SetGridPosition(destination);
+			await transform.DOMove(worldDestination, 0.3f).SetEase(Ease.Linear);
+		}
+
+		public async Task MoveOnPath(List<Vector2Int> path)
+		{
+			foreach (var move in path)
+			{
+				await Move(move);
+			}
+			SetGridPosition(path[path.Count - 1]);
 		}
 	}
 }
