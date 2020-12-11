@@ -12,6 +12,8 @@ namespace Code.SecretSanta.Game.RPG
 		public Vector2Int GridPosition { get; private set; }
 		public bool IsPlayerControlled { get; private set; }
 
+		public override string ToString() => name;
+
 		public void UpdateData(Unit data, bool isPlayerControlled)
 		{
 			SetName(data.Name);
@@ -27,7 +29,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void SetName(string value)
 		{
-			name = $"{value} (Unit)";
+			name = $"{value}";
 		}
 
 		public async Task Attack(UnitComponent target)
