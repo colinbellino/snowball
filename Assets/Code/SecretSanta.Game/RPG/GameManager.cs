@@ -52,16 +52,12 @@ namespace Code.SecretSanta.Game.RPG
 					{
 						if (Keyboard.current.leftArrowKey.wasReleasedThisFrame || Keyboard.current.rightArrowKey.wasReleasedThisFrame)
 						{
-							var destination = unit.GridPosition + new Vector2Int(-1, 0);
-							task = unit.Move(destination);
-							break;
-						}
-
-						if (Keyboard.current.rightArrowKey.wasReleasedThisFrame)
-						{
-							var destination = unit.GridPosition + new Vector2Int(1, 0);
-							task = unit.Move(destination);
-							break;
+							var destination = unit.GridPosition + new Vector2Int(Keyboard.current.leftArrowKey.wasReleasedThisFrame ? -1 : 1, 0);
+							if (Helpers.CanMove(destination, _tilemap))
+							{
+								var path = Helpers.GetFallPath(destination, _tilemap);
+								task = unit.MoveOnPath(path);
+							}
 						}
 
 						if (Keyboard.current.spaceKey.wasReleasedThisFrame)
