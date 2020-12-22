@@ -6,6 +6,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class Game
 	{
 		public GameConfig Config { get; private set; }
+		public EffectsManager Effects { get; private set; }
 
 		private static Game _instance;
 		public static Game Instance
@@ -23,7 +24,16 @@ namespace Code.SecretSanta.Game.RPG
 		public Game()
 		{
 			Config = Resources.Load<GameConfig>("RPGConfig");
+			Effects = new EffectsManager();
 			Assert.IsNotNull(Config);
+		}
+
+		public class EffectsManager
+		{
+			public void Spawn(ParticleSystem effectPrefab, Vector3 position)
+			{
+				var instance = GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
+			}
 		}
 	}
 }

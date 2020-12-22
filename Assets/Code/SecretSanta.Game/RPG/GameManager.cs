@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -26,11 +27,13 @@ namespace Code.SecretSanta.Game.RPG
 			var allUnits = new List<UnitComponent>();
 			for (var index = 0; index < encounter.Allies.Count; index++)
 			{
-				allUnits.Add(SpawnUnit(encounter.Allies[index], encounter.Area.AllySpawnPoints[index], true));
+				var point = encounter.Area.AllySpawnPoints[index];
+				allUnits.Add(SpawnUnit(encounter.Allies[index], new Vector3Int(point.x, point.y, 0), true));
 			}
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
-				allUnits.Add(SpawnUnit(encounter.Foes[index], encounter.Area.FoeSpawnPoints[index]));
+				var point = encounter.Area.FoeSpawnPoints[index];
+				allUnits.Add(SpawnUnit(encounter.Foes[index], new Vector3Int(point.x, point.y, 0)));
 			}
 
 			Notification.Send("BattleStarted");
@@ -44,15 +47,13 @@ namespace Code.SecretSanta.Game.RPG
 
 				if (unit.IsPlayerControlled)
 				{
-					var foes = allUnits.Where(u => u.IsPlayerControlled == false);
-					var randomFoe = foes.OrderBy(qu => Guid.NewGuid()).First();
-
 					Task task = null;
 					while (task == null)
 					{
 						if (Keyboard.current.leftArrowKey.wasReleasedThisFrame || Keyboard.current.rightArrowKey.wasReleasedThisFrame)
 						{
-							var destination = unit.GridPosition + new Vector2Int(Keyboard.current.leftArrowKey.wasReleasedThisFrame ? -1 : 1, 0);
+							var direction = new Vector3Int(Keyboard.current.leftArrowKey.wasReleasedThisFrame ? -1 : 1, 0, 0);
+							var destination = unit.GridPosition + direction;
 							if (Helpers.CanMove(destination, _tilemap))
 							{
 								var path = Helpers.GetFallPath(destination, _tilemap);
@@ -62,8 +63,8 @@ namespace Code.SecretSanta.Game.RPG
 
 						if (Keyboard.current.spaceKey.wasReleasedThisFrame)
 						{
-							var target = randomFoe;
-							task = unit.Attack(target);
+							var result = Helpers.CalculateAttackResult(unit.GridPosition, 1, allUnits, _tilemap);
+							task = unit.Attack(result);
 							break;
 						}
 
@@ -74,11 +75,10 @@ namespace Code.SecretSanta.Game.RPG
 				}
 				else
 				{
-					var allies = allUnits.Where(u => u.IsPlayerControlled == true);
-					var randomAlly = allies.OrderBy(qu => Guid.NewGuid()).First();
-
 					await UniTask.Delay(300);
-					await unit.Attack(randomAlly);
+					var randomDirection = Random.Range(0, 1) > 0 ? 1 : -1;
+					var result = Helpers.CalculateAttackResult(unit.GridPosition, randomDirection, allUnits, _tilemap);
+					await unit.Attack(result);
 				}
 
 				if (battle.IsBattleOver())
@@ -90,7 +90,7 @@ namespace Code.SecretSanta.Game.RPG
 			Notification.Send("BattleEnded");
 		}
 
-		private UnitComponent SpawnUnit(Unit data, Vector2Int position, bool isPlayerControlled = false)
+		private UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)
 		{
 			var unit = Instantiate(Game.Instance.Config.UnitPrefab);
 			unit.SetGridPosition(position);

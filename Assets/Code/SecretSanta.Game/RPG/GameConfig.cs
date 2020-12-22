@@ -13,5 +13,8 @@ namespace Code.SecretSanta.Game.RPG
 		public TileBase[] Tiles;
 
 		public UnitComponent UnitPrefab;
+
+		[Header("Effects")]
+		public ParticleSystem HitEffect;
 	}
 }
