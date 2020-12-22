@@ -19,5 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
   UnitPrefab: {fileID: 40356880270672144, guid: f43b4dbd642334b7fa971aa92e0b62fe,
     type: 3}
-  HitEffect: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
+  SnowballPrefab: {fileID: 8808955276247847239, guid: a6e0719ed39054c9a89341c0c7a47f97,
+    type: 3}
+  HitEffectPrefab: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
     type: 3}

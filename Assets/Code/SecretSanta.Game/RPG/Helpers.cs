@@ -78,17 +78,10 @@ namespace Code.SecretSanta.Game.RPG
 
 			for (
 				var x = start.x;
-				direction > 0 ? (x < tilemap.size.x) : (x >= 0);
+				direction > 0 ? (x <= tilemap.size.x) : (x >= 0);
 				x += direction)
 			{
 				var position = new Vector3Int(x, start.y, 0);
-
-				var tile = tilemap.GetTile(position);
-				if (tile != null)
-				{
-					result.Destination = position;
-					break;
-				}
 
 				var unit = allUnits.Find(unit => unit.GridPosition == position);
 				if (unit)
@@ -101,7 +94,15 @@ namespace Code.SecretSanta.Game.RPG
 					{
 						result.Target = unit;
 						result.Destination = position;
+						break;
 					}
+				}
+
+				var tile = tilemap.GetTile(position);
+				if (tile != null || x == tilemap.size.x || x == 0)
+				{
+					result.Destination = position;
+					break;
 				}
 			}
 			return result;

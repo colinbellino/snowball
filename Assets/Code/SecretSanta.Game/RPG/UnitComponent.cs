@@ -45,13 +45,21 @@ namespace Code.SecretSanta.Game.RPG
 				await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
 			}
 
-			// TODO: animate snowball
+			await ShootProjectile(result.Attacker.transform.position, new Vector3(result.Destination.x, result.Destination.y, 0));
 
 			if (result.Target)
 			{
-				Game.Instance.Effects.Spawn(Game.Instance.Config.HitEffect, result.Target.GridPosition);
+				Game.Instance.Effects.Spawn(Game.Instance.Config.HitEffectPrefab, result.Target.GridPosition);
 				result.Target.ApplyDamage(1);
 			}
+		}
+
+		private async Task ShootProjectile(Vector3 origin, Vector3 destination)
+		{
+			var instance = GameObject.Instantiate(Game.Instance.Config.SnowballPrefab, origin, Quaternion.identity);
+			var distance = Vector3.Distance(origin, destination);
+			await instance.transform.DOMove(destination, distance * 0.05f).SetEase(Ease.Linear);
+			Destroy(instance);
 		}
 
 		private void ApplyDamage(int amount)

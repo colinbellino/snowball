@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
@@ -13,8 +14,9 @@ namespace Code.SecretSanta.Game.RPG
 		public TileBase[] Tiles;
 
 		public UnitComponent UnitPrefab;
+		public GameObject SnowballPrefab;
 
-		[Header("Effects")]
-		public ParticleSystem HitEffect;
+		[FormerlySerializedAs("HitEffect")] [Header("Effects")]
+		public ParticleSystem HitEffectPrefab;
 	}
 }
