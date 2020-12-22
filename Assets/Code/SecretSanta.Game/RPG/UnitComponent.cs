@@ -18,7 +18,8 @@ namespace Code.SecretSanta.Game.RPG
 		public void UpdateData(Unit data, bool isPlayerControlled)
 		{
 			SetName(data.Name);
-			_bodyRenderer.color = data.Color;
+			_bodyRenderer.material.SetColor("ReplacementColor0", data.Color);
+
 			IsPlayerControlled = isPlayerControlled;
 		}
 
