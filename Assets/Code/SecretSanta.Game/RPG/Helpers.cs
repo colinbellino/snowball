@@ -50,15 +50,15 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static List<Vector2Int> GetFallPath(Vector2Int start, Tilemap tilemap)
+		public static List<Vector3Int> GetFallPath(Vector3Int start, Tilemap tilemap)
 		{
-			var path = new List<Vector2Int> { start };
+			var path = new List<Vector3Int> { start };
 			for (var y = start.y; y > 0; y--)
 			{
 				var tile = tilemap.GetTile(new Vector3Int(start.x, y, 0));
 				if (tile != null)
 				{
-					path.Add(new Vector2Int(start.x, y+1));
+					path.Add(new Vector3Int(start.x, y + 1, 0));
 					break;
 				}
 			}
@@ -66,10 +66,53 @@ namespace Code.SecretSanta.Game.RPG
 			return path;
 		}
 
-		public static bool CanMove(Vector2Int destination, Tilemap tilemap)
+		public static bool CanMove(Vector3Int destination, Tilemap tilemap)
 		{
 			var tile = tilemap.GetTile(new Vector3Int(destination.x, destination.y, 0));
 			return tile == null;
 		}
+
+		public static AttackResult CalculateAttackResult(Vector3Int start, int direction, List<UnitComponent> allUnits, Tilemap tilemap)
+		{
+			var result = new AttackResult { Direction = direction };
+
+			for (
+				var x = start.x;
+				direction > 0 ? (x < tilemap.size.x) : (x >= 0);
+				x += direction)
+			{
+				var position = new Vector3Int(x, start.y, 0);
+
+				var tile = tilemap.GetTile(position);
+				if (tile != null)
+				{
+					result.Destination = position;
+					break;
+				}
+
+				var unit = allUnits.Find(unit => unit.GridPosition == position);
+				if (unit)
+				{
+					if (position == start)
+					{
+						result.Attacker = unit;
+					}
+					else
+					{
+						result.Target = unit;
+						result.Destination = position;
+					}
+				}
+			}
+			return result;
+		}
+	}
+
+	public class AttackResult
+	{
+		public UnitComponent Attacker;
+		public int Direction;
+		public Vector3Int Destination;
+		public UnitComponent Target;
 	}
 }
