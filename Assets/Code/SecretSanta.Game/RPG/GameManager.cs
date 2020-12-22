@@ -88,6 +88,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			Notification.Send("BattleEnded");
+			Debug.LogWarning("Battle over!");
 		}
 
 		private UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)
