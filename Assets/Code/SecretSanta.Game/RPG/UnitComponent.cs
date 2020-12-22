@@ -49,7 +49,6 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (result.Target)
 			{
-				Game.Instance.Effects.Spawn(Game.Instance.Config.HitEffectPrefab, result.Target.GridPosition);
 				result.Target.ApplyDamage(1);
 			}
 		}
@@ -59,6 +58,9 @@ namespace Code.SecretSanta.Game.RPG
 			var instance = GameObject.Instantiate(Game.Instance.Config.SnowballPrefab, origin, Quaternion.identity);
 			var distance = Vector3.Distance(origin, destination);
 			await instance.transform.DOMove(destination, distance * 0.05f).SetEase(Ease.Linear);
+
+			Game.Instance.Effects.Spawn(Game.Instance.Config.HitEffectPrefab, destination);
+
 			Destroy(instance);
 		}
 
