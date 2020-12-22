@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -16,8 +14,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void Start()
 		{
-			var encounter = Resources.Load<Encounter>("Encounters/Encounter1");
-			StartEncounter(encounter);
+			StartEncounter(Game.Instance.Config.Encounters[0]);
 		}
 
 		private async void StartEncounter(Encounter encounter)

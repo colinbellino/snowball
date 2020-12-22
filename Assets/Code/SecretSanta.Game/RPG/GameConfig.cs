@@ -13,6 +13,7 @@ namespace Code.SecretSanta.Game.RPG
 		// 3: Foe Spawn
 		public TileBase[] Tiles;
 
+		public Encounter[] Encounters;
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
 
