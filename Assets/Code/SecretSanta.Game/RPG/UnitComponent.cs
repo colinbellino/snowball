@@ -71,7 +71,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async Task Move(Vector3Int destination)
 		{
-			await transform.DOMove(destination, 0.3f).SetEase(Ease.Linear);
+			await transform.DOMove(destination, 0.15f).SetEase(Ease.Linear);
 		}
 
 		public async Task MoveOnPath(List<Vector3Int> path)

@@ -37,6 +37,8 @@ namespace Code.SecretSanta.Game.RPG
 			var battle = new Battle(allUnits);
 			var turn = battle.Start();
 
+			Game.Instance.Controls.Enable();
+
 			while (true)
 			{
 				turn.MoveNext();
@@ -44,31 +46,7 @@ namespace Code.SecretSanta.Game.RPG
 
 				if (unit.IsPlayerControlled)
 				{
-					Task task = null;
-					while (task == null)
-					{
-						if (Keyboard.current.leftArrowKey.wasReleasedThisFrame || Keyboard.current.rightArrowKey.wasReleasedThisFrame)
-						{
-							var direction = new Vector3Int(Keyboard.current.leftArrowKey.wasReleasedThisFrame ? -1 : 1, 0, 0);
-							var destination = unit.GridPosition + direction;
-							if (Helpers.CanMove(destination, _tilemap))
-							{
-								var path = Helpers.GetFallPath(destination, _tilemap);
-								task = unit.MoveOnPath(path);
-							}
-						}
-
-						if (Keyboard.current.spaceKey.wasReleasedThisFrame)
-						{
-							var result = Helpers.CalculateAttackResult(unit.GridPosition, 1, allUnits, _tilemap);
-							task = unit.Attack(result);
-							break;
-						}
-
-						await UniTask.NextFrame();
-					}
-
-					await task;
+					await PlayerTurn(unit, allUnits, _tilemap);
 				}
 				else
 				{
@@ -86,6 +64,39 @@ namespace Code.SecretSanta.Game.RPG
 
 			Notification.Send("BattleEnded");
 			Debug.LogWarning("Battle over!");
+		}
+
+		private static async UniTask PlayerTurn(UnitComponent unit, List<UnitComponent> allUnits, Tilemap tilemap)
+		{
+			var didAct = false;
+			var movePoints = 5;
+
+			while (didAct == false)
+			{
+				var moveInput = Game.Instance.Controls.Gameplay.Move.ReadValue<Vector2>();
+				var confirmInput = Game.Instance.Controls.Gameplay.Confirm.ReadValue<float>() > 0f;
+
+				if (movePoints > 0 && moveInput.magnitude > 0f)
+				{
+					var direction = Helpers.InputToDirection(moveInput);
+					var destination = unit.GridPosition + direction;
+					if (Helpers.CanMoveTo(destination, tilemap))
+					{
+						var path = Helpers.GetFallPath(destination, tilemap);
+						await unit.MoveOnPath(path);
+						movePoints -= 1;
+					}
+				}
+
+				if (confirmInput)
+				{
+					var result = Helpers.CalculateAttackResult(unit.GridPosition, 1, allUnits, tilemap);
+					await unit.Attack(result);
+					didAct = true;
+				}
+
+				await UniTask.NextFrame();
+			}
 		}
 
 		private UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)

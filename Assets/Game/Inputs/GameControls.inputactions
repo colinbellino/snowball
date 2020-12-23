@@ -14,17 +14,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Fire",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "59e2b5e2-a2c3-4160-9526-b74d6651644b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Switch",
-                    "type": "Button",
-                    "id": "8aae06ec-6fa6-451e-b615-9167926d34b0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -93,45 +85,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "aafe8c33-9588-4e86-b3a5-a9780b0093f4",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Switch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Debug",
-            "id": "ce6136de-d2bf-494c-aa62-28e018073800",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "bb3089e0-7411-42d4-97af-5e821b4fd292",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "42201825-8ac3-424f-b656-d5c3eb79d7f5",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
