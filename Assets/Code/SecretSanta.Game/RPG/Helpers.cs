@@ -50,15 +50,23 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static List<Vector3Int> GetFallPath(Vector3Int start, Tilemap tilemap)
+		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Tilemap tilemap)
 		{
-			var path = new List<Vector3Int> { start };
-			for (var y = start.y; y > 0; y--)
+			var path = new List<Vector3Int>();
+
+			for (var y = start.y; y <= destination.y; y++)
 			{
-				var tile = tilemap.GetTile(new Vector3Int(start.x, y, 0));
+				path.Add(new Vector3Int(start.x, y, 0));
+			}
+
+			path.Add(destination);
+
+			for (var y = destination.y; y > 0; y--)
+			{
+				var tile = tilemap.GetTile(new Vector3Int(destination.x, y, 0));
 				if (tile != null)
 				{
-					path.Add(new Vector3Int(start.x, y + 1, 0));
+					path.Add(new Vector3Int(destination.x, y + 1, 0));
 					break;
 				}
 			}
