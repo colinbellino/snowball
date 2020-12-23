@@ -38,9 +38,11 @@ sysinfo.txt
 # VS CODE
 .history
 *.todo
+.vscode/launch.json
 
 # Visual Studio
 .vs/
+
 
 # Jetbrains files
 .idea

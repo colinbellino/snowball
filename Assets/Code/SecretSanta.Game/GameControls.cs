@@ -27,17 +27,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Confirm"",
                     ""type"": ""Button"",
                     ""id"": ""59e2b5e2-a2c3-4160-9526-b74d6651644b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Switch"",
-                    ""type"": ""Button"",
-                    ""id"": ""8aae06ec-6fa6-451e-b615-9167926d34b0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -106,45 +98,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""aafe8c33-9588-4e86-b3a5-a9780b0093f4"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Switch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Debug"",
-            ""id"": ""ce6136de-d2bf-494c-aa62-28e018073800"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""bb3089e0-7411-42d4-97af-5e821b4fd292"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""42201825-8ac3-424f-b656-d5c3eb79d7f5"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -156,11 +110,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
-        m_Gameplay_Switch = m_Gameplay.FindAction("Switch", throwIfNotFound: true);
-        // Debug
-        m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
-        m_Debug_Newaction = m_Debug.FindAction("New action", throwIfNotFound: true);
+        m_Gameplay_Confirm = m_Gameplay.FindAction("Confirm", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -211,15 +161,13 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Fire;
-    private readonly InputAction m_Gameplay_Switch;
+    private readonly InputAction m_Gameplay_Confirm;
     public struct GameplayActions
     {
         private @GameControls m_Wrapper;
         public GameplayActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
-        public InputAction @Switch => m_Wrapper.m_Gameplay_Switch;
+        public InputAction @Confirm => m_Wrapper.m_Gameplay_Confirm;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,12 +180,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Fire.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
-                @Fire.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
-                @Fire.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
-                @Switch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitch;
-                @Switch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitch;
-                @Switch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitch;
+                @Confirm.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -245,57 +190,16 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Fire.started += instance.OnFire;
-                @Fire.performed += instance.OnFire;
-                @Fire.canceled += instance.OnFire;
-                @Switch.started += instance.OnSwitch;
-                @Switch.performed += instance.OnSwitch;
-                @Switch.canceled += instance.OnSwitch;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
-
-    // Debug
-    private readonly InputActionMap m_Debug;
-    private IDebugActions m_DebugActionsCallbackInterface;
-    private readonly InputAction m_Debug_Newaction;
-    public struct DebugActions
-    {
-        private @GameControls m_Wrapper;
-        public DebugActions(@GameControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Debug_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Debug; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DebugActions set) { return set.Get(); }
-        public void SetCallbacks(IDebugActions instance)
-        {
-            if (m_Wrapper.m_DebugActionsCallbackInterface != null)
-            {
-                @Newaction.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnNewaction;
-            }
-            m_Wrapper.m_DebugActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
-            }
-        }
-    }
-    public DebugActions @Debug => new DebugActions(this);
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnFire(InputAction.CallbackContext context);
-        void OnSwitch(InputAction.CallbackContext context);
-    }
-    public interface IDebugActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
     }
 }

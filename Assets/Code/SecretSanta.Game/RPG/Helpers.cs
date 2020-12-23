@@ -33,7 +33,7 @@ namespace Code.SecretSanta.Game.RPG
 					var index = x + y * area.Size.x;
 					var position = new Vector2Int(x, y);
 
-					tilemap.SetTile((Vector3Int) position, tiles[area.Tiles[index]]);
+					tilemap.SetTile((Vector3Int)position, tiles[area.Tiles[index]]);
 				}
 			}
 		}
@@ -66,10 +66,32 @@ namespace Code.SecretSanta.Game.RPG
 			return path;
 		}
 
-		public static bool CanMove(Vector3Int destination, Tilemap tilemap)
+		public static bool CanMoveTo(Vector3Int destination, Tilemap tilemap)
 		{
-			var tile = tilemap.GetTile(new Vector3Int(destination.x, destination.y, 0));
+			var tile = tilemap.GetTile(destination);
 			return tile == null;
+		}
+
+		public static bool IsInRange(Vector3Int position, Vector3Int destination, int maxDistance)
+		{
+			var distance = Vector3Int.Distance(position, destination);
+			UnityEngine.Debug.Log(distance + " / " + maxDistance);
+			return distance <= maxDistance;
+		}
+
+		public static Vector3Int InputToDirection(Vector2 moveInput)
+		{
+			var direction = new Vector3Int();
+			if (moveInput.x != 0)
+			{
+				direction.x = moveInput.x > 0 ? 1 : -1;
+			}
+			if (moveInput.y != 0)
+			{
+				direction.y = moveInput.y > 0 ? 1 : -1;
+			}
+
+			return direction;
 		}
 
 		public static AttackResult CalculateAttackResult(Vector3Int start, int direction, List<UnitComponent> allUnits, Tilemap tilemap)

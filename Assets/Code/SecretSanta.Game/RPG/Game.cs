@@ -7,6 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public GameConfig Config { get; private set; }
 		public EffectsManager Effects { get; private set; }
+		public GameControls Controls { get; private set; }
 
 		private static Game _instance;
 		public static Game Instance
@@ -25,6 +26,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			Effects = new EffectsManager();
+			Controls = new GameControls();
 			Assert.IsNotNull(Config);
 		}
 
