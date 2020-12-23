@@ -45,13 +45,12 @@ namespace Code.SecretSanta.Game.RPG
 					var index = x + y * _area.Size.x;
 					var position = new Vector2Int(x, y);
 					var tile = allMeta[index];
-					var tileId = Helpers.GetTileId(tile, Game.Instance.Config.Tiles);
 
-					if (tileId == 2)
+					if (tile == Game.Instance.Config.AllySpawnTile)
 					{
 						_area.AllySpawnPoints.Add(position);
 					}
-					if (tileId == 3)
+					if (tile == Game.Instance.Config.FoeSpawnTile)
 					{
 						_area.FoeSpawnPoints.Add(position);
 					}
@@ -80,18 +79,18 @@ namespace Code.SecretSanta.Game.RPG
 
 			// if (Application.isPlaying)
 			// {
-				if (GUILayout.Button("Clear"))
-				{
-					stuff.Clear();
-				}
-				if (GUILayout.Button("Save"))
-				{
-					stuff.Save();
-				}
-				if (GUILayout.Button("Load"))
-				{
-					stuff.Load();
-				}
+			if (GUILayout.Button("Clear"))
+			{
+				stuff.Clear();
+			}
+			if (GUILayout.Button("Save"))
+			{
+				stuff.Save();
+			}
+			if (GUILayout.Button("Load"))
+			{
+				stuff.Load();
+			}
 			// }
 		}
 	}
