@@ -68,8 +68,8 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var didAct = false;
 			var startPosition = unit.GridPosition;
-			var maxDistance = 10;
-			var maxHeight = 1;
+			var maxDistance = 5;
+			var maxClimpHeight = 1;
 
 			while (didAct == false)
 			{
@@ -80,13 +80,13 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					var direction = Helpers.InputToDirection(moveInput);
 
-					if (direction != unit.Direction)
+					if (direction.y == 0 && direction.x != unit.Direction.x)
 					{
 						await unit.Turn(direction);
 					}
 					else
 					{
-						for (int y = 0; y <= maxHeight; y++)
+						for (var y = 0; y <= maxClimpHeight; y++)
 						{
 							var destination = unit.GridPosition + direction + Vector3Int.up * y;
 							if (Helpers.IsInRange(startPosition, destination, maxDistance) == false)

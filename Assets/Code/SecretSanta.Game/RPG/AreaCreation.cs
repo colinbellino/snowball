@@ -64,7 +64,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			Clear();
 			Helpers.LoadArea(_area, _tilemap, Game.Instance.Config.Tiles);
-			Helpers.LoadMeta(_area, _metaTilemap, Game.Instance.Config.Tiles);
+			Helpers.LoadMeta(_area, _metaTilemap);
 		}
 	}
 

@@ -38,7 +38,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static void LoadMeta(Area area, Tilemap tilemap, TileBase[] tiles)
+		public static void LoadMeta(Area area, Tilemap tilemap)
 		{
 			foreach (var position in area.AllySpawnPoints)
 			{
@@ -54,14 +54,17 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var path = new List<Vector3Int>();
 
-			for (var y = start.y; y <= destination.y; y++)
+			if (start.x != destination.x)
 			{
-				path.Add(new Vector3Int(start.x, y, 0));
+				for (var y = start.y; y <= destination.y; y++)
+				{
+					path.Add(new Vector3Int(start.x, y, 0));
+				}
 			}
 
 			path.Add(destination);
 
-			for (var y = destination.y; y > 0; y--)
+			for (var y = destination.y - 1; y > 0; y--)
 			{
 				var tile = tilemap.GetTile(new Vector3Int(destination.x, y, 0));
 				if (tile != null)
@@ -82,7 +85,18 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			var tile = tilemap.GetTile(destination);
-			return tile == null;
+			return CanMoveOnTile(tile);
+		}
+
+		public static bool CanMoveOnTile(TileBase tile)
+		{
+			if (tile == null)
+			{
+				return true;
+			}
+
+			var customTile = tile as CustomTile;
+			return customTile?.IsWalkable == true;
 		}
 
 		// TODO: Replace this by actual path finding
