@@ -12,6 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public Vector3Int GridPosition { get; private set; }
 		public bool IsPlayerControlled { get; private set; }
+		public Vector3Int Direction { get; private set; }
 
 		public override string ToString() => name;
 
@@ -81,6 +82,13 @@ namespace Code.SecretSanta.Game.RPG
 				await Move(move);
 			}
 			SetGridPosition(path[path.Count - 1]);
+		}
+
+		public async UniTask Turn(Vector3Int direction)
+		{
+			await transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
+
+			Direction = direction;
 		}
 	}
 }
