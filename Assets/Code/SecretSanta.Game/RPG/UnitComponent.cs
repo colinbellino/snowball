@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	public class UnitComponent : MonoBehaviour
 	{
 		[SerializeField] private SpriteRenderer _bodyRenderer;
+		[SerializeField] private Text _text;
 
 		public Vector3Int GridPosition { get; private set; }
 		public bool IsPlayerControlled { get; private set; }
@@ -28,6 +30,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			GridPosition = position;
 			transform.position = new Vector3(position.x, position.y, 0f);
+			_text.text = $"[{position.x},{position.y}]";
 		}
 
 		private void SetName(string value)
@@ -72,7 +75,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async Task Move(Vector3Int destination)
 		{
-			await transform.DOMove(destination, 0.15f).SetEase(Ease.Linear);
+			var distance = Vector3.Distance(transform.position, destination);
+			await transform.DOMove(destination, distance * 0.15f).SetEase(Ease.Linear);
 		}
 
 		public async Task MoveOnPath(List<Vector3Int> path)

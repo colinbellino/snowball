@@ -53,7 +53,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public bool IsBattleOver()
 		{
-			return _turnNumber > 5;
+			return _turnNumber > 10;
 		}
 
 		private bool CanTakeTurn(UnitComponent unit) => true;
