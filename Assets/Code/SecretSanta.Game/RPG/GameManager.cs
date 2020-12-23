@@ -68,6 +68,8 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var didAct = false;
 			var startPosition = unit.GridPosition;
+			var maxDistance = 10;
+			var maxHeight = 1;
 
 			while (didAct == false)
 			{
@@ -77,7 +79,6 @@ namespace Code.SecretSanta.Game.RPG
 				if (moveInput.magnitude > 0f)
 				{
 					var direction = Helpers.InputToDirection(moveInput);
-					var destination = unit.GridPosition + direction;
 
 					if (direction != unit.Direction)
 					{
@@ -85,10 +86,20 @@ namespace Code.SecretSanta.Game.RPG
 					}
 					else
 					{
-						if (Helpers.IsInRange(startPosition, destination, maxDistance: 3) && Helpers.CanMoveTo(destination, tilemap))
+						for (int y = 0; y <= maxHeight; y++)
 						{
-							var path = Helpers.GetFallPath(destination, tilemap);
-							await unit.MoveOnPath(path);
+							var destination = unit.GridPosition + direction + Vector3Int.up * y;
+							if (Helpers.IsInRange(startPosition, destination, maxDistance) == false)
+							{
+								break;
+							}
+
+							if (Helpers.CanMoveTo(destination, tilemap))
+							{
+								var path = Helpers.CalculatePathWithFall(unit.GridPosition, destination, tilemap);
+								await unit.MoveOnPath(path);
+								break;
+							}
 						}
 					}
 				}
