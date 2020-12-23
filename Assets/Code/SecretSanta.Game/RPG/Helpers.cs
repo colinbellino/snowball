@@ -42,11 +42,11 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			foreach (var position in area.AllySpawnPoints)
 			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), GetTile(2, tiles));
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.AllySpawnTile);
 			}
 			foreach (var position in area.FoeSpawnPoints)
 			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), GetTile(3, tiles));
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.FoeSpawnTile);
 			}
 		}
 
