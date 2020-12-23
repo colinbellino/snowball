@@ -68,14 +68,19 @@ namespace Code.SecretSanta.Game.RPG
 
 		public static bool CanMoveTo(Vector3Int destination, Tilemap tilemap)
 		{
+			if (tilemap.cellBounds.Contains(destination) == false)
+			{
+				return false;
+			}
+
 			var tile = tilemap.GetTile(destination);
 			return tile == null;
 		}
 
+		// TODO: Replace this by actual path finding
 		public static bool IsInRange(Vector3Int position, Vector3Int destination, int maxDistance)
 		{
-			var distance = Vector3Int.Distance(position, destination);
-			UnityEngine.Debug.Log(distance + " / " + maxDistance);
+			var distance = Mathf.Abs(position.x - destination.x) + Mathf.Abs(position.y - destination.y);
 			return distance <= maxDistance;
 		}
 

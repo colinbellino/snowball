@@ -69,22 +69,29 @@ namespace Code.SecretSanta.Game.RPG
 		private static async UniTask PlayerTurn(UnitComponent unit, List<UnitComponent> allUnits, Tilemap tilemap)
 		{
 			var didAct = false;
-			var movePoints = 5;
+			var startPosition = unit.GridPosition;
 
 			while (didAct == false)
 			{
 				var moveInput = Game.Instance.Controls.Gameplay.Move.ReadValue<Vector2>();
 				var confirmInput = Game.Instance.Controls.Gameplay.Confirm.ReadValue<float>() > 0f;
 
-				if (movePoints > 0 && moveInput.magnitude > 0f)
+				if (moveInput.magnitude > 0f)
 				{
 					var direction = Helpers.InputToDirection(moveInput);
 					var destination = unit.GridPosition + direction;
-					if (Helpers.CanMoveTo(destination, tilemap))
+
+					if (direction != unit.Direction)
 					{
-						var path = Helpers.GetFallPath(destination, tilemap);
-						await unit.MoveOnPath(path);
-						movePoints -= 1;
+						await unit.Turn(direction);
+					}
+					else
+					{
+						if (Helpers.IsInRange(startPosition, destination, maxDistance: 3) && Helpers.CanMoveTo(destination, tilemap))
+						{
+							var path = Helpers.GetFallPath(destination, tilemap);
+							await unit.MoveOnPath(path);
+						}
 					}
 				}
 
@@ -103,6 +110,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var unit = Instantiate(Game.Instance.Config.UnitPrefab);
 			unit.SetGridPosition(position);
+			_ = unit.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
 			unit.UpdateData(data, isPlayerControlled);
 			return unit;
 		}
