@@ -12,6 +12,8 @@ namespace Code.SecretSanta.Game.RPG
 		public TileBase[] Tiles;
 		public TileBase AllySpawnTile;
 		public TileBase FoeSpawnTile;
+		public TileBase[] WalkableTiles;
+		public TileBase[] BlockingTiles;
 
 		[Header("Effects")]
 		public ParticleSystem HitEffectPrefab;

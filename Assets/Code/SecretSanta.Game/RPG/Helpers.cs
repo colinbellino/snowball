@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -95,8 +96,17 @@ namespace Code.SecretSanta.Game.RPG
 				return true;
 			}
 
-			var customTile = tile as CustomTile;
-			return customTile?.IsWalkable == true;
+			return Game.Instance.Config.WalkableTiles.Contains(tile);
+		}
+
+		public static bool CanBlockProjectile(TileBase tile)
+		{
+			if (tile == null)
+			{
+				return false;
+			}
+
+			return Game.Instance.Config.BlockingTiles.Contains(tile);
 		}
 
 		// TODO: Replace this by actual path finding
@@ -147,8 +157,14 @@ namespace Code.SecretSanta.Game.RPG
 					}
 				}
 
+				if (x == tilemap.size.x || x == 0)
+				{
+					result.Destination = position;
+					break;
+				}
+
 				var tile = tilemap.GetTile(position);
-				if (tile != null || x == tilemap.size.x || x == 0)
+				if (Game.Instance.Config.BlockingTiles.Contains(tile))
 				{
 					result.Destination = position;
 					break;

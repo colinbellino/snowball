@@ -33,6 +33,22 @@ namespace Code.SecretSanta.Game.RPG
 			_text.text = $"[{position.x},{position.y}]";
 		}
 
+		public async Task MoveOnPath(List<Vector3Int> path)
+		{
+			foreach (var move in path)
+			{
+				await Move(move);
+			}
+			SetGridPosition(path[path.Count - 1]);
+		}
+
+		public async UniTask Turn(Vector3Int direction)
+		{
+			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
+
+			Direction = direction;
+		}
+
 		private void SetName(string value)
 		{
 			name = $"{value}";
@@ -40,8 +56,6 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Attack(AttackResult result)
 		{
-			Debug.Log($"Attack ({(result.Direction > 0 ? "Right" : "Left")}): {result.Destination} -> {result.Target}");
-
 			{
 				var origin = _bodyRenderer.transform.position;
 				var destination = origin.x + result.Direction * 0.75f;
@@ -77,22 +91,6 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var distance = Vector3.Distance(transform.position, destination);
 			await transform.DOMove(destination, distance * 0.15f).SetEase(Ease.Linear);
-		}
-
-		public async Task MoveOnPath(List<Vector3Int> path)
-		{
-			foreach (var move in path)
-			{
-				await Move(move);
-			}
-			SetGridPosition(path[path.Count - 1]);
-		}
-
-		public async UniTask Turn(Vector3Int direction)
-		{
-			await transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
-
-			Direction = direction;
 		}
 	}
 }

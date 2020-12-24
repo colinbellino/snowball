@@ -49,7 +49,7 @@ namespace Code.SecretSanta.Game.RPG
 				else
 				{
 					await UniTask.Delay(300);
-					var randomDirection = Random.Range(0, 1) > 0 ? 1 : -1;
+					var randomDirection = Random.Range(0, 2) > 0 ? 1 : -1;
 					var result = Helpers.CalculateAttackResult(unit.GridPosition, randomDirection, allUnits, _tilemap);
 					await unit.Attack(result);
 				}
@@ -106,7 +106,7 @@ namespace Code.SecretSanta.Game.RPG
 
 				if (confirmInput)
 				{
-					var result = Helpers.CalculateAttackResult(unit.GridPosition, 1, allUnits, tilemap);
+					var result = Helpers.CalculateAttackResult(unit.GridPosition, unit.Direction.x, allUnits, tilemap);
 					await unit.Attack(result);
 					didAct = true;
 				}
