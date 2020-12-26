@@ -26,7 +26,7 @@ namespace Code.SecretSanta.Game.RPG
 		            notify(turnEnded)
 		    notify(roundEnded)
 		*/
-		public IEnumerator<UnitComponent> Start()
+		public IEnumerator<Turn> Start()
 		{
 			while (true)
 			{
@@ -39,7 +39,8 @@ namespace Code.SecretSanta.Game.RPG
 						Debug.Log($"Turn [{_turnNumber}]: Started ({unit})");
 						Notification.Send("TurnStarted");
 
-						yield return unit;
+						var turn = new Turn { Unit = unit};
+						yield return turn;
 
 						_turnNumber += 1;
 
