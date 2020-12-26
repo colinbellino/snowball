@@ -33,25 +33,74 @@ namespace Code.SecretSanta.Game.RPG
 
 			Notification.Send("BattleStarted");
 			var battle = new Battle(allUnits);
-			var turn = battle.Start();
+			var turnEnumerator = battle.Start();
 
 			Game.Instance.Controls.Enable();
 
 			while (true)
 			{
-				turn.MoveNext();
-				var unit = turn.Current;
+				turnEnumerator.MoveNext();
+				var turn = turnEnumerator.Current;
+				var unit = turn.Unit;
 
-				if (unit.IsPlayerControlled)
+				while (turn.IsOver() == false)
 				{
-					await PlayerTurn(unit, allUnits, _tilemap);
-				}
-				else
-				{
-					await UniTask.Delay(300);
-					var randomDirection = Random.Range(0, 2) > 0 ? 1 : -1;
-					var result = Helpers.CalculateAttackResult(unit.GridPosition, randomDirection, allUnits, _tilemap);
-					await unit.Attack(result);
+					if (unit.IsPlayerControlled)
+					{
+						var startPosition = unit.GridPosition;
+						var maxDistance = 5;
+						var maxClimpHeight = 1;
+
+						var moveInput = Game.Instance.Controls.Gameplay.Move.ReadValue<Vector2>();
+						var confirmInput = Game.Instance.Controls.Gameplay.Confirm.ReadValue<float>() > 0f;
+
+						if (moveInput.magnitude > 0f)
+						{
+							var direction = Helpers.InputToDirection(moveInput);
+
+							if (direction.y == 0 && direction.x != unit.Direction.x)
+							{
+								await unit.Turn(direction);
+							}
+							else
+							{
+								for (var y = 0; y <= maxClimpHeight; y++)
+								{
+									var destination = unit.GridPosition + direction + Vector3Int.up * y;
+									if (Helpers.IsInRange(startPosition, destination, maxDistance) == false)
+									{
+										break;
+									}
+
+									if (Helpers.CanMoveTo(destination, _tilemap))
+									{
+										var path = Helpers.CalculatePathWithFall(unit.GridPosition, destination, _tilemap);
+										await unit.MoveOnPath(path);
+										turn.HasMoved = true;
+										break;
+									}
+								}
+							}
+						}
+
+						if (confirmInput)
+						{
+							var result = Helpers.CalculateAttackResult(unit.GridPosition, unit.Direction.x, allUnits, _tilemap);
+							await unit.Attack(result);
+							turn.HasActed = true;
+						}
+					}
+					else
+					{
+						await UniTask.Delay(300);
+						var randomDirection = Random.Range(0, 2) > 0 ? 1 : -1;
+						var result = Helpers.CalculateAttackResult(unit.GridPosition, randomDirection, allUnits, _tilemap);
+						await unit.Attack(result);
+						turn.HasActed = true;
+						turn.HasMoved = true;
+					}
+
+					await UniTask.NextFrame();
 				}
 
 				if (battle.IsBattleOver())
@@ -62,57 +111,6 @@ namespace Code.SecretSanta.Game.RPG
 
 			Notification.Send("BattleEnded");
 			Debug.LogWarning("Battle over!");
-		}
-
-		private static async UniTask PlayerTurn(UnitComponent unit, List<UnitComponent> allUnits, Tilemap tilemap)
-		{
-			var didAct = false;
-			var startPosition = unit.GridPosition;
-			var maxDistance = 5;
-			var maxClimpHeight = 1;
-
-			while (didAct == false)
-			{
-				var moveInput = Game.Instance.Controls.Gameplay.Move.ReadValue<Vector2>();
-				var confirmInput = Game.Instance.Controls.Gameplay.Confirm.ReadValue<float>() > 0f;
-
-				if (moveInput.magnitude > 0f)
-				{
-					var direction = Helpers.InputToDirection(moveInput);
-
-					if (direction.y == 0 && direction.x != unit.Direction.x)
-					{
-						await unit.Turn(direction);
-					}
-					else
-					{
-						for (var y = 0; y <= maxClimpHeight; y++)
-						{
-							var destination = unit.GridPosition + direction + Vector3Int.up * y;
-							if (Helpers.IsInRange(startPosition, destination, maxDistance) == false)
-							{
-								break;
-							}
-
-							if (Helpers.CanMoveTo(destination, tilemap))
-							{
-								var path = Helpers.CalculatePathWithFall(unit.GridPosition, destination, tilemap);
-								await unit.MoveOnPath(path);
-								break;
-							}
-						}
-					}
-				}
-
-				if (confirmInput)
-				{
-					var result = Helpers.CalculateAttackResult(unit.GridPosition, unit.Direction.x, allUnits, tilemap);
-					await unit.Attack(result);
-					didAct = true;
-				}
-
-				await UniTask.NextFrame();
-			}
 		}
 
 		private UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)
