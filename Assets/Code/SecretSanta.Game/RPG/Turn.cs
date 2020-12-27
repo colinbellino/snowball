@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Code.SecretSanta.Game.RPG
 {
 	public class Turn
@@ -5,7 +8,10 @@ namespace Code.SecretSanta.Game.RPG
 		public UnitComponent Unit;
 		public bool HasMoved;
 		public bool HasActed;
+		public List<Vector3Int> Targets;
+		public Vector3Int InitialPosition;
 
-		public bool IsOver() => HasMoved && HasActed;
+		public int AttackDirection;
+		public Vector3Int MoveDestination;
 	}
 }
