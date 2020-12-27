@@ -5,44 +5,40 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Battle
 	{
-		private readonly List<UnitComponent> _units;
-		private int _turnNumber;
+		public List<UnitComponent> Units { get; private set; }
+		public int TurnNumber { get; private set; }
+		public Turn Turn => _turns.Current;
 
-		public Battle(List<UnitComponent> units)
+		private IEnumerator<Turn> _turns;
+
+		public void Start(List<UnitComponent> units)
 		{
-			_units = units;
-			_turnNumber = 0;
+			TurnNumber = 0;
+			Units = units;
+			_turns = StartTurn();
 		}
 
-		/*
-		while round not over
-		    notify(roundBegan)
-		    sort units by speed
-		    foreach unit
-		        if canTakeTurn(unit)
-		            notify(turnBegan)
-		            unitTurn(unit)
-		            reduceCT(unit)
-		            notify(turnEnded)
-		    notify(roundEnded)
-		*/
-		public IEnumerator<Turn> Start()
+		public void NextTurn()
+		{
+			_turns.MoveNext();
+		}
+
+		private IEnumerator<Turn> StartTurn()
 		{
 			while (true)
 			{
 				// TODO: Sort by speed
-				var units = _units;
-				foreach (var unit in units)
+				foreach (var unit in Units)
 				{
 					if (CanTakeTurn(unit))
 					{
-						Debug.Log($"Turn [{_turnNumber}]: Started ({unit})");
+						Debug.Log($"Turn [{TurnNumber}]: Started ({unit})");
 						Notification.Send("TurnStarted");
 
-						var turn = new Turn { Unit = unit};
+						var turn = new Turn { Unit = unit, InitialPosition = unit.GridPosition };
 						yield return turn;
 
-						_turnNumber += 1;
+						TurnNumber += 1;
 
 						// ConsumeCT();
 
@@ -50,11 +46,6 @@ namespace Code.SecretSanta.Game.RPG
 					}
 				}
 			}
-		}
-
-		public bool IsBattleOver()
-		{
-			return _turnNumber > 10;
 		}
 
 		private bool CanTakeTurn(UnitComponent unit) => true;

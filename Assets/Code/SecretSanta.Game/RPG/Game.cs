@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -8,6 +9,8 @@ namespace Code.SecretSanta.Game.RPG
 		public GameConfig Config { get; private set; }
 		public EffectsManager Effects { get; private set; }
 		public GameControls Controls { get; private set; }
+		public Tilemap Tilemap { get; private set; }
+		public Battle Battle { get; private set; }
 
 		private static Game _instance;
 		public static Game Instance
@@ -22,11 +25,13 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public Game()
+		private Game()
 		{
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			Effects = new EffectsManager();
 			Controls = new GameControls();
+			Tilemap = GameObject.FindObjectOfType<Tilemap>();
+			Battle = new Battle();
 			Assert.IsNotNull(Config);
 		}
 
@@ -34,7 +39,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			public void Spawn(ParticleSystem effectPrefab, Vector3 position)
 			{
-				var instance = GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
+				GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
 			}
 		}
 	}
