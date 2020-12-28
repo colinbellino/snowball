@@ -2,14 +2,9 @@ using System.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class EndTurnState : IState
+	public class EndTurnState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-
-		public EndTurnState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		public EndTurnState(BattleStateMachine machine) : base(machine) { }
 
 		public async Task Enter(object[] args)
 		{

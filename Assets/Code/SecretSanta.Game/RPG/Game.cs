@@ -6,11 +6,11 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Game
 	{
-		public GameConfig Config { get; private set; }
-		public EffectsManager Effects { get; private set; }
-		public GameControls Controls { get; private set; }
-		public Tilemap Tilemap { get; private set; }
-		public Battle Battle { get; private set; }
+		public GameConfig Config { get; }
+		public EffectsManager Effects { get; }
+		public GameControls Controls { get; }
+		public Tilemap Tilemap { get; }
+		public Battle Battle { get; }
 
 		private static Game _instance;
 		public static Game Instance

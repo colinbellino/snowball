@@ -8,8 +8,28 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class BattleStateMachine
 	{
-		public enum States { StartBattle, SelectUnit, SelectAction, SelectMoveDestination, SelectAttackTarget, EndTurn, EndBattle }
-		public enum Triggers { BattleStarted, UnitSelected, MoveActionSelected, AttackActionSelected, Done, BattleWon }
+		public enum States
+		{
+			StartBattle,
+			SelectUnit,
+			SelectAction,
+			SelectMoveDestination,
+			PerformMove,
+			SelectAttackTarget,
+			PerformAttack,
+			EndTurn,
+			EndBattle,
+		}
+		public enum Triggers {
+			BattleStarted,
+			UnitSelected,
+			MoveActionSelected,
+			MoveDestinationSelected,
+			AttackActionSelected,
+			TargetSelected,
+			Done,
+			BattleWon,
+		}
 
 		private Dictionary<States, IState> _states;
 		private StateMachine<States, Triggers> _machine;
@@ -24,6 +44,7 @@ namespace Code.SecretSanta.Game.RPG
 				{ States.SelectAction, new SelectActionState(this) },
 				{ States.SelectMoveDestination, new SelectMoveDestinationState(this) },
 				{ States.SelectAttackTarget, new SelectAttackTargetState(this) },
+				{ States.PerformAttack, new PerformAttackState(this) },
 				{ States.EndTurn, new EndTurnState(this) },
 				{ States.EndBattle, new EndBattleState(this) },
 			};
@@ -47,7 +68,10 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.Done, States.SelectAction);
 
 			_machine.Configure(States.SelectAttackTarget)
-				.Permit(Triggers.Done, States.EndTurn);
+				.Permit(Triggers.TargetSelected, States.PerformAttack);
+
+			_machine.Configure(States.PerformAttack)
+				.Permit(Triggers.Done, States.SelectAction);
 
 			_machine.Configure(States.EndTurn)
 				.Permit(Triggers.Done, States.SelectUnit);
