@@ -2,37 +2,29 @@ using System.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class SelectAttackTargetState : IState
+	public class SelectAttackTargetState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-
-		public SelectAttackTargetState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		public SelectAttackTargetState(BattleStateMachine machine) : base(machine) { }
 
 		public async Task Enter(object[] args)
 		{
-			var tilemap = Game.Instance.Tilemap;
-			var turn = Game.Instance.Battle.Turn;
-
-			var unit = turn.Unit;
-			var allUnits = Game.Instance.Battle.Units;
-
-			var result = Helpers.CalculateAttackResult(
-				unit.GridPosition,
-				turn.AttackDirection,
-				allUnits,
-				tilemap
-			);
-			await unit.Attack(result);
-			turn.HasActed = true;
-
-			_machine.Fire(BattleStateMachine.Triggers.Done);
+			if (_turn.Unit.IsPlayerControlled == false)
+			{
+				_turn.AttackDirection = _turn.Unit.Direction.x > 0f ? 1 : -1;
+				_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
+			}
 		}
 
 		public async Task Exit() { }
 
-		public void Tick() { }
+		public void Tick()
+		{
+			var playerSelectedTarget = true;
+			if (playerSelectedTarget)
+			{
+				_turn.AttackDirection = _turn.Unit.Direction.x;
+				_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
+			}
+		}
 	}
 }

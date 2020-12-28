@@ -3,15 +3,11 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class SelectMoveDestinationState : IState
+	public class SelectMoveDestinationState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-		private bool _busy;
+		public SelectMoveDestinationState(BattleStateMachine machine) : base(machine) { }
 
-		public SelectMoveDestinationState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		private bool _busy;
 
 		public async Task Enter(object[] args) { }
 
@@ -21,13 +17,11 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			if (_busy) { return; }
 
-			var turn = Game.Instance.Battle.Turn;
-			var tilemap = Game.Instance.Tilemap;
-			var unit = turn.Unit;
+			var unit = _turn.Unit;
 			var maxDistance = 5;
 			var maxClimpHeight = 1;
 
-			var moveInput = Game.Instance.Controls.Gameplay.Move.ReadValue<Vector2>();
+			var moveInput = _controls.Gameplay.Move.ReadValue<Vector2>();
 			var direction = Helpers.InputToDirection(moveInput);
 
 			if (direction.y == 0 && direction.x != 0f && direction.x != unit.Direction.x)
@@ -41,24 +35,24 @@ namespace Code.SecretSanta.Game.RPG
 				for (var y = 0; y <= maxClimpHeight; y++)
 				{
 					var destination = unit.GridPosition + direction + Vector3Int.up * y;
-					if (Helpers.IsInRange(turn.InitialPosition, destination, maxDistance) == false)
+					if (Helpers.IsInRange(_turn.InitialPosition, destination, maxDistance) == false)
 					{
 						break;
 					}
 
-					if (Helpers.CanMoveTo(destination, tilemap))
+					if (Helpers.CanMoveTo(destination, _tilemap))
 					{
-						var path = Helpers.CalculatePathWithFall(unit.GridPosition, destination, tilemap);
+						var path = Helpers.CalculatePathWithFall(unit.GridPosition, destination, _tilemap);
 						_busy = true;
 						await unit.MoveOnPath(path);
 						_busy = false;
-						turn.HasMoved = true;
+						_turn.HasMoved = true;
 						break;
 					}
 				}
 			}
 
-			var confirmInput = Game.Instance.Controls.Gameplay.Confirm.ReadValue<float>() > 0f;
+			var confirmInput = _controls.Gameplay.Confirm.ReadValue<float>() > 0f;
 			if (confirmInput)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Done);

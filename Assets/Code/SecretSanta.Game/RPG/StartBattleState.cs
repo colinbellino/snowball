@@ -4,19 +4,14 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class StartBattleState : IState
+	public class StartBattleState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-
-		public StartBattleState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		public StartBattleState(BattleStateMachine machine) : base(machine) { }
 
 		public async Task Enter(object[] args)
 		{
-			var encounter = Game.Instance.Config.Encounters[0];
-			Helpers.LoadArea(encounter.Area, Game.Instance.Tilemap, Game.Instance.Config.Tiles);
+			var encounter = _config.Encounters[0];
+			Helpers.LoadArea(encounter.Area, _tilemap, _config.Tiles);
 
 			var allUnits = new List<UnitComponent>();
 			for (var index = 0; index < encounter.Allies.Count; index++)
@@ -31,8 +26,8 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			Notification.Send("BattleStarted");
-			Game.Instance.Battle.Start(allUnits);
-			Game.Instance.Controls.Enable();
+			_battle.Start(allUnits);
+			_controls.Enable();
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}
@@ -41,9 +36,9 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick() { }
 
-		private static UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)
+		private UnitComponent SpawnUnit(Unit data, Vector3Int position, bool isPlayerControlled = false)
 		{
-			var unit = GameObject.Instantiate(Game.Instance.Config.UnitPrefab);
+			var unit = GameObject.Instantiate(_config.UnitPrefab);
 			unit.SetGridPosition(position);
 			_ = unit.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
 			unit.UpdateData(data, isPlayerControlled);

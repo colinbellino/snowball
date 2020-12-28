@@ -3,14 +3,9 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class EndBattleState : IState
+	public class EndBattleState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-
-		public EndBattleState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		public EndBattleState(BattleStateMachine machine) : base(machine) { }
 
 		public async Task Enter(object[] args)
 		{

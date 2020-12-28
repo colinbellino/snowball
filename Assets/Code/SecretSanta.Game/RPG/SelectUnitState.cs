@@ -2,14 +2,9 @@ using System.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class SelectUnitState : IState
+	public class SelectUnitState : BaseBattleState, IState
 	{
-		private readonly BattleStateMachine _machine;
-
-		public SelectUnitState(BattleStateMachine machine)
-		{
-			_machine = machine;
-		}
+		public SelectUnitState(BattleStateMachine machine) : base(machine) { }
 
 		public async Task Enter(object[] args)
 		{
@@ -19,7 +14,7 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			Game.Instance.Battle.NextTurn();
+			_battle.NextTurn();
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
 		}
@@ -30,7 +25,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsVictoryConditionReached()
 		{
-			return Game.Instance.Battle.TurnNumber > 10;
+			return _battle.TurnNumber > 10;
 		}
 	}
 }
