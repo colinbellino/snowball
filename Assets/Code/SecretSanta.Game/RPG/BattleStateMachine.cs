@@ -43,6 +43,7 @@ namespace Code.SecretSanta.Game.RPG
 				{ States.SelectUnit, new SelectUnitState(this) },
 				{ States.SelectAction, new SelectActionState(this) },
 				{ States.SelectMoveDestination, new SelectMoveDestinationState(this) },
+				{ States.PerformMove, new PerformMoveState(this) },
 				{ States.SelectAttackTarget, new SelectAttackTargetState(this) },
 				{ States.PerformAttack, new PerformAttackState(this) },
 				{ States.EndTurn, new EndTurnState(this) },
@@ -65,6 +66,9 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.Done, States.EndTurn);
 
 			_machine.Configure(States.SelectMoveDestination)
+				.Permit(Triggers.MoveDestinationSelected, States.PerformMove);
+
+			_machine.Configure(States.PerformMove)
 				.Permit(Triggers.Done, States.SelectAction);
 
 			_machine.Configure(States.SelectAttackTarget)
