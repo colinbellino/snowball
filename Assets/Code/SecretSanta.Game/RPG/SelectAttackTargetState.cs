@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -10,7 +12,6 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			if (_turn.Unit.IsPlayerControlled == false)
 			{
-				_turn.AttackDirection = _turn.Unit.Direction.x > 0f ? 1 : -1;
 				_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
 			}
 		}
@@ -19,10 +20,21 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick()
 		{
-			var playerSelectedTarget = true;
-			if (playerSelectedTarget)
+			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
+
+			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
+			var destination = new Vector3Int(
+				Mathf.RoundToInt(mouseWorldPosition.x),
+				Mathf.RoundToInt(mouseWorldPosition.y),
+				0
+			);
+
+			// TODO: Highlight target and trajectory
+
+			if (leftClick)
 			{
-				_turn.AttackDirection = _turn.Unit.Direction.x;
+				_turn.Targets = new List<Vector3Int> { destination };
 				_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
 			}
 		}

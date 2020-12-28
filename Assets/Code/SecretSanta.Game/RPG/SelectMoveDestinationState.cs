@@ -7,8 +7,6 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public SelectMoveDestinationState(BattleStateMachine machine) : base(machine) { }
 
-		private bool _busy;
-
 		public async Task Enter(object[] args) { }
 
 		public async Task Exit() { }
@@ -16,27 +14,26 @@ namespace Code.SecretSanta.Game.RPG
 		public void Tick()
 		{
 			const int maxDistance = 5;
-			const int maxStepHeight = 1;
 
-			var moveInput = _controls.Gameplay.Move.ReadValue<Vector2>();
-			if (moveInput.magnitude > 0f)
+			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
+
+			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
+			var destination = new Vector3Int(
+				Mathf.RoundToInt(mouseWorldPosition.x),
+				Mathf.RoundToInt(mouseWorldPosition.y),
+				0
+			);
+
+			// TODO: Highlight selected tile and path
+
+			if (leftClick)
 			{
-				var direction = Helpers.InputToDirection(moveInput);
-
-				for (var y = 0; y <= maxStepHeight; y++)
+				if (Helpers.CanMoveTo(destination, _tilemap) && Helpers.IsInRange(_turn.InitialPosition, destination, maxDistance))
 				{
-					var destination = _turn.Unit.GridPosition + direction + Vector3Int.up * y;
-					if (Helpers.IsInRange(_turn.InitialPosition, destination, maxDistance) == false)
-					{
-						break;
-					}
-
-					if (Helpers.CanMoveTo(destination, _tilemap))
-					{
-						_turn.MoveDestination = destination;
-						_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
-						return;
-					}
+					_turn.MoveDestination = destination;
+					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
+					return;
 				}
 			}
 		}

@@ -23,10 +23,11 @@ namespace Code.SecretSanta.Game.RPG
 		public enum Triggers {
 			BattleStarted,
 			UnitSelected,
-			MoveActionSelected,
+			ActionMoveSelected,
 			MoveDestinationSelected,
-			AttackActionSelected,
+			ActionAttackSelected,
 			TargetSelected,
+			ActionWaitSelected,
 			Done,
 			BattleWon,
 		}
@@ -61,9 +62,9 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.BattleWon, States.EndBattle);
 
 			_machine.Configure(States.SelectAction)
-				.Permit(Triggers.MoveActionSelected, States.SelectMoveDestination)
-				.Permit(Triggers.AttackActionSelected, States.SelectAttackTarget)
-				.Permit(Triggers.Done, States.EndTurn);
+				.Permit(Triggers.ActionMoveSelected, States.SelectMoveDestination)
+				.Permit(Triggers.ActionAttackSelected, States.SelectAttackTarget)
+				.Permit(Triggers.ActionWaitSelected, States.EndTurn);
 
 			_machine.Configure(States.SelectMoveDestination)
 				.Permit(Triggers.MoveDestinationSelected, States.PerformMove);
