@@ -131,54 +131,54 @@ namespace Code.SecretSanta.Game.RPG
 			return direction;
 		}
 
-		public static AttackResult CalculateAttackResult(Vector3Int start, int direction, List<UnitComponent> allUnits, Tilemap tilemap)
-		{
-			var result = new AttackResult { Direction = direction };
-
-			for (
-				var x = start.x;
-				direction > 0 ? (x <= tilemap.size.x) : (x >= 0);
-				x += direction)
-			{
-				var position = new Vector3Int(x, start.y, 0);
-
-				var unit = allUnits.Find(unit => unit.GridPosition == position);
-				if (unit)
-				{
-					if (position == start)
-					{
-						result.Attacker = unit;
-					}
-					else
-					{
-						result.Target = unit;
-						result.Destination = position;
-						break;
-					}
-				}
-
-				if (x == tilemap.size.x || x == 0)
-				{
-					result.Destination = position;
-					break;
-				}
-
-				var tile = tilemap.GetTile(position);
-				if (Game.Instance.Config.BlockingTiles.Contains(tile))
-				{
-					result.Destination = position;
-					break;
-				}
-			}
-			return result;
-		}
+		// public static AttackResult CalculateAttackResult(Vector3Int start, int direction, List<UnitComponent> allUnits, Tilemap tilemap)
+		// {
+		// 	var result = new AttackResult { Direction = direction };
+		//
+		// 	for (
+		// 		var x = start.x;
+		// 		direction > 0 ? (x <= tilemap.size.x) : (x >= 0);
+		// 		x += direction)
+		// 	{
+		// 		var position = new Vector3Int(x, start.y, 0);
+		//
+		// 		var unit = allUnits.Find(unit => unit.GridPosition == position);
+		// 		if (unit)
+		// 		{
+		// 			if (position == start)
+		// 			{
+		// 				result.Attacker = unit;
+		// 			}
+		// 			else
+		// 			{
+		// 				result.Target = unit;
+		// 				result.Destination = position;
+		// 				break;
+		// 			}
+		// 		}
+		//
+		// 		if (x == tilemap.size.x || x == 0)
+		// 		{
+		// 			result.Destination = position;
+		// 			break;
+		// 		}
+		//
+		// 		var tile = tilemap.GetTile(position);
+		// 		if (Game.Instance.Config.BlockingTiles.Contains(tile))
+		// 		{
+		// 			result.Destination = position;
+		// 			break;
+		// 		}
+		// 	}
+		//
+		// 	return result;
+		// }
 	}
 
 	public class AttackResult
 	{
 		public UnitComponent Attacker;
-		public int Direction;
 		public Vector3Int Destination;
-		public UnitComponent Target;
+		public List<UnitComponent> Targets;
 	}
 }

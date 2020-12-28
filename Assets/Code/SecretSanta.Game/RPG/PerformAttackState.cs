@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
@@ -8,12 +9,16 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			var result = Helpers.CalculateAttackResult(
-				_turn.Unit.GridPosition,
-				_turn.AttackDirection,
-				_allUnits,
-				_tilemap
-			);
+			var targets = _turn.Targets
+				.Select(position => _allUnits.Find(unit => unit.GridPosition == position))
+				.Where(unit => unit != null)
+				.ToList();
+			var result = new AttackResult
+			{
+				Attacker = _turn.Unit,
+				Targets = targets,
+				Destination = _turn.Targets[0], // TODO: Calculate where this actually hits
+			};
 			await _turn.Unit.Attack(result);
 			_turn.HasActed = true;
 

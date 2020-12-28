@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
@@ -10,7 +11,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class UnitComponent : MonoBehaviour
 	{
 		[SerializeField] private SpriteRenderer _bodyRenderer;
-		[SerializeField] private Text _text;
+		[FormerlySerializedAs("_text")] [SerializeField] private Text _debugText;
 
 		public Vector3Int GridPosition { get; private set; }
 		public bool IsPlayerControlled { get; private set; }
@@ -30,7 +31,12 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			GridPosition = position;
 			transform.position = new Vector3(position.x, position.y, 0f);
-			_text.text = $"[{position.x},{position.y}]";
+			SetDebugText($"[{position.x},{position.y}]");
+		}
+
+		public void SetDebugText(string value)
+		{
+			_debugText.text = value;
 		}
 
 		public async Task MoveOnPath(List<Vector3Int> path)
@@ -56,18 +62,17 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Attack(AttackResult result)
 		{
-			{
-				var origin = _bodyRenderer.transform.position;
-				var destination = origin.x + result.Direction * 0.75f;
-				await _bodyRenderer.transform.DOMoveX(destination, 0.1f);
-				await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
-			}
+			var origin = _bodyRenderer.transform.position;
+			var direction = (origin + result.Destination).normalized;
+			var animDestination = origin.x + direction.x * 0.75f;
+			await _bodyRenderer.transform.DOMoveX(animDestination, 0.1f);
+			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
 
-			await ShootProjectile(result.Attacker.transform.position, new Vector3(result.Destination.x, result.Destination.y, 0));
+			await ShootProjectile(result.Attacker.transform.position, result.Destination);
 
-			if (result.Target)
+			foreach (var target in result.Targets)
 			{
-				result.Target.ApplyDamage(1);
+				target.ApplyDamage(1);
 			}
 		}
 

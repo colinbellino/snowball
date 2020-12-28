@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -8,6 +9,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
+			await UniTask.Delay(200);
+
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
