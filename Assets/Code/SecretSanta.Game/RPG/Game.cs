@@ -12,6 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		public Tilemap Tilemap { get; }
 		public Battle Battle { get; }
 		public Camera Camera { get; }
+		public BattleUI BattleUI { get; }
 
 		private static Game _instance;
 		public static Game Instance
@@ -32,11 +33,18 @@ namespace Code.SecretSanta.Game.RPG
 			Effects = new EffectsManager();
 			Controls = new GameControls();
 			Tilemap = GameObject.FindObjectOfType<Tilemap>();
+			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			Battle = new Battle();
 			Camera = Camera.main;
 
 			Assert.IsNotNull(Config);
 			Assert.IsNotNull(Tilemap);
+		}
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		static void Init()
+		{
+			_instance = null;
 		}
 
 		public class EffectsManager

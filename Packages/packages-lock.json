@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.colinbellino.plugins.pixelfonts": {
+      "version": "https://github.com/colinbellino/unity-private-plugins.git?path=Assets/Plugins/PixelFonts/",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8470a562590e67dad78e6801693f93015b91bbb8"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
