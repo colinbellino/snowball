@@ -6,6 +6,8 @@ namespace Code.SecretSanta.Game.RPG
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Game Config")]
 	public class GameConfig : ScriptableObject
 	{
+		public Vector2Int TilemapSize = new Vector2Int(32, 18);
+
 		[Header("Tilemap")]
 		// 0: Empty
 		// 1: Ground

@@ -9,7 +9,10 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args) { }
 
-		public async Task Exit() { }
+		public async Task Exit()
+		{
+			_ui.ClearMovePath();
+		}
 
 		public void Tick()
 		{
@@ -19,19 +22,19 @@ namespace Code.SecretSanta.Game.RPG
 			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var destination = new Vector3Int(
-				Mathf.RoundToInt(mouseWorldPosition.x),
-				Mathf.RoundToInt(mouseWorldPosition.y),
-				0
-			);
+			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
-			// TODO: Highlight selected tile and path
+			var path = Helpers.CalculatePathWithFall(
+				_turn.Unit.GridPosition, cursorPosition,
+				_tilemap, _config.TilemapSize
+			);
+			_ui.HighlightMovePath(path);
 
 			if (leftClick)
 			{
-				if (Helpers.CanMoveTo(destination, _tilemap) && Helpers.IsInRange(_turn.InitialPosition, destination, maxDistance))
+				if (Helpers.CanMoveTo(cursorPosition, _tilemap) && Helpers.IsInRange(_turn.InitialPosition, cursorPosition, maxDistance))
 				{
-					_turn.MoveDestination = destination;
+					_turn.MoveDestination = cursorPosition;
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 					return;
 				}

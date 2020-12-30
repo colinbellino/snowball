@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -41,10 +42,11 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task MoveOnPath(List<Vector3Int> path)
 		{
-			foreach (var move in path)
+			for (var index = 1; index < path.Count; index++)
 			{
-				await Move(move);
+				await Move(path[index]);
 			}
+
 			SetGridPosition(path[path.Count - 1]);
 		}
 

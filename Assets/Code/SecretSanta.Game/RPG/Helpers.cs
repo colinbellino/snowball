@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using NesScripts.Controls.PathFind;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
+using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -51,31 +55,39 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Tilemap tilemap)
+		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Tilemap tilemap, Vector2Int tilemapSize)
 		{
-			var path = new List<Vector3Int>();
-
-			if (start.x != destination.x)
+			// FIXME: This is super slow and should be cached!
+			var data = new float[tilemapSize.x, tilemapSize.y];
+			for (var x = 0; x < tilemapSize.x; x++)
 			{
-				for (var y = start.y; y <= destination.y; y++)
+				for (var y = 0; y < tilemapSize.y; y++)
 				{
-					path.Add(new Vector3Int(start.x, y, 0));
+					var tile = tilemap.GetTile(new Vector3Int(x, y, 0));
+					data[x, y] = CanMoveOnTile(tile) ? 1f : 0f;
 				}
 			}
+			var grid = new Grid(data);
 
-			path.Add(destination);
+			var points = Pathfinding.FindPath(grid, start.ToPoint(), destination.ToPoint());
 
-			for (var y = destination.y - 1; y > 0; y--)
+			return points
+				.Select(point => new Vector3Int(point.x, point.y, 0))
+				.ToList();
+		}
+
+		private static Vector3Int GetLandingPoint(Vector3Int start, Tilemap tilemap)
+		{
+			for (var y = start.y - 1; y > 0; y--)
 			{
-				var tile = tilemap.GetTile(new Vector3Int(destination.x, y, 0));
+				var tile = tilemap.GetTile(new Vector3Int(start.x, y, 0));
 				if (tile != null)
 				{
-					path.Add(new Vector3Int(destination.x, y + 1, 0));
-					break;
+					return new Vector3Int(start.x, y + 1, 0);
 				}
 			}
 
-			return path;
+			return start;
 		}
 
 		public static bool CanMoveTo(Vector3Int destination, Tilemap tilemap)
@@ -131,48 +143,16 @@ namespace Code.SecretSanta.Game.RPG
 			return direction;
 		}
 
-		// public static AttackResult CalculateAttackResult(Vector3Int start, int direction, List<UnitComponent> allUnits, Tilemap tilemap)
-		// {
-		// 	var result = new AttackResult { Direction = direction };
-		//
-		// 	for (
-		// 		var x = start.x;
-		// 		direction > 0 ? (x <= tilemap.size.x) : (x >= 0);
-		// 		x += direction)
-		// 	{
-		// 		var position = new Vector3Int(x, start.y, 0);
-		//
-		// 		var unit = allUnits.Find(unit => unit.GridPosition == position);
-		// 		if (unit)
-		// 		{
-		// 			if (position == start)
-		// 			{
-		// 				result.Attacker = unit;
-		// 			}
-		// 			else
-		// 			{
-		// 				result.Target = unit;
-		// 				result.Destination = position;
-		// 				break;
-		// 			}
-		// 		}
-		//
-		// 		if (x == tilemap.size.x || x == 0)
-		// 		{
-		// 			result.Destination = position;
-		// 			break;
-		// 		}
-		//
-		// 		var tile = tilemap.GetTile(position);
-		// 		if (Game.Instance.Config.BlockingTiles.Contains(tile))
-		// 		{
-		// 			result.Destination = position;
-		// 			break;
-		// 		}
-		// 	}
-		//
-		// 	return result;
-		// }
+		public static Vector3Int GetCursorPosition(Vector2 mousePosition, Vector2Int tilemapSize)
+		{
+			var position = new Vector3Int(
+				Mathf.RoundToInt(mousePosition.x).Clamp(0, tilemapSize.x - 1),
+				Mathf.RoundToInt(mousePosition.y).Clamp(0, tilemapSize.y - 1),
+				0
+			);
+
+			return position;
+		}
 	}
 
 	public class AttackResult
