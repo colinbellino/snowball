@@ -1,49 +1,30 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NesScripts.Controls.PathFind;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	public static class Helpers
 	{
-		public static TileBase GetTile(int index, TileBase[] tiles)
-		{
-			return tiles[index];
-		}
-
-		public static int GetTileId(TileBase tile, TileBase[] tiles)
-		{
-			for (var index = 0; index < tiles.Length; index++)
-			{
-				if (tiles[index] == tile)
-				{
-					return index;
-				}
-			}
-
-			return 0;
-		}
-
-		public static void LoadArea(Area area, Tilemap tilemap, TileBase[] tiles)
+		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData)
 		{
 			for (var x = 0; x < area.Size.x; x++)
 			{
 				for (var y = 0; y < area.Size.y; y++)
 				{
 					var index = x + y * area.Size.x;
-					var position = new Vector2Int(x, y);
+					var position = new Vector3Int(x, y, 0);
+					var tileId = area.Tiles[index];
 
-					tilemap.SetTile((Vector3Int)position, tiles[area.Tiles[index]]);
+					tilemap.SetTile(position, tilesData[tileId].Tile);
 				}
 			}
 		}
 
-		public static void LoadMeta(Area area, Tilemap tilemap)
+		public static void RenderMeta(Area area, Tilemap tilemap)
 		{
 			foreach (var position in area.AllySpawnPoints)
 			{
@@ -55,25 +36,82 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Tilemap tilemap, Vector2Int tilemapSize)
+		public static void RenderGridWalk(Grid grid, Tilemap tilemap, TileBase tile)
 		{
-			// FIXME: This is super slow and should be cached!
-			var data = new float[tilemapSize.x, tilemapSize.y];
-			for (var x = 0; x < tilemapSize.x; x++)
+			foreach (var node in grid.nodes)
 			{
-				for (var y = 0; y < tilemapSize.y; y++)
+				var position = new Vector3Int(node.gridX, node.gridY, 0);
+				var color = Color.clear;
+				switch (node.price)
 				{
-					var tile = tilemap.GetTile(new Vector3Int(x, y, 0));
-					data[x, y] = CanMoveOnTile(tile) ? 1f : 0f;
+					case 0.5f:
+						color = Color.red; break;
+					case 1f:
+						color = Color.blue; break;
+				}
+
+				tilemap.SetTile(position, tile);
+				tilemap.SetColor(position, color);
+			}
+		}
+
+		public static int GetTileIndex(TileBase tile, TilesData tilesData)
+		{
+			for (var index = 0; index < tilesData.Count; index++)
+			{
+				if (tilesData[index].Tile == tile)
+				{
+					return index;
 				}
 			}
-			var grid = new Grid(data);
 
-			var points = Pathfinding.FindPath(grid, start.ToPoint(), destination.ToPoint());
+			return 0;
+		}
 
-			return points
-				.Select(point => new Vector3Int(point.x, point.y, 0))
-				.ToList();
+		// FIXME: This is super slow and should be cached!
+		public static Grid GetWalkGrid(Area area, TilesData tilesData)
+		{
+			var data = new float[area.Size.x, area.Size.y];
+			for (var x = 0; x < area.Size.x; x++)
+			{
+				for (var y = 0; y < area.Size.y; y++)
+				{
+					var index = x + y * area.Size.x;
+					var tileId = area.Tiles[index];
+					var tileData = tilesData[tileId];
+
+					if (tileData.Climbable)
+					{
+						data[x, y] = 1f;
+						continue;
+					}
+
+					if (tileData.Blocking)
+					{
+						data[x, y] = 0f;
+						continue;
+					}
+
+					if (y > 0)
+					{
+						var belowIndex = x + (y - 1) * area.Size.x;
+						var belowTileId = area.Tiles[belowIndex];
+
+						if (tilesData[belowTileId].Walkable)
+						{
+							data[x, y] = 0.5f;
+						}
+					}
+				}
+			}
+
+			return new Grid(data);
+		}
+
+		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Grid walkGrid)
+		{
+			var path = Pathfinding.FindPath(walkGrid, start, destination);
+			return path.Prepend(start).ToList();
 		}
 
 		private static Vector3Int GetLandingPoint(Vector3Int start, Tilemap tilemap)
@@ -90,35 +128,33 @@ namespace Code.SecretSanta.Game.RPG
 			return start;
 		}
 
-		public static bool CanMoveTo(Vector3Int destination, Tilemap tilemap)
+		public static bool CanMoveTo(Vector3Int destination, Grid walkGrid)
 		{
-			if (tilemap.cellBounds.Contains(destination) == false)
-			{
-				return false;
-			}
-
-			var tile = tilemap.GetTile(destination);
-			return CanMoveOnTile(tile);
+			return true;
+			// if (tilemap.cellBounds.Contains(destination) == false)
+			// {
+			// 	return false;
+			// }
+			//
+			// // TODO: DO this with walkGrid
+			// var tile = tilemap.GetTile(destination);
+			// return CanWalkOnTile(tile);
 		}
 
-		public static bool CanMoveOnTile(TileBase tile)
+		private static bool CanWalkOnTile(int tileId)
 		{
-			if (tile == null)
-			{
-				return true;
-			}
-
-			return Game.Instance.Config.WalkableTiles.Contains(tile);
+			return Game.Instance.Config.TilesData[tileId].Walkable;
 		}
 
 		public static bool CanBlockProjectile(TileBase tile)
 		{
-			if (tile == null)
-			{
-				return false;
-			}
-
-			return Game.Instance.Config.BlockingTiles.Contains(tile);
+			return false;
+			// if (Equals(tile, null))
+			// {
+			// 	return false;
+			// }
+			//
+			// return Game.Instance.Config.BlockingTiles.Contains(tile);
 		}
 
 		// TODO: Replace this by actual path finding

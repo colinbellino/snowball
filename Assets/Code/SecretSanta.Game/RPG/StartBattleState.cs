@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -11,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Enter(object[] args)
 		{
 			var encounter = _config.Encounters[0];
-			Helpers.LoadArea(encounter.Area, _tilemap, _config.Tiles);
+			Helpers.RenderArea(encounter.Area, _tilemap, _config.TilesData);
 
 			var allUnits = new List<UnitComponent>();
 			for (var index = 0; index < encounter.Allies.Count; index++)
@@ -26,8 +27,13 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			Notification.Send("BattleStarted");
-			_battle.Start(allUnits);
+			_battle.Start(allUnits, encounter.Area, _config.TilesData);
 			_controls.Enable();
+
+			#if UNITY_EDITOR
+			var gridWalkTilemap = GameObject.Find("GridWalk").GetComponent<Tilemap>();
+			Helpers.RenderGridWalk(_battle.WalkGrid, gridWalkTilemap, _config.EmptyTile);
+			#endif
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -8,14 +9,16 @@ namespace Code.SecretSanta.Game.RPG
 		public List<UnitComponent> Units { get; private set; }
 		public int TurnNumber { get; private set; }
 		public Turn Turn => _turns.Current;
+		public Grid WalkGrid { get; private set; }
 
 		private IEnumerator<Turn> _turns;
 
-		public void Start(List<UnitComponent> units)
+		public void Start(List<UnitComponent> units, Area area, TilesData tilesData)
 		{
 			TurnNumber = 0;
 			Units = units;
 			_turns = StartTurn();
+			WalkGrid = Helpers.GetWalkGrid(area, tilesData);
 		}
 
 		public void NextTurn()

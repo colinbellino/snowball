@@ -16,7 +16,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			var path = Helpers.CalculatePathWithFall(
 				_turn.Unit.GridPosition, _turn.MoveDestination,
-				_tilemap, _config.TilemapSize
+				_battle.WalkGrid
 			);
 			await _turn.Unit.MoveOnPath(path);
 			_turn.HasMoved = true;

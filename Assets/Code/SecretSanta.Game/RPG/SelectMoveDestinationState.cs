@@ -26,13 +26,14 @@ namespace Code.SecretSanta.Game.RPG
 
 			var path = Helpers.CalculatePathWithFall(
 				_turn.Unit.GridPosition, cursorPosition,
-				_tilemap, _config.TilemapSize
+				_battle.WalkGrid
 			);
+			// TODO: Store movePath in Turn instead of destination
 			_ui.HighlightMovePath(path);
 
 			if (leftClick)
 			{
-				if (Helpers.CanMoveTo(cursorPosition, _tilemap) && Helpers.IsInRange(_turn.InitialPosition, cursorPosition, maxDistance))
+				if (Helpers.CanMoveTo(cursorPosition, _battle.WalkGrid) && Helpers.IsInRange(_turn.InitialPosition, cursorPosition, maxDistance))
 				{
 					_turn.MoveDestination = cursorPosition;
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
