@@ -32,7 +32,7 @@ namespace Code.SecretSanta.Game.RPG
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			Effects = new EffectsManager();
 			Controls = new GameControls();
-			Tilemap = GameObject.FindObjectOfType<Tilemap>();
+			Tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			Battle = new Battle();
 			Camera = Camera.main;

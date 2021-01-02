@@ -1,21 +1,20 @@
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Game Config")]
-	public class GameConfig : ScriptableObject
+	public class GameConfig : SerializedScriptableObject
 	{
 		public Vector2Int TilemapSize = new Vector2Int(32, 18);
 
 		[Header("Tilemap")]
-		// 0: Empty
-		// 1: Ground
-		public TileBase[] Tiles;
+		public readonly TilesData TilesData;
 		public TileBase AllySpawnTile;
 		public TileBase FoeSpawnTile;
-		public TileBase[] WalkableTiles;
-		public TileBase[] BlockingTiles;
+		public TileBase EmptyTile;
 
 		[Header("Effects")]
 		public ParticleSystem HitEffectPrefab;
@@ -24,5 +23,15 @@ namespace Code.SecretSanta.Game.RPG
 		public Encounter[] Encounters;
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
+	}
+
+	public class TilesData : Dictionary<int, TileData> {}
+
+	public class TileData
+	{
+		public TileBase Tile;
+		public bool Walkable;
+		public bool Climbable;
+		public bool Blocking;
 	}
 }

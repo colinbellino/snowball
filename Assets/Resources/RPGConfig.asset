@@ -12,16 +12,121 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec6d900c39d4951993c661d377d9a36, type: 3}
   m_Name: RPGConfig
   m_EditorClassIdentifier: 
-  Tiles:
-  - {fileID: 0}
-  - {fileID: 11400000, guid: 00a3f3a5959d04b05af7f7af5a96eae1, type: 2}
-  - {fileID: 11400000, guid: 590a4c10306e7fb46b3250ae74a18e53, type: 2}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 00a3f3a5959d04b05af7f7af5a96eae1, type: 2}
+    - {fileID: 11400000, guid: 590a4c10306e7fb46b3250ae74a18e53, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: TilesData
+      Entry: 7
+      Data: 0|Code.SecretSanta.Game.RPG.TilesData, SecretSanta.Game
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+    - Name: Tile
+      Entry: 6
+      Data: 
+    - Name: Walkable
+      Entry: 5
+      Data: false
+    - Name: Climbable
+      Entry: 5
+      Data: false
+    - Name: Blocking
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 3|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+    - Name: Tile
+      Entry: 10
+      Data: 0
+    - Name: Walkable
+      Entry: 5
+      Data: true
+    - Name: Climbable
+      Entry: 5
+      Data: false
+    - Name: Blocking
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+    - Name: Tile
+      Entry: 10
+      Data: 1
+    - Name: Walkable
+      Entry: 5
+      Data: true
+    - Name: Climbable
+      Entry: 5
+      Data: true
+    - Name: Blocking
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  TilemapSize: {x: 32, y: 18}
   AllySpawnTile: {fileID: 11400000, guid: ebd44eed2a5824beca53cb86ba2cae2d, type: 2}
   FoeSpawnTile: {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
-  WalkableTiles:
-  - {fileID: 11400000, guid: 590a4c10306e7fb46b3250ae74a18e53, type: 2}
-  BlockingTiles:
-  - {fileID: 11400000, guid: 00a3f3a5959d04b05af7f7af5a96eae1, type: 2}
+  EmptyTile: {fileID: 11400000, guid: 5237f66cb3cd82a4eb36525ccd77f410, type: 2}
   HitEffectPrefab: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
     type: 3}
   Encounters:
