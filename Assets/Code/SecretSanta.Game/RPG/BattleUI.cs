@@ -16,6 +16,7 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private ActionButtons _actionButtons;
 		[SerializeField] private GameObject _moveCursor;
 		[SerializeField] private LineRenderer _moveLine;
+		[SerializeField] private bool _hi;
 
 		private EventSystem _eventSystem;
 

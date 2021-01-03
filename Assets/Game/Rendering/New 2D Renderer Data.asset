@@ -20,28 +20,28 @@ MonoBehaviour:
   m_LightBlendStyles:
   - name: Blend Style 0
     maskTextureChannel: 0
-    renderTextureScale: 0.5
+    renderTextureScale: 0
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
   - name: Blend Style 1
     maskTextureChannel: 0
-    renderTextureScale: 0.5
+    renderTextureScale: 0
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
   - name: Blend Style 2
     maskTextureChannel: 0
-    renderTextureScale: 0.5
+    renderTextureScale: 0
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
   - name: Blend Style 3
     maskTextureChannel: 0
-    renderTextureScale: 0.5
+    renderTextureScale: 0
     blendMode: 1
     customBlendFactors:
       multiplicative: 0

@@ -188,6 +188,42 @@ namespace Code.SecretSanta.Game.RPG
 
 			return position;
 		}
+
+		public static IEnumerable<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid)
+		{
+			var startNode = grid.nodes[start.x, start.y];
+			return GetNodesInRange(startNode, maxDistance, grid)
+				.Where(node => node.walkable)
+				.Select(node => (Vector3Int) node);
+		}
+
+		private static IEnumerable<Node> GetNodesInRange(Node startNode, int maxDistance, Grid grid)
+		{
+			foreach (var node in grid.nodes)
+			{
+				if (Pathfinding.FindPath(grid, startNode, node).Count <= maxDistance)
+				{
+					yield return node;
+				}
+			}
+		}
+	}
+
+	public static class TilemapHelpers
+	{
+		public static void SetTiles(IEnumerable<Vector3Int> positions, Tilemap tilemap, TileBase tile, Color color)
+		{
+			foreach (var position in positions)
+			{
+				tilemap.SetTile(position, tile);
+				tilemap.SetColor(position, color);
+			}
+		}
+
+		public static void ClearTilemap(Tilemap tilemap)
+		{
+			tilemap.ClearAllTiles();
+		}
 	}
 
 	public class AttackResult

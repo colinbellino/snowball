@@ -7,5 +7,6 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public string Name => name;
 		public Color Color = Color.magenta;
+		public int MoveRange = 3;
 	}
 }

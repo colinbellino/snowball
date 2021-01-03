@@ -127,6 +127,7 @@ MonoBehaviour:
   AllySpawnTile: {fileID: 11400000, guid: ebd44eed2a5824beca53cb86ba2cae2d, type: 2}
   FoeSpawnTile: {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
   EmptyTile: {fileID: 11400000, guid: 5237f66cb3cd82a4eb36525ccd77f410, type: 2}
+  HighlightTile: {fileID: 11400000, guid: 40f5dbcb8137f05449bdb68921d093f5, type: 2}
   HitEffectPrefab: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
     type: 3}
   Encounters:

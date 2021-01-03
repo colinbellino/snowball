@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Unit1
   m_EditorClassIdentifier: 
   Color: {r: 0, g: 0.6034198, b: 1, a: 1}
+  MoveRange: 5
