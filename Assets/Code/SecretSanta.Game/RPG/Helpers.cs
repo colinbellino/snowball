@@ -68,10 +68,9 @@ namespace Code.SecretSanta.Game.RPG
 			return 0;
 		}
 
-		// FIXME: This is super slow and should be cached!
 		public static Grid GetWalkGrid(Area area, TilesData tilesData)
 		{
-			var data = new float[area.Size.x, area.Size.y];
+			var data = new bool[area.Size.x, area.Size.y];
 			for (var x = 0; x < area.Size.x; x++)
 			{
 				for (var y = 0; y < area.Size.y; y++)
@@ -82,13 +81,13 @@ namespace Code.SecretSanta.Game.RPG
 
 					if (tileData.Climbable)
 					{
-						data[x, y] = 1f;
+						data[x, y] = true;
 						continue;
 					}
 
 					if (tileData.Blocking)
 					{
-						data[x, y] = 0f;
+						data[x, y] = false;
 						continue;
 					}
 
@@ -99,7 +98,7 @@ namespace Code.SecretSanta.Game.RPG
 
 						if (tilesData[belowTileId].Walkable)
 						{
-							data[x, y] = 0.5f;
+							data[x, y] = true;
 						}
 					}
 				}
