@@ -1,9 +1,9 @@
 ﻿/**
  * Represent a grid of nodes we can search paths on.
  * Based on code and tutorial by Sebastian Lague (https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ).
- *   
+ *
  * Author: Ronen Ness.
- * Since: 2016. 
+ * Since: 2016.
 */
 using System.Collections.Generic;
 
@@ -123,7 +123,7 @@ namespace NesScripts.Controls.PathFind
 				{
 					nodes[x, y].Update(walkable_tiles[x, y] ? 1.0f : 0.0f, x, y);
 				}
-			} 
+			}
 		}
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace NesScripts.Controls.PathFind
         /// </summary>
         /// <param name="node">Node to get neighbors for.</param>
         /// <returns>List of node neighbors.</returns>
-        public System.Collections.IEnumerable GetNeighbours(Node node, Pathfinding.DistanceType distanceType)
+        public IEnumerable<Node> GetNeighbours(Node node, Pathfinding.DistanceType distanceType)
         {
 			int x = 0, y = 0;
             switch (distanceType)

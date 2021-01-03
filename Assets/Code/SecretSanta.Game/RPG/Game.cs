@@ -9,7 +9,8 @@ namespace Code.SecretSanta.Game.RPG
 		public GameConfig Config { get; }
 		public EffectsManager Effects { get; }
 		public GameControls Controls { get; }
-		public Tilemap Tilemap { get; }
+		public Tilemap AreaTilemap { get; }
+		public Tilemap HighlightTilemap { get; }
 		public Battle Battle { get; }
 		public Camera Camera { get; }
 		public BattleUI BattleUI { get; }
@@ -32,13 +33,15 @@ namespace Code.SecretSanta.Game.RPG
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			Effects = new EffectsManager();
 			Controls = new GameControls();
-			Tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+			AreaTilemap = GameObject.Find("Area").GetComponent<Tilemap>();
+			HighlightTilemap = GameObject.Find("Highlight").GetComponent<Tilemap>();
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			Battle = new Battle();
 			Camera = Camera.main;
 
 			Assert.IsNotNull(Config);
-			Assert.IsNotNull(Tilemap);
+			Assert.IsNotNull(AreaTilemap);
+			Assert.IsNotNull(HighlightTilemap);
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

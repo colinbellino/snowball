@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Enter(object[] args)
 		{
 			var encounter = _config.Encounters[0];
-			Helpers.RenderArea(encounter.Area, _tilemap, _config.TilesData);
+			Helpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
 
 			var allUnits = new List<UnitComponent>();
 			for (var index = 0; index < encounter.Allies.Count; index++)

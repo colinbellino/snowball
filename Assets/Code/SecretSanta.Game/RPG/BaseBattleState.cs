@@ -7,7 +7,8 @@ namespace Code.SecretSanta.Game.RPG
 	public abstract class BaseBattleState
 	{
 		protected readonly Battle _battle;
-		protected readonly Tilemap _tilemap;
+		protected readonly Tilemap _areaTilemap;
+		protected readonly Tilemap _highlightTilemap;
 		protected readonly GameConfig _config;
 		protected readonly GameControls _controls;
 		protected readonly BattleStateMachine _machine;
@@ -21,7 +22,8 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_machine = machine;
 			_battle = Game.Instance.Battle;
-			_tilemap = Game.Instance.Tilemap;
+			_areaTilemap = Game.Instance.AreaTilemap;
+			_highlightTilemap = Game.Instance.HighlightTilemap;
 			_config = Game.Instance.Config;
 			_controls = Game.Instance.Controls;
 			_camera = Game.Instance.Camera;

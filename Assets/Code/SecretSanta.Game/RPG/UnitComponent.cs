@@ -17,13 +17,16 @@ namespace Code.SecretSanta.Game.RPG
 		public Vector3Int GridPosition { get; private set; }
 		public bool IsPlayerControlled { get; private set; }
 		public Vector3Int Direction { get; private set; }
+		public Unit Data { get; private set; }
 
 		public override string ToString() => name;
 
 		public void UpdateData(Unit data, bool isPlayerControlled)
 		{
-			SetName(data.Name);
-			_bodyRenderer.material.SetColor("ReplacementColor0", data.Color);
+			Data = data;
+
+			SetName(Data.Name);
+			_bodyRenderer.material.SetColor("ReplacementColor0", Data.Color);
 
 			IsPlayerControlled = isPlayerControlled;
 		}

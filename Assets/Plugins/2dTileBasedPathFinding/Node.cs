@@ -1,14 +1,16 @@
 ﻿/**
  * Represent a single node in the pathfinding grid.
  * Based on code and tutorial by Sebastian Lague (https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ).
- *   
+ *
  * Author: Ronen Ness.
- * Since: 2016. 
+ * Since: 2016.
 */
+
+using UnityEngine;
 
 namespace NesScripts.Controls.PathFind
 {
-    
+
     /// <summary>
     /// Represent a single node in the pathfinding grid.
     /// </summary>
@@ -89,5 +91,7 @@ namespace NesScripts.Controls.PathFind
                 return gCost + hCost;
             }
         }
+
+        public static implicit operator Vector3Int(Node node) => new Vector3Int(node.gridX, node.gridY, 0);
     }
 }

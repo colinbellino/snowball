@@ -7,12 +7,9 @@ namespace Code.SecretSanta.Game.RPG
 	public class Area : ScriptableObject
 	{
 		public Vector2Int Size;
-		// ^
-		// y
-		// |
-		// • - x >
 		public int[] Tiles;
 		public List<Vector2Int> AllySpawnPoints;
 		public List<Vector2Int> FoeSpawnPoints;
 	}
+
 }
