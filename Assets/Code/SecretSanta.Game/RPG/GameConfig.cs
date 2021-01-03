@@ -5,13 +5,15 @@ using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
+	public class TilesData : Dictionary<int, TileData> { }
+
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Game Config")]
 	public class GameConfig : SerializedScriptableObject
 	{
 		public Vector2Int TilemapSize = new Vector2Int(32, 18);
 
 		[Header("Tilemap")]
-		public readonly TilesData TilesData;
+		public TilesData TilesData;
 		public TileBase AllySpawnTile;
 		public TileBase FoeSpawnTile;
 		public TileBase EmptyTile;
@@ -24,8 +26,6 @@ namespace Code.SecretSanta.Game.RPG
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
 	}
-
-	public class TilesData : Dictionary<int, TileData> {}
 
 	public class TileData
 	{

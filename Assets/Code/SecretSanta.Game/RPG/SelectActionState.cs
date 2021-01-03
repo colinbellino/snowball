@@ -10,10 +10,10 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public SelectActionState(BattleStateMachine machine) : base(machine) { }
 
-		private BattleAction _action;
-
 		public async Task Enter(object[] args)
 		{
+			_ui.OnActionClicked += OnActionClicked;
+
 			if (_turn.HasActed && _turn.HasMoved)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
@@ -22,56 +22,37 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (_turn.Unit.IsPlayerControlled)
 			{
+				_ui.ToggleButton(BattleAction.Move, _turn.HasMoved == false);
+				_ui.ToggleButton(BattleAction.Attack, _turn.HasActed == false);
 				_ui.ShowActions();
 			}
 			else
 			{
 				ComputerTurn();
-				_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
 			}
 		}
 
 		public async Task Exit()
 		{
 			_ui.HideActions();
+			_ui.OnActionClicked -= OnActionClicked;
 		}
 
-		public void Tick()
+		public void Tick() { }
+
+		private void OnActionClicked(BattleAction action)
 		{
-			var moveInput = _controls.Gameplay.Move.ReadValue<Vector2>();
-			if (moveInput.magnitude > 0f)
+			switch (action)
 			{
-				if (moveInput.y > 0)
-				{
-					_action = BattleAction.Move;
-				}
-				else if (moveInput.y < 0)
-				{
-					_action = BattleAction.Wait;
-				}
-			}
-			else
-			{
-				_action = BattleAction.Attack;
-			}
-
-			_ui.SelectAction(_action);
-
-			var confirmInput = _controls.Gameplay.Confirm.ReadValue<float>() > 0f;
-			if (confirmInput)
-			{
-				switch (_action)
-				{
-					case BattleAction.Attack:
-						_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
-						return;
-					case BattleAction.Move:
-						_machine.Fire(BattleStateMachine.Triggers.ActionMoveSelected);
-						return;
-					case BattleAction.Wait:
-						_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
-						return;
-				}
+				case BattleAction.Attack:
+					_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
+					return;
+				case BattleAction.Move:
+					_machine.Fire(BattleStateMachine.Triggers.ActionMoveSelected);
+					return;
+				case BattleAction.Wait:
+					_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
+					return;
 			}
 		}
 
@@ -81,6 +62,8 @@ namespace Code.SecretSanta.Game.RPG
 			_turn.Targets = new List<Vector3Int> { randomTarget.GridPosition };
 			_turn.HasActed = true;
 			_turn.HasMoved = true;
+
+			_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
 		}
 	}
 }
