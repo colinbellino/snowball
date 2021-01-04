@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
@@ -13,6 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class BattleUI : MonoBehaviour
 	{
 		[SerializeField] private GameObject _actionsRoot;
+		[SerializeField] private Text _actionsTitle;
 		[SerializeField] private ActionButtons _actionButtons;
 		[SerializeField] private GameObject _moveCursor;
 		[SerializeField] private LineRenderer _moveLine;
@@ -37,7 +37,11 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public void ShowActions() => _actionsRoot.SetActive(true);
+		public void ShowActions(UnitComponent unit)
+		{
+			_actionsTitle.text = $"{unit.Data.Name}";
+			_actionsRoot.SetActive(true);
+		}
 		public void HideActions() => _actionsRoot.SetActive(false);
 
 		public void ToggleButton(BattleAction action, bool value)

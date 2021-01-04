@@ -68,12 +68,13 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Attack(AttackResult result)
 		{
 			var origin = _bodyRenderer.transform.position;
-			var direction = (origin + result.Destination).normalized;
+			var destination = result.Path[result.Path.Count - 1];
+			var direction = (origin + destination).normalized;
 			var animDestination = origin.x + direction.x * 0.75f;
 			await _bodyRenderer.transform.DOMoveX(animDestination, 0.1f);
 			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
 
-			await ShootProjectile(result.Attacker.transform.position, result.Destination);
+			await ShootProjectile(result.Attacker.transform.position, destination);
 
 			foreach (var target in result.Targets)
 			{
@@ -87,13 +88,14 @@ namespace Code.SecretSanta.Game.RPG
 			var distance = Vector3.Distance(origin, destination);
 			await instance.transform.DOMove(destination, distance * 0.05f).SetEase(Ease.Linear);
 
-			Game.Instance.Effects.Spawn(Game.Instance.Config.HitEffectPrefab, destination);
+			Game.Instance.Spawner.SpawnEffect(Game.Instance.Config.HitEffectPrefab, destination);
 
 			Destroy(instance);
 		}
 
 		private void ApplyDamage(int amount)
 		{
+			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), GridPosition + Vector3Int.up);
 			Debug.Log($"{name} hit for {amount} damage.");
 		}
 

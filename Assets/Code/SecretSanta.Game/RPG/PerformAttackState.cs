@@ -9,7 +9,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			var targets = _turn.Targets
+			var targets = _turn.AttackTargets
 				.Select(position => _allUnits.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
@@ -17,7 +17,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				Attacker = _turn.Unit,
 				Targets = targets,
-				Destination = _turn.Targets[0], // TODO: Calculate where this actually hits
+				Path = _turn.AttackPath,
 			};
 			await _turn.Unit.Attack(result);
 			_turn.HasActed = true;

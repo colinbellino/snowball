@@ -30,12 +30,13 @@ namespace Code.SecretSanta.Game.RPG
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
 			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
+			var path = Helpers.CalculatePathWithFall(
+				_turn.Unit.GridPosition, cursorPosition,
+				_battle.WalkGrid
+			);
+
 			if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))
 			{
-				var path = Helpers.CalculatePathWithFall(
-					_turn.Unit.GridPosition, cursorPosition,
-					_battle.WalkGrid
-				);
 				_ui.HighlightMovePath(path);
 			}
 			else
@@ -47,7 +48,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				if (_validMovePositions.Contains(cursorPosition))
 				{
-					_turn.MoveDestination = cursorPosition;
+					_turn.MovePath = path;
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 					return;
 				}

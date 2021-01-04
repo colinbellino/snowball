@@ -8,17 +8,15 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			var direction = _turn.MoveDestination - _turn.InitialPosition;
+			var destination = _turn.MovePath[_turn.MovePath.Count - 1];
+			var direction = destination - _turn.InitialPosition;
+
 			if (direction.y == 0 && direction.x != 0f && direction.x != _turn.Unit.Direction.x)
 			{
 				await _turn.Unit.Turn(direction);
 			}
 
-			var path = Helpers.CalculatePathWithFall(
-				_turn.Unit.GridPosition, _turn.MoveDestination,
-				_battle.WalkGrid
-			);
-			await _turn.Unit.MoveOnPath(path);
+			await _turn.Unit.MoveOnPath(_turn.MovePath);
 			_turn.HasMoved = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);

@@ -10,7 +10,8 @@ namespace Code.SecretSanta.Game.RPG
 		public bool HasActed;
 		public Vector3Int InitialPosition;
 
-		public List<Vector3Int> Targets;
-		public Vector3Int MoveDestination;
+		public List<Vector3Int> AttackTargets;
+		public List<Vector3Int> AttackPath;
+		public List<Vector3Int> MovePath;
 	}
 }
