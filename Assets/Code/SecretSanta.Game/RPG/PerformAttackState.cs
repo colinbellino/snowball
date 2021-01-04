@@ -9,6 +9,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
+			_ui.SetUnit(_turn.Unit);
+
 			var targets = _turn.AttackTargets
 				.Select(position => _allUnits.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
@@ -25,7 +27,10 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
-		public async Task Exit() { }
+		public async Task Exit()
+		{
+			_ui.SetUnit(null);
+		}
 
 		public void Tick() { }
 	}

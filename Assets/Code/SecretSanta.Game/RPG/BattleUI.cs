@@ -18,8 +18,10 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private LineRenderer _moveLine;
 		[SerializeField] private GameObject _aimCursor;
 		[SerializeField] private LineRenderer _aimLine;
+		[SerializeField] private GameObject _currentUnitCursor;
 
 		public event Action<BattleAction> OnActionClicked;
+		private static readonly Vector3 OUT_OF_SCREEN_POSITION = new Vector3(999, 999, 0);
 
 		private void OnEnable()
 		{
@@ -37,11 +39,21 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public void ShowActions(UnitComponent unit)
+		public void SetUnit(UnitComponent unit)
 		{
+			if (unit == null)
+			{
+				_currentUnitCursor.transform.position = OUT_OF_SCREEN_POSITION;
+				_actionsTitle.text = "";
+				return;
+			}
+
+			_currentUnitCursor.transform.position = unit.GridPosition + Vector3Int.up;
 			_actionsTitle.text = $"{unit.Data.Name}";
-			_actionsRoot.SetActive(true);
 		}
+
+		public void ShowActions() => _actionsRoot.SetActive(true);
+
 		public void HideActions() => _actionsRoot.SetActive(false);
 
 		public void ToggleButton(BattleAction action, bool value)
@@ -67,7 +79,7 @@ namespace Code.SecretSanta.Game.RPG
 		public void ClearMovePath()
 		{
 			_moveLine.positionCount = 0;
-			_moveCursor.transform.position = new Vector3(999, 999, 0);
+			_moveCursor.transform.position = OUT_OF_SCREEN_POSITION;
 		}
 
 		public void HighlightAimPath(List<Vector3Int> path)
@@ -88,7 +100,7 @@ namespace Code.SecretSanta.Game.RPG
 		public void ClearAimPath()
 		{
 			_aimLine.positionCount = 0;
-			_aimCursor.transform.position = new Vector3(999, 999, 0);
+			_aimCursor.transform.position = OUT_OF_SCREEN_POSITION;
 		}
 
 		private UnityAction OnBattleActionClicked(BattleAction action)

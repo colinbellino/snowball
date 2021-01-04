@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Ursula
   m_EditorClassIdentifier: 
   Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
-  MoveRange: 3
+  MoveRange: 5
