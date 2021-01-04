@@ -23,7 +23,7 @@ namespace Code.SecretSanta.Game.RPG
 		public ParticleSystem HitEffectPrefab;
 
 		[Header("Data")]
-		public Encounter[] Encounters;
+		public EncounterAuthoring[] Encounters;
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
 		public FloatingText DamageTextPrefab;
