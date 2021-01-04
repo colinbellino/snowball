@@ -46,7 +46,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var unit = GameObject.Instantiate(_config.UnitPrefab);
 			unit.SetGridPosition(position);
-			_ = unit.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
+			unit.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
 			unit.UpdateData(data, isPlayerControlled);
 			return unit;
 		}

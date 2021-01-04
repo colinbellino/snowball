@@ -55,9 +55,9 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async UniTask Turn(Vector3Int direction)
 		{
-			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
-
 			Direction = direction;
+
+			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
 		private void SetName(string value)

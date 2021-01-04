@@ -14,11 +14,13 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.Data.MoveRange, _battle.WalkGrid);
 			TilemapHelpers.SetTiles(_validMovePositions, _highlightTilemap, _config.HighlightTile, _turn.Unit.Data.Color);
+			_ui.SetUnit(_turn.Unit);
 		}
 
 		public async Task Exit()
 		{
 			_ui.ClearMovePath();
+			_ui.SetUnit(null);
 			TilemapHelpers.ClearTilemap(_highlightTilemap);
 		}
 
