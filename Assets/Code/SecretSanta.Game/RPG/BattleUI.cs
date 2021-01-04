@@ -23,6 +23,11 @@ namespace Code.SecretSanta.Game.RPG
 		public event Action<BattleAction> OnActionClicked;
 		private static readonly Vector3 OUT_OF_SCREEN_POSITION = new Vector3(999, 999, 0);
 
+		private void Awake()
+		{
+			HideActions();
+		}
+
 		private void OnEnable()
 		{
 			foreach (var item in _actionButtons)

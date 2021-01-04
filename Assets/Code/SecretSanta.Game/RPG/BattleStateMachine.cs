@@ -36,11 +36,11 @@ namespace Code.SecretSanta.Game.RPG
 		private StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		public BattleStateMachine()
+		public BattleStateMachine(EncounterAuthoring encounter)
 		{
 			_states = new Dictionary<States, IState>
 			{
-				{ States.StartBattle, new StartBattleState(this) },
+				{ States.StartBattle, new StartBattleState(this, encounter) },
 				{ States.SelectUnit, new SelectUnitState(this) },
 				{ States.SelectAction, new SelectActionState(this) },
 				{ States.SelectMoveDestination, new SelectMoveDestinationState(this) },

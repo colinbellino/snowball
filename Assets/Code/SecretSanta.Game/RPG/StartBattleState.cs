@@ -7,27 +7,31 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class StartBattleState : BaseBattleState, IState
 	{
-		public StartBattleState(BattleStateMachine machine) : base(machine) { }
+		private readonly EncounterAuthoring _encounter;
+
+		public StartBattleState(BattleStateMachine machine, EncounterAuthoring encounter) : base(machine)
+		{
+			_encounter = encounter;
+		}
 
 		public async Task Enter(object[] args)
 		{
-			var encounter = _config.Encounters[0];
-			Helpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
+			Helpers.RenderArea(_encounter.Area, _areaTilemap, _config.TilesData);
 
 			var allUnits = new List<UnitComponent>();
-			for (var index = 0; index < encounter.Allies.Count; index++)
+			for (var index = 0; index < _encounter.Allies.Count; index++)
 			{
-				var point = encounter.Area.AllySpawnPoints[index];
-				allUnits.Add(SpawnUnit(encounter.Allies[index], new Vector3Int(point.x, point.y, 0), true));
+				var point = _encounter.Area.AllySpawnPoints[index];
+				allUnits.Add(SpawnUnit(_encounter.Allies[index], new Vector3Int(point.x, point.y, 0), true));
 			}
-			for (var index = 0; index < encounter.Foes.Count; index++)
+			for (var index = 0; index < _encounter.Foes.Count; index++)
 			{
-				var point = encounter.Area.FoeSpawnPoints[index];
-				allUnits.Add(SpawnUnit(encounter.Foes[index], new Vector3Int(point.x, point.y, 0)));
+				var point = _encounter.Area.FoeSpawnPoints[index];
+				allUnits.Add(SpawnUnit(_encounter.Foes[index], new Vector3Int(point.x, point.y, 0)));
 			}
 
 			Notification.Send("BattleStarted");
-			_battle.Start(allUnits, encounter.Area, _config.TilesData);
+			_battle.Start(allUnits, _encounter.Area, _config.TilesData);
 			_controls.Enable();
 
 			#if UNITY_EDITOR

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Code.SecretSanta.Game.RPG
 {
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Encounter")]
-	public class Encounter: ScriptableObject
+	public class EncounterAuthoring: ScriptableObject
 	{
 		public Area Area;
 		public List<Unit> Allies;
