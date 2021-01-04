@@ -193,7 +193,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Positions:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
@@ -1324,6 +1324,7 @@ MonoBehaviour:
     - {fileID: 2002833379}
   _moveCursor: {fileID: 1251520759}
   _moveLine: {fileID: 78908545}
+  _hi: 0
 --- !u!4 &1460282646
 Transform:
   m_ObjectHideFlags: 0
@@ -1529,8 +1530,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4,
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 5441223297315994465, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
     type: 3}
   m_Color: {r: 1, g: 0.8046279, b: 0, a: 1}
   m_FlipX: 0
