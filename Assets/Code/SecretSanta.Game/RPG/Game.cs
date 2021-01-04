@@ -7,7 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class Game
 	{
 		public GameConfig Config { get; }
-		public EffectsManager Effects { get; }
+		public StuffSpawner Spawner { get; }
 		public GameControls Controls { get; }
 		public Tilemap AreaTilemap { get; }
 		public Tilemap HighlightTilemap { get; }
@@ -31,7 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 		private Game()
 		{
 			Config = Resources.Load<GameConfig>("RPGConfig");
-			Effects = new EffectsManager();
+			Spawner = new StuffSpawner();
 			Controls = new GameControls();
 			AreaTilemap = GameObject.Find("Area").GetComponent<Tilemap>();
 			HighlightTilemap = GameObject.Find("Highlight").GetComponent<Tilemap>();
@@ -48,14 +48,6 @@ namespace Code.SecretSanta.Game.RPG
 		static void Init()
 		{
 			_instance = null;
-		}
-
-		public class EffectsManager
-		{
-			public void Spawn(ParticleSystem effectPrefab, Vector3 position)
-			{
-				GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
-			}
 		}
 	}
 }

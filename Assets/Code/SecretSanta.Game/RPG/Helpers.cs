@@ -229,7 +229,7 @@ namespace Code.SecretSanta.Game.RPG
 	public class AttackResult
 	{
 		public UnitComponent Attacker;
-		public Vector3Int Destination;
+		public List<Vector3Int> Path;
 		public List<UnitComponent> Targets;
 	}
 }

@@ -26,6 +26,7 @@ namespace Code.SecretSanta.Game.RPG
 		public Encounter[] Encounters;
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
+		public FloatingText DamageTextPrefab;
 	}
 
 	public class TileData

@@ -132,8 +132,9 @@ MonoBehaviour:
     type: 3}
   Encounters:
   - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
-  - {fileID: 0}
   UnitPrefab: {fileID: 40356880270672144, guid: f43b4dbd642334b7fa971aa92e0b62fe,
     type: 3}
   SnowballPrefab: {fileID: 8808955276247847239, guid: a6e0719ed39054c9a89341c0c7a47f97,
+    type: 3}
+  DamageTextPrefab: {fileID: 5883526031790158921, guid: 2412dfbb2e4e95647828088136c79369,
     type: 3}

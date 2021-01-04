@@ -24,7 +24,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				_ui.ToggleButton(BattleAction.Move, _turn.HasMoved == false);
 				_ui.ToggleButton(BattleAction.Attack, _turn.HasActed == false);
-				_ui.ShowActions();
+				_ui.ShowActions(_turn.Unit);
 			}
 			else
 			{
@@ -59,7 +59,7 @@ namespace Code.SecretSanta.Game.RPG
 		private void ComputerTurn()
 		{
 			var randomTarget = _allUnits[0];
-			_turn.Targets = new List<Vector3Int> { randomTarget.GridPosition };
+			_turn.AttackTargets = new List<Vector3Int> { randomTarget.GridPosition };
 			_turn.HasActed = true;
 			_turn.HasMoved = true;
 

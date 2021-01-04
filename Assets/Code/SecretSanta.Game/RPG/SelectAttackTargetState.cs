@@ -34,13 +34,13 @@ namespace Code.SecretSanta.Game.RPG
 			);
 			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
-			// TODO: Highlight target and trajectory
 			var path = new List<Vector3Int>{ _turn.Unit.GridPosition, cursorPosition };
 			_ui.HighlightAimPath(path);
 
 			if (leftClick)
 			{
-				_turn.Targets = new List<Vector3Int> { destination };
+				_turn.AttackTargets = new List<Vector3Int> { destination };
+				_turn.AttackPath = path;
 				_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
 			}
 		}
