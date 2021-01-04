@@ -16,7 +16,10 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public async Task Exit() { }
+		public async Task Exit()
+		{
+			_ui.ClearAimPath();
+		}
 
 		public void Tick()
 		{
@@ -29,8 +32,11 @@ namespace Code.SecretSanta.Game.RPG
 				Mathf.RoundToInt(mouseWorldPosition.y),
 				0
 			);
+			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
 			// TODO: Highlight target and trajectory
+			var path = new List<Vector3Int>{ _turn.Unit.GridPosition, cursorPosition };
+			_ui.HighlightAimPath(path);
 
 			if (leftClick)
 			{
