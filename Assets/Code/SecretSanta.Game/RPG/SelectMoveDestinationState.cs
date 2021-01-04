@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NesScripts.Controls.PathFind;
 using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
@@ -31,11 +30,18 @@ namespace Code.SecretSanta.Game.RPG
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
 			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
-			var path = Helpers.CalculatePathWithFall(
-				_turn.Unit.GridPosition, cursorPosition,
-				_battle.WalkGrid
-			);
-			_ui.HighlightMovePath(path);
+			if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))
+			{
+				var path = Helpers.CalculatePathWithFall(
+					_turn.Unit.GridPosition, cursorPosition,
+					_battle.WalkGrid
+				);
+				_ui.HighlightMovePath(path);
+			}
+			else
+			{
+				_ui.ClearMovePath();
+			}
 
 			if (leftClick)
 			{

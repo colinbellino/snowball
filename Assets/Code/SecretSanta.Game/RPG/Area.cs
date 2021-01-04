@@ -11,5 +11,4 @@ namespace Code.SecretSanta.Game.RPG
 		public List<Vector2Int> AllySpawnPoints;
 		public List<Vector2Int> FoeSpawnPoints;
 	}
-
 }
