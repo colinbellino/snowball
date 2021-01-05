@@ -12,45 +12,28 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private SpriteRenderer _bodyRenderer;
 		[SerializeField] private Text _debugText;
 
-		public Unit Unit { get; private set; }
-
 		public override string ToString() => name;
 
 		public void Initialize(Unit unit)
 		{
-			Unit = unit;
-			SetName(Unit.Name);
-			SetColor(Unit.Color);
-		}
+			SetName(unit.Name);
+			SetColor(unit.Color);
 
-		public void SetPlayerControlled(bool value) => Unit.IsPlayerControlled = value;
-
-		public void SetGridPosition(Vector3Int position)
-		{
-			Unit.GridPosition = position;
-			transform.position = new Vector3(position.x, position.y, 0f);
-			SetDebugText($"[{position.x},{position.y}]");
-		}
-
-		public void SetDebugText(string value)
-		{
-			_debugText.text = value;
+			transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
+			_bodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction.x > 0 ? 0f : 180f, 0f));
+			SetDebugText($"[{unit.GridPosition.x},{unit.GridPosition.y}]");
 		}
 
 		public async Task MoveOnPath(List<Vector3Int> path)
 		{
 			for (var index = 1; index < path.Count; index++)
 			{
-				await Move(path[index]);
+				await MoveTo(path[index]);
 			}
-
-			SetGridPosition(path[path.Count - 1]);
 		}
 
 		public async UniTask Turn(Vector3Int direction)
 		{
-			Unit.Direction = direction;
-
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
@@ -71,16 +54,6 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		private void SetName(string value)
-		{
-			name = $"{value}";
-		}
-
-		private void SetColor(Color color)
-		{
-			_bodyRenderer.material.SetColor("ReplacementColor0", color);
-		}
-
 		private async Task ShootProjectile(Vector3 origin, Vector3 destination)
 		{
 			var instance = GameObject.Instantiate(Game.Instance.Config.SnowballPrefab, origin, Quaternion.identity);
@@ -94,11 +67,26 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void ApplyDamage(int amount)
 		{
-			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), Unit.GridPosition + Vector3Int.up);
+			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), transform.position + Vector3.up);
 			Debug.Log($"{name} hit for {amount} damage.");
 		}
 
-		private async Task Move(Vector3Int destination)
+		private void SetName(string value)
+		{
+			name = $"{value}";
+		}
+
+		private void SetColor(Color color)
+		{
+			_bodyRenderer.material.SetColor("ReplacementColor0", color);
+		}
+
+		private void SetDebugText(string value)
+		{
+			_debugText.text = value;
+		}
+
+		private async Task MoveTo(Vector3Int destination)
 		{
 			var distance = Vector3.Distance(transform.position, destination);
 			await transform.DOMove(destination, distance * 0.15f).SetEase(Ease.Linear);

@@ -20,7 +20,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
-				unit.Facade = SpawnFacade(unit, position, true);
+				unit.SetFacade(SpawnFacade(unit, position, true));
 
 				allUnits.Add(unit);
 			}
@@ -28,7 +28,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
 				var unit = new Unit(encounter.Foes[index]);
-				unit.Facade = SpawnFacade(unit, position, false);
+				unit.SetFacade(SpawnFacade(unit, position, false));
 
 				allUnits.Add(unit);
 			}
@@ -49,13 +49,14 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick() { }
 
-		private UnitFacade SpawnFacade(Unit unit, Vector3Int position, bool isPlayerControlled = false)
+		private UnitFacade SpawnFacade(Unit unit, Vector3Int position, bool isPlayerControlled)
 		{
 			var facade = GameObject.Instantiate(_config.UnitPrefab);
+			unit.GridPosition = position;
+			unit.Direction = isPlayerControlled ? Vector3Int.right : Vector3Int.left;
+			unit.IsPlayerControlled = isPlayerControlled;
 			facade.Initialize(unit);
-			facade.SetGridPosition(position);
-			facade.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
-			facade.SetPlayerControlled(isPlayerControlled);
+
 			return facade;
 		}
 	}

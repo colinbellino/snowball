@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		public Vector3Int Direction;
 		public bool IsPlayerControlled;
 
-		public UnitFacade Facade;
+		public UnitFacade Facade { get; private set; }
 
 		public Unit(UnitAuthoring authoring)
 		{
@@ -20,6 +20,19 @@ namespace Code.SecretSanta.Game.RPG
 			Name = authoring.Name;
 			Color = authoring.Color;
 			MoveRange = authoring.MoveRange;
+		}
+
+		public void SetFacade(UnitFacade facade)
+		{
+			Facade = facade;
+		}
+	}
+
+	public static class UnitHelpers
+	{
+		public static void SetGridPosition(Unit unit, Vector3Int position)
+		{
+			unit.GridPosition = position;
 		}
 	}
 }
