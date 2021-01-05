@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Gaius
   m_EditorClassIdentifier: 
   Id: 3
+  Name: Gaius
   Color: {r: 0.6594756, g: 0, b: 0.8584906, a: 1}
   MoveRange: 5
+  Health: 1
