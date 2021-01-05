@@ -8,12 +8,6 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			if (IsVictoryConditionReached())
-			{
-				_machine.Fire(BattleStateMachine.Triggers.BattleWon);
-				return;
-			}
-
 			_battle.NextTurn();
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
@@ -22,10 +16,5 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Exit() { }
 
 		public void Tick() { }
-
-		private bool IsVictoryConditionReached()
-		{
-			return _battle.TurnNumber > 10;
-		}
 	}
 }

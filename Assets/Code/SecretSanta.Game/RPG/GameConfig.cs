@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class TilesData : Dictionary<int, TileData> { }
 
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Game Config")]
 	public class GameConfig : SerializedScriptableObject
@@ -29,9 +29,13 @@ namespace Code.SecretSanta.Game.RPG
 		public FloatingText DamageTextPrefab;
 
 		[Title("Debug")]
-		public List<int> StartingParty;
-
+		[SerializeField] private List<UnitAuthoring> _startingParty;
+		[SerializeField] private List<EncounterAuthoring> _encountersOrder;
+		public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
+		public List<int> EncountersOrder => _encountersOrder.Select(encounter => encounter.Id).ToList();
 	}
+
+	public class TilesData : Dictionary<int, TileData> { }
 
 	public class TileData
 	{

@@ -9,33 +9,6 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public static class Helpers
 	{
-		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData)
-		{
-			for (var x = 0; x < area.Size.x; x++)
-			{
-				for (var y = 0; y < area.Size.y; y++)
-				{
-					var index = x + y * area.Size.x;
-					var position = new Vector3Int(x, y, 0);
-					var tileId = area.Tiles[index];
-
-					tilemap.SetTile(position, tilesData[tileId].Tile);
-				}
-			}
-		}
-
-		public static void RenderMeta(Area area, Tilemap tilemap)
-		{
-			foreach (var position in area.AllySpawnPoints)
-			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.AllySpawnTile);
-			}
-			foreach (var position in area.FoeSpawnPoints)
-			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.FoeSpawnTile);
-			}
-		}
-
 		public static void RenderGridWalk(Grid grid, Tilemap tilemap, TileBase tile)
 		{
 			foreach (var node in grid.nodes)
@@ -211,6 +184,33 @@ namespace Code.SecretSanta.Game.RPG
 
 	public static class TilemapHelpers
 	{
+		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData)
+		{
+			for (var x = 0; x < area.Size.x; x++)
+			{
+				for (var y = 0; y < area.Size.y; y++)
+				{
+					var index = x + y * area.Size.x;
+					var position = new Vector3Int(x, y, 0);
+					var tileId = area.Tiles[index];
+
+					tilemap.SetTile(position, tilesData[tileId].Tile);
+				}
+			}
+		}
+
+		public static void RenderMeta(Area area, Tilemap tilemap)
+		{
+			foreach (var position in area.AllySpawnPoints)
+			{
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.AllySpawnTile);
+			}
+			foreach (var position in area.FoeSpawnPoints)
+			{
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.FoeSpawnTile);
+			}
+		}
+
 		public static void SetTiles(IEnumerable<Vector3Int> positions, Tilemap tilemap, TileBase tile, Color color)
 		{
 			foreach (var position in positions)

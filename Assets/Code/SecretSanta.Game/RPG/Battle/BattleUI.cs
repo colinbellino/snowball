@@ -52,6 +52,14 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
+		public void HideAll()
+		{
+			HideActionsMenu();
+			HideTurnOrder();
+			ClearMovePath();
+			ClearAimPath();
+		}
+
 		public void InitActionMenu(Unit unit)
 		{
 			if (unit == null)
@@ -143,14 +151,6 @@ namespace Code.SecretSanta.Game.RPG
 		private UnityAction OnBattleActionClicked(BattleAction action)
 		{
 			return () => OnActionClicked?.Invoke(action);
-		}
-
-		private void HideAll()
-		{
-			HideActionsMenu();
-			HideTurnOrder();
-			ClearMovePath();
-			ClearAimPath();
 		}
 	}
 }

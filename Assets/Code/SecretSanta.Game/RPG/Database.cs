@@ -17,14 +17,14 @@ namespace Code.SecretSanta.Game.RPG
 			var units = Resources.LoadAll<UnitAuthoring>("Units");
 			foreach (var unit in units)
 			{
-				database.Units.Add(unit.Id, unit);
+				database.Units.Add(unit.Id,  Object.Instantiate(unit));
 			}
 
 			database.Encounters = new Dictionary<int, EncounterAuthoring>();
 			var encounters = Resources.LoadAll<EncounterAuthoring>("Encounters");
 			foreach (var encounter in encounters)
 			{
-				database.Encounters.Add(encounter.Id, encounter);
+				database.Encounters.Add(encounter.Id, Object.Instantiate(encounter));
 			}
 		}
 	}
