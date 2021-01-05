@@ -43,6 +43,12 @@ namespace Code.SecretSanta.Game.RPG
 			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
 		}
 
+		public async UniTask AnimateDeath()
+		{
+			await _bodyRenderer.transform.DORotate(new Vector3(0f, 0f, 45f), 0.3f);
+			await _bodyRenderer.transform.DOScale(0, 0.3f);
+		}
+
 		private void SetName(string value)
 		{
 			name = $"{value}";
@@ -53,7 +59,7 @@ namespace Code.SecretSanta.Game.RPG
 			_bodyRenderer.material.SetColor("ReplacementColor0", color);
 		}
 
-		private async Task MoveTo(Vector3Int destination)
+		private async UniTask MoveTo(Vector3Int destination)
 		{
 			const float durationPerUnit = 0.15f;
 			var distance = Vector3.Distance(transform.position, destination);
