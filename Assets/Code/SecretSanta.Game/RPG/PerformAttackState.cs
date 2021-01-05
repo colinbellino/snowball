@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 			_ui.SetUnit(_turn.Unit);
 
 			var targets = _turn.AttackTargets
-				.Select(position => _allUnits.Find(unit => unit.GridPosition == position))
+				.Select(position => _battle.Units.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
 			var result = new AttackResult
@@ -21,7 +21,7 @@ namespace Code.SecretSanta.Game.RPG
 				Targets = targets,
 				Path = _turn.AttackPath,
 			};
-			await _turn.Unit.Attack(result);
+			await _turn.Unit.Facade.Attack(result);
 			_turn.HasActed = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);

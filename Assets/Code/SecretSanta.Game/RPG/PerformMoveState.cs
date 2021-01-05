@@ -13,10 +13,10 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (direction.y == 0 && direction.x != 0f && direction.x != _turn.Unit.Direction.x)
 			{
-				await _turn.Unit.Turn(direction);
+				await _turn.Unit.Facade.Turn(direction);
 			}
 
-			await _turn.Unit.MoveOnPath(_turn.MovePath);
+			await _turn.Unit.Facade.MoveOnPath(_turn.MovePath);
 			_turn.HasMoved = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);

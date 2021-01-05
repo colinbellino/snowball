@@ -228,8 +228,8 @@ namespace Code.SecretSanta.Game.RPG
 
 	public class AttackResult
 	{
-		public UnitComponent Attacker;
+		public UnitRuntime Attacker;
 		public List<Vector3Int> Path;
-		public List<UnitComponent> Targets;
+		public List<UnitRuntime> Targets;
 	}
 }

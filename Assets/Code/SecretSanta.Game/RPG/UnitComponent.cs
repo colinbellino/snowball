@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
@@ -12,28 +10,24 @@ namespace Code.SecretSanta.Game.RPG
 	public class UnitComponent : MonoBehaviour
 	{
 		[SerializeField] private SpriteRenderer _bodyRenderer;
-		[FormerlySerializedAs("_text")] [SerializeField] private Text _debugText;
+		[SerializeField] private Text _debugText;
 
-		public Vector3Int GridPosition { get; private set; }
-		public bool IsPlayerControlled { get; private set; }
-		public Vector3Int Direction { get; private set; }
-		public Unit Data { get; private set; }
+		public UnitRuntime Runtime { get; private set; }
 
 		public override string ToString() => name;
 
-		public void UpdateData(Unit data, bool isPlayerControlled)
+		public void Initialize(UnitRuntime runtime)
 		{
-			Data = data;
-
-			SetName(Data.Name);
-			_bodyRenderer.material.SetColor("ReplacementColor0", Data.Color);
-
-			IsPlayerControlled = isPlayerControlled;
+			Runtime = runtime;
+			SetName(Runtime.Name);
+			SetColor(Runtime.Color);
 		}
+
+		public void SetPlayerControlled(bool value) => Runtime.IsPlayerControlled = value;
 
 		public void SetGridPosition(Vector3Int position)
 		{
-			GridPosition = position;
+			Runtime.GridPosition = position;
 			transform.position = new Vector3(position.x, position.y, 0f);
 			SetDebugText($"[{position.x},{position.y}]");
 		}
@@ -55,14 +49,9 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async UniTask Turn(Vector3Int direction)
 		{
-			Direction = direction;
+			Runtime.Direction = direction;
 
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
-		}
-
-		private void SetName(string value)
-		{
-			name = $"{value}";
 		}
 
 		public async Task Attack(AttackResult result)
@@ -74,12 +63,22 @@ namespace Code.SecretSanta.Game.RPG
 			await _bodyRenderer.transform.DOMoveX(animDestination, 0.1f);
 			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
 
-			await ShootProjectile(result.Attacker.transform.position, destination);
+			await ShootProjectile(result.Attacker.Facade.transform.position, destination);
 
 			foreach (var target in result.Targets)
 			{
-				target.ApplyDamage(1);
+				target.Facade.ApplyDamage(1);
 			}
+		}
+
+		private void SetName(string value)
+		{
+			name = $"{value}";
+		}
+
+		private void SetColor(Color color)
+		{
+			_bodyRenderer.material.SetColor("ReplacementColor0", color);
 		}
 
 		private async Task ShootProjectile(Vector3 origin, Vector3 destination)
@@ -95,7 +94,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void ApplyDamage(int amount)
 		{
-			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), GridPosition + Vector3Int.up);
+			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), Runtime.GridPosition + Vector3Int.up);
 			Debug.Log($"{name} hit for {amount} damage.");
 		}
 

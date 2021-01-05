@@ -44,7 +44,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public void SetUnit(UnitComponent unit)
+		public void SetUnit(UnitRuntime unit)
 		{
 			if (unit == null)
 			{
@@ -54,7 +54,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_currentUnitCursor.transform.position = unit.GridPosition + Vector3Int.up;
-			_actionsTitle.text = $"{unit.Data.Name}";
+			_actionsTitle.text = $"{unit.Name}";
 		}
 
 		public void ShowActions() => _actionsRoot.SetActive(true);

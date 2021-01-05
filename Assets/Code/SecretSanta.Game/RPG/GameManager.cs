@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
@@ -6,15 +7,24 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		private BattleStateMachine _battle;
 
-		private void OnEnable()
+		private void Start()
 		{
+			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
+
+			var party = new List<UnitRuntime>();
+			foreach (var unitId in Game.Instance.Config.StartingParty)
+			{
+				party.Add(new UnitRuntime(Game.Instance.Database.Units[unitId]));
+			}
+			Game.Instance.State.Party = party;
+
 			Game.Instance.DebugUI.Show();
 			Game.Instance.WorldmapRoot.SetActive(false);
 
 			Game.Instance.DebugUI.OnDebugButtonClicked += OnDebugButtonClicked;
 		}
 
-		private void OnDisable()
+		private void OnDestroy()
 		{
 			Game.Instance.DebugUI.OnDebugButtonClicked -= OnDebugButtonClicked;
 		}
@@ -31,7 +41,7 @@ namespace Code.SecretSanta.Game.RPG
 			switch (key)
 			{
 				case 0:
-					_battle = new BattleStateMachine(Game.Instance.Config.Encounters[0]);
+					_battle = new BattleStateMachine();
 					break;
 				case 1:
 					Game.Instance.WorldmapRoot.SetActive(true);
