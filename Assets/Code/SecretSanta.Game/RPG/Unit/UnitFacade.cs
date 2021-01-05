@@ -29,9 +29,9 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public async UniTask ChangeDirection(Vector3Int direction)
+		public async UniTask ChangeDirection(float direction)
 		{
-			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
+			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
 		public async Task AnimateAttack(Vector3 destination)
@@ -62,6 +62,14 @@ namespace Code.SecretSanta.Game.RPG
 		private async UniTask MoveTo(Vector3Int destination)
 		{
 			const float durationPerUnit = 0.15f;
+
+			var direction = destination.x - transform.position.x;
+
+			if (direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0)
+			{
+				await ChangeDirection(direction);
+			}
+
 			var distance = Vector3.Distance(transform.position, destination);
 			await transform.DOMove(destination, distance * durationPerUnit).SetEase(Ease.Linear);
 		}
