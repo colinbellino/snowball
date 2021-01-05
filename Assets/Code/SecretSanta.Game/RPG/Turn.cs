@@ -5,7 +5,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Turn
 	{
-		public UnitComponent Unit;
+		public UnitRuntime Unit;
 		public bool HasMoved;
 		public bool HasActed;
 		public Vector3Int InitialPosition;

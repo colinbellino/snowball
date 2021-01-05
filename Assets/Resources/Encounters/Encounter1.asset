@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9bd395213f44c279293f051d7143c19, type: 3}
   m_Name: Encounter1
   m_EditorClassIdentifier: 
+  Id: 1
   Area: {fileID: 11400000, guid: 33441d1d231754823b206b3ff8668d7c, type: 2}
-  Allies:
-  - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
-  - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
   Foes:
   - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}

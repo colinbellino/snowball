@@ -62,7 +62,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void ComputerTurn()
 		{
-			var foes = _allUnits.Where(unit => unit.IsPlayerControlled).ToList();
+			var foes = _battle.Units.Where(unit => unit.IsPlayerControlled).ToList();
 			var randomTarget = foes[Random.Range(0, foes.Count)];
 			_turn.AttackTargets = new List<Vector3Int> { randomTarget.GridPosition };
 			_turn.AttackPath = new List<Vector3Int> { _turn.Unit.GridPosition, randomTarget.GridPosition};

@@ -6,8 +6,8 @@ namespace Code.SecretSanta.Game.RPG
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Encounter")]
 	public class EncounterAuthoring: ScriptableObject
 	{
+		public int Id;
 		public Area Area;
-		public List<Unit> Allies;
-		public List<Unit> Foes;
+		public List<UnitAuthoring> Foes;
 	}
 }

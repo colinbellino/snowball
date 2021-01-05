@@ -27,6 +27,10 @@ namespace Code.SecretSanta.Game.RPG
 		public UnitComponent UnitPrefab;
 		public GameObject SnowballPrefab;
 		public FloatingText DamageTextPrefab;
+
+		[Header("Debug")]
+		public List<int> StartingParty;
+
 	}
 
 	public class TileData

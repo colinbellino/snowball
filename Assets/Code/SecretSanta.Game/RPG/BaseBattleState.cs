@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,8 +13,9 @@ namespace Code.SecretSanta.Game.RPG
 		protected readonly BattleStateMachine _machine;
 		protected readonly Camera _camera;
 		protected readonly BattleUI _ui;
+		protected readonly GameState _state;
+		protected readonly Database _database;
 
-		protected List<UnitComponent> _allUnits => _battle.Units;
 		protected Turn _turn => _battle.Turn;
 
 		protected BaseBattleState(BattleStateMachine machine)
@@ -28,6 +28,8 @@ namespace Code.SecretSanta.Game.RPG
 			_controls = Game.Instance.Controls;
 			_camera = Game.Instance.Camera;
 			_ui = Game.Instance.BattleUI;
+			_state = Game.Instance.State;
+			_database = Game.Instance.Database;
 		}
 	}
 }

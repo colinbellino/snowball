@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -16,6 +17,8 @@ namespace Code.SecretSanta.Game.RPG
 		public Camera Camera { get; }
 		public BattleUI BattleUI { get; }
 		public DebugUI DebugUI { get; }
+		public GameState State { get; }
+		public Database Database { get; }
 
 		private static Game _instance;
 		public static Game Instance
@@ -42,6 +45,8 @@ namespace Code.SecretSanta.Game.RPG
 			Spawner = new StuffSpawner();
 			Controls = new GameControls();
 			Battle = new Battle();
+			State = new GameState();
+			Database = new Database();
 
 			Assert.IsNotNull(Config);
 			Assert.IsNotNull(AreaTilemap);
@@ -56,5 +61,12 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_instance = null;
 		}
+	}
+
+	// This is what will be persisted when saving the game
+	public class GameState
+	{
+		public int CurrentEncounterId = 1;
+		public List<UnitRuntime> Party;
 	}
 }

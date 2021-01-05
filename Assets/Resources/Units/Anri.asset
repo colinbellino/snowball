@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
   m_Name: Anri
   m_EditorClassIdentifier: 
+  Id: 1
   Color: {r: 0, g: 0.6034198, b: 1, a: 1}
   MoveRange: 5

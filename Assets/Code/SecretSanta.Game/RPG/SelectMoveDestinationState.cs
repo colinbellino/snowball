@@ -12,8 +12,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.Data.MoveRange, _battle.WalkGrid);
-			TilemapHelpers.SetTiles(_validMovePositions, _highlightTilemap, _config.HighlightTile, _turn.Unit.Data.Color);
+			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _battle.WalkGrid);
+			TilemapHelpers.SetTiles(_validMovePositions, _highlightTilemap, _config.HighlightTile, _turn.Unit.Color);
 			_ui.SetUnit(_turn.Unit);
 		}
 
