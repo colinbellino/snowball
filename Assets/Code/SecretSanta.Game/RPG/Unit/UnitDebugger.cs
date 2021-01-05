@@ -6,6 +6,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class UnitDebugger : MonoBehaviour
 	{
+		[SerializeField] private Canvas _canvas;
 		[SerializeField] private Text _debugText;
 
 		private Unit _unit;
@@ -18,7 +19,14 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			SetDebugText($"{_unit.Name} \n [{_unit.GridPosition.x},{_unit.GridPosition.y}] · {_unit.HealthCurrent}/{_unit.HealthMax}");
+			if (_unit.HealthCurrent > 0)
+			{
+				SetDebugText($"{_unit.Name} \n [{_unit.GridPosition.x},{_unit.GridPosition.y}] · {_unit.HealthCurrent}/{_unit.HealthMax}");
+			}
+			else
+			{
+				_canvas.gameObject.SetActive(false);
+			}
 		}
 
 		private void SetDebugText(string value)

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -9,10 +11,12 @@ namespace Code.SecretSanta.Game.RPG
 			GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
 		}
 
-		public void SpawnText(FloatingText textPrefab, string text, Vector3 position)
+		public UniTask SpawnText(FloatingText textPrefab, string text, Vector3 position)
 		{
 			var floatingText = GameObject.Instantiate(textPrefab, position, Quaternion.identity);
 			floatingText.Show(text);
+
+			return UniTask.Delay(TimeSpan.FromSeconds(floatingText.Duration));
 		}
 	}
 }

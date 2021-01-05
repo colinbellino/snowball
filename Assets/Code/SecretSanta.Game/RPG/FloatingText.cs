@@ -9,6 +9,7 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private Text _text;
 
 		private Sequence _sequence;
+		public float Duration { get; private set; }
 
 		private void OnEnable()
 		{
@@ -32,6 +33,8 @@ namespace Code.SecretSanta.Game.RPG
 					// gameObject.SetActive(false);
 					Destroy(gameObject);
 				});
+
+			Duration = _sequence.Duration();
 		}
 	}
 }

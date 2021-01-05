@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
@@ -47,10 +48,13 @@ namespace Code.SecretSanta.Game.RPG
 
 			await ShootProjectile(result.Attacker.GridPosition, destination);
 
+			var damageTasks = new List<UniTask>();
 			foreach (var target in result.Targets)
 			{
-				ApplyDamage(target, 1);
+				damageTasks.Add(ApplyDamage(target, 1));
 			}
+
+			await UniTask.WhenAll(damageTasks);
 		}
 
 		// TODO: Do this in Projectile.cs
@@ -66,11 +70,25 @@ namespace Code.SecretSanta.Game.RPG
 			GameObject.Destroy(instance);
 		}
 
-		private void ApplyDamage(Unit unit, int amount)
+		private async UniTask ApplyDamage(Unit unit, int amount)
 		{
+			Debug.Log($"{unit} hit for {amount} damage.");
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
-			_spawner.SpawnText(_config.DamageTextPrefab, amount.ToString(), unit.GridPosition + Vector3.up);
-			Debug.Log($"{unit.Name} hit for {amount} damage.");
+
+			var tasks = new List<UniTask>();
+			if (unit.HealthCurrent <= 0)
+			{
+				tasks.Add(unit.Facade.AnimateDeath());
+			}
+
+			var spawnDamageText = _spawner.SpawnText(
+				_config.DamageTextPrefab,
+				amount.ToString(),
+				unit.GridPosition + Vector3.up
+			);
+			tasks.Add(spawnDamageText);
+
+			await UniTask.WhenAll(tasks);
 		}
 	}
 }
