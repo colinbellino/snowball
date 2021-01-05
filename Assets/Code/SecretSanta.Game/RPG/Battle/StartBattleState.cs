@@ -33,9 +33,8 @@ namespace Code.SecretSanta.Game.RPG
 				allUnits.Add(unit);
 			}
 
-			Notification.Send("BattleStarted");
-			_battle.Start(allUnits, encounter.Area, _config.TilesData);
 			_controls.Enable();
+			_battle.Start(allUnits, encounter.Area, _config.TilesData);
 
 			#if UNITY_EDITOR
 			var gridWalkTilemap = GameObject.Find("GridWalk").GetComponent<Tilemap>();

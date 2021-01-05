@@ -30,5 +30,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			Facade = facade;
 		}
+
+		public override string ToString() => Name;
 	}
 }

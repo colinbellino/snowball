@@ -12,23 +12,23 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public Vector2Int TilemapSize = new Vector2Int(32, 18);
 
-		[Header("Tilemap")]
+		[Title("Tilemap")]
 		public TilesData TilesData;
 		public TileBase AllySpawnTile;
 		public TileBase FoeSpawnTile;
 		public TileBase EmptyTile;
 		public TileBase HighlightTile;
 
-		[Header("Effects")]
+		[Title("Effects")]
 		public ParticleSystem HitEffectPrefab;
 
-		[Header("Data")]
+		[Title("Data")]
 		public EncounterAuthoring[] Encounters;
 		public UnitFacade UnitPrefab;
 		public GameObject SnowballPrefab;
 		public FloatingText DamageTextPrefab;
 
-		[Header("Debug")]
+		[Title("Debug")]
 		public List<int> StartingParty;
 
 	}
