@@ -8,6 +8,8 @@ namespace Code.SecretSanta.Game.RPG
 		public string Name;
 		public Color Color;
 		public int MoveRange;
+		public int HealthCurrent;
+		public int HealthMax;
 		public Vector3Int GridPosition;
 		public Vector3Int Direction;
 		public bool IsPlayerControlled;
@@ -20,19 +22,13 @@ namespace Code.SecretSanta.Game.RPG
 			Name = authoring.Name;
 			Color = authoring.Color;
 			MoveRange = authoring.MoveRange;
+			HealthCurrent = authoring.Health;
+			HealthMax = authoring.Health;
 		}
 
 		public void SetFacade(UnitFacade facade)
 		{
 			Facade = facade;
-		}
-	}
-
-	public static class UnitHelpers
-	{
-		public static void SetGridPosition(Unit unit, Vector3Int position)
-		{
-			unit.GridPosition = position;
 		}
 	}
 }
