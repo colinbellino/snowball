@@ -13,7 +13,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (direction.y == 0 && direction.x != 0f && direction.x != _turn.Unit.Direction.x)
 			{
-				await _turn.Unit.Facade.Turn(direction);
+				await _turn.Unit.Facade.ChangeDirection(direction);
 				_turn.Unit.Direction = direction;
 			}
 
