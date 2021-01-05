@@ -11,10 +11,10 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
 
-			var party = new List<UnitRuntime>();
+			var party = new List<Unit>();
 			foreach (var unitId in Game.Instance.Config.StartingParty)
 			{
-				party.Add(new UnitRuntime(Game.Instance.Database.Units[unitId]));
+				party.Add(new Unit(Game.Instance.Database.Units[unitId]));
 			}
 			Game.Instance.State.Party = party;
 

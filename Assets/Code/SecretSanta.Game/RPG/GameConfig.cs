@@ -24,7 +24,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		[Header("Data")]
 		public EncounterAuthoring[] Encounters;
-		public UnitComponent UnitPrefab;
+		public UnitFacade UnitPrefab;
 		public GameObject SnowballPrefab;
 		public FloatingText DamageTextPrefab;
 
