@@ -15,22 +15,20 @@ namespace Code.SecretSanta.Game.RPG
 
 			Helpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
 
-			var allUnits = new List<UnitRuntime>();
+			var allUnits = new List<Unit>();
 			for (var index = 0; index < _state.Party.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
-				var facade = SpawnUnit(unit, position, true);
-				unit.Facade = facade;
+				unit.Facade = SpawnFacade(unit, position, true);
 
 				allUnits.Add(unit);
 			}
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
-				var unit = new UnitRuntime(encounter.Foes[index]);
-				var facade = SpawnUnit(unit, position);
-				unit.Facade = facade;
+				var unit = new Unit(encounter.Foes[index]);
+				unit.Facade = SpawnFacade(unit, position, false);
 
 				allUnits.Add(unit);
 			}
@@ -51,10 +49,10 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick() { }
 
-		private UnitComponent SpawnUnit(UnitRuntime data, Vector3Int position, bool isPlayerControlled = false)
+		private UnitFacade SpawnFacade(Unit unit, Vector3Int position, bool isPlayerControlled = false)
 		{
 			var facade = GameObject.Instantiate(_config.UnitPrefab);
-			facade.Initialize(data);
+			facade.Initialize(unit);
 			facade.SetGridPosition(position);
 			facade.Turn(isPlayerControlled ? Vector3Int.right : Vector3Int.left);
 			facade.SetPlayerControlled(isPlayerControlled);

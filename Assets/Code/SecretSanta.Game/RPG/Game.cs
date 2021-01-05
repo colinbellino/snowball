@@ -67,6 +67,6 @@ namespace Code.SecretSanta.Game.RPG
 	public class GameState
 	{
 		public int CurrentEncounterId = 1;
-		public List<UnitRuntime> Party;
+		public List<Unit> Party;
 	}
 }

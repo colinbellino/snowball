@@ -6,14 +6,14 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Battle
 	{
-		public List<UnitRuntime> Units { get; private set; }
+		public List<Unit> Units { get; private set; }
 		public int TurnNumber { get; private set; }
 		public Turn Turn => _turns.Current;
 		public Grid WalkGrid { get; private set; }
 
 		private IEnumerator<Turn> _turns;
 
-		public void Start(List<UnitRuntime> units, Area area, TilesData tilesData)
+		public void Start(List<Unit> units, Area area, TilesData tilesData)
 		{
 			TurnNumber = 0;
 			Units = units;
@@ -51,6 +51,6 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		private bool CanTakeTurn(UnitRuntime unit) => true;
+		private bool CanTakeTurn(Unit unit) => true;
 	}
 }

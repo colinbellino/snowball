@@ -7,27 +7,27 @@ using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class UnitComponent : MonoBehaviour
+	public class UnitFacade : MonoBehaviour
 	{
 		[SerializeField] private SpriteRenderer _bodyRenderer;
 		[SerializeField] private Text _debugText;
 
-		public UnitRuntime Runtime { get; private set; }
+		public Unit Unit { get; private set; }
 
 		public override string ToString() => name;
 
-		public void Initialize(UnitRuntime runtime)
+		public void Initialize(Unit unit)
 		{
-			Runtime = runtime;
-			SetName(Runtime.Name);
-			SetColor(Runtime.Color);
+			Unit = unit;
+			SetName(Unit.Name);
+			SetColor(Unit.Color);
 		}
 
-		public void SetPlayerControlled(bool value) => Runtime.IsPlayerControlled = value;
+		public void SetPlayerControlled(bool value) => Unit.IsPlayerControlled = value;
 
 		public void SetGridPosition(Vector3Int position)
 		{
-			Runtime.GridPosition = position;
+			Unit.GridPosition = position;
 			transform.position = new Vector3(position.x, position.y, 0f);
 			SetDebugText($"[{position.x},{position.y}]");
 		}
@@ -49,7 +49,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async UniTask Turn(Vector3Int direction)
 		{
-			Runtime.Direction = direction;
+			Unit.Direction = direction;
 
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction.x > 0 ? 0f : 180f, 0f), 0.15f);
 		}
@@ -94,7 +94,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void ApplyDamage(int amount)
 		{
-			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), Runtime.GridPosition + Vector3Int.up);
+			Game.Instance.Spawner.SpawnText(Game.Instance.Config.DamageTextPrefab, amount.ToString(), Unit.GridPosition + Vector3Int.up);
 			Debug.Log($"{name} hit for {amount} damage.");
 		}
 

@@ -1,17 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	[CreateAssetMenu(menuName = "Secret Santa/RPG/Unit")]
-	public class UnitAuthoring : ScriptableObject
-	{
-		public int Id;
-		public string Name => name;
-		public Color Color = Color.magenta;
-		public int MoveRange = 3;
-	}
-
-	public class UnitRuntime
+	public class Unit
 	{
 		public int Id;
 		public string Name;
@@ -21,9 +12,9 @@ namespace Code.SecretSanta.Game.RPG
 		public Vector3Int Direction;
 		public bool IsPlayerControlled;
 
-		public UnitComponent Facade;
+		public UnitFacade Facade;
 
-		public UnitRuntime(UnitAuthoring authoring)
+		public Unit(UnitAuthoring authoring)
 		{
 			Id = authoring.Id;
 			Name = authoring.Name;

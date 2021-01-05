@@ -44,7 +44,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public void SetUnit(UnitRuntime unit)
+		public void SetUnit(Unit unit)
 		{
 			if (unit == null)
 			{
