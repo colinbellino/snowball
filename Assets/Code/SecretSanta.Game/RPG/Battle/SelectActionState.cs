@@ -15,19 +15,22 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_ui.OnActionClicked += OnActionClicked;
 
+			_ui.ShowTurnOrder();
+			_ui.SetTurnOrder(_battle.GetTurnOrder());
+
 			if (_turn.HasActed && _turn.HasMoved)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
 				return;
 			}
 
-			_ui.SetUnit(_turn.Unit);
+			_ui.InitActionMenu(_turn.Unit);
 
 			if (_turn.Unit.IsPlayerControlled)
 			{
 				_ui.ToggleButton(BattleAction.Move, _turn.HasMoved == false);
 				_ui.ToggleButton(BattleAction.Attack, _turn.HasActed == false);
-				_ui.ShowActions();
+				_ui.ShowActionsMenu();
 			}
 			else
 			{
@@ -37,8 +40,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Exit()
 		{
-			_ui.SetUnit(null);
-			_ui.HideActions();
+			_ui.InitActionMenu(null);
+			_ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
 		}
 

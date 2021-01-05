@@ -11,7 +11,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			_ui.SetUnit(_turn.Unit);
+			_ui.InitActionMenu(_turn.Unit);
 
 			if (_turn.Unit.IsPlayerControlled == false)
 			{
@@ -22,7 +22,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Exit()
 		{
-			_ui.SetUnit(null);
+			_ui.InitActionMenu(null);
 			_ui.ClearAimPath();
 		}
 

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Grid = NesScripts.Controls.PathFind.Grid;
 
@@ -30,7 +32,6 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			while (true)
 			{
-				// TODO: Sort by speed
 				foreach (var unit in Units)
 				{
 					if (CanTakeTurn(unit))
@@ -48,9 +49,16 @@ namespace Code.SecretSanta.Game.RPG
 						Notification.Send("TurnEnded");
 					}
 				}
+
+				// Debug.Log("round over");
 			}
 		}
 
-		private bool CanTakeTurn(Unit unit) => true;
+		private bool CanTakeTurn(Unit unit) => unit.HealthCurrent > 0;
+
+		public List<Unit> GetTurnOrder()
+		{
+			return Units.Where(CanTakeTurn).ToList();
+		}
 	}
 }
