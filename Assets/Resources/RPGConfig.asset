@@ -138,4 +138,9 @@ MonoBehaviour:
     type: 3}
   DamageTextPrefab: {fileID: 5883526031790158921, guid: 2412dfbb2e4e95647828088136c79369,
     type: 3}
-  StartingParty: 0100000002000000
+  _startingParty:
+  - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
+  - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
+  _encountersOrder:
+  - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
+  - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}

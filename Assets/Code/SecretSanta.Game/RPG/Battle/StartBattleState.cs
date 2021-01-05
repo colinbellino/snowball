@@ -13,7 +13,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var encounter = _database.Encounters[_state.CurrentEncounterId];
 
-			Helpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
+			TilemapHelpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
 
 			var allUnits = new List<Unit>();
 			for (var index = 0; index < _state.Party.Count; index++)

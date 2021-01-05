@@ -56,9 +56,14 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool CanTakeTurn(Unit unit) => unit.HealthCurrent > 0;
 
-		public List<Unit> GetTurnOrder()
+		public List<Unit> GetActiveUnits()
 		{
 			return Units.Where(CanTakeTurn).ToList();
+		}
+
+		public List<Unit> GetTurnOrder()
+		{
+			return GetActiveUnits();
 		}
 	}
 }

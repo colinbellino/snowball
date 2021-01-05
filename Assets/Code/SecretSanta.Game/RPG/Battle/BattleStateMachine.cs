@@ -18,7 +18,8 @@ namespace Code.SecretSanta.Game.RPG
 			SelectAttackTarget,
 			PerformAttack,
 			EndTurn,
-			EndBattle,
+			Victory,
+			Defeat,
 		}
 		public enum Triggers {
 			BattleStarted,
@@ -30,6 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 			ActionWaitSelected,
 			Done,
 			BattleWon,
+			BattleLost,
 		}
 
 		private Dictionary<States, IState> _states;
@@ -48,7 +50,8 @@ namespace Code.SecretSanta.Game.RPG
 				{ States.SelectAttackTarget, new SelectAttackTargetState(this) },
 				{ States.PerformAttack, new PerformAttackState(this) },
 				{ States.EndTurn, new EndTurnState(this) },
-				{ States.EndBattle, new EndBattleState(this) },
+				{ States.Victory, new BattleVictoryState(this) },
+				{ States.Defeat, new BattleDefeatState(this) },
 			};
 
 			_machine = new StateMachine<States, Triggers>(States.StartBattle);
@@ -58,13 +61,14 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.BattleStarted, States.SelectUnit);
 
 			_machine.Configure(States.SelectUnit)
-				.Permit(Triggers.UnitSelected, States.SelectAction)
-				.Permit(Triggers.BattleWon, States.EndBattle);
+				.Permit(Triggers.UnitSelected, States.SelectAction);
 
 			_machine.Configure(States.SelectAction)
 				.Permit(Triggers.ActionMoveSelected, States.SelectMoveDestination)
 				.Permit(Triggers.ActionAttackSelected, States.SelectAttackTarget)
-				.Permit(Triggers.ActionWaitSelected, States.EndTurn);
+				.Permit(Triggers.ActionWaitSelected, States.EndTurn)
+				.Permit(Triggers.BattleWon, States.Victory)
+				.Permit(Triggers.BattleLost, States.Defeat);
 
 			_machine.Configure(States.SelectMoveDestination)
 				.Permit(Triggers.MoveDestinationSelected, States.PerformMove);
@@ -80,6 +84,9 @@ namespace Code.SecretSanta.Game.RPG
 
 			_machine.Configure(States.EndTurn)
 				.Permit(Triggers.Done, States.SelectUnit);
+
+			_machine.Configure(States.Victory)
+				.Permit(Triggers.Done, States.StartBattle);
 
 			_currentState = _states[_machine.State];
 			_currentState.Enter(null);

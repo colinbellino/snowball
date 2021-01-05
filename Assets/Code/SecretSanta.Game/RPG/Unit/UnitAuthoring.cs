@@ -6,9 +6,16 @@ namespace Code.SecretSanta.Game.RPG
 	public class UnitAuthoring : ScriptableObject
 	{
 		public int Id;
-		public string Name => name;
+		[SerializeField] private string _name;
 		public Color Color = Color.magenta;
 		public int MoveRange = 3;
 		public int Health = 1;
+
+		public string Name => _name;
+
+		private void OnValidate()
+		{
+			_name = name;
+		}
 	}
 }

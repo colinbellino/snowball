@@ -13,8 +13,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Clear()
 		{
-			_tilemap.ClearAllTiles();
-			_metaTilemap.ClearAllTiles();
+			TilemapHelpers.ClearTilemap(_tilemap);
+			TilemapHelpers.ClearTilemap(_metaTilemap);
 		}
 
 		public void Save()
@@ -63,8 +63,8 @@ namespace Code.SecretSanta.Game.RPG
 		public void Load()
 		{
 			Clear();
-			Helpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData);
-			Helpers.RenderMeta(_area, _metaTilemap);
+			TilemapHelpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData);
+			TilemapHelpers.RenderMeta(_area, _metaTilemap);
 		}
 	}
 
