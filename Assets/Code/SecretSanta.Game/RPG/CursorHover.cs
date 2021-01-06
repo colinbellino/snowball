@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 		private void OnEnable()
 		{
 			var originalPosition = _target.localPosition;
-			
+
 			_sequence = DOTween.Sequence()
 				.Append(_target.DOLocalMoveY(originalPosition.y + 0.2f, 0.75f))
 				.Append(_target.DOLocalMoveY(originalPosition.y, 0.75f))

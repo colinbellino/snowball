@@ -36,6 +36,11 @@ namespace Code.SecretSanta.Game.RPG
 
 		private IEnumerator<Turn> StartTurn()
 		{
+			foreach (var unit in _units)
+			{
+				unit.ChargeTime = 0;
+			}
+
 			while (true)
 			{
 				SortedUnits = new List<Unit>(_units);
