@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,34 +9,21 @@ namespace Code.SecretSanta.Game.RPG
 	public class FloatingText : MonoBehaviour
 	{
 		[SerializeField] private Text _text;
+		[SerializeField] private Text _shadow;
 
-		private Sequence _sequence;
-		public float Duration { get; private set; }
+		public float Duration => 0.75f;
 
-		private void OnEnable()
-		{
-			_text.gameObject.SetActive(false);
-		}
-
-		public void OnDisable()
-		{
-			_sequence.Kill();
-		}
-
-		public void Show(string text)
+		public async void Show(string text)
 		{
 			_text.text = text;
-			_text.gameObject.SetActive(true);
+			_shadow.text = text;
 
-			_sequence = DOTween.Sequence()
-				.Append(_text.transform.DOMoveY(_text.transform.position.y + 0.5f, 0.75f))
-				.Append(_text.DOColor(Color.clear, 0.75f))
-				.OnComplete(() => {
-					// gameObject.SetActive(false);
-					Destroy(gameObject);
-				});
+			_text.transform.DOMoveY(_text.transform.position.y + 0.5f, Duration);
+			_shadow.transform.DOMoveY(_shadow.transform.position.y + 0.5f, Duration);
 
-			Duration = _sequence.Duration();
+			await UniTask.Delay(TimeSpan.FromSeconds(Duration));
+
+			Destroy(gameObject);
 		}
 	}
 }

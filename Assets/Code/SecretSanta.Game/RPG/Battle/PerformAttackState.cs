@@ -62,7 +62,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var instance = GameObject.Instantiate(_config.SnowballPrefab, origin, Quaternion.identity);
 			var distance = Vector3.Distance(origin, destination);
-			await instance.transform.DOMove(destination, distance * 0.05f).SetEase(Ease.Linear);
+			await instance.transform.DOMove(destination, distance * 0.03f).SetEase(Ease.Linear);
 
 			_spawner.SpawnEffect(_config.HitEffectPrefab, destination);
 
