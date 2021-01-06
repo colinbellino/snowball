@@ -8,17 +8,23 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Battle
 	{
-		public List<Unit> Units { get; private set; }
-		public int TurnNumber { get; private set; }
-		public Turn Turn => _turns.Current;
-		public Grid WalkGrid { get; private set; }
+		private const int _turnActivation = 100;
+		private const int _turnCost = 50;
+		private const int _moveCost = 30;
+		private const int _actionCost = 20;
 
 		private IEnumerator<Turn> _turns;
+		private List<Unit> _units { get;  set; }
+		private int _turnNumber;
+
+		public Turn Turn => _turns.Current;
+		public Grid WalkGrid { get; private set; }
+		public List<Unit> SortedUnits { get; private set; }
 
 		public void Start(List<Unit> units, Area area, TilesData tilesData)
 		{
-			TurnNumber = 0;
-			Units = units;
+			_turnNumber = 0;
+			_units = units;
 			_turns = StartTurn();
 			WalkGrid = Helpers.GetWalkGrid(area, tilesData);
 		}
@@ -32,19 +38,28 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			while (true)
 			{
-				foreach (var unit in Units)
+				SortedUnits = new List<Unit>(_units);
+				foreach (var unit in SortedUnits)
 				{
+					unit.ChargeTime += unit.Speed;
+				}
+				SortedUnits.Sort(CompareChargeTime);
+
+				for (var unitIndex = SortedUnits.Count - 1; unitIndex >= 0; --unitIndex)
+				{
+					var unit = SortedUnits[unitIndex];
+
 					if (CanTakeTurn(unit))
 					{
-						Debug.Log($"Turn [{TurnNumber}]: Started ({unit})");
+						Debug.Log($"Turn [{_turnNumber}]: Started ({unit})");
 						Notification.Send("TurnStarted");
 
 						var turn = new Turn { Unit = unit, InitialPosition = unit.GridPosition };
 						yield return turn;
 
-						TurnNumber += 1;
+						_turnNumber += 1;
 
-						// ConsumeCT();
+						ConsumeCT(turn);
 
 						Notification.Send("TurnEnded");
 					}
@@ -54,16 +69,43 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		private bool CanTakeTurn(Unit unit) => unit.HealthCurrent > 0;
+		private void ConsumeCT(Turn turn)
+		{
+			var cost = _turnCost;
+			if (turn.HasMoved)
+			{
+				cost += _moveCost;
+			}
+			if (turn.HasActed) {
+				cost += _actionCost;
+			}
+
+			turn.Unit.ChargeTime -= cost;
+		}
+
+		private bool CanTakeTurn(Unit unit)
+		{
+			return IsActive(unit) && unit.ChargeTime >= _turnActivation;
+		}
+
+		private bool IsActive(Unit unit)
+		{
+			return unit.HealthCurrent > 0;
+		}
 
 		public List<Unit> GetActiveUnits()
 		{
-			return Units.Where(CanTakeTurn).ToList();
+			return SortedUnits.Where(IsActive).ToList();
 		}
 
 		public List<Unit> GetTurnOrder()
 		{
-			return GetActiveUnits();
+			// this.SortedUnits is updated only once per round (x turns), so for an accurate turn order we need to recalculate it
+			var sortedUnits = new List<Unit>(_units);
+			sortedUnits.Sort(CompareChargeTime);
+			return sortedUnits;
 		}
+
+		private Comparison<Unit> CompareChargeTime = (a, b) => a.ChargeTime.CompareTo(b.ChargeTime);
 	}
 }

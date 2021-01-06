@@ -17,7 +17,7 @@ namespace Code.SecretSanta.Game.RPG
 			_state.CurrentEncounterId = _config.EncountersOrder[next];
 
 			TilemapHelpers.ClearTilemap(_areaTilemap);
-			foreach (var unit in _battle.Units)
+			foreach (var unit in _battle.SortedUnits)
 			{
 				GameObject.Destroy(unit.Facade.gameObject);
 			}

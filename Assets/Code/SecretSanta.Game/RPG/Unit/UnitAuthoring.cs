@@ -14,6 +14,7 @@ namespace Code.SecretSanta.Game.RPG
 		public Color Color = Color.magenta;
 		public int MoveRange = 3;
 		public int Health = 1;
+		public int Speed = 5;
 
 #if UNITY_EDITOR
 		private void OnValidate()
