@@ -17,3 +17,4 @@ MonoBehaviour:
   Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
   MoveRange: 5
   Health: 1
+  Speed: 4

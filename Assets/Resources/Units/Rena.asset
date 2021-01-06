@@ -16,4 +16,5 @@ MonoBehaviour:
   Name: Rena
   Color: {r: 0, g: 0.754717, b: 0.1386574, a: 1}
   MoveRange: 5
-  Health: 2
+  Health: 99
+  Speed: 5

@@ -15,7 +15,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			if (_unit == null)
 			{
-				_unit = Game.Instance.Battle.Units.Find(unit => unit.Name == gameObject.name);
+				_unit = Game.Instance.Battle.SortedUnits.Find(unit => unit.Name == gameObject.name);
 				return;
 			}
 

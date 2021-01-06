@@ -13,6 +13,9 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
+			_ui.ShowTurnOrder();
+			_ui.SetTurnOrder(_battle.GetTurnOrder());
+
 			if (IsVictoryConditionReached())
 			{
 				_machine.Fire(BattleStateMachine.Triggers.BattleWon);
@@ -25,9 +28,6 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_ui.OnActionClicked += OnActionClicked;
-
-			_ui.ShowTurnOrder();
-			_ui.SetTurnOrder(_battle.GetTurnOrder());
 
 			if (_turn.HasActed && _turn.HasMoved)
 			{

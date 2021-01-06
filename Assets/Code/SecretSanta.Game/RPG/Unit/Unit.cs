@@ -10,6 +10,8 @@ namespace Code.SecretSanta.Game.RPG
 		public int MoveRange;
 		public int HealthCurrent;
 		public int HealthMax;
+		public int ChargeTime;
+		public int Speed;
 		public Vector3Int GridPosition;
 		public Vector3Int Direction;
 		public bool IsPlayerControlled;
@@ -24,6 +26,7 @@ namespace Code.SecretSanta.Game.RPG
 			MoveRange = authoring.MoveRange;
 			HealthCurrent = authoring.Health;
 			HealthMax = authoring.Health;
+			Speed = authoring.Speed;
 		}
 
 		public void SetFacade(UnitFacade facade)
