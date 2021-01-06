@@ -6,7 +6,7 @@ using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class Battle
+	public class TurnManager
 	{
 		private const int _turnActivation = 100;
 		private const int _turnCost = 50;

@@ -10,7 +10,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class PerformAttackState : BaseBattleState, IState
 	{
-		public PerformAttackState(BattleStateMachine machine) : base(machine) { }
+		public PerformAttackState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
@@ -32,7 +32,7 @@ namespace Code.SecretSanta.Game.RPG
 		private async Task PerformAttack(Unit unit)
 		{
 			var targets = _turn.AttackTargets
-				.Select(position => _battle.SortedUnits.Find(unit => unit.GridPosition == position))
+				.Select(position => TurnManager.SortedUnits.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
 			var result = new AttackResult

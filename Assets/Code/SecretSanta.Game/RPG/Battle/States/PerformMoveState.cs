@@ -4,7 +4,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class PerformMoveState : BaseBattleState, IState
 	{
-		public PerformMoveState(BattleStateMachine machine) : base(machine) { }
+		public PerformMoveState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
