@@ -13,20 +13,20 @@ namespace Code.SecretSanta.Game.RPG
 	public class BattleUI : MonoBehaviour
 	{
 		[Title("Turn order")]
-		[Title("Turn order")]
-		[SerializeField] private GameObject _turnOrderRoot;
+		[SerializeField][Required] private GameObject _turnOrderRoot;
+		[SerializeField][Required] private GameObject _turnOrderUnitsRoot;
 		[Title("Actions")]
-		[SerializeField] private GameObject _actionsRoot;
-		[SerializeField] private Text _actionsTitle;
-		[SerializeField] private ActionButtons _actionButtons;
+		[SerializeField][Required] private GameObject _actionsRoot;
+		[SerializeField][Required] private Text _actionsTitle;
+		[SerializeField][Required] private ActionButtons _actionButtons;
 		[Title("Move")]
-		[SerializeField] private GameObject _moveCursor;
-		[SerializeField] private LineRenderer _moveLine;
+		[SerializeField][Required] private GameObject _moveCursor;
+		[SerializeField][Required] private LineRenderer _moveLine;
 		[Title("Aim")]
-		[SerializeField] private GameObject _aimCursor;
-		[SerializeField] private LineRenderer _aimLine;
+		[SerializeField][Required] private GameObject _aimCursor;
+		[SerializeField][Required] private LineRenderer _aimLine;
 		[Title("Current")]
-		[SerializeField] private GameObject _currentUnitCursor;
+		[SerializeField][Required] private GameObject _currentUnitCursor;
 
 		public event Action<BattleAction> OnActionClicked;
 		private static readonly Vector3 OUT_OF_SCREEN_POSITION = new Vector3(999, 999, 0);
@@ -41,6 +41,7 @@ namespace Code.SecretSanta.Game.RPG
 			foreach (var item in _actionButtons)
 			{
 				item.Value.onClick.AddListener(OnBattleActionClicked(item.Key));
+				item.Value.GetComponentInChildren<Text>().text = item.Key.ToString();
 			}
 		}
 
@@ -129,7 +130,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void SetTurnOrder(List<Unit> units)
 		{
-			foreach (Transform child in _turnOrderRoot.transform)
+			foreach (Transform child in _turnOrderUnitsRoot.transform)
 			{
 				child.gameObject.SetActive(false);
 			}
@@ -137,7 +138,7 @@ namespace Code.SecretSanta.Game.RPG
 			for (var unitIndex = 0; unitIndex < units.Count; unitIndex++)
 			{
 				var unit = units[unitIndex];
-				var child = _turnOrderRoot.transform.GetChild(unitIndex);
+				var child = _turnOrderUnitsRoot.transform.GetChild(unitIndex);
 
 				var image = child.GetComponent<Image>();
 				// Normally this is done by unity when we call SetColor but not for UnityEngine.UI.Image

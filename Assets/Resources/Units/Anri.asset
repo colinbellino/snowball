@@ -16,4 +16,4 @@ MonoBehaviour:
   Name: Anri
   Color: {r: 0, g: 0.6034198, b: 1, a: 1}
   MoveRange: 5
-  Health: 1
+  Health: 2
