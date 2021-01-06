@@ -7,10 +7,8 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		private readonly Game _game;
 		protected readonly BattleStateMachine _machine;
+		protected readonly TurnManager TurnManager;
 
-		protected Battle _battle => _game.Battle;
-		protected Tilemap _areaTilemap => _game.AreaTilemap;
-		protected Tilemap _highlightTilemap => _game.HighlightTilemap;
 		protected GameConfig _config => _game.Config;
 		protected GameControls _controls => _game.Controls;
 		protected Camera _camera => _game.Camera;
@@ -18,11 +16,14 @@ namespace Code.SecretSanta.Game.RPG
 		protected GameState _state => _game.State;
 		protected Database _database => _game.Database;
 		protected StuffSpawner _spawner => _game.Spawner;
-		protected Turn _turn => _battle.Turn;
+		protected Board _board => _game.Board;
+		protected Turn _turn => TurnManager.Turn;
 
-		protected BaseBattleState(BattleStateMachine machine)
+		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
 		{
 			_machine = machine;
+
+			TurnManager = turnManager;
 			_game = Game.Instance;
 		}
 	}

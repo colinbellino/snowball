@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Stateless;
 using UnityEngine;
 
@@ -20,6 +20,7 @@ namespace Code.SecretSanta.Game.RPG
 			EndTurn,
 			Victory,
 			Defeat,
+			EndBattle,
 		}
 		public enum Triggers {
 			BattleStarted,
@@ -38,20 +39,23 @@ namespace Code.SecretSanta.Game.RPG
 		private StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		public BattleStateMachine()
+		public event Action BattleOver;
+
+		public BattleStateMachine(TurnManager turnManager)
 		{
 			_states = new Dictionary<States, IState>
 			{
-				{ States.StartBattle, new StartBattleState(this) },
-				{ States.SelectUnit, new SelectUnitState(this) },
-				{ States.SelectAction, new SelectActionState(this) },
-				{ States.SelectMoveDestination, new SelectMoveDestinationState(this) },
-				{ States.PerformMove, new PerformMoveState(this) },
-				{ States.SelectAttackTarget, new SelectAttackTargetState(this) },
-				{ States.PerformAttack, new PerformAttackState(this) },
-				{ States.EndTurn, new EndTurnState(this) },
-				{ States.Victory, new BattleVictoryState(this) },
-				{ States.Defeat, new BattleDefeatState(this) },
+				{ States.StartBattle, new StartBattleState(this, turnManager) },
+				{ States.SelectUnit, new SelectUnitState(this, turnManager) },
+				{ States.SelectAction, new SelectActionState(this, turnManager) },
+				{ States.SelectMoveDestination, new SelectMoveDestinationState(this, turnManager) },
+				{ States.PerformMove, new PerformMoveState(this, turnManager) },
+				{ States.SelectAttackTarget, new SelectAttackTargetState(this, turnManager) },
+				{ States.PerformAttack, new PerformAttackState(this, turnManager) },
+				{ States.EndTurn, new EndTurnState(this, turnManager) },
+				{ States.Victory, new BattleVictoryState(this, turnManager) },
+				{ States.Defeat, new BattleDefeatState(this, turnManager) },
+				{ States.EndBattle, new EndBattleState(this, turnManager) },
 			};
 
 			_machine = new StateMachine<States, Triggers>(States.StartBattle);
@@ -86,7 +90,7 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.Done, States.SelectUnit);
 
 			_machine.Configure(States.Victory)
-				.Permit(Triggers.Done, States.StartBattle);
+				.Permit(Triggers.Done, States.EndBattle);
 
 			_currentState = _states[_machine.State];
 			_currentState.Enter(null);
@@ -95,6 +99,8 @@ namespace Code.SecretSanta.Game.RPG
 		public void Tick() => _currentState?.Tick();
 
 		public void Fire(Triggers trigger) => _machine.Fire(trigger);
+
+		public void FireBattleOver() => BattleOver?.Invoke();
 
 		private async void OnTransitioned(StateMachine<States, Triggers>.Transition transition)
 		{
@@ -130,12 +136,5 @@ namespace Code.SecretSanta.Game.RPG
 
 			await _currentState.Enter(transition.Parameters);
 		}
-	}
-
-	public interface IState
-	{
-		Task Enter(object[] args);
-		Task Exit();
-		void Tick();
 	}
 }

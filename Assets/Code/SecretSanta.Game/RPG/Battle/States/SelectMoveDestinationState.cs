@@ -2,18 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectMoveDestinationState : BaseBattleState, IState
 	{
 		private IEnumerable<Vector3Int> _validMovePositions;
-		public SelectMoveDestinationState(BattleStateMachine machine) : base(machine) { }
+
+		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
-			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _battle.WalkGrid);
-			TilemapHelpers.SetTiles(_validMovePositions, _highlightTilemap, _config.HighlightTile, _turn.Unit.Color);
+			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, TurnManager.WalkGrid);
+
+			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			_ui.InitActionMenu(_turn.Unit);
 		}
 
@@ -21,7 +24,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_ui.ClearMovePath();
 			_ui.InitActionMenu(null);
-			TilemapHelpers.ClearTilemap(_highlightTilemap);
+			_board.ClearHighlight();
 		}
 
 		public void Tick()
@@ -34,7 +37,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			var path = Helpers.CalculatePathWithFall(
 				_turn.Unit.GridPosition, cursorPosition,
-				_battle.WalkGrid
+				TurnManager.WalkGrid
 			);
 
 			if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))

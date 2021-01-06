@@ -4,11 +4,11 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectUnitState : BaseBattleState, IState
 	{
-		public SelectUnitState(BattleStateMachine machine) : base(machine) { }
+		public SelectUnitState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
-			_battle.NextTurn();
+			TurnManager.NextTurn();
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
 		}

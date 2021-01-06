@@ -5,7 +5,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class EndTurnState : BaseBattleState, IState
 	{
-		public EndTurnState(BattleStateMachine machine) : base(machine) { }
+		public EndTurnState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{

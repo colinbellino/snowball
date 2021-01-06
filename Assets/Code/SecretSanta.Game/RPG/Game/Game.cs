@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -10,56 +9,53 @@ namespace Code.SecretSanta.Game.RPG
 		public GameConfig Config { get; }
 		public StuffSpawner Spawner { get; }
 		public GameControls Controls { get; }
-		public Tilemap AreaTilemap { get; }
-		public Tilemap HighlightTilemap { get; }
-		public GameObject WorldmapRoot { get; }
-		public Battle Battle { get; }
 		public Camera Camera { get; }
 		public BattleUI BattleUI { get; }
 		public DebugUI DebugUI { get; }
+		public Board Board { get; }
 		public GameState State { get; }
 		public Database Database { get; }
 
-		private static Game _instance;
-		public static Game Instance
+		public static Game Instance { get; private set; }
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		static void InitializeOnLoad()
 		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new Game();
-				}
-				return _instance;
-			}
+			Instance = null;
 		}
 
 		private Game()
 		{
 			Config = Resources.Load<GameConfig>("RPGConfig");
-			AreaTilemap = GameObject.Find("Area").GetComponent<Tilemap>();
-			HighlightTilemap = GameObject.Find("Highlight").GetComponent<Tilemap>();
-			WorldmapRoot = GameObject.Find("Worldmap Grid");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			DebugUI = GameObject.FindObjectOfType<DebugUI>();
+			Board = GameObject.FindObjectOfType<Board>();
 			Camera = Camera.main;
 			Spawner = new StuffSpawner();
 			Controls = new GameControls();
-			Battle = new Battle();
 			State = new GameState();
 			Database = new Database();
 
 			Assert.IsNotNull(Config);
-			Assert.IsNotNull(AreaTilemap);
-			Assert.IsNotNull(HighlightTilemap);
-			Assert.IsNotNull(DebugUI);
 			Assert.IsNotNull(BattleUI);
+			Assert.IsNotNull(DebugUI);
+			Assert.IsNotNull(Board);
 			Assert.IsNotNull(Camera);
 		}
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-		static void Init()
+		public static void Init()
 		{
-			_instance = null;
+			Instance = new Game();
+		}
+
+		public void LoadStateFromSave()
+		{
+			var party = new List<Unit>();
+			foreach (var unitId in Config.StartingParty)
+			{
+				party.Add(new Unit(Database.Units[unitId]));
+			}
+			State.Party = party;
 		}
 	}
 

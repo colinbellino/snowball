@@ -9,12 +9,12 @@ namespace Code.SecretSanta.Game.RPG
 
 	public class SelectActionState : BaseBattleState, IState
 	{
-		public SelectActionState(BattleStateMachine machine) : base(machine) { }
+		public SelectActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
 			_ui.ShowTurnOrder();
-			_ui.SetTurnOrder(_battle.GetTurnOrder());
+			_ui.SetTurnOrder(TurnManager.GetTurnOrder());
 
 			if (IsVictoryConditionReached())
 			{
@@ -76,7 +76,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void ComputerTurn()
 		{
-			var foes = _battle.GetActiveUnits().Where(unit => unit.IsPlayerControlled).ToList();
+			var foes = TurnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled).ToList();
 			var randomTarget = foes[Random.Range(0, foes.Count)];
 			_turn.AttackTargets = new List<Vector3Int> { randomTarget.GridPosition };
 			_turn.AttackPath = new List<Vector3Int> { _turn.Unit.GridPosition, randomTarget.GridPosition};
@@ -88,12 +88,12 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsVictoryConditionReached()
 		{
-			return _battle.GetActiveUnits().Where(unit => unit.IsPlayerControlled == false).Count() == 0;
+			return TurnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled == false).Count() == 0;
 		}
 
 		private bool IsDefeatConditionReached()
 		{
-			return _battle.GetActiveUnits().Where(unit => unit.IsPlayerControlled).Count() == 0;
+			return TurnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled).Count() == 0;
 		}
 	}
 }

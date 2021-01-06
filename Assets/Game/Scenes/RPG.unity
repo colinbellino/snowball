@@ -2001,14 +2001,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668801781}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1628185804}
   - {fileID: 460863152}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 943371519}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &750831847
 GameObject:
@@ -2214,7 +2214,7 @@ Transform:
   m_LocalScale: {x: 0.725, y: 0.725, z: 0.725}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &916843585
 GameObject:
@@ -2316,6 +2316,58 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &943371517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 943371519}
+  - component: {fileID: 943371518}
+  m_Layer: 0
+  m_Name: Board
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &943371518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943371517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4173be6b8d494ec68456d12c2ebd1044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _encounterRoot: {fileID: 1727976809}
+  _areaTilemap: {fileID: 1822176913}
+  _highlightTilemap: {fileID: 398278969}
+  _gridWalkTilemap: {fileID: 419745663}
+  _worldmapRoot: {fileID: 668801781}
+  _worldmapTilemap: {fileID: 1628185806}
+  _pointsTilemap: {fileID: 460863154}
+--- !u!4 &943371519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943371517}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1727976811}
+  - {fileID: 668801783}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1012370331
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,8 +2603,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 988384353
+  m_SortingLayer: 1
   m_SortingOrder: 2
   m_Sprite: {fileID: 9032960506585488005, guid: 4edb74aa565033544ac8dda48cc68e17,
     type: 3}
@@ -2608,7 +2660,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1174747133
 GameObject:
@@ -3131,7 +3183,7 @@ Transform:
   m_Children:
   - {fileID: 916843586}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1460282644
 GameObject:
@@ -3195,7 +3247,7 @@ Transform:
   - {fileID: 120266637}
   - {fileID: 1174747138}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1520152034
 GameObject:
@@ -9356,7 +9408,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727976809}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9364,8 +9416,8 @@ Transform:
   - {fileID: 398278967}
   - {fileID: 419745661}
   - {fileID: 1916902740}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 943371519}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1753701219
 GameObject:

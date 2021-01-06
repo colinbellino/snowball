@@ -1,29 +1,34 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	public class StartBattleState : BaseBattleState, IState
 	{
-		public StartBattleState(BattleStateMachine machine) : base(machine) { }
+		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
+		{
+		}
 
 		public async Task Enter(object[] args)
 		{
 			var encounter = _database.Encounters[_state.CurrentEncounterId];
 
-			TilemapHelpers.RenderArea(encounter.Area, _areaTilemap, _config.TilesData);
+			Debug.Log($"Starting battle: {encounter.Name}");
+			_board.DrawArea(encounter.Area);
+			_board.ShowEncounter();
 
 			var allUnits = new List<Unit>();
 			for (var index = 0; index < _state.Party.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
+				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x,
+					encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
 				unit.SetFacade(SpawnFacade(unit, position, true));
 
 				allUnits.Add(unit);
 			}
+
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
@@ -34,11 +39,10 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_controls.Enable();
-			_battle.Start(allUnits, encounter.Area, _config.TilesData);
+			TurnManager.Start(allUnits, encounter.Area, _config.TilesData);
 
 			#if UNITY_EDITOR
-			var gridWalkTilemap = GameObject.Find("GridWalk").GetComponent<Tilemap>();
-			Helpers.RenderGridWalk(_battle.WalkGrid, gridWalkTilemap, _config.EmptyTile);
+			_board.DrawGridWalk(TurnManager.WalkGrid);
 			#endif
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);

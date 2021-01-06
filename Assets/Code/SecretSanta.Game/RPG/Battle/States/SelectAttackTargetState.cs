@@ -7,7 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectAttackTargetState : BaseBattleState, IState
 	{
-		public SelectAttackTargetState(BattleStateMachine machine) : base(machine) { }
+		public SelectAttackTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
