@@ -18,6 +18,7 @@ namespace Code.SecretSanta.Game.RPG
 			SetColor(unit.Color);
 
 			transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
+			_bodyRenderer.sprite = unit.Sprite;
 			_bodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction.x > 0 ? 0f : 180f, 0f));
 		}
 

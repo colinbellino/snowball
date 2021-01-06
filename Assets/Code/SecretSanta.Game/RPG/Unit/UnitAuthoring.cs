@@ -15,6 +15,7 @@ namespace Code.SecretSanta.Game.RPG
 		public int MoveRange = 3;
 		public int Health = 1;
 		public int Speed = 5;
+		public Sprite Sprite;
 
 #if UNITY_EDITOR
 		private void OnValidate()

@@ -18,3 +18,4 @@ MonoBehaviour:
   MoveRange: 5
   Health: 1
   Speed: 4
+  Sprite: {fileID: 3346457816436727468, guid: dd658b6cc7e0d4e00b03cca22810a891, type: 3}
