@@ -23,16 +23,17 @@ namespace Code.SecretSanta.Game.RPG
 		public ParticleSystem HitEffectPrefab;
 
 		[Title("Data")]
-		public EncounterAuthoring[] Encounters;
 		public UnitFacade UnitPrefab;
 		public GameObject SnowballPrefab;
 		public FloatingText DamageTextPrefab;
 
+		[Title("Worldmap")]
+		public List<EncounterAuthoring> _encounters;
+		public List<int> Encounters => _encounters.Select(encounter => encounter.Id).ToList();
+
 		[Title("Debug")]
 		[SerializeField] private List<UnitAuthoring> _startingParty;
-		[SerializeField] private List<EncounterAuthoring> _encountersOrder;
 		public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
-		public List<int> EncountersOrder => _encountersOrder.Select(encounter => encounter.Id).ToList();
 	}
 
 	public class TilesData : Dictionary<int, TileData> { }

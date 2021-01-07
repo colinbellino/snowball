@@ -34,7 +34,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void OnBattleOver()
 		{
-			_machine.Fire(GameStateMachine.Triggers.BackToTitle);
+			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 		}
 	}
 }

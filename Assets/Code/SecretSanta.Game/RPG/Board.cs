@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using Grid = NesScripts.Controls.PathFind.Grid;
 
@@ -17,12 +19,33 @@ namespace Code.SecretSanta.Game.RPG
 		[Title("Worldmap")]
 		[SerializeField][Required] private GameObject _worldmapRoot;
 		[SerializeField][Required] private Tilemap _worldmapTilemap;
-		[SerializeField][Required] private Tilemap _pointsTilemap;
+		[SerializeField][Required] private GameObject _encountersRoot;
+		[SerializeField][Required] private List<WorldmapEncounterPoint> _encounterPoints;
+
+		public event Action<int> EncounterClicked;
 
 		public void Awake()
 		{
 			HideEncounter();
 			HideWorldmap();
+		}
+
+		public void OnEnable()
+		{
+			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
+			{
+				var encounterPoint = _encounterPoints[encounterIndex];
+				encounterPoint.Clicked += OnEncounterPointClicked(encounterIndex);
+			}
+		}
+
+		public void OnDisable()
+		{
+			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
+			{
+				var encounterPoint = _encounterPoints[encounterIndex];
+				encounterPoint.Clicked -= OnEncounterPointClicked(encounterIndex);
+			}
 		}
 
 		public void ShowEncounter() => _encounterRoot.SetActive(true);
@@ -56,6 +79,20 @@ namespace Code.SecretSanta.Game.RPG
 		public void ClearArea()
 		{
 			TilemapHelpers.ClearTilemap(_areaTilemap);
+		}
+
+		public void SetEncounters(List<int> encounters)
+		{
+			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
+			{
+				var encounterPoint = _encounterPoints[encounterIndex];
+				encounterPoint.gameObject.SetActive(encounterIndex < encounters.Count);
+			}
+		}
+
+		private Action OnEncounterPointClicked(int encounterIndex)
+		{
+			return () => EncounterClicked?.Invoke(encounterIndex);
 		}
 	}
 }

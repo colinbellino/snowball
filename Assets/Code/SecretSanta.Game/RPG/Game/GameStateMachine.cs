@@ -22,18 +22,17 @@ namespace Code.SecretSanta.Game.RPG
 			BackToTitle,
 		}
 
-		private Dictionary<States, IState> _states;
-		private StateMachine<States, Triggers> _machine;
+		private readonly Dictionary<States, IState> _states;
+		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		// TODO: Make this generic
-		public GameStateMachine(Board board)
+		public GameStateMachine(Board board, GameConfig config, Database database, GameState state)
 		{
 			_states = new Dictionary<States, IState>
 			{
 				{ States.Bootstrap, new BootstrapState(this) },
 				{ States.Title, new TitleState(this) },
-				{ States.Worldmap, new WorldmapState(this, board) },
+				{ States.Worldmap, new WorldmapState(this, board, config, database, state) },
 				{ States.Battle, new BattleState(this) },
 			};
 
@@ -48,10 +47,11 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.StartWorldmap, States.Worldmap);
 
 			_machine.Configure(States.Worldmap)
-				.Permit(Triggers.BackToTitle, States.Title);
+				.Permit(Triggers.BackToTitle, States.Title)
+				.Permit(Triggers.StartBattle, States.Battle);
 
 			_machine.Configure(States.Battle)
-				.Permit(Triggers.BackToTitle, States.Title);
+				.Permit(Triggers.StartWorldmap, States.Worldmap);
 
 			_currentState = _states[_machine.State];
 			_currentState.Enter(null);
