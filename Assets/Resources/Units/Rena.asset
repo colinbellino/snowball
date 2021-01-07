@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: Rena
   Color: {r: 0, g: 0.754717, b: 0.1386574, a: 1}
   MoveRange: 5
-  Health: 99
+  Health: 2
   Speed: 5
   Sprite: {fileID: 8558543474043534102, guid: a0b31f40b0d7e0d4a84a5ee204481e92, type: 3}
