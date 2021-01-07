@@ -106,7 +106,7 @@ namespace Code.SecretSanta.Game.RPG
 		public List<Unit> GetTurnOrder()
 		{
 			// this.SortedUnits is updated only once per round (x turns), so for an accurate turn order we need to recalculate it
-			var sortedUnits = new List<Unit>(_units);
+			var sortedUnits = new List<Unit>(GetActiveUnits());
 			sortedUnits.Sort(CompareChargeTime);
 			return sortedUnits;
 		}
