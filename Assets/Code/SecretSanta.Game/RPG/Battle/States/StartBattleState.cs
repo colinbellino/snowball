@@ -6,9 +6,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class StartBattleState : BaseBattleState, IState
 	{
-		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
-		{
-		}
+		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
 		{
@@ -24,7 +22,7 @@ namespace Code.SecretSanta.Game.RPG
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x,
 					encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
-				unit.SetFacade(SpawnFacade(unit, position, true));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true));
 
 				allUnits.Add(unit);
 			}
@@ -33,7 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
 				var unit = new Unit(encounter.Foes[index]);
-				unit.SetFacade(SpawnFacade(unit, position, false));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, false));
 
 				allUnits.Add(unit);
 			}
@@ -51,16 +49,5 @@ namespace Code.SecretSanta.Game.RPG
 		public async Task Exit() { }
 
 		public void Tick() { }
-
-		private UnitFacade SpawnFacade(Unit unit, Vector3Int position, bool isPlayerControlled)
-		{
-			var facade = GameObject.Instantiate(_config.UnitPrefab);
-			unit.GridPosition = position;
-			unit.Direction = isPlayerControlled ? Vector3Int.right : Vector3Int.left;
-			unit.IsPlayerControlled = isPlayerControlled;
-			facade.Initialize(unit);
-
-			return facade;
-		}
 	}
 }

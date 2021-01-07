@@ -132,6 +132,8 @@ MonoBehaviour:
     type: 3}
   UnitPrefab: {fileID: 40356880270672144, guid: f43b4dbd642334b7fa971aa92e0b62fe,
     type: 3}
+  UnitWorldmapPrefab: {fileID: 4184923769416239182, guid: c4e3ff59846c08545a499c413179ec73,
+    type: 3}
   SnowballPrefab: {fileID: 8808955276247847239, guid: a6e0719ed39054c9a89341c0c7a47f97,
     type: 3}
   DamageTextPrefab: {fileID: 5883526031790158921, guid: 2412dfbb2e4e95647828088136c79369,
@@ -142,3 +144,4 @@ MonoBehaviour:
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
+  WorldmapStart: {x: 9, y: 7, z: 0}

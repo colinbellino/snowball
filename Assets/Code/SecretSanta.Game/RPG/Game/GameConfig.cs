@@ -13,27 +13,29 @@ namespace Code.SecretSanta.Game.RPG
 		public Vector2Int TilemapSize = new Vector2Int(32, 18);
 
 		[Title("Tilemap")]
-		public TilesData TilesData;
-		public TileBase AllySpawnTile;
-		public TileBase FoeSpawnTile;
-		public TileBase EmptyTile;
-		public TileBase HighlightTile;
+		[Required] public TilesData TilesData;
+		[Required] public TileBase AllySpawnTile;
+		[Required] public TileBase FoeSpawnTile;
+		[Required] public TileBase EmptyTile;
+		[Required] public TileBase HighlightTile;
 
 		[Title("Effects")]
-		public ParticleSystem HitEffectPrefab;
+		[Required] public ParticleSystem HitEffectPrefab;
 
 		[Title("Data")]
-		public UnitFacade UnitPrefab;
-		public GameObject SnowballPrefab;
-		public FloatingText DamageTextPrefab;
+		[Required] public UnitFacade UnitPrefab;
+		[Required] public UnitFacade UnitWorldmapPrefab;
+		[Required] public GameObject SnowballPrefab;
+		[Required] public FloatingText DamageTextPrefab;
 
 		[Title("Worldmap")]
-		public List<EncounterAuthoring> _encounters;
-		public List<int> Encounters => _encounters.Select(encounter => encounter.Id).ToList();
+		[SerializeField] [Required] private List<EncounterAuthoring> _encounters;
+		[Required] public List<int> Encounters => _encounters.Select(encounter => encounter.Id).ToList();
 
 		[Title("Debug")]
 		[SerializeField] private List<UnitAuthoring> _startingParty;
-		public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
+		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
+		[Required] public Vector3Int WorldmapStart;
 	}
 
 	public class TilesData : Dictionary<int, TileData> { }
