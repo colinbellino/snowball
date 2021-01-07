@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -18,12 +19,12 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (IsVictoryConditionReached())
 			{
-				_machine.Fire(BattleStateMachine.Triggers.BattleWon);
+				_machine.Fire(BattleStateMachine.Triggers.Victory);
 				return;
 			}
 			if (IsDefeatConditionReached())
 			{
-				_machine.Fire(BattleStateMachine.Triggers.BattleLost);
+				_machine.Fire(BattleStateMachine.Triggers.Loss);
 				return;
 			}
 
@@ -56,7 +57,13 @@ namespace Code.SecretSanta.Game.RPG
 			_ui.OnActionClicked -= OnActionClicked;
 		}
 
-		public void Tick() { }
+		public void Tick()
+		{
+			if (Keyboard.current.escapeKey.wasPressedThisFrame)
+			{
+				_machine.Fire(BattleStateMachine.Triggers.Loss);
+			}
+		}
 
 		private void OnActionClicked(BattleAction action)
 		{

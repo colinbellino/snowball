@@ -9,15 +9,9 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			_ui.HideAll();
-
 			Debug.Log("Battle lost :(");
 
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-			UnityEngine.Application.Quit();
-#endif
+			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
 		public async Task Exit() { }

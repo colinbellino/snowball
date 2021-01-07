@@ -19,7 +19,7 @@ namespace Code.SecretSanta.Game.RPG
 		public static Game Instance { get; private set; }
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-		static void InitializeOnLoad()
+		private static void InitializeOnLoad()
 		{
 			Instance = null;
 		}
@@ -57,12 +57,5 @@ namespace Code.SecretSanta.Game.RPG
 			}
 			State.Party = party;
 		}
-	}
-
-	// This is what will be persisted when saving the game
-	public class GameState
-	{
-		public int CurrentEncounterId = 1;
-		public List<Unit> Party;
 	}
 }

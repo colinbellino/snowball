@@ -18,8 +18,8 @@ namespace Code.SecretSanta.Game.RPG
 			SelectAttackTarget,
 			PerformAttack,
 			EndTurn,
-			Victory,
-			Defeat,
+			BattleVictory,
+			BattleDefeat,
 			EndBattle,
 		}
 		public enum Triggers {
@@ -31,12 +31,12 @@ namespace Code.SecretSanta.Game.RPG
 			TargetSelected,
 			ActionWaitSelected,
 			Done,
-			BattleWon,
-			BattleLost,
+			Victory,
+			Loss,
 		}
 
-		private Dictionary<States, IState> _states;
-		private StateMachine<States, Triggers> _machine;
+		private readonly Dictionary<States, IState> _states;
+		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
 		public event Action BattleOver;
@@ -53,8 +53,8 @@ namespace Code.SecretSanta.Game.RPG
 				{ States.SelectAttackTarget, new SelectAttackTargetState(this, turnManager) },
 				{ States.PerformAttack, new PerformAttackState(this, turnManager) },
 				{ States.EndTurn, new EndTurnState(this, turnManager) },
-				{ States.Victory, new BattleVictoryState(this, turnManager) },
-				{ States.Defeat, new BattleDefeatState(this, turnManager) },
+				{ States.BattleVictory, new BattleVictoryState(this, turnManager) },
+				{ States.BattleDefeat, new BattleDefeatState(this, turnManager) },
 				{ States.EndBattle, new EndBattleState(this, turnManager) },
 			};
 
@@ -71,8 +71,8 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.ActionMoveSelected, States.SelectMoveDestination)
 				.Permit(Triggers.ActionAttackSelected, States.SelectAttackTarget)
 				.Permit(Triggers.ActionWaitSelected, States.EndTurn)
-				.Permit(Triggers.BattleWon, States.Victory)
-				.Permit(Triggers.BattleLost, States.Defeat);
+				.Permit(Triggers.Victory, States.BattleVictory)
+				.Permit(Triggers.Loss, States.BattleDefeat);
 
 			_machine.Configure(States.SelectMoveDestination)
 				.Permit(Triggers.MoveDestinationSelected, States.PerformMove);
@@ -89,7 +89,10 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Configure(States.EndTurn)
 				.Permit(Triggers.Done, States.SelectUnit);
 
-			_machine.Configure(States.Victory)
+			_machine.Configure(States.BattleVictory)
+				.Permit(Triggers.Done, States.EndBattle);
+
+			_machine.Configure(States.BattleDefeat)
 				.Permit(Triggers.Done, States.EndBattle);
 
 			_currentState = _states[_machine.State];

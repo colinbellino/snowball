@@ -9,10 +9,6 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			var current = _config.EncountersOrder.FindIndex(id => id == _state.CurrentEncounterId);
-			var next = (current + 1) % _config.EncountersOrder.Count;
-			_state.CurrentEncounterId = _config.EncountersOrder[next];
-
 			Debug.Log("Battle won \\o/");
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);

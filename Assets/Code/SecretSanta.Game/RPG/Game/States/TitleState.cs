@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -26,7 +27,17 @@ namespace Code.SecretSanta.Game.RPG
 			Game.Instance.DebugUI.OnDebugButtonClicked -= OnDebugButtonClicked;
 		}
 
-		public void Tick() { }
+		public void Tick()
+		{
+			if (Keyboard.current.escapeKey.wasPressedThisFrame)
+			{
+				#if UNITY_EDITOR
+					UnityEditor.EditorApplication.isPlaying = false;
+				#else
+					UnityEngine.Application.Quit();
+				#endif
+			}
+		}
 
 		private void OnDebugButtonClicked(int key)
 		{
