@@ -8,15 +8,15 @@ namespace Code.SecretSanta.Game.RPG
 		private readonly GameStateMachine _machine;
 		private readonly Board _board;
 		private readonly GameConfig _config;
-		private readonly Database _database;
 		private readonly GameState _state;
 
-		public WorldmapState(GameStateMachine machine, Board board, GameConfig config, Database database, GameState state)
+		private Unit _leader;
+
+		public WorldmapState(GameStateMachine machine, Board board, GameConfig config, GameState state)
 		{
 			_machine = machine;
 			_board = board;
 			_config = config;
-			_database = database;
 			_state = state;
 		}
 
@@ -25,6 +25,9 @@ namespace Code.SecretSanta.Game.RPG
 			_board.ShowWorldmap();
 			_board.SetEncounters(_config.Encounters);
 			_board.EncounterClicked += OnEncounterClicked;
+
+			var _leader = _state.Party[0];
+			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true));
 		}
 
 		public async Task Exit()

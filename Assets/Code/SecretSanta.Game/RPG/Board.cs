@@ -93,5 +93,11 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			return () => EncounterClicked?.Invoke(encounterIndex);
 		}
+
+		public Vector3Int GetEncounterPosition(int encounterIndex)
+		{
+			var position = _encounterPoints[encounterIndex].transform.position;
+			return new Vector3Int((int) position.x, (int) position.y, 0);
+		}
 	}
 }
