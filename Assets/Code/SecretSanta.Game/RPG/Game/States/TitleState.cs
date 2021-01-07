@@ -45,9 +45,6 @@ namespace Code.SecretSanta.Game.RPG
 
 			switch (key)
 			{
-				case 0:
-					_machine.Fire(GameStateMachine.Triggers.StartBattle);
-					return;
 				case 1:
 					_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 					return;
