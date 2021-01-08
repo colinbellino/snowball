@@ -36,6 +36,12 @@ namespace Code.SecretSanta.Game.RPG
 			Facade = facade;
 		}
 
+		public void DestroyFacade()
+		{
+			GameObject.Destroy(Facade.gameObject);
+			Facade = null;
+		}
+
 		public override string ToString() => Name;
 	}
 }
