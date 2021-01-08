@@ -2,20 +2,23 @@
 
 namespace Code.SecretSanta.Game.RPG
 {
+	public enum UnitType { Humanoid, Snowman }
+
 	public class Unit
 	{
 		public int Id;
 		public string Name;
+		public Sprite Sprite;
 		public Color Color;
+		public UnitType Type;
 		public int MoveRange;
 		public int HealthCurrent;
 		public int HealthMax;
 		public int ChargeTime;
 		public int Speed;
-		public int Accuracy = 100;
-		public int HitRange = 10;
-		public int HitDamage = 1;
-		public Sprite Sprite;
+		public int HitAccuracy;
+		public int HitRange;
+		public int HitDamage;
 		public Vector3Int GridPosition;
 		public Vector3Int Direction;
 		public bool IsPlayerControlled;
@@ -26,12 +29,16 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			Id = authoring.Id;
 			Name = authoring.Name;
+			Sprite = authoring.Sprite;
 			Color = authoring.Color;
+			Type = authoring.Type;
 			MoveRange = authoring.MoveRange;
 			HealthCurrent = authoring.Health;
 			HealthMax = authoring.Health;
 			Speed = authoring.Speed;
-			Sprite = authoring.Sprite;
+			HitAccuracy = authoring.HitAccuracy;
+			HitRange = authoring.HitRange;
+			HitDamage = authoring.HitDamage;
 		}
 
 		public void SetFacade(UnitFacade facade)

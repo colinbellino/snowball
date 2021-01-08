@@ -32,7 +32,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (_turn.HasActed && _turn.HasMoved)
 			{
-				_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
+				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 				return default;
 			}
 
@@ -46,7 +46,20 @@ namespace Code.SecretSanta.Game.RPG
 			}
 			else
 			{
-				ComputerTurn();
+				PlanComputerTurn();
+
+				if (_turn.MovePath?.Count > 0)
+				{
+					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
+				}
+				if (_turn.AttackPath?.Count > 0)
+				{
+					_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
+				}
+				else
+				{
+					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+				}
 			}
 
 			return default;
@@ -82,21 +95,22 @@ namespace Code.SecretSanta.Game.RPG
 					_machine.Fire(BattleStateMachine.Triggers.ActionMoveSelected);
 					return;
 				case BattleAction.Wait:
-					_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
+					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 					return;
 			}
 		}
 
-		private void ComputerTurn()
+		private void PlanComputerTurn()
 		{
+			if (_turn.Unit.Type == UnitType.Snowman)
+			{
+				return;
+			}
+
 			var foes = _turnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled).ToList();
 			var randomTarget = foes[Random.Range(0, foes.Count)];
 			_turn.AttackTargets = new List<Vector3Int> { randomTarget.GridPosition };
 			_turn.AttackPath = new List<Vector3Int> { _turn.Unit.GridPosition, randomTarget.GridPosition};
-			_turn.HasActed = true;
-			_turn.HasMoved = true;
-
-			_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
 		}
 
 		private bool IsVictoryConditionReached()

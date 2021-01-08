@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: Gaius
+  m_Name: Snowman
   m_EditorClassIdentifier: 
-  Id: 3
-  Name: Gaius
-  Color: {r: 0.6594756, g: 0, b: 0.8584906, a: 1}
+  Id: 5
+  Name: Snowman
+  Sprite: {fileID: 4986797050018433151, guid: 4273ef8b92fd1fb419e4eb9cafeade11, type: 3}
+  Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
+  Type: 1
   MoveRange: 8
   Health: 1
   Speed: 4
-  Sprite: {fileID: 3346457816436727468, guid: dd658b6cc7e0d4e00b03cca22810a891, type: 3}
+  HitAccuracy: 100
+  HitRange: 10
+  HitDamage: 1

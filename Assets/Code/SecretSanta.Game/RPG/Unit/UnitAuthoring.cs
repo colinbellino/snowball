@@ -10,12 +10,16 @@ namespace Code.SecretSanta.Game.RPG
 	public class UnitAuthoring : ScriptableObject
 	{
 		public int Id;
-		public string Name;
+		public string Name = "Annyong";
+		public Sprite Sprite;
 		public Color Color = Color.magenta;
+		public UnitType Type;
 		public int MoveRange = 3;
 		public int Health = 1;
 		public int Speed = 5;
-		public Sprite Sprite;
+		public int HitAccuracy = 100;
+		public int HitRange = 10;
+		public int HitDamage = 1;
 
 #if UNITY_EDITOR
 		private void OnValidate()
