@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
@@ -17,6 +18,10 @@ namespace Code.SecretSanta.Game.RPG
 			var units = Resources.LoadAll<UnitAuthoring>("Units");
 			foreach (var unit in units)
 			{
+				if (database.Units.ContainsKey(unit.Id))
+				{
+					throw new DataException($"Database already contains a unit with the id '{unit.Id}'.");
+				}
 				database.Units.Add(unit.Id,  Object.Instantiate(unit));
 			}
 
@@ -24,6 +29,10 @@ namespace Code.SecretSanta.Game.RPG
 			var encounters = Resources.LoadAll<EncounterAuthoring>("Encounters");
 			foreach (var encounter in encounters)
 			{
+				if (database.Encounters.ContainsKey(encounter.Id))
+				{
+					throw new DataException($"Database already contains an encounter with the id '{encounter.Id}'.");
+				}
 				database.Encounters.Add(encounter.Id, Object.Instantiate(encounter));
 			}
 		}

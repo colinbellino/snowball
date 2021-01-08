@@ -54,6 +54,10 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.StartWorldmap, States.Worldmap);
 
 			_currentState = _states[_machine.State];
+		}
+
+		public void Start()
+		{
 			_currentState.Enter(null);
 		}
 

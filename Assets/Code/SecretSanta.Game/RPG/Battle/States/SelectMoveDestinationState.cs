@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -12,19 +11,23 @@ namespace Code.SecretSanta.Game.RPG
 
 		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			_ui.InitActionMenu(_turn.Unit);
+
+			return default;
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_ui.ClearMovePath();
 			_ui.InitActionMenu(null);
 			_board.ClearHighlight();
+
+			return default;
 		}
 
 		public void Tick()

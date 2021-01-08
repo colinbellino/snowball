@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public SelectActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			_ui.ShowTurnOrder();
 			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
@@ -20,12 +20,12 @@ namespace Code.SecretSanta.Game.RPG
 			if (IsVictoryConditionReached())
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Victory);
-				return;
+				return default;
 			}
 			if (IsDefeatConditionReached())
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Loss);
-				return;
+				return default;
 			}
 
 			_ui.OnActionClicked += OnActionClicked;
@@ -33,7 +33,7 @@ namespace Code.SecretSanta.Game.RPG
 			if (_turn.HasActed && _turn.HasMoved)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.ActionWaitSelected);
-				return;
+				return default;
 			}
 
 			_ui.InitActionMenu(_turn.Unit);
@@ -48,13 +48,17 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				ComputerTurn();
 			}
+
+			return default;
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_ui.InitActionMenu(null);
 			_ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
+
+			return default;
 		}
 
 		public void Tick()

@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
 	public interface IState
 	{
-		Task Enter(object[] args);
-		Task Exit();
+		UniTask Enter(object[] args);
+		UniTask Exit();
 		void Tick();
 	}
 }

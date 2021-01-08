@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace Code.SecretSanta.Game.RPG
 		private Vector3Int _cursorPosition;
 		public SelectAttackTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public async UniTask Enter(object[] args)
 		{
 			_ui.InitActionMenu(_turn.Unit);
 
@@ -21,10 +20,12 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_ui.InitActionMenu(null);
 			_ui.ClearAimPath();
+
+			return default;
 		}
 
 		public void Tick()

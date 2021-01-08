@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			// Do this when we start the game only.
 			Game.Instance.LoadStateFromSave();
@@ -20,13 +20,17 @@ namespace Code.SecretSanta.Game.RPG
 			Game.Instance.DebugUI.Show();
 
 			Game.Instance.DebugUI.OnDebugButtonClicked += OnDebugButtonClicked;
+
+			return default;
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			Game.Instance.DebugUI.Hide();
 
 			Game.Instance.DebugUI.OnDebugButtonClicked -= OnDebugButtonClicked;
+
+			return default;
 		}
 
 		public void Tick()

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public PerformAttackState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public async UniTask Enter(object[] args)
 		{
 			_ui.InitActionMenu(_turn.Unit);
 
@@ -23,14 +22,16 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_ui.InitActionMenu(null);
+
+			return default;
 		}
 
 		public void Tick() { }
 
-		private async Task PerformAttack(Unit unit)
+		private async UniTask PerformAttack(Unit unit)
 		{
 			var units = _turnManager.GetActiveUnits();
 			var destination = _turn.AttackPath[_turn.AttackPath.Count - 1];
@@ -69,7 +70,7 @@ namespace Code.SecretSanta.Game.RPG
 		}
 
 		// TODO: Do this in Projectile.cs
-		private async Task ShootProjectile(Vector3 origin, Vector3 destination)
+		private async UniTask ShootProjectile(Vector3 origin, Vector3 destination)
 		{
 			var instance = GameObject.Instantiate(_config.SnowballPrefab, origin, Quaternion.identity);
 			var distance = Vector3.Distance(origin, destination);

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -6,14 +6,16 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public SelectUnitState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			_turnManager.NextTurn();
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
+
+			return default;
 		}
 
-		public async Task Exit() { }
+		public UniTask Exit() { return default; }
 
 		public void Tick() { }
 	}

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
@@ -21,7 +20,7 @@ namespace Code.SecretSanta.Game.RPG
 			_state = state;
 		}
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			_worldmap.ShowWorldmap();
 			_worldmap.SetEncounters(_config.Encounters);
@@ -29,14 +28,18 @@ namespace Code.SecretSanta.Game.RPG
 
 			_leader = _state.Party[0];
 			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true));
+
+			return default;
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_worldmap.EncounterClicked -= OnEncounterClicked;
 			_worldmap.HideWorldmap();
 
 			_leader.DestroyFacade();
+
+			return default;
 		}
 
 		public void Tick()

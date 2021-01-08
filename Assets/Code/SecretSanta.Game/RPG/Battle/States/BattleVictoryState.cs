@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
@@ -7,14 +7,16 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public BattleVictoryState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			Debug.Log("Battle won \\o/");
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
+
+			return default;
 		}
 
-		public async Task Exit() { }
+		public UniTask Exit() { return default; }
 
 		public void Tick() { }
 	}
