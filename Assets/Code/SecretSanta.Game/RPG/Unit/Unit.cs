@@ -4,7 +4,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class Unit
 	{
-		public enum Types { Humanoid, Snowman }
+		public enum Types { Humanoid, Snowpal }
 		public enum Directions { Left = -1, Right = 1 }
 
 		public int Id;

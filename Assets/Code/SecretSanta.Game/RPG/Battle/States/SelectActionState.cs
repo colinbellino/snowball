@@ -110,7 +110,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void PlanComputerTurn()
 		{
-			if (_turn.Unit.Type == Unit.Types.Snowman)
+			if (_turn.Unit.Type == Unit.Types.Snowpal)
 			{
 				return;
 			}
