@@ -53,7 +53,13 @@ namespace Code.SecretSanta.Game.RPG
 			var hitTasks = new List<UniTask>();
 			foreach (var target in result.Targets)
 			{
-				var hitChance = GridHelpers.GetHitAccuracy(_turn.Unit.GridPosition, target.GridPosition, _turnManager.BlockGrid, _turn.Unit);
+				var hitChance = GridHelpers.CalculateHitAccuracy(
+					_turn.Unit.GridPosition,
+					target.GridPosition,
+					_turnManager.BlockGrid,
+					_turn.Unit,
+					_turnManager.SortedUnits
+				);
 
 				var didHit = Random.Range(0, 100) < hitChance;
 				if (didHit)

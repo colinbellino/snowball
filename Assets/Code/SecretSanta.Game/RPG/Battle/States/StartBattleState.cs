@@ -17,10 +17,9 @@ namespace Code.SecretSanta.Game.RPG
 			_board.ShowEncounter();
 
 			var allUnits = new List<Unit>();
-			for (var index = 0; index < _state.Party.Count; index++)
+			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x,
-					encounter.Area.AllySpawnPoints[index].y, 0);
+				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
 				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true));
 
