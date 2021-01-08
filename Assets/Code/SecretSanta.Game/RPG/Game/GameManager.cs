@@ -9,7 +9,7 @@ namespace Code.SecretSanta.Game.RPG
 		private void Start()
 		{
 			Game.Init();
-			_stateMachine = new GameStateMachine(Game.Instance.Board, Game.Instance.Config, Game.Instance.State);
+			_stateMachine = new GameStateMachine(Game.Instance.Config, Game.Instance.Worldmap, Game.Instance.State);
 		}
 
 		private void Update()

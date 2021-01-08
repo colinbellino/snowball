@@ -59,10 +59,12 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick()
 		{
+			#if UNITY_EDITOR
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Loss);
 			}
+			#endif
 		}
 
 		private void OnActionClicked(BattleAction action)

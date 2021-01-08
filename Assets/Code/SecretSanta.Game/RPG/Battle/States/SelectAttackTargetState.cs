@@ -39,7 +39,7 @@ namespace Code.SecretSanta.Game.RPG
 					Mathf.RoundToInt(mouseWorldPosition.y),
 					0
 				);
-				var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
+				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
 				var path = new List<Vector3Int>{ _turn.Unit.GridPosition, cursorPosition };
 				_ui.HighlightAimPath(path);

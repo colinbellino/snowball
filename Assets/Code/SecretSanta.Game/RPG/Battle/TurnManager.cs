@@ -26,7 +26,7 @@ namespace Code.SecretSanta.Game.RPG
 			_turnNumber = 0;
 			_units = units;
 			_turns = StartTurn();
-			WalkGrid = Helpers.GetWalkGrid(area, tilesData);
+			WalkGrid = GridHelpers.GetWalkGrid(area, tilesData);
 		}
 
 		public void NextTurn()
