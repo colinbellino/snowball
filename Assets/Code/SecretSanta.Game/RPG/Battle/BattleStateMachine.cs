@@ -29,7 +29,7 @@ namespace Code.SecretSanta.Game.RPG
 			MoveDestinationSelected,
 			ActionAttackSelected,
 			TargetSelected,
-			ActionWaitSelected,
+			TurnEnded,
 			Done,
 			Victory,
 			Loss,
@@ -70,7 +70,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Configure(States.SelectAction)
 				.Permit(Triggers.ActionMoveSelected, States.SelectMoveDestination)
 				.Permit(Triggers.ActionAttackSelected, States.SelectAttackTarget)
-				.Permit(Triggers.ActionWaitSelected, States.EndTurn)
+				.Permit(Triggers.TurnEnded, States.EndTurn)
 				.Permit(Triggers.Victory, States.BattleVictory)
 				.Permit(Triggers.Loss, States.BattleDefeat);
 

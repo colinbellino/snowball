@@ -105,7 +105,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public static int GetHitAccuracy(Vector3 origin, Vector3 destination, Grid blockGrid, Unit attacker)
 		{
-			var hitChance = attacker.Accuracy;
+			var hitChance = attacker.HitAccuracy;
 
 			// Source: https://forum.unity.com/threads/find-a-point-on-a-line-between-two-vector3.140700/#post-960814
 			// 1) Subtract the two vector (B-A) to get a vector pointing from A to B. Lets call this AB
