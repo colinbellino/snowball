@@ -15,7 +15,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			foreach (var unit in TurnManager.SortedUnits)
 			{
-				GameObject.Destroy(unit.Facade.gameObject);
+				unit.DestroyFacade();
 			}
 
 			_machine.FireBattleOver();

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
@@ -26,14 +27,16 @@ namespace Code.SecretSanta.Game.RPG
 			_board.SetEncounters(_config.Encounters);
 			_board.EncounterClicked += OnEncounterClicked;
 
-			var _leader = _state.Party[0];
+			_leader = _state.Party[0];
 			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true));
 		}
 
 		public async Task Exit()
 		{
-			_board.HideWorldmap();
 			_board.EncounterClicked -= OnEncounterClicked;
+			_board.HideWorldmap();
+
+			_leader.DestroyFacade();
 		}
 
 		public void Tick()
