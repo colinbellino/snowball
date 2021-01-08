@@ -23,7 +23,8 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField][Required] private GameObject _moveCursor;
 		[SerializeField][Required] private LineRenderer _moveLine;
 		[Title("Aim")]
-		[SerializeField][Required] private GameObject _aimCursor;
+		[SerializeField][Required] private SpriteRenderer _aimCursor;
+		[SerializeField][Required] private Text _aimCursorText;
 		[SerializeField][Required] private LineRenderer _aimLine;
 		[Title("Current")]
 		[SerializeField][Required] private GameObject _currentUnitCursor;
@@ -104,19 +105,34 @@ namespace Code.SecretSanta.Game.RPG
 			_moveCursor.transform.position = OUT_OF_SCREEN_POSITION;
 		}
 
-		public void HighlightAimPath(List<Vector3Int> path)
+		public void HighlightAimPath(Vector3Int origin, Vector3Int destination, int hitChance)
 		{
-			_aimLine.positionCount = path.Count;
-			for (var pathIndex = 0; pathIndex < path.Count; pathIndex++)
+			_aimLine.positionCount = 2;
+			_aimLine.SetPosition(0, origin);
+			_aimLine.SetPosition(1, destination);
+
+			if (hitChance == 0)
 			{
-				var point = path[pathIndex];
-				_aimLine.SetPosition(pathIndex, point);
+				_aimLine.startColor = Color.red;
+				_aimLine.endColor = Color.red;
+				_aimCursor.color = Color.red;
+			}
+			else if (hitChance == 100)
+			{
+				_aimLine.startColor = Color.green;
+				_aimLine.endColor = Color.green;
+				_aimCursor.color = Color.green;
+			}
+			else
+			{
+				_aimLine.startColor = Color.yellow;
+				_aimLine.endColor = Color.yellow;
+				_aimCursor.color = Color.yellow;
 			}
 
-			if (path.Count > 0)
-			{
-				_aimCursor.transform.position = path[path.Count - 1];
-			}
+			_aimCursor.transform.position = destination;
+
+			_aimCursorText.text = $"{destination}\n{hitChance}%";
 		}
 
 		public void ClearAimPath()
@@ -124,6 +140,7 @@ namespace Code.SecretSanta.Game.RPG
 			_aimLine.positionCount = 0;
 			_aimCursor.transform.position = OUT_OF_SCREEN_POSITION;
 		}
+
 		public void ShowTurnOrder() => _turnOrderRoot.SetActive(true);
 
 		public void HideTurnOrder() => _turnOrderRoot.SetActive(false);

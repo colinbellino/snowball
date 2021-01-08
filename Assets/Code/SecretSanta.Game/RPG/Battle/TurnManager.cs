@@ -19,6 +19,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public Turn Turn => _turns.Current;
 		public Grid WalkGrid { get; private set; }
+		public Grid BlockGrid { get; private set; }
 		public List<Unit> SortedUnits { get; private set; }
 
 		public void Start(List<Unit> units, Area area, TilesData tilesData)
@@ -27,6 +28,7 @@ namespace Code.SecretSanta.Game.RPG
 			_units = units;
 			_turns = StartTurn();
 			WalkGrid = GridHelpers.GetWalkGrid(area, tilesData);
+			BlockGrid = GridHelpers.GetBlockGrid(area, tilesData);
 		}
 
 		public void NextTurn()

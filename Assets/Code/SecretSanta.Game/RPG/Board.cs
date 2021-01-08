@@ -11,7 +11,8 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField][Required] private GameObject _encounterRoot;
 		[SerializeField][Required] private Tilemap _areaTilemap;
 		[SerializeField][Required] private Tilemap _highlightTilemap;
-		[SerializeField][Required] private Tilemap _gridWalkTilemap;
+		[SerializeField][Required] private Tilemap _walkGridTilemap;
+		[SerializeField][Required] private Tilemap _blockGridTilemap;
 
 		public void Awake()
 		{
@@ -37,9 +38,14 @@ namespace Code.SecretSanta.Game.RPG
 			TilemapHelpers.RenderArea(area, _areaTilemap, Game.Instance.Config.TilesData);
 		}
 
-		public void DrawGridWalk(Grid walkGrid)
+		public void DrawGridWalk(Grid grid)
 		{
-			TilemapHelpers.RenderGridWalk(walkGrid, _gridWalkTilemap, Game.Instance.Config.EmptyTile);
+			TilemapHelpers.RenderGridWalk(grid, _walkGridTilemap, Game.Instance.Config.EmptyTile);
+		}
+
+		public void DrawBlockWalk(Grid grid)
+		{
+			TilemapHelpers.RenderBlockWalk(grid, _blockGridTilemap, Game.Instance.Config.EmptyTile);
 		}
 
 		public void ClearArea()

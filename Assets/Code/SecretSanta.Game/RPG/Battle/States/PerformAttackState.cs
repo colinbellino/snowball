@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -31,8 +32,10 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async Task PerformAttack(Unit unit)
 		{
+			var units = _turnManager.GetActiveUnits();
+			var destination = _turn.AttackPath[_turn.AttackPath.Count - 1];
 			var targets = _turn.AttackTargets
-				.Select(position => TurnManager.SortedUnits.Find(unit => unit.GridPosition == position))
+				.Select(position => units.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
 			var result = new AttackResult
@@ -42,19 +45,27 @@ namespace Code.SecretSanta.Game.RPG
 				Path = _turn.AttackPath,
 			};
 
-			var destination = result.Path[result.Path.Count - 1];
-
 			await unit.Facade.AnimateAttack(destination);
 
 			await ShootProjectile(result.Attacker.GridPosition, destination);
 
-			var damageTasks = new List<UniTask>();
+			var hitTasks = new List<UniTask>();
 			foreach (var target in result.Targets)
 			{
-				damageTasks.Add(ApplyDamage(target, 1));
+				var hitChance = GridHelpers.GetHitAccuracy(_turn.Unit.GridPosition, target.GridPosition, _turnManager.BlockGrid, _turn.Unit);
+
+				var didHit = Random.Range(0, 100) < hitChance;
+				if (didHit)
+				{
+					hitTasks.Add(ApplyDamage(target, result.Attacker.HitDamage));
+				}
+				else
+				{
+					hitTasks.Add(Miss(target));
+				}
 			}
 
-			await UniTask.WhenAll(damageTasks);
+			await UniTask.WhenAll(hitTasks);
 		}
 
 		// TODO: Do this in Projectile.cs
@@ -72,7 +83,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async UniTask ApplyDamage(Unit unit, int amount)
 		{
-			Debug.Log($"{unit} hit for {amount} damage.");
+			Debug.Log($"{unit} hit for {amount} damage!");
+
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
 
 			var tasks = new List<UniTask>();
@@ -89,6 +101,17 @@ namespace Code.SecretSanta.Game.RPG
 			tasks.Add(spawnDamageText);
 
 			await UniTask.WhenAll(tasks);
+		}
+
+		private UniTask Miss(Unit unit)
+		{
+			Debug.Log($"{unit} evaded!");
+
+			return _spawner.SpawnText(
+				_config.DamageTextPrefab,
+				"Miss",
+				unit.GridPosition + Vector3.up
+			);
 		}
 	}
 }
