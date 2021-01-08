@@ -2,15 +2,16 @@
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public enum UnitType { Humanoid, Snowman }
-
 	public class Unit
 	{
+		public enum Types { Humanoid, Snowman }
+		public enum Directions { Left = -1, Right = 1 }
+
 		public int Id;
 		public string Name;
 		public Sprite Sprite;
 		public Color Color;
-		public UnitType Type;
+		public Types Type;
 		public int MoveRange;
 		public int HealthCurrent;
 		public int HealthMax;
@@ -20,7 +21,7 @@ namespace Code.SecretSanta.Game.RPG
 		public int HitRange;
 		public int HitDamage;
 		public Vector3Int GridPosition;
-		public Vector3Int Direction;
+		public Directions Direction;
 		public bool IsPlayerControlled;
 
 		public UnitFacade Facade { get; private set; }

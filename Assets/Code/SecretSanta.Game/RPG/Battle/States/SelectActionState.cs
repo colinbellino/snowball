@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public enum BattleAction { Attack, Move, Wait }
+	public enum BattleAction { Move, Attack, Build, Wait }
 
 	public class SelectActionState : BaseBattleState, IState
 	{
@@ -36,7 +36,7 @@ namespace Code.SecretSanta.Game.RPG
 				return default;
 			}
 
-			_ui.InitActionMenu(_turn.Unit);
+			_ui.InitMenu(_turn.Unit);
 
 			if (_turn.Unit.IsPlayerControlled)
 			{
@@ -52,9 +52,9 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 				}
-				if (_turn.AttackPath?.Count > 0)
+				else if (_turn.ActionDestination != null)
 				{
-					_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
+					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 				}
 				else
 				{
@@ -67,7 +67,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public UniTask Exit()
 		{
-			_ui.InitActionMenu(null);
+			_ui.InitMenu(null);
 			_ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
 
@@ -88,29 +88,43 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			switch (action)
 			{
-				case BattleAction.Attack:
-					_machine.Fire(BattleStateMachine.Triggers.ActionAttackSelected);
-					return;
 				case BattleAction.Move:
-					_machine.Fire(BattleStateMachine.Triggers.ActionMoveSelected);
+					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
+					return;
+				case BattleAction.Attack:
+					_turn.Action = Turn.Actions.Attack;
+					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+					return;
+				case BattleAction.Build:
+					_turn.Action = Turn.Actions.Build;
+					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleAction.Wait:
 					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+					return;
+				default:
+					Debug.LogError("Action not handled.");
 					return;
 			}
 		}
 
 		private void PlanComputerTurn()
 		{
-			if (_turn.Unit.Type == UnitType.Snowman)
+			if (_turn.Unit.Type == Unit.Types.Snowman)
 			{
 				return;
 			}
 
-			var foes = _turnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled).ToList();
-			var randomTarget = foes[Random.Range(0, foes.Count)];
-			_turn.AttackTargets = new List<Vector3Int> { randomTarget.GridPosition };
-			_turn.AttackPath = new List<Vector3Int> { _turn.Unit.GridPosition, randomTarget.GridPosition};
+			var foes = _turnManager.GetActiveUnits()
+				.Where(unit => unit.IsPlayerControlled)
+				.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
+				.ToList();
+			var closestTarget = foes[0];
+
+			_turn.Action = Turn.Actions.Attack;
+			_turn.ActionTargets = new List<Vector3Int> { closestTarget.GridPosition };
+			_turn.ActionDestination = closestTarget.GridPosition;
+			_turn.HasMoved = true;
 		}
 
 		private bool IsVictoryConditionReached()

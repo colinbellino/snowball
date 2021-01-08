@@ -62,7 +62,7 @@ namespace Code.SecretSanta.Game.RPG
 			ClearAimPath();
 		}
 
-		public void InitActionMenu(Unit unit)
+		public void InitMenu(Unit unit)
 		{
 			if (unit == null)
 			{

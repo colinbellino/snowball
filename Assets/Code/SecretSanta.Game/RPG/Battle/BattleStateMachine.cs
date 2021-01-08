@@ -15,8 +15,8 @@ namespace Code.SecretSanta.Game.RPG
 			SelectAction,
 			SelectMoveDestination,
 			PerformMove,
-			SelectAttackTarget,
-			PerformAttack,
+			SelectActionTarget,
+			PerformAction,
 			EndTurn,
 			BattleVictory,
 			BattleDefeat,
@@ -25,10 +25,10 @@ namespace Code.SecretSanta.Game.RPG
 		public enum Triggers {
 			BattleStarted,
 			UnitSelected,
-			ActionMoveSelected,
+			MoveSelected,
 			MoveDestinationSelected,
-			ActionAttackSelected,
-			TargetSelected,
+			ActionSelected,
+			ActionTargetSelected,
 			TurnEnded,
 			Done,
 			Victory,
@@ -50,8 +50,8 @@ namespace Code.SecretSanta.Game.RPG
 				{ States.SelectAction, new SelectActionState(this, turnManager) },
 				{ States.SelectMoveDestination, new SelectMoveDestinationState(this, turnManager) },
 				{ States.PerformMove, new PerformMoveState(this, turnManager) },
-				{ States.SelectAttackTarget, new SelectAttackTargetState(this, turnManager) },
-				{ States.PerformAttack, new PerformAttackState(this, turnManager) },
+				{ States.SelectActionTarget, new SelectActionTargetState(this, turnManager) },
+				{ States.PerformAction, new PerformActionState(this, turnManager) },
 				{ States.EndTurn, new EndTurnState(this, turnManager) },
 				{ States.BattleVictory, new BattleVictoryState(this, turnManager) },
 				{ States.BattleDefeat, new BattleDefeatState(this, turnManager) },
@@ -68,8 +68,8 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.UnitSelected, States.SelectAction);
 
 			_machine.Configure(States.SelectAction)
-				.Permit(Triggers.ActionMoveSelected, States.SelectMoveDestination)
-				.Permit(Triggers.ActionAttackSelected, States.SelectAttackTarget)
+				.Permit(Triggers.MoveSelected, States.SelectMoveDestination)
+				.Permit(Triggers.ActionSelected, States.SelectActionTarget)
 				.Permit(Triggers.TurnEnded, States.EndTurn)
 				.Permit(Triggers.Victory, States.BattleVictory)
 				.Permit(Triggers.Loss, States.BattleDefeat);
@@ -80,10 +80,10 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Configure(States.PerformMove)
 				.Permit(Triggers.Done, States.SelectAction);
 
-			_machine.Configure(States.SelectAttackTarget)
-				.Permit(Triggers.TargetSelected, States.PerformAttack);
+			_machine.Configure(States.SelectActionTarget)
+				.Permit(Triggers.ActionTargetSelected, States.PerformAction);
 
-			_machine.Configure(States.PerformAttack)
+			_machine.Configure(States.PerformAction)
 				.Permit(Triggers.Done, States.SelectAction);
 
 			_machine.Configure(States.EndTurn)

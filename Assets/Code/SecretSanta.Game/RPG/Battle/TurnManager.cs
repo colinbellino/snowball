@@ -27,6 +27,7 @@ namespace Code.SecretSanta.Game.RPG
 			_turnNumber = 0;
 			_units = units;
 			_turns = StartTurn();
+			SortedUnits = new List<Unit>(_units);
 			WalkGrid = GridHelpers.GetWalkGrid(area, tilesData);
 			BlockGrid = GridHelpers.GetBlockGrid(area, tilesData);
 		}
@@ -45,7 +46,6 @@ namespace Code.SecretSanta.Game.RPG
 
 			while (true)
 			{
-				SortedUnits = new List<Unit>(_units);
 				foreach (var unit in SortedUnits)
 				{
 					unit.ChargeTime += unit.Speed;
@@ -61,7 +61,7 @@ namespace Code.SecretSanta.Game.RPG
 						Debug.Log($"Turn [{_turnNumber}]: Started ({unit})");
 						Notification.Send("TurnStarted");
 
-						var turn = new Turn { Unit = unit, InitialPosition = unit.GridPosition };
+						var turn = new Turn { Unit = unit };
 						yield return turn;
 
 						_turnNumber += 1;

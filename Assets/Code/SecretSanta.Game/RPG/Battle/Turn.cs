@@ -8,10 +8,12 @@ namespace Code.SecretSanta.Game.RPG
 		public Unit Unit;
 		public bool HasMoved;
 		public bool HasActed;
-		public Vector3Int InitialPosition;
+		public Actions Action;
 
-		public List<Vector3Int> AttackTargets;
-		public List<Vector3Int> AttackPath;
+		public List<Vector3Int> ActionTargets;
+		public Vector3Int? ActionDestination;
 		public List<Vector3Int> MovePath;
+
+		public enum Actions { None, Attack, Build }
 	}
 }

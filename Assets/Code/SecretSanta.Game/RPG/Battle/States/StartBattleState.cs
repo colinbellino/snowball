@@ -21,7 +21,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
-				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true, Unit.Directions.Right));
 
 				allUnits.Add(unit);
 			}
@@ -30,7 +30,7 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
 				var unit = new Unit(encounter.Foes[index]);
-				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, false));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, false, Unit.Directions.Left));
 
 				allUnits.Add(unit);
 			}

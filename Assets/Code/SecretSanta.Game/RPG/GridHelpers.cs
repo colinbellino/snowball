@@ -127,17 +127,19 @@ namespace Code.SecretSanta.Game.RPG
 
 				checkedPositions.Add(segmentGridDestination);
 
-				var unit = allUnits.Find(unit => unit.GridPosition == segmentGridDestination);
-				var blockedByUnit = unit != null && unit != attacker && segmentGridDestination != destination;
-				if (blockedByUnit)
-				{
-					hitChance -= 75;
-				}
-
 				var blockedByTile = blockGrid.nodes[segmentGridDestination.x, segmentGridDestination.y].walkable;
 				if (blockedByTile)
 				{
 					hitChance -= 100;
+					break;
+				}
+
+				var unit = allUnits.Find(unit => unit.GridPosition == segmentGridDestination);
+				var blockedByUnit = unit != null && unit != attacker && segmentGridDestination != destination;
+				if (blockedByUnit)
+				{
+					hitChance -= 50;
+					break;
 				}
 			}
 
