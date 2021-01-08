@@ -37,10 +37,11 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_controls.Enable();
-			TurnManager.Start(allUnits, encounter.Area, _config.TilesData);
+			_turnManager.Start(allUnits, encounter.Area, _config.TilesData);
 
 			#if UNITY_EDITOR
-			_board.DrawGridWalk(TurnManager.WalkGrid);
+			_board.DrawGridWalk(_turnManager.WalkGrid);
+			_board.DrawBlockWalk(_turnManager.BlockGrid);
 			#endif
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);

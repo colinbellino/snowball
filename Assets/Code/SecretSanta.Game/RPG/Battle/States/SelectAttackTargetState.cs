@@ -7,6 +7,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectAttackTargetState : BaseBattleState, IState
 	{
+		private Vector3Int _cursorPosition;
 		public SelectAttackTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async Task Enter(object[] args)
@@ -40,14 +41,19 @@ namespace Code.SecretSanta.Game.RPG
 					0
 				);
 				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
+				if (cursorPosition != _cursorPosition)
+				{
+					_cursorPosition = cursorPosition;
 
-				var path = new List<Vector3Int>{ _turn.Unit.GridPosition, cursorPosition };
-				_ui.HighlightAimPath(path);
+					var hitChance = GridHelpers.GetHitAccuracy(_turn.Unit.GridPosition, cursorPosition, _turnManager.BlockGrid, _turn.Unit);
+					_ui.HighlightAimPath(_turn.Unit.GridPosition, cursorPosition, hitChance);
+				}
 
 				if (leftClick)
 				{
 					_turn.AttackTargets = new List<Vector3Int> { destination };
-					_turn.AttackPath = path;
+					// TODO: Does this need to be a path ?
+					_turn.AttackPath = new List<Vector3Int>{ _turn.Unit.GridPosition, _cursorPosition };;
 					_machine.Fire(BattleStateMachine.Triggers.TargetSelected);
 				}
 			}

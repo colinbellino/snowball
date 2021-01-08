@@ -8,7 +8,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			TurnManager.NextTurn();
+			_turnManager.NextTurn();
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
 		}

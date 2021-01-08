@@ -12,6 +12,9 @@ namespace Code.SecretSanta.Game.RPG
 		public int HealthMax;
 		public int ChargeTime;
 		public int Speed;
+		public int Accuracy = 100;
+		public int HitRange = 10;
+		public int HitDamage = 1;
 		public Sprite Sprite;
 		public Vector3Int GridPosition;
 		public Vector3Int Direction;

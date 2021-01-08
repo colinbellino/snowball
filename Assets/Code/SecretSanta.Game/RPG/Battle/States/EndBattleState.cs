@@ -13,7 +13,7 @@ namespace Code.SecretSanta.Game.RPG
 			_board.ClearArea();
 			_board.HideEncounter();
 
-			foreach (var unit in TurnManager.SortedUnits)
+			foreach (var unit in _turnManager.SortedUnits)
 			{
 				unit.DestroyFacade();
 			}
