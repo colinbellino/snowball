@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -81,7 +82,6 @@ namespace Code.SecretSanta.Game.RPG
 		}
 	}
 
-	[CustomEditor(typeof(AreaCreation))]
 	public class StuffEditor : Editor
 	{
 		public override void OnInspectorGUI()
@@ -90,8 +90,6 @@ namespace Code.SecretSanta.Game.RPG
 
 			var stuff = (AreaCreation)target;
 
-			// if (Application.isPlaying)
-			// {
 			if (GUILayout.Button("Clear"))
 			{
 				stuff.Clear();
@@ -104,7 +102,8 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				stuff.Load();
 			}
-			// }
 		}
 	}
 }
+
+#endif
