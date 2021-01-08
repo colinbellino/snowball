@@ -2024,7 +2024,7 @@ GameObject:
   - component: {fileID: 668801783}
   - component: {fileID: 668801782}
   m_Layer: 0
-  m_Name: Worldmap Grid
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2055,8 +2055,8 @@ Transform:
   m_Children:
   - {fileID: 1628185804}
   - {fileID: 791906665}
-  m_Father: {fileID: 943371519}
-  m_RootOrder: 1
+  m_Father: {fileID: 1822713238}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &716386478
 PrefabInstance:
@@ -2375,7 +2375,7 @@ Transform:
   m_LocalScale: {x: 0.725, y: 0.725, z: 0.725}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &893736353 stripped
 MonoBehaviour:
@@ -2522,18 +2522,6 @@ MonoBehaviour:
   _areaTilemap: {fileID: 1822176913}
   _highlightTilemap: {fileID: 398278969}
   _gridWalkTilemap: {fileID: 419745663}
-  _worldmapRoot: {fileID: 668801781}
-  _worldmapTilemap: {fileID: 1628185806}
-  _encountersRoot: {fileID: 791906664}
-  _encounterPoints:
-  - {fileID: 893736353}
-  - {fileID: 1418801668}
-  - {fileID: 66287650}
-  - {fileID: 2039611809}
-  - {fileID: 1897498225}
-  - {fileID: 965962931}
-  - {fileID: 2053229149}
-  - {fileID: 1119662917}
 --- !u!4 &943371519
 Transform:
   m_ObjectHideFlags: 0
@@ -2546,9 +2534,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1727976811}
-  - {fileID: 668801783}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &965962931 stripped
 MonoBehaviour:
@@ -2866,7 +2853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1174747133
 GameObject:
@@ -3389,7 +3376,7 @@ Transform:
   m_Children:
   - {fileID: 916843586}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1418801668 stripped
 MonoBehaviour:
@@ -3465,7 +3452,7 @@ Transform:
   - {fileID: 120266637}
   - {fileID: 1174747138}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1520152034
 GameObject:
@@ -9606,7 +9593,7 @@ GameObject:
   - component: {fileID: 1727976811}
   - component: {fileID: 1727976810}
   m_Layer: 0
-  m_Name: Encounter Grid
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9971,6 +9958,60 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1822713237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822713238}
+  - component: {fileID: 1822713239}
+  m_Layer: 0
+  m_Name: Worldmap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1822713238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822713237}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 668801783}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1822713239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822713237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4afe05e8410b4d8f9a99b221bbf5b04e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldmapRoot: {fileID: 668801781}
+  _encounterPoints:
+  - {fileID: 893736353}
+  - {fileID: 1418801668}
+  - {fileID: 66287650}
+  - {fileID: 2039611809}
+  - {fileID: 1897498225}
+  - {fileID: 965962931}
+  - {fileID: 2053229149}
+  - {fileID: 1119662917}
 --- !u!1001 &1844749445
 PrefabInstance:
   m_ObjectHideFlags: 0

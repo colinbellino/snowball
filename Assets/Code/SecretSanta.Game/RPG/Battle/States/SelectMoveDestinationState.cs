@@ -14,7 +14,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Enter(object[] args)
 		{
-			_validMovePositions = Helpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, TurnManager.WalkGrid);
+			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, TurnManager.WalkGrid);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			_ui.InitActionMenu(_turn.Unit);
@@ -33,9 +33,9 @@ namespace Code.SecretSanta.Game.RPG
 			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var cursorPosition = Helpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
+			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
-			var path = Helpers.CalculatePathWithFall(
+			var path = GridHelpers.CalculatePathWithFall(
 				_turn.Unit.GridPosition, cursorPosition,
 				TurnManager.WalkGrid
 			);

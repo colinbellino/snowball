@@ -7,25 +7,25 @@ namespace Code.SecretSanta.Game.RPG
 	public class WorldmapState : IState
 	{
 		private readonly GameStateMachine _machine;
-		private readonly Board _board;
+		private readonly Worldmap _worldmap;
 		private readonly GameConfig _config;
 		private readonly GameState _state;
 
 		private Unit _leader;
 
-		public WorldmapState(GameStateMachine machine, Board board, GameConfig config, GameState state)
+		public WorldmapState(GameStateMachine machine, Worldmap worldmap, GameConfig config, GameState state)
 		{
 			_machine = machine;
-			_board = board;
+			_worldmap = worldmap;
 			_config = config;
 			_state = state;
 		}
 
 		public async Task Enter(object[] args)
 		{
-			_board.ShowWorldmap();
-			_board.SetEncounters(_config.Encounters);
-			_board.EncounterClicked += OnEncounterClicked;
+			_worldmap.ShowWorldmap();
+			_worldmap.SetEncounters(_config.Encounters);
+			_worldmap.EncounterClicked += OnEncounterClicked;
 
 			_leader = _state.Party[0];
 			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true));
@@ -33,18 +33,20 @@ namespace Code.SecretSanta.Game.RPG
 
 		public async Task Exit()
 		{
-			_board.EncounterClicked -= OnEncounterClicked;
-			_board.HideWorldmap();
+			_worldmap.EncounterClicked -= OnEncounterClicked;
+			_worldmap.HideWorldmap();
 
 			_leader.DestroyFacade();
 		}
 
 		public void Tick()
 		{
+			#if UNITY_EDITOR
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
 				_machine.Fire(GameStateMachine.Triggers.BackToTitle);
 			}
+			#endif
 		}
 
 		private void OnEncounterClicked(int encounterIndex)

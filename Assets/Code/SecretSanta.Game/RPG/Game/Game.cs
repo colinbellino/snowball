@@ -13,6 +13,7 @@ namespace Code.SecretSanta.Game.RPG
 		public BattleUI BattleUI { get; }
 		public DebugUI DebugUI { get; }
 		public Board Board { get; }
+		public Worldmap Worldmap { get; }
 		public GameState State { get; }
 		public Database Database { get; }
 
@@ -30,6 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			DebugUI = GameObject.FindObjectOfType<DebugUI>();
 			Board = GameObject.FindObjectOfType<Board>();
+			Worldmap = GameObject.FindObjectOfType<Worldmap>();
 			Camera = Camera.main;
 			Spawner = new StuffSpawner();
 			Controls = new GameControls();
@@ -40,6 +42,7 @@ namespace Code.SecretSanta.Game.RPG
 			Assert.IsNotNull(BattleUI);
 			Assert.IsNotNull(DebugUI);
 			Assert.IsNotNull(Board);
+			Assert.IsNotNull(Worldmap);
 			Assert.IsNotNull(Camera);
 		}
 

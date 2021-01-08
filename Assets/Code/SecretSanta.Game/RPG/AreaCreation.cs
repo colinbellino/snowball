@@ -31,7 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 				for (var y = 0; y < _area.Size.y; y++)
 				{
 					var index = x + y * _area.Size.x;
-					var tileId = Helpers.GetTileIndex(allTiles[index], Game.Instance.Config.TilesData);
+					var tileId = GetTileIndex(allTiles[index], Game.Instance.Config.TilesData);
 
 					_area.Tiles[index] = tileId;
 				}
@@ -65,6 +65,19 @@ namespace Code.SecretSanta.Game.RPG
 			Clear();
 			TilemapHelpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData);
 			TilemapHelpers.RenderMeta(_area, _metaTilemap);
+		}
+
+		private static int GetTileIndex(TileBase tile, TilesData tilesData)
+		{
+			for (var index = 0; index < tilesData.Count; index++)
+			{
+				if (tilesData[index].Tile == tile)
+				{
+					return index;
+				}
+			}
+
+			return 0;
 		}
 	}
 

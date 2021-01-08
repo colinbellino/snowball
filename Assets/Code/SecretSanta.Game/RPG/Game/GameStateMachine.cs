@@ -26,13 +26,13 @@ namespace Code.SecretSanta.Game.RPG
 		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		public GameStateMachine(Board board, GameConfig config, GameState state)
+		public GameStateMachine(GameConfig config, Worldmap worldmap, GameState state)
 		{
 			_states = new Dictionary<States, IState>
 			{
 				{ States.Bootstrap, new BootstrapState(this) },
 				{ States.Title, new TitleState(this) },
-				{ States.Worldmap, new WorldmapState(this, board, config, state) },
+				{ States.Worldmap, new WorldmapState(this, worldmap, config, state) },
 				{ States.Battle, new BattleState(this) },
 			};
 
