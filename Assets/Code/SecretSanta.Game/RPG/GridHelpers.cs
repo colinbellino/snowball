@@ -103,7 +103,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public static int GetHitAccuracy(Vector3 origin, Vector3 destination, Grid blockGrid, Unit attacker)
+		public static int CalculateHitAccuracy(Vector3 origin, Vector3 destination, Grid blockGrid, Unit attacker, List<Unit> allUnits)
 		{
 			var hitChance = attacker.HitAccuracy;
 
@@ -113,24 +113,31 @@ namespace Code.SecretSanta.Game.RPG
 			// 3) You can now scale this vector to find a point between A and B. so (A + (0.1 * AB)) will be 0.1 units from A.
 			var direction = destination - origin;
 			const int segments = 100;
+			var checkedPositions = new List<Vector3Int>();
 
 			for (var i = 1; i <= segments; i++)
 			{
 				var segmentDestination = origin + 1f / segments * i * direction;
-				var gridDestination = new Vector3Int(Mathf.RoundToInt(segmentDestination.x), Mathf.RoundToInt(segmentDestination.y), 0);
+				var segmentGridDestination = new Vector3Int(Mathf.RoundToInt(segmentDestination.x), Mathf.RoundToInt(segmentDestination.y), 0);
 
-				var blockedByTile = blockGrid.nodes[gridDestination.x, gridDestination.y].walkable;
+				if (checkedPositions.Contains(segmentGridDestination))
+				{
+					continue;
+				}
+
+				checkedPositions.Add(segmentGridDestination);
+
+				var unit = allUnits.Find(unit => unit.GridPosition == segmentGridDestination);
+				var blockedByUnit = unit != null && unit != attacker && segmentGridDestination != destination;
+				if (blockedByUnit)
+				{
+					hitChance -= 75;
+				}
+
+				var blockedByTile = blockGrid.nodes[segmentGridDestination.x, segmentGridDestination.y].walkable;
 				if (blockedByTile)
 				{
 					hitChance -= 100;
-					break;
-				}
-
-				var blockedBySnowman = false;
-				if (blockedBySnowman)
-				{
-					hitChance -= 50;
-					break;
 				}
 			}
 

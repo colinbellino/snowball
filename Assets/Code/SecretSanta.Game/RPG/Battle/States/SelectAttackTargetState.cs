@@ -46,7 +46,13 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					_cursorPosition = cursorPosition;
 
-					var hitChance = GridHelpers.GetHitAccuracy(_turn.Unit.GridPosition, cursorPosition, _turnManager.BlockGrid, _turn.Unit);
+					var hitChance = GridHelpers.CalculateHitAccuracy(
+						_turn.Unit.GridPosition,
+						cursorPosition,
+						_turnManager.BlockGrid,
+						_turn.Unit,
+						_turnManager.SortedUnits
+					);
 					_ui.HighlightAimPath(_turn.Unit.GridPosition, cursorPosition, hitChance);
 				}
 

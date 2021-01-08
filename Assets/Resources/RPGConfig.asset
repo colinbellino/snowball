@@ -144,5 +144,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
+  - {fileID: 11400000, guid: ec1e371e29602104094a24bfd34c3df9, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
   WorldmapStart: {x: 9, y: 7, z: 0}
