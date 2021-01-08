@@ -9,7 +9,7 @@ namespace Code.SecretSanta.Game.RPG
 		public async UniTask Enter(object[] args)
 		{
 			await _turn.Unit.Facade.MoveOnPath(_turn.MovePath);
-			await _turn.Unit.Facade.ChangeDirection(_turn.Unit.Direction.x);
+			await _turn.Unit.Facade.ChangeDirection(_turn.Unit.Direction);
 
 			_turn.Unit.GridPosition = _turn.MovePath[_turn.MovePath.Count - 1];
 			_turn.HasMoved = true;

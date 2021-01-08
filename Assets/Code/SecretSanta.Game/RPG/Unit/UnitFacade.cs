@@ -18,7 +18,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
 			_bodyRenderer.sprite = unit.Sprite;
-			_bodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction.x > 0 ? 0f : 180f, 0f));
+			_bodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction > 0 ? 0f : 180f, 0f));
 		}
 
 		public async UniTask MoveOnPath(List<Vector3Int> path)
@@ -29,7 +29,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public async UniTask ChangeDirection(float direction)
+		public async UniTask ChangeDirection(Unit.Directions direction)
 		{
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
@@ -67,7 +67,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0)
 			{
-				await ChangeDirection(direction);
+				await ChangeDirection(direction > 0f ? Unit.Directions.Right : Unit.Directions.Left);
 			}
 
 			var distance = Vector3.Distance(transform.position, destination);

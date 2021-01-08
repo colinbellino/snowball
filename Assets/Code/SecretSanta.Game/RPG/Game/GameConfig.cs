@@ -36,6 +36,8 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;
+		[SerializeField] private UnitAuthoring _snowmanUnit;
+		[Required] public int SnowmanUnitId => _snowmanUnit.Id;
 	}
 
 	public class TilesData : Dictionary<int, TileData> { }

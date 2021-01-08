@@ -27,7 +27,7 @@ namespace Code.SecretSanta.Game.RPG
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
 			_leader = _state.Party[0];
-			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true));
+			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true, Unit.Directions.Right));
 
 			return default;
 		}

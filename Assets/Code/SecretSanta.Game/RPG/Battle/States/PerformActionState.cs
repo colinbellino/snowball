@@ -8,15 +8,29 @@ using Random = UnityEngine.Random;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class PerformAttackState : BaseBattleState, IState
+	public class PerformActionState : BaseBattleState, IState
 	{
-		public PerformAttackState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
+		public PerformActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public async UniTask Enter(object[] args)
 		{
-			_ui.InitActionMenu(_turn.Unit);
+			_ui.InitMenu(_turn.Unit);
 
-			await PerformAttack(_turn.Unit);
+			switch (_turn.Action)
+			{
+				case Turn.Actions.Attack:
+				{
+					await PerformAttack();
+				} break;
+				case Turn.Actions.Build:
+				{
+					await PerformBuild();
+				} break;
+				default:
+				{
+					Debug.LogWarning("No action selected but we still tried to perform it ? We probably have a bug in our state machine.");
+				} break;
+			}
 			_turn.HasActed = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
@@ -24,18 +38,17 @@ namespace Code.SecretSanta.Game.RPG
 
 		public UniTask Exit()
 		{
-			_ui.InitActionMenu(null);
+			_ui.InitMenu(null);
 
 			return default;
 		}
 
 		public void Tick() { }
 
-		private async UniTask PerformAttack(Unit unit)
+		private async UniTask PerformAttack()
 		{
 			var units = _turnManager.GetActiveUnits();
-			var destination = _turn.AttackPath[_turn.AttackPath.Count - 1];
-			var targets = _turn.AttackTargets
+			var targets = _turn.ActionTargets
 				.Select(position => units.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
@@ -43,12 +56,11 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				Attacker = _turn.Unit,
 				Targets = targets,
-				Path = _turn.AttackPath,
 			};
 
-			await unit.Facade.AnimateAttack(destination);
+			await _turn.Unit.Facade.AnimateAttack(_turn.ActionDestination.Value);
 
-			await ShootProjectile(result.Attacker.GridPosition, destination);
+			await ShootProjectile(result.Attacker.GridPosition, _turn.ActionDestination.Value);
 
 			var hitTasks = new List<UniTask>();
 			foreach (var target in result.Targets)
@@ -61,18 +73,32 @@ namespace Code.SecretSanta.Game.RPG
 					_turnManager.SortedUnits
 				);
 
-				var didHit = Random.Range(0, 100) < hitChance;
+				var roll = Random.Range(0, 100);
+				var didHit = roll < hitChance;
 				if (didHit)
 				{
+					Debug.Log($"{_turn.Unit} hit for {result.Attacker.HitDamage} damage! ({roll}/{hitChance})");
 					hitTasks.Add(ApplyDamage(target, result.Attacker.HitDamage));
 				}
 				else
 				{
+					Debug.Log($"{_turn.Unit} evaded! ({roll}/{hitChance})");
 					hitTasks.Add(Miss(target));
 				}
 			}
 
 			await UniTask.WhenAll(hitTasks);
+		}
+
+		private async UniTask PerformBuild()
+		{
+			var unit = new Unit(_database.Units[_config.SnowmanUnitId]);
+			var direction = UnitHelpers.VectorToDirection(_turn.ActionDestination.Value - _turn.Unit.GridPosition);
+			unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, _turn.ActionDestination.Value, false, direction));
+
+			_turnManager.SortedUnits.Add(unit);
+
+			await UniTask.NextFrame();
 		}
 
 		// TODO: Do this in Projectile.cs
@@ -90,8 +116,6 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async UniTask ApplyDamage(Unit unit, int amount)
 		{
-			Debug.Log($"{unit} hit for {amount} damage!");
-
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
 
 			var tasks = new List<UniTask>();
@@ -112,8 +136,6 @@ namespace Code.SecretSanta.Game.RPG
 
 		private UniTask Miss(Unit unit)
 		{
-			Debug.Log($"{unit} evaded!");
-
 			return _spawner.SpawnText(
 				_config.DamageTextPrefab,
 				"Miss",

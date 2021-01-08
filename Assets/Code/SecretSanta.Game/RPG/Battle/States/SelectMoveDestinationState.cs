@@ -16,7 +16,7 @@ namespace Code.SecretSanta.Game.RPG
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
-			_ui.InitActionMenu(_turn.Unit);
+			_ui.InitMenu(_turn.Unit);
 
 			return default;
 		}
@@ -24,7 +24,7 @@ namespace Code.SecretSanta.Game.RPG
 		public UniTask Exit()
 		{
 			_ui.ClearMovePath();
-			_ui.InitActionMenu(null);
+			_ui.InitMenu(null);
 			_board.ClearHighlight();
 
 			return default;
