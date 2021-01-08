@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -22,7 +21,7 @@ namespace Code.SecretSanta.Game.RPG
 			_bodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction.x > 0 ? 0f : 180f, 0f));
 		}
 
-		public async Task MoveOnPath(List<Vector3Int> path)
+		public async UniTask MoveOnPath(List<Vector3Int> path)
 		{
 			for (var index = 1; index < path.Count; index++)
 			{
@@ -35,7 +34,7 @@ namespace Code.SecretSanta.Game.RPG
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
-		public async Task AnimateAttack(Vector3 destination)
+		public async UniTask AnimateAttack(Vector3 destination)
 		{
 			var origin = _bodyRenderer.transform.position;
 			var direction = (origin + destination).normalized;

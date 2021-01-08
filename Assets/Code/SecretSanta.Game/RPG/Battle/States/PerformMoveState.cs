@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -6,7 +6,7 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public PerformMoveState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async Task Enter(object[] args)
+		public async UniTask Enter(object[] args)
 		{
 			await _turn.Unit.Facade.MoveOnPath(_turn.MovePath);
 			await _turn.Unit.Facade.ChangeDirection(_turn.Unit.Direction.x);
@@ -17,7 +17,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
-		public async Task Exit() { }
+		public UniTask Exit() { return default; }
 
 		public void Tick() { }
 	}

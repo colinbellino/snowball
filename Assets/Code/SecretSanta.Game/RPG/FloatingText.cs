@@ -11,19 +11,17 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField] private Text _text;
 		[SerializeField] private Text _shadow;
 
-		public float Duration => 0.75f;
-
-		public async void Show(string text)
+		public UniTask Show(string text)
 		{
 			_text.text = text;
 			_shadow.text = text;
 
-			_text.transform.DOMoveY(_text.transform.position.y + 0.5f, Duration);
-			_shadow.transform.DOMoveY(_shadow.transform.position.y + 0.5f, Duration);
+			const float duration = 0.75f;
 
-			await UniTask.Delay(TimeSpan.FromSeconds(Duration));
+			_text.transform.DOMoveY(_text.transform.position.y + 0.5f, duration);
+			_shadow.transform.DOMoveY(_shadow.transform.position.y + 0.5f, duration);
 
-			Destroy(gameObject);
+			return UniTask.Delay(TimeSpan.FromSeconds(duration));
 		}
 	}
 }

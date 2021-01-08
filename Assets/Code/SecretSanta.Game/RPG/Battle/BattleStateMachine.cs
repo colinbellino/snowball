@@ -96,6 +96,10 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.Done, States.EndBattle);
 
 			_currentState = _states[_machine.State];
+		}
+
+		public void Start()
+		{
 			_currentState.Enter(null);
 		}
 

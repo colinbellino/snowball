@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -14,17 +14,22 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			_turnManager = new TurnManager();
 			_battleMachine = new BattleStateMachine(_turnManager);
+			_battleMachine.Start();
 
 			_battleMachine.BattleOver += OnBattleOver;
+
+			return default;
 		}
 
-		public async Task Exit()
+		public UniTask Exit()
 		{
 			_battleMachine.BattleOver -= OnBattleOver;
+
+			return default;
 		}
 
 		public void Tick()

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -11,14 +11,16 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public async Task Enter(object[] args)
+		public UniTask Enter(object[] args)
 		{
 			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
 
 			_machine.Fire(GameStateMachine.Triggers.Done);
+
+			return default;
 		}
 
-		public async Task Exit() { }
+		public UniTask Exit() { return default; }
 
 		public void Tick() { }
 	}
