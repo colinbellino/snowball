@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public enum BattleAction { Move, Attack, Build, Wait }
+	public enum BattleActions { Move, Attack, Build, Wait }
 
 	public class SelectActionState : BaseBattleState, IState
 	{
@@ -40,8 +40,8 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (_turn.Unit.IsPlayerControlled)
 			{
-				_ui.ToggleButton(BattleAction.Move, _turn.HasMoved == false);
-				_ui.ToggleButton(BattleAction.Attack, _turn.HasActed == false);
+				_ui.ToggleButton(BattleActions.Move, _turn.HasMoved == false);
+				_ui.ToggleButton(BattleActions.Attack, _turn.HasActed == false);
 				_ui.ShowActionsMenu();
 			}
 			else
@@ -84,22 +84,22 @@ namespace Code.SecretSanta.Game.RPG
 			#endif
 		}
 
-		private void OnActionClicked(BattleAction action)
+		private void OnActionClicked(BattleActions action)
 		{
 			switch (action)
 			{
-				case BattleAction.Move:
+				case BattleActions.Move:
 					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
 					return;
-				case BattleAction.Attack:
+				case BattleActions.Attack:
 					_turn.Action = Turn.Actions.Attack;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
-				case BattleAction.Build:
+				case BattleActions.Build:
 					_turn.Action = Turn.Actions.Build;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
-				case BattleAction.Wait:
+				case BattleActions.Wait:
 					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 					return;
 				default:

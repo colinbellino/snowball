@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Code.SecretSanta.Game.RPG
 {
 	[Serializable]
-	public class ActionButtons : UnitySerializedDictionary<BattleAction, Button> { }
+	public class ActionButtons : UnitySerializedDictionary<BattleActions, Button> { }
 
 	public class BattleUI : MonoBehaviour
 	{
@@ -29,7 +29,7 @@ namespace Code.SecretSanta.Game.RPG
 		[Title("Current")]
 		[SerializeField][Required] private GameObject _currentUnitCursor;
 
-		public event Action<BattleAction> OnActionClicked;
+		public event Action<BattleActions> OnActionClicked;
 		private static readonly Vector3 OUT_OF_SCREEN_POSITION = new Vector3(999, 999, 0);
 
 		private void Awake()
@@ -79,7 +79,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void HideActionsMenu() => _actionsRoot.SetActive(false);
 
-		public void ToggleButton(BattleAction action, bool value)
+		public void ToggleButton(BattleActions action, bool value)
 		{
 			_actionButtons[action].interactable = value;
 		}
@@ -105,11 +105,20 @@ namespace Code.SecretSanta.Game.RPG
 			_moveCursor.transform.position = OUT_OF_SCREEN_POSITION;
 		}
 
-		public void HighlightAimPath(Vector3Int origin, Vector3Int destination, int hitChance)
+		public void HighlightBuildTarget(Vector3Int destination)
+		{
+			_aimLine.positionCount = 0;
+			_aimCursor.transform.position = destination;
+			_aimCursorText.text = $"{destination}";
+		}
+
+		public void HighlightAttackTarget(Vector3Int origin, Vector3Int destination, int hitChance)
 		{
 			_aimLine.positionCount = 2;
 			_aimLine.SetPosition(0, origin);
 			_aimLine.SetPosition(1, destination);
+			_aimCursor.transform.position = destination;
+			_aimCursorText.text = $"{destination}\n{hitChance}%";
 
 			if (hitChance == 0)
 			{
@@ -129,16 +138,13 @@ namespace Code.SecretSanta.Game.RPG
 				_aimLine.endColor = Color.yellow;
 				_aimCursor.color = Color.yellow;
 			}
-
-			_aimCursor.transform.position = destination;
-
-			_aimCursorText.text = $"{destination}\n{hitChance}%";
 		}
 
 		public void ClearAimPath()
 		{
 			_aimLine.positionCount = 0;
 			_aimCursor.transform.position = OUT_OF_SCREEN_POSITION;
+			_aimCursorText.text = "";
 		}
 
 		public void ShowTurnOrder() => _turnOrderRoot.SetActive(true);
@@ -168,7 +174,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		private UnityAction OnBattleActionClicked(BattleAction action)
+		private UnityAction OnBattleActionClicked(BattleActions action)
 		{
 			return () => OnActionClicked?.Invoke(action);
 		}

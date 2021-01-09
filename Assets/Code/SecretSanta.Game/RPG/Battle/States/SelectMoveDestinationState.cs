@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -7,9 +6,9 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectMoveDestinationState : BaseBattleState, IState
 	{
-		private IEnumerable<Vector3Int> _validMovePositions;
-		private Vector3Int _cursorPosition;
+		private List<Vector3Int> _validMovePositions;
 		private List<Vector3Int> _path;
+		private Vector3Int _cursorPosition;
 
 		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
@@ -65,6 +64,10 @@ namespace Code.SecretSanta.Game.RPG
 					_turn.MovePath = _path;
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 					return;
+				}
+				else
+				{
+					Debug.Log("Invalid destination");
 				}
 			}
 		}

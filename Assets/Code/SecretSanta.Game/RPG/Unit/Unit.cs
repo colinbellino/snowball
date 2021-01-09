@@ -20,6 +20,7 @@ namespace Code.SecretSanta.Game.RPG
 		public int HitAccuracy;
 		public int HitRange;
 		public int HitDamage;
+		public int BuildRange = 1;
 		public Vector3Int GridPosition;
 		public Directions Direction;
 		public bool IsPlayerControlled;
