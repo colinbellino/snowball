@@ -6,11 +6,23 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectActionTargetState : BaseBattleState, IState
 	{
-		private Vector3Int _cursorPosition;
 		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
+
+		private List<Vector3Int> _validMovePositions;
+		private Vector3Int _cursorPosition;
 
 		public async UniTask Enter(object[] args)
 		{
+			if (_turn.Action == Turn.Actions.Build)
+			{
+				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
+				_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
+			}
+			else
+			{
+				_validMovePositions = GridHelpers.GetAllTiles(_turnManager.WalkGrid);
+			}
+
 			_ui.InitMenu(_turn.Unit);
 
 			if (_turn.Unit.IsPlayerControlled == false)
@@ -24,6 +36,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_ui.InitMenu(null);
 			_ui.ClearAimPath();
+			_board.ClearHighlight();
 
 			return default;
 		}
@@ -43,37 +56,38 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				_cursorPosition = cursorPosition;
 
-				var hitChance = GridHelpers.CalculateHitAccuracy(
-					_turn.Unit.GridPosition,
-					cursorPosition,
-					_turnManager.BlockGrid,
-					_turn.Unit,
-					_turnManager.SortedUnits
-				);
-				_ui.HighlightAimPath(_turn.Unit.GridPosition, cursorPosition, hitChance);
+				if (_turn.Action == Turn.Actions.Build)
+				{
+					_ui.HighlightBuildTarget(cursorPosition);
+				}
+				else
+				{
+					var hitChance = GridHelpers.CalculateHitAccuracy(
+						_turn.Unit.GridPosition,
+						cursorPosition,
+						_turnManager.BlockGrid,
+						_turn.Unit,
+						_turnManager.SortedUnits
+					);
+					_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
+				}
 			}
 
 			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 			if (leftClick)
 			{
-				switch (_turn.Action)
+				if (_validMovePositions.Contains(cursorPosition))
 				{
-					case Turn.Actions.Attack:
-					{
-						_turn.ActionTargets = new List<Vector3Int> { cursorPosition };
-						_turn.ActionDestination = _cursorPosition;
-					} break;
-					case Turn.Actions.Build:
-					{
-						_turn.ActionDestination = _cursorPosition;
-					} break;
-					default:
-					{
-						Debug.LogWarning("No action selected but we still tried to select a target for it ? We probably have a bug in our state machine.");
-					} break;
-				}
+					_turn.ActionTargets = new List<Vector3Int> { cursorPosition };
+					_turn.ActionDestination = _cursorPosition;
 
-				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+					_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+					return;
+				}
+				else
+				{
+					Debug.Log("Invalid target");
+				}
 			}
 		}
 	}
