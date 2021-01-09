@@ -8,6 +8,8 @@ namespace Code.SecretSanta.Game.RPG
 	public class SelectMoveDestinationState : BaseBattleState, IState
 	{
 		private IEnumerable<Vector3Int> _validMovePositions;
+		private Vector3Int _cursorPosition;
+		private List<Vector3Int> _path;
 
 		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
@@ -33,30 +35,34 @@ namespace Code.SecretSanta.Game.RPG
 		public void Tick()
 		{
 			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
-			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
 			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
-			var path = GridHelpers.CalculatePathWithFall(
-				_turn.Unit.GridPosition, cursorPosition,
-				_turnManager.WalkGrid
-			);
-
-			if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))
+			if (cursorPosition != _cursorPosition)
 			{
-				_ui.HighlightMovePath(path);
-			}
-			else
-			{
-				_ui.ClearMovePath();
+				_cursorPosition = cursorPosition;
+				_path = GridHelpers.CalculatePathWithFall(
+					_turn.Unit.GridPosition, cursorPosition,
+					_turnManager.WalkGrid
+				);
+
+				if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))
+				{
+					_ui.HighlightMovePath(_path);
+				}
+				else
+				{
+					_ui.ClearMovePath();
+				}
 			}
 
+			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 			if (leftClick)
 			{
 				if (_validMovePositions.Contains(cursorPosition))
 				{
-					_turn.MovePath = path;
+					_turn.MovePath = _path;
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 					return;
 				}

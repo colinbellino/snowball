@@ -36,14 +36,8 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
-			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 
 			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var destination = new Vector3Int(
-				Mathf.RoundToInt(mouseWorldPosition.x),
-				Mathf.RoundToInt(mouseWorldPosition.y),
-				0
-			);
 			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 			if (cursorPosition != _cursorPosition)
 			{
@@ -59,13 +53,14 @@ namespace Code.SecretSanta.Game.RPG
 				_ui.HighlightAimPath(_turn.Unit.GridPosition, cursorPosition, hitChance);
 			}
 
+			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
 			if (leftClick)
 			{
 				switch (_turn.Action)
 				{
 					case Turn.Actions.Attack:
 					{
-						_turn.ActionTargets = new List<Vector3Int> { destination };
+						_turn.ActionTargets = new List<Vector3Int> { cursorPosition };
 						_turn.ActionDestination = _cursorPosition;
 					} break;
 					case Turn.Actions.Build:

@@ -96,7 +96,8 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			foreach (var node in grid.nodes)
 			{
-				if (Pathfinding.FindPath(grid, startNode, node).Count <= maxDistance)
+				var path = Pathfinding.FindPath(grid, startNode, node);
+				if (path.Count > 0 && path.Count <= maxDistance)
 				{
 					yield return node;
 				}
