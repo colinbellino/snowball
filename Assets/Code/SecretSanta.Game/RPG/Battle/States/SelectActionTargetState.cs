@@ -6,9 +6,11 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectActionTargetState : BaseBattleState
 	{
-		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
-
 		private List<Vector3Int> _validMovePositions;
+
+		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
+		{
+		}
 
 		public override async UniTask Enter()
 		{
@@ -16,7 +18,8 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (_turn.Action == Turn.Actions.Build)
 			{
-				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
+				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition,
+					_turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
 				_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			}
 			else
@@ -71,7 +74,7 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			_turn.ActionTargets = new List<Vector3Int> { _cursorPosition };
+			_turn.ActionTargets = new List<Vector3Int> {_cursorPosition};
 			_turn.ActionDestination = _cursorPosition;
 
 			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);

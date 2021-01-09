@@ -10,6 +10,15 @@ namespace Code.SecretSanta.Game.RPG
 		protected readonly BattleStateMachine _machine;
 		protected readonly TurnManager _turnManager;
 
+		protected Vector3Int _cursorPosition;
+
+		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
+		{
+			_machine = machine;
+			_turnManager = turnManager;
+			_game = Game.Instance;
+		}
+
 		protected GameConfig _config => _game.Config;
 		protected GameControls _controls => _game.Controls;
 		protected Camera _camera => _game.Camera;
@@ -19,15 +28,6 @@ namespace Code.SecretSanta.Game.RPG
 		protected StuffSpawner _spawner => _game.Spawner;
 		protected Board _board => _game.Board;
 		protected Turn _turn => _turnManager.Turn;
-
-		protected Vector3Int _cursorPosition;
-
-		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
-		{
-			_machine = machine;
-			_turnManager = turnManager;
-			_game = Game.Instance;
-		}
 
 		public virtual UniTask Enter()
 		{
@@ -64,14 +64,26 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		private void OnConfirmPerformed(InputAction.CallbackContext context) => OnConfirm();
+		private void OnConfirmPerformed(InputAction.CallbackContext context)
+		{
+			OnConfirm();
+		}
 
-		private void OnCancelPerformed(InputAction.CallbackContext context) => OnCancel();
+		private void OnCancelPerformed(InputAction.CallbackContext context)
+		{
+			OnCancel();
+		}
 
-		protected virtual void OnConfirm() { }
+		protected virtual void OnConfirm()
+		{
+		}
 
-		protected virtual void OnCancel() { }
+		protected virtual void OnCancel()
+		{
+		}
 
-		protected virtual void OnCursorMove() { }
+		protected virtual void OnCursorMove()
+		{
+		}
 	}
 }

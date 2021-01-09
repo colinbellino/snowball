@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public async UniTask ChangeDirection(Unit.Directions direction)
+		public async UniTask AnimateChangeDirection(Unit.Directions direction)
 		{
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
@@ -41,6 +42,22 @@ namespace Code.SecretSanta.Game.RPG
 			var animDestination = origin.x + direction.x * 0.75f;
 			await _bodyRenderer.transform.DOMoveX(animDestination, 0.1f);
 			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
+		}
+
+		public async UniTask AnimateBuild(Unit.Directions direction)
+		{
+			var originalPosition = _bodyRenderer.transform.position;
+
+			await DOTween.Sequence()
+				.Append(_bodyRenderer.transform.DOMoveX(originalPosition.x + (direction == Unit.Directions.Right ? 0.2f : -0.2f), 0.2f))
+				.Append(_bodyRenderer.transform.DOMoveX(originalPosition.x, 0.1f));
+		}
+
+		public async UniTask AnimateSpawn()
+		{
+			_bodyRenderer.transform.localScale = Vector3.zero;
+
+			await _bodyRenderer.transform.DOScale(1, 0.3f);
 		}
 
 		public async UniTask AnimateDeath()
@@ -67,7 +84,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0)
 			{
-				await ChangeDirection(direction > 0f ? Unit.Directions.Right : Unit.Directions.Left);
+				await AnimateChangeDirection(direction > 0f ? Unit.Directions.Right : Unit.Directions.Left);
 			}
 
 			var distance = Vector3.Distance(transform.position, destination);

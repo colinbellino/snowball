@@ -3945,6 +3945,12 @@ MonoBehaviour:
   _aimCursor: {fileID: 1108105011}
   _aimCursorText: {fileID: 1331775721}
   _aimLine: {fileID: 1753701221}
+  _cursorColors:
+    keyData: 000000000100000002000000
+    valueData:
+    - {r: 0, g: 0.6415094, b: 0.07289873, a: 1}
+    - {r: 1, g: 0.8039216, b: 0, a: 1}
+    - {r: 0.764151, g: 0.09889591, b: 0, a: 1}
   _currentUnitCursor: {fileID: 120266636}
 --- !u!4 &1460282646
 Transform:

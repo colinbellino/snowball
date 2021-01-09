@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine.InputSystem;
 
 namespace Code.SecretSanta.Game.RPG
@@ -58,7 +59,7 @@ namespace Code.SecretSanta.Game.RPG
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
 #if UNITY_EDITOR
-				UnityEditor.EditorApplication.isPlaying = false;
+				EditorApplication.isPlaying = false;
 #else
 					UnityEngine.Application.Quit();
 #endif

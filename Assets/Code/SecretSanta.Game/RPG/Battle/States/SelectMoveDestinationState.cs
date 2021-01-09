@@ -6,16 +6,20 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectMoveDestinationState : BaseBattleState
 	{
-		private List<Vector3Int> _validMovePositions;
 		private List<Vector3Int> _path;
+		private List<Vector3Int> _validMovePositions;
 
-		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
+		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine,
+			turnManager)
+		{
+		}
 
 		public override UniTask Enter()
 		{
 			base.Enter();
 
-			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
+			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange,
+				_turnManager.WalkGrid, _turnManager.SortedUnits);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			_ui.InitMenu(_turn.Unit);
@@ -42,13 +46,9 @@ namespace Code.SecretSanta.Game.RPG
 			);
 
 			if (_cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(_cursorPosition))
-			{
 				_ui.HighlightMovePath(_path);
-			}
 			else
-			{
 				_ui.ClearMovePath();
-			}
 		}
 
 		protected override void OnConfirm()
