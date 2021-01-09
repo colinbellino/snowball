@@ -15,7 +15,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public UniTask Enter(object[] args)
 		{
-			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid);
+			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			_ui.InitMenu(_turn.Unit);

@@ -84,12 +84,17 @@ namespace Code.SecretSanta.Game.RPG
 			return position;
 		}
 
-		public static IEnumerable<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid)
+		public static IEnumerable<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid, List<Unit> allUnits)
 		{
 			var startNode = grid.nodes[start.x, start.y];
 			return GetNodesInRange(startNode, maxDistance, grid)
-				.Where(node => node.walkable)
+				.Where(node => node.walkable && GetUnitInNode(node, allUnits) == null)
 				.Select(node => (Vector3Int) node);
+		}
+
+		private static Unit GetUnitInNode(Node node, List<Unit> allUnits)
+		{
+			return allUnits.Find(unit => unit.GridPosition.x == node.gridX && unit.GridPosition.y == node.gridY);
 		}
 
 		private static IEnumerable<Node> GetNodesInRange(Node startNode, int maxDistance, Grid grid)
