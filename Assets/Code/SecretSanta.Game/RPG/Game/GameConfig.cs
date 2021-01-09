@@ -27,6 +27,7 @@ namespace Code.SecretSanta.Game.RPG
 		[Required] public UnitFacade UnitWorldmapPrefab;
 		[Required] public GameObject SnowballPrefab;
 		[Required] public FloatingText DamageTextPrefab;
+		[Required] public Texture2D MouseCursor;
 
 		[Title("Worldmap")]
 		[SerializeField] [Required] private List<EncounterAuthoring> _encounters;

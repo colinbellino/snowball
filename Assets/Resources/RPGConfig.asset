@@ -138,6 +138,7 @@ MonoBehaviour:
     type: 3}
   DamageTextPrefab: {fileID: 5883526031790158921, guid: 2412dfbb2e4e95647828088136c79369,
     type: 3}
+  MouseCursor: {fileID: 2800000, guid: 5988a2020badc834c96521b52b6a08f5, type: 3}
   _encounters:
   - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
   - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}

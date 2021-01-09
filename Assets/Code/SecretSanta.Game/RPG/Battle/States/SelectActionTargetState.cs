@@ -41,7 +41,7 @@ namespace Code.SecretSanta.Game.RPG
 			base.Exit();
 
 			_ui.InitMenu(null);
-			_ui.ClearAimPath();
+			_ui.ClearTarget();
 			_board.ClearHighlight();
 
 			return default;
