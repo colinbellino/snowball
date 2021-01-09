@@ -35,6 +35,14 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""c34bc2a5-f988-403c-a49c-63a70f076efa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Mouse Position"",
                     ""type"": ""Value"",
                     ""id"": ""5f88aa2d-5d18-4935-bd3e-c1dec0958914"",
@@ -186,6 +194,17 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d38506b6-e33f-4398-872a-09e2318b55b4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""2d6e55a6-6885-420b-9806-433449fb0282"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
@@ -205,6 +224,17 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""action"": ""Left Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5fe9d13-93e2-4c8c-8c11-61d8f5435865"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -215,6 +245,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Confirm = m_Gameplay.FindAction("Confirm", throwIfNotFound: true);
+        m_Gameplay_Cancel = m_Gameplay.FindAction("Cancel", throwIfNotFound: true);
         m_Gameplay_MousePosition = m_Gameplay.FindAction("Mouse Position", throwIfNotFound: true);
         m_Gameplay_LeftClick = m_Gameplay.FindAction("Left Click", throwIfNotFound: true);
     }
@@ -268,6 +299,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Confirm;
+    private readonly InputAction m_Gameplay_Cancel;
     private readonly InputAction m_Gameplay_MousePosition;
     private readonly InputAction m_Gameplay_LeftClick;
     public struct GameplayActions
@@ -276,6 +308,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         public GameplayActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Confirm => m_Wrapper.m_Gameplay_Confirm;
+        public InputAction @Cancel => m_Wrapper.m_Gameplay_Cancel;
         public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
         public InputAction @LeftClick => m_Wrapper.m_Gameplay_LeftClick;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -293,6 +326,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Confirm.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
                 @Confirm.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
                 @Confirm.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnConfirm;
+                @Cancel.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancel;
                 @MousePosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
@@ -309,6 +345,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @Confirm.started += instance.OnConfirm;
                 @Confirm.performed += instance.OnConfirm;
                 @Confirm.canceled += instance.OnConfirm;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
@@ -323,6 +362,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
     }

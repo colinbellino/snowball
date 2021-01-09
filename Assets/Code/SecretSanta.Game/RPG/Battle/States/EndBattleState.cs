@@ -2,12 +2,14 @@
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class EndBattleState : BaseBattleState, IState
+	public class EndBattleState : BaseBattleState
 	{
 		public EndBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public UniTask Enter(object[] args)
+		public override UniTask Enter()
 		{
+			base.Enter();
+
 			_ui.HideAll();
 			_board.ClearArea();
 			_board.HideEncounter();
@@ -21,9 +23,5 @@ namespace Code.SecretSanta.Game.RPG
 
 			return default;
 		}
-
-		public UniTask Exit() { return default; }
-
-		public void Tick() { }
 	}
 }

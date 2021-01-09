@@ -20,7 +20,7 @@ namespace Code.SecretSanta.Game.RPG
 			_state = state;
 		}
 
-		public UniTask Enter(object[] args)
+		public UniTask Enter()
 		{
 			_worldmap.ShowWorldmap();
 			_worldmap.SetEncounters(_config.Encounters);
@@ -44,12 +44,12 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick()
 		{
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
 				_machine.Fire(GameStateMachine.Triggers.BackToTitle);
 			}
-			#endif
+#endif
 		}
 
 		private void OnEncounterClicked(int encounterIndex)

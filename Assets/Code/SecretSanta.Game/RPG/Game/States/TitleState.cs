@@ -12,7 +12,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public UniTask Enter(object[] args)
+		public UniTask Enter()
 		{
 			// Do this when we start the game only.
 			Game.Instance.LoadStateFromSave();
@@ -35,7 +35,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Tick()
 		{
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			if (Keyboard.current.f1Key.wasPressedThisFrame)
 			{
 				var encounterId = Game.Instance.Config.Encounters[0];
@@ -53,15 +53,15 @@ namespace Code.SecretSanta.Game.RPG
 				_machine.Fire(GameStateMachine.Triggers.StartBattle);
 				return;
 			}
-			#endif
+#endif
 
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
-				#if UNITY_EDITOR
-					UnityEditor.EditorApplication.isPlaying = false;
-				#else
+#if UNITY_EDITOR
+				UnityEditor.EditorApplication.isPlaying = false;
+#else
 					UnityEngine.Application.Quit();
-				#endif
+#endif
 			}
 		}
 

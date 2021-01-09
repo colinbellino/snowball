@@ -14,7 +14,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public UniTask Enter(object[] args)
+		public UniTask Enter()
 		{
 			_turnManager = new TurnManager();
 			_battleMachine = new BattleStateMachine(_turnManager);

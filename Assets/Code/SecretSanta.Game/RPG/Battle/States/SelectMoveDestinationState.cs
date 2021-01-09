@@ -4,16 +4,17 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class SelectMoveDestinationState : BaseBattleState, IState
+	public class SelectMoveDestinationState : BaseBattleState
 	{
 		private List<Vector3Int> _validMovePositions;
 		private List<Vector3Int> _path;
-		private Vector3Int _cursorPosition;
 
 		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public UniTask Enter(object[] args)
+		public override UniTask Enter()
 		{
+			base.Enter();
+
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
@@ -22,8 +23,10 @@ namespace Code.SecretSanta.Game.RPG
 			return default;
 		}
 
-		public UniTask Exit()
+		public override UniTask Exit()
 		{
+			base.Exit();
+
 			_ui.ClearMovePath();
 			_ui.InitMenu(null);
 			_board.ClearHighlight();
@@ -31,45 +34,38 @@ namespace Code.SecretSanta.Game.RPG
 			return default;
 		}
 
-		public void Tick()
+		protected override void OnCursorMove()
 		{
-			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+			_path = GridHelpers.CalculatePathWithFall(
+				_turn.Unit.GridPosition, _cursorPosition,
+				_turnManager.WalkGrid
+			);
 
-			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
-
-			if (cursorPosition != _cursorPosition)
+			if (_cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(_cursorPosition))
 			{
-				_cursorPosition = cursorPosition;
-				_path = GridHelpers.CalculatePathWithFall(
-					_turn.Unit.GridPosition, cursorPosition,
-					_turnManager.WalkGrid
-				);
+				_ui.HighlightMovePath(_path);
+			}
+			else
+			{
+				_ui.ClearMovePath();
+			}
+		}
 
-				if (cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(cursorPosition))
-				{
-					_ui.HighlightMovePath(_path);
-				}
-				else
-				{
-					_ui.ClearMovePath();
-				}
+		protected override void OnConfirm()
+		{
+			if (_validMovePositions.Contains(_cursorPosition) == false)
+			{
+				Debug.Log("Invalid destination");
+				return;
 			}
 
-			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
-			if (leftClick)
-			{
-				if (_validMovePositions.Contains(cursorPosition))
-				{
-					_turn.MovePath = _path;
-					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
-					return;
-				}
-				else
-				{
-					Debug.Log("Invalid destination");
-				}
-			}
+			_turn.MovePath = _path;
+			_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
+		}
+
+		protected override void OnCancel()
+		{
+			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
 		}
 	}
 }

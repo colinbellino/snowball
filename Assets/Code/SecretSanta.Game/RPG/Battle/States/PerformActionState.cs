@@ -8,42 +8,41 @@ using Random = UnityEngine.Random;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class PerformActionState : BaseBattleState, IState
+	public class PerformActionState : BaseBattleState
 	{
 		public PerformActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public async UniTask Enter(object[] args)
+		public override async UniTask Enter()
 		{
+			await base.Enter();
+
 			_ui.InitMenu(_turn.Unit);
 
 			switch (_turn.Action)
 			{
 				case Turn.Actions.Attack:
-				{
 					await PerformAttack();
-				} break;
+					break;
 				case Turn.Actions.Build:
-				{
 					await PerformBuild();
-				} break;
+					break;
 				default:
-				{
 					Debug.LogWarning("No action selected but we still tried to perform it ? We probably have a bug in our state machine.");
-				} break;
+					break;
 			}
 			_turn.HasActed = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
-		public UniTask Exit()
+		public override UniTask Exit()
 		{
+			base.Exit();
+
 			_ui.InitMenu(null);
 
 			return default;
 		}
-
-		public void Tick() { }
 
 		private async UniTask PerformAttack()
 		{
