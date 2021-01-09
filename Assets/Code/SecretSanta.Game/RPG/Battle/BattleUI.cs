@@ -15,7 +15,7 @@ namespace Code.SecretSanta.Game.RPG
 		[Serializable]
 		private class CursorColorsDictionary : UnitySerializedDictionary<CursorColors, Color> { }
 
-		private enum CursorColors { Default, Warning, Error }
+		private enum CursorColors { Default, Success, Warning, Error }
 
 		[Title("Turn order")]
 		[SerializeField][Required] private GameObject _turnOrderRoot;
@@ -25,7 +25,7 @@ namespace Code.SecretSanta.Game.RPG
 		[SerializeField][Required] private Text _actionsTitle;
 		[SerializeField][Required] private ActionButtons _actionButtons;
 		[Title("Cursors")]
-		[SerializeField][Required] private GameObject _moveCursor;
+		[SerializeField][Required] private SpriteRenderer _moveCursor;
 		[SerializeField][Required] private LineRenderer _moveLine;
 		[SerializeField][Required] private SpriteRenderer _aimCursor;
 		[SerializeField][Required] private Text _aimCursorText;
@@ -64,7 +64,7 @@ namespace Code.SecretSanta.Game.RPG
 			HideActionsMenu();
 			HideTurnOrder();
 			ClearMovePath();
-			ClearAimPath();
+			ClearTarget();
 		}
 
 		public void InitMenu(Unit unit)
@@ -92,6 +92,8 @@ namespace Code.SecretSanta.Game.RPG
 		public void HighlightMovePath(List<Vector3Int> path)
 		{
 			_moveLine.positionCount = path.Count;
+			_moveLine.startColor = _cursorColors[CursorColors.Default];
+			_moveLine.endColor = _cursorColors[CursorColors.Default];
 			for (var pathIndex = 0; pathIndex < path.Count; pathIndex++)
 			{
 				var point = path[pathIndex];
@@ -100,6 +102,7 @@ namespace Code.SecretSanta.Game.RPG
 
 			if (path.Count > 0)
 			{
+				_moveCursor.color = _cursorColors[CursorColors.Default];
 				_moveCursor.transform.position = path[path.Count - 1];
 			}
 		}
@@ -115,6 +118,11 @@ namespace Code.SecretSanta.Game.RPG
 			_aimLine.positionCount = 0;
 			_aimCursor.transform.position = destination;
 			_aimCursorText.text = $"{destination}";
+
+			_aimLine.startColor = _cursorColors[CursorColors.Default];
+			_aimLine.endColor = _cursorColors[CursorColors.Default];
+			_aimCursor.color = _cursorColors[CursorColors.Default];
+			_aimCursorText.color = _cursorColors[CursorColors.Default];
 		}
 
 		public void HighlightAttackTarget(Vector3Int origin, Vector3Int destination, int hitChance)
@@ -123,21 +131,22 @@ namespace Code.SecretSanta.Game.RPG
 			_aimLine.SetPosition(0, origin);
 			_aimLine.SetPosition(1, destination);
 			_aimCursor.transform.position = destination;
-			_aimCursorText.text = $"{destination}\n{hitChance}%";
+			_aimCursorText.text = $"hit: {hitChance}%\n{destination}";
 
 			var color = hitChance switch
 			{
+				100 => _cursorColors[CursorColors.Success],
 				0 => _cursorColors[CursorColors.Error],
-				100 => _cursorColors[CursorColors.Default],
 				_ => _cursorColors[CursorColors.Warning]
 			};
 
 			_aimLine.startColor = color;
 			_aimLine.endColor = color;
 			_aimCursor.color = color;
+			_aimCursorText.color = color;
 		}
 
-		public void ClearAimPath()
+		public void ClearTarget()
 		{
 			_aimLine.positionCount = 0;
 			_aimCursor.transform.position = OUT_OF_SCREEN_POSITION;

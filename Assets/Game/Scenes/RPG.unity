@@ -3940,17 +3940,18 @@ MonoBehaviour:
     - {fileID: 1948434519}
     - {fileID: 460092745}
     - {fileID: 1781601153}
-  _moveCursor: {fileID: 1251520759}
+  _moveCursor: {fileID: 1251520761}
   _moveLine: {fileID: 78908545}
   _aimCursor: {fileID: 1108105011}
   _aimCursorText: {fileID: 1331775721}
   _aimLine: {fileID: 1753701221}
   _cursorColors:
-    keyData: 000000000100000002000000
+    keyData: 00000000010000000200000003000000
     valueData:
-    - {r: 0, g: 0.6415094, b: 0.07289873, a: 1}
-    - {r: 1, g: 0.8039216, b: 0, a: 1}
-    - {r: 0.764151, g: 0.09889591, b: 0, a: 1}
+    - {r: 1, g: 0.80392164, b: 0, a: 1}
+    - {r: 0, g: 0.6431373, b: 0.07450981, a: 1}
+    - {r: 1, g: 0.80392164, b: 0, a: 1}
+    - {r: 0.76470596, g: 0.098039225, b: 0, a: 1}
   _currentUnitCursor: {fileID: 120266636}
 --- !u!4 &1460282646
 Transform:
