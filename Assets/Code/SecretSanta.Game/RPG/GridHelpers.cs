@@ -126,10 +126,6 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			var hitChance = attacker.HitAccuracy;
 
-			// Source: https://forum.unity.com/threads/find-a-point-on-a-line-between-two-vector3.140700/#post-960814
-			// 1) Subtract the two vector (B-A) to get a vector pointing from A to B. Lets call this AB
-			// 2) Normalize this vector AB. Now it will be one unit in length.
-			// 3) You can now scale this vector to find a point between A and B. so (A + (0.1 * AB)) will be 0.1 units from A.
 			var direction = destination - origin;
 			const int segments = 100;
 			var checkedPositions = new List<Vector3Int>();
@@ -149,16 +145,15 @@ namespace Code.SecretSanta.Game.RPG
 				var blockedByTile = blockGrid.nodes[segmentGridDestination.x, segmentGridDestination.y].walkable;
 				if (blockedByTile)
 				{
-					hitChance -= 100;
+					hitChance = 0;
 					break;
 				}
 
 				var unit = allUnits.Find(unit => unit.GridPosition == segmentGridDestination);
-				var blockedByUnit = unit != null && unit != attacker && segmentGridDestination != destination;
-				if (blockedByUnit)
+				var blockedBySnowpal = unit != null && unit.Type == Unit.Types.Snowpal && unit != attacker && segmentGridDestination != destination;
+				if (blockedBySnowpal)
 				{
 					hitChance -= 50;
-					break;
 				}
 			}
 
