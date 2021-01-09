@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Stateless;
-using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
@@ -30,6 +28,7 @@ namespace Code.SecretSanta.Game.RPG
 			ActionSelected,
 			ActionTargetSelected,
 			TurnEnded,
+			Cancelled,
 			Done,
 			Victory,
 			Loss,
@@ -75,12 +74,14 @@ namespace Code.SecretSanta.Game.RPG
 				.Permit(Triggers.Loss, States.BattleDefeat);
 
 			_machine.Configure(States.SelectMoveDestination)
+				.Permit(Triggers.Cancelled, States.SelectAction)
 				.Permit(Triggers.MoveDestinationSelected, States.PerformMove);
 
 			_machine.Configure(States.PerformMove)
 				.Permit(Triggers.Done, States.SelectAction);
 
 			_machine.Configure(States.SelectActionTarget)
+				.Permit(Triggers.Cancelled, States.SelectAction)
 				.Permit(Triggers.ActionTargetSelected, States.PerformAction);
 
 			_machine.Configure(States.PerformAction)
@@ -100,7 +101,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public void Start()
 		{
-			_currentState.Enter(null);
+			_currentState.Enter();
 		}
 
 		public void Tick() => _currentState?.Tick();
@@ -111,37 +112,20 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async void OnTransitioned(StateMachine<States, Triggers>.Transition transition)
 		{
-			var states = _machine.GetInfo().States.ToList();
-			var source = states.Find(state => state.UnderlyingState.Equals(transition.Source));
-			var destination = states.Find(state => state.UnderlyingState.Equals(transition.Destination));
-
-			// Debug.LogWarning("Exit!");
 			if (_currentState != null)
 			{
 				await _currentState.Exit();
 			}
 
-			if (source.Superstate != null && source.Superstate != destination.Superstate)
-			{
-				// Debug.LogWarning("Exit PARENT!");
-				await _states[(States)source.Superstate.UnderlyingState].Exit();
-			}
-
 			if (_states.ContainsKey(transition.Destination) == false)
 			{
-				Debug.LogError("Missing state class for: " + transition.Destination);
+				throw new Exception("Missing state class for: " + transition.Destination);
 			}
 
 			_currentState = _states[transition.Destination];
 			// Debug.Log($"{source.UnderlyingState} -> {destination.UnderlyingState}");
 
-			if (source.Superstate != destination.Superstate && destination.Superstate != null)
-			{
-				// Debug.LogWarning("Enter PARENT!");
-				await _states[(States)destination.Superstate.UnderlyingState].Enter(transition.Parameters);
-			}
-
-			await _currentState.Enter(transition.Parameters);
+			await _currentState.Enter();
 		}
 	}
 }

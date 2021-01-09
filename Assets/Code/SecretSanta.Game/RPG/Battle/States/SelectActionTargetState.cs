@@ -4,15 +4,16 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class SelectActionTargetState : BaseBattleState, IState
+	public class SelectActionTargetState : BaseBattleState
 	{
 		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		private List<Vector3Int> _validMovePositions;
-		private Vector3Int _cursorPosition;
 
-		public async UniTask Enter(object[] args)
+		public override async UniTask Enter()
 		{
+			await base.Enter();
+
 			if (_turn.Action == Turn.Actions.Build)
 			{
 				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
@@ -32,8 +33,10 @@ namespace Code.SecretSanta.Game.RPG
 			}
 		}
 
-		public UniTask Exit()
+		public override UniTask Exit()
 		{
+			base.Exit();
+
 			_ui.InitMenu(null);
 			_ui.ClearAimPath();
 			_board.ClearHighlight();
@@ -41,54 +44,42 @@ namespace Code.SecretSanta.Game.RPG
 			return default;
 		}
 
-		public void Tick()
+		protected override void OnCursorMove()
 		{
-			if (_turn.Unit.IsPlayerControlled == false)
+			if (_turn.Action == Turn.Actions.Build)
 			{
+				_ui.HighlightBuildTarget(_cursorPosition);
+			}
+			else
+			{
+				var hitChance = GridHelpers.CalculateHitAccuracy(
+					_turn.Unit.GridPosition,
+					_cursorPosition,
+					_turnManager.BlockGrid,
+					_turn.Unit,
+					_turnManager.SortedUnits
+				);
+				_ui.HighlightAttackTarget(_turn.Unit.GridPosition, _cursorPosition, hitChance);
+			}
+		}
+
+		protected override void OnConfirm()
+		{
+			if (_validMovePositions.Contains(_cursorPosition) == false)
+			{
+				Debug.Log("Invalid target");
 				return;
 			}
 
-			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+			_turn.ActionTargets = new List<Vector3Int> { _cursorPosition };
+			_turn.ActionDestination = _cursorPosition;
 
-			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
-			if (cursorPosition != _cursorPosition)
-			{
-				_cursorPosition = cursorPosition;
+			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+		}
 
-				if (_turn.Action == Turn.Actions.Build)
-				{
-					_ui.HighlightBuildTarget(cursorPosition);
-				}
-				else
-				{
-					var hitChance = GridHelpers.CalculateHitAccuracy(
-						_turn.Unit.GridPosition,
-						cursorPosition,
-						_turnManager.BlockGrid,
-						_turn.Unit,
-						_turnManager.SortedUnits
-					);
-					_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
-				}
-			}
-
-			var leftClick = _controls.Gameplay.LeftClick.ReadValue<float>() > 0f;
-			if (leftClick)
-			{
-				if (_validMovePositions.Contains(cursorPosition))
-				{
-					_turn.ActionTargets = new List<Vector3Int> { cursorPosition };
-					_turn.ActionDestination = _cursorPosition;
-
-					_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
-					return;
-				}
-				else
-				{
-					Debug.Log("Invalid target");
-				}
-			}
+		protected override void OnCancel()
+		{
+			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
 		}
 	}
 }

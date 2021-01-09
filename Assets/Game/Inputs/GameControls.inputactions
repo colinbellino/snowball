@@ -22,6 +22,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "c34bc2a5-f988-403c-a49c-63a70f076efa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Mouse Position",
                     "type": "Value",
                     "id": "5f88aa2d-5d18-4935-bd3e-c1dec0958914",
@@ -173,6 +181,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d38506b6-e33f-4398-872a-09e2318b55b4",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2d6e55a6-6885-420b-9806-433449fb0282",
                     "path": "<Mouse>/position",
                     "interactions": "",
@@ -190,6 +209,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Left Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5fe9d13-93e2-4c8c-8c11-61d8f5435865",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

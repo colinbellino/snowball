@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class StartBattleState : BaseBattleState, IState
+	public class StartBattleState : BaseBattleState
 	{
 		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public UniTask Enter(object[] args)
+		public override UniTask Enter()
 		{
+			base.Enter();
+
 			var encounter = _database.Encounters[_state.CurrentEncounterId];
 
 			Debug.Log($"Starting battle: {encounter.Name}");
@@ -38,18 +40,14 @@ namespace Code.SecretSanta.Game.RPG
 			_controls.Enable();
 			_turnManager.Start(allUnits, encounter.Area, _config.TilesData);
 
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			_board.DrawGridWalk(_turnManager.WalkGrid);
 			_board.DrawBlockWalk(_turnManager.BlockGrid);
-			#endif
+#endif
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 
 			return default;
 		}
-
-		public UniTask Exit() { return default; }
-
-		public void Tick() { }
 	}
 }

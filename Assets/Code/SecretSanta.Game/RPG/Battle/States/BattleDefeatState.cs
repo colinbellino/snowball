@@ -3,21 +3,19 @@ using UnityEngine;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	public class BattleDefeatState : BaseBattleState, IState
+	public class BattleDefeatState : BaseBattleState
 	{
 		public BattleDefeatState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public UniTask Enter(object[] args)
+		public override UniTask Enter()
 		{
+			base.Enter();
+
 			Debug.Log("Battle lost :(");
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 
 			return default;
 		}
-
-		public UniTask Exit() { return default; }
-
-		public void Tick() { }
 	}
 }

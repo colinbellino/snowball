@@ -17,7 +17,7 @@ namespace Code.SecretSanta.Game.RPG
 		private List<Unit> _units { get;  set; }
 		private int _turnNumber;
 
-		public Turn Turn => _turns.Current;
+		public Turn Turn => _turns?.Current;
 		public Grid WalkGrid { get; private set; }
 		public Grid BlockGrid { get; private set; }
 		public List<Unit> SortedUnits { get; private set; }

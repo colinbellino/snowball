@@ -8,12 +8,14 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public enum BattleActions { Move, Attack, Build, Wait }
 
-	public class SelectActionState : BaseBattleState, IState
+	public class SelectActionState : BaseBattleState
 	{
 		public SelectActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public UniTask Enter(object[] args)
+		public override UniTask Enter()
 		{
+			base.Enter();
+
 			_ui.ShowTurnOrder();
 			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
 
@@ -65,8 +67,10 @@ namespace Code.SecretSanta.Game.RPG
 			return default;
 		}
 
-		public UniTask Exit()
+		public override UniTask Exit()
 		{
+			base.Exit();
+
 			_ui.InitMenu(null);
 			_ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
@@ -74,11 +78,12 @@ namespace Code.SecretSanta.Game.RPG
 			return default;
 		}
 
-		public void Tick()
+		protected override void OnCancel()
 		{
 			#if UNITY_EDITOR
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
+				Debug.Log("DEBUG: Abandoning fight");
 				_machine.Fire(BattleStateMachine.Triggers.Loss);
 			}
 			#endif

@@ -11,7 +11,7 @@ namespace Code.SecretSanta.Game.RPG
 			_machine = machine;
 		}
 
-		public UniTask Enter(object[] args)
+		public UniTask Enter()
 		{
 			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
 
