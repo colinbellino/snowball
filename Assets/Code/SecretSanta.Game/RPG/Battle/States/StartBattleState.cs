@@ -6,7 +6,9 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class StartBattleState : BaseBattleState
 	{
-		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
+		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
+		{
+		}
 
 		public override UniTask Enter()
 		{
@@ -21,18 +23,22 @@ namespace Code.SecretSanta.Game.RPG
 			var allUnits = new List<Unit>();
 			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
+				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x,
+					encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = _state.Party[index];
-				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true, Unit.Directions.Right));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, true,
+					Unit.Directions.Right));
 
 				allUnits.Add(unit);
 			}
 
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
+				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x,
+					encounter.Area.FoeSpawnPoints[index].y, 0);
 				var unit = new Unit(encounter.Foes[index]);
-				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, false, Unit.Directions.Left));
+				unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, position, false,
+					Unit.Directions.Left));
 
 				allUnits.Add(unit);
 			}

@@ -7,26 +7,31 @@ using UnityEngine.UI;
 
 namespace Code.SecretSanta.Game.RPG
 {
-	[Serializable]
-	public class ActionButtons : UnitySerializedDictionary<BattleActions, Button> { }
-
 	public class BattleUI : MonoBehaviour
 	{
+		[Serializable]
+		private class ActionButtons : UnitySerializedDictionary<BattleActions, Button> { }
+
+		[Serializable]
+		private class CursorColorsDictionary : UnitySerializedDictionary<CursorColors, Color> { }
+
+		private enum CursorColors { Default, Warning, Error }
+
 		[Title("Turn order")]
 		[SerializeField][Required] private GameObject _turnOrderRoot;
 		[SerializeField][Required] private GameObject _turnOrderUnitsRoot;
-		[Title("Actions")]
+		[Title("Menu")]
 		[SerializeField][Required] private GameObject _actionsRoot;
 		[SerializeField][Required] private Text _actionsTitle;
 		[SerializeField][Required] private ActionButtons _actionButtons;
-		[Title("Move")]
+		[Title("Cursors")]
 		[SerializeField][Required] private GameObject _moveCursor;
 		[SerializeField][Required] private LineRenderer _moveLine;
-		[Title("Aim")]
 		[SerializeField][Required] private SpriteRenderer _aimCursor;
 		[SerializeField][Required] private Text _aimCursorText;
 		[SerializeField][Required] private LineRenderer _aimLine;
-		[Title("Current")]
+		[SerializeField][Required] private CursorColorsDictionary _cursorColors;
+		[Title("Current unit")]
 		[SerializeField][Required] private GameObject _currentUnitCursor;
 
 		public event Action<BattleActions> OnActionClicked;
@@ -120,24 +125,16 @@ namespace Code.SecretSanta.Game.RPG
 			_aimCursor.transform.position = destination;
 			_aimCursorText.text = $"{destination}\n{hitChance}%";
 
-			if (hitChance == 0)
+			var color = hitChance switch
 			{
-				_aimLine.startColor = Color.red;
-				_aimLine.endColor = Color.red;
-				_aimCursor.color = Color.red;
-			}
-			else if (hitChance == 100)
-			{
-				_aimLine.startColor = Color.green;
-				_aimLine.endColor = Color.green;
-				_aimCursor.color = Color.green;
-			}
-			else
-			{
-				_aimLine.startColor = Color.yellow;
-				_aimLine.endColor = Color.yellow;
-				_aimCursor.color = Color.yellow;
-			}
+				0 => _cursorColors[CursorColors.Error],
+				100 => _cursorColors[CursorColors.Default],
+				_ => _cursorColors[CursorColors.Warning]
+			};
+
+			_aimLine.startColor = color;
+			_aimLine.endColor = color;
+			_aimCursor.color = color;
 		}
 
 		public void ClearAimPath()

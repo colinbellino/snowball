@@ -91,13 +91,22 @@ namespace Code.SecretSanta.Game.RPG
 
 		private async UniTask PerformBuild()
 		{
-			var unit = new Unit(_database.Units[_config.SnowmanUnitId]);
 			var direction = UnitHelpers.VectorToDirection(_turn.ActionDestination.Value - _turn.Unit.GridPosition);
-			unit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, unit, _turn.ActionDestination.Value, false, direction));
+			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
-			_turnManager.SortedUnits.Add(unit);
+			if (needsToChangeDirection)
+			{
+				await _turn.Unit.Facade.AnimateChangeDirection(direction);
+				_turn.Unit.Direction = direction;
+			}
+			await _turn.Unit.Facade.AnimateBuild(direction);
 
-			await UniTask.NextFrame();
+			var newUnit = new Unit(_database.Units[_config.SnowmanUnitId]);
+			newUnit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, newUnit, _turn.ActionDestination.Value, false, direction));
+
+			await newUnit.Facade.AnimateSpawn();
+
+			_turnManager.SortedUnits.Add(newUnit);
 		}
 
 		// TODO: Do this in Projectile.cs

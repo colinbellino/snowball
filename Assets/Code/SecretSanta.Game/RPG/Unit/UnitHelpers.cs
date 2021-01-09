@@ -4,9 +4,10 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public static class UnitHelpers
 	{
-		public static UnitFacade SpawnUnitFacade(UnitFacade prefab, Unit unit, Vector3Int position, bool isPlayerControlled, Unit.Directions direction)
+		public static UnitFacade SpawnUnitFacade(UnitFacade prefab, Unit unit, Vector3Int position,
+			bool isPlayerControlled, Unit.Directions direction)
 		{
-			var facade = GameObject.Instantiate(prefab);
+			var facade = Object.Instantiate(prefab);
 			unit.GridPosition = position;
 			unit.Direction = direction;
 			unit.IsPlayerControlled = isPlayerControlled;
