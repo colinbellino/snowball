@@ -18,6 +18,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void Update()
 		{
+			Game.Instance.AudioPlayer.Tick();
 			_stateMachine?.Tick();
 		}
 	}

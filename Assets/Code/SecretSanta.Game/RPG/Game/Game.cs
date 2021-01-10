@@ -16,6 +16,7 @@ namespace Code.SecretSanta.Game.RPG
 		public Worldmap Worldmap { get; }
 		public GameState State { get; }
 		public Database Database { get; }
+		public AudioPlayer AudioPlayer { get; }
 
 		public static Game Instance { get; private set; }
 
@@ -27,6 +28,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private Game()
 		{
+			var audioSource = GameObject.FindObjectOfType<AudioSource>();
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			DebugUI = GameObject.FindObjectOfType<DebugUI>();
@@ -37,7 +39,9 @@ namespace Code.SecretSanta.Game.RPG
 			Controls = new GameControls();
 			State = new GameState();
 			Database = new Database();
+			AudioPlayer = new AudioPlayer(Config, audioSource);
 
+			Assert.IsNotNull(audioSource);
 			Assert.IsNotNull(Config);
 			Assert.IsNotNull(BattleUI);
 			Assert.IsNotNull(DebugUI);
