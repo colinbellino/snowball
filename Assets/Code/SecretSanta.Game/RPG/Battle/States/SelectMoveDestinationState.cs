@@ -6,10 +6,10 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectMoveDestinationState : BaseBattleState
 	{
-		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
-
 		private List<Vector3Int> _path;
 		private List<Vector3Int> _validMovePositions;
+
+		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public override UniTask Enter()
 		{

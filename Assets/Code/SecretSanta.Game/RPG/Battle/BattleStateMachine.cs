@@ -123,7 +123,7 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_currentState = _states[transition.Destination];
-			UnityEngine.Debug.Log($"{transition.Source} -> {transition.Destination}");
+			// UnityEngine.Debug.Log($"{transition.Source} -> {transition.Destination}");
 
 			await _currentState.Enter();
 		}

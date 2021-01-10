@@ -6,9 +6,9 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectActionTargetState : BaseBattleState
 	{
-		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
-
 		private List<Vector3Int> _validMovePositions;
+
+		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public override async UniTask Enter()
 		{
