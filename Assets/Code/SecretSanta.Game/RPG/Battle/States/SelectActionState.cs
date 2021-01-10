@@ -94,7 +94,7 @@ namespace Code.SecretSanta.Game.RPG
 		// This means we have to update the current action selected in the UI (OnActionChanged) and have OnConfirm simply use _currentAction
 		private void OnActionClicked(BattleActions action)
 		{
-			_audio.PlaySoundEffect(_config.MenuSuccessClip);
+			_audio.PlaySoundEffect(_config.MenuConfirmClip);
 
 			switch (action)
 			{

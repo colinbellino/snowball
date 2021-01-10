@@ -57,13 +57,15 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			_audio.PlaySoundEffect(_config.MenuSuccessClip);
+			_audio.PlaySoundEffect(_config.MenuConfirmClip);
 			_turn.MovePath = _path;
 			_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 		}
 
 		protected override void OnCancel()
 		{
+			_audio.PlaySoundEffect(_config.MenuCancelClip);
+
 			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
 		}
 	}

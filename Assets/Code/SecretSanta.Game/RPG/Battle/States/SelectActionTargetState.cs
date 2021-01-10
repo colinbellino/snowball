@@ -73,7 +73,7 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			_audio.PlaySoundEffect(_config.MenuSuccessClip);
+			_audio.PlaySoundEffect(_config.MenuConfirmClip);
 			_turn.ActionTargets = new List<Vector3Int> {_cursorPosition};
 			_turn.ActionDestination = _cursorPosition;
 
@@ -82,6 +82,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		protected override void OnCancel()
 		{
+			_audio.PlaySoundEffect(_config.MenuCancelClip);
+
 			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
 		}
 	}
