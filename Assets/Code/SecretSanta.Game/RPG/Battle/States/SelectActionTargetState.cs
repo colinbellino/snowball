@@ -68,10 +68,12 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			if (_validMovePositions.Contains(_cursorPosition) == false)
 			{
-				Debug.Log("Invalid target");
+				_audio.PlaySoundEffect(_config.MenuErrorClip);
+				Debug.Log("Invalid target!");
 				return;
 			}
 
+			_audio.PlaySoundEffect(_config.MenuSuccessClip);
 			_turn.ActionTargets = new List<Vector3Int> {_cursorPosition};
 			_turn.ActionDestination = _cursorPosition;
 

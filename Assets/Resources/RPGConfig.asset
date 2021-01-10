@@ -143,6 +143,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
   - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}
   - {fileID: 11400000, guid: 37695e6998378a747a17ae7661881f62, type: 2}
+  AudioMixer: {fileID: 24100000, guid: c00711887b3714031932c58a1ac16396, type: 2}
+  MusicAudioMixerGroup: {fileID: -1804572004088458924, guid: c00711887b3714031932c58a1ac16396,
+    type: 2}
+  SoundsAudioMixerGroup: {fileID: 3053297684183750015, guid: c00711887b3714031932c58a1ac16396,
+    type: 2}
+  TitleMusic: {fileID: 8300000, guid: 490ab32e991170648ab1b68a1fb286b4, type: 3}
+  WorldmapMusic: {fileID: 8300000, guid: 490ab32e991170648ab1b68a1fb286b4, type: 3}
+  BattleMusic: {fileID: 8300000, guid: 490ab32e991170648ab1b68a1fb286b4, type: 3}
+  MenuErrorClip: {fileID: 8300000, guid: 5c9bf440048d687408b363d4bb57df24, type: 3}
+  MenuSuccessClip: {fileID: 8300000, guid: 4c1368389c5532e4faa388da887d74e9, type: 3}
+  MusicVolume: 1
+  SoundVolume: 1
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}

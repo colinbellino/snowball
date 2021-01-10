@@ -13,12 +13,12 @@ namespace Code.SecretSanta.Game.RPG
 		protected Vector3Int _cursorPosition;
 		protected GameConfig _config => _game.Config;
 		protected GameControls _controls => _game.Controls;
-		protected Camera _camera => _game.Camera;
 		protected BattleUI _ui => _game.BattleUI;
 		protected GameState _state => _game.State;
 		protected Database _database => _game.Database;
 		protected StuffSpawner _spawner => _game.Spawner;
 		protected Board _board => _game.Board;
+		protected AudioPlayer _audio => _game.AudioPlayer;
 		protected Turn _turn => _turnManager.Turn;
 
 		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
@@ -55,7 +55,7 @@ namespace Code.SecretSanta.Game.RPG
 			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
-				var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
+				var mouseWorldPosition = _game.Camera.ScreenToWorldPoint(mousePosition);
 				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
 
 				if (cursorPosition != _cursorPosition)

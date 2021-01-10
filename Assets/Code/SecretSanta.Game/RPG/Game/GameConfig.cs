@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Code.SecretSanta.Game.RPG
 {
-
 	[CreateAssetMenu(menuName = "Secret Santa/RPG/Game Config")]
 	public class GameConfig : SerializedScriptableObject
 	{
@@ -32,6 +33,18 @@ namespace Code.SecretSanta.Game.RPG
 		[Title("Worldmap")]
 		[SerializeField] [Required] private List<EncounterAuthoring> _encounters;
 		[Required] public List<int> Encounters => _encounters.Select(encounter => encounter.Id).ToList();
+
+		[Title("Audio")]
+		[Required] public AudioMixer AudioMixer;
+		[Required] public AudioMixerGroup MusicAudioMixerGroup;
+		[Required] public AudioMixerGroup SoundsAudioMixerGroup;
+		[Required] public AudioClip TitleMusic;
+		[Required] public AudioClip WorldmapMusic;
+		[Required] public AudioClip BattleMusic;
+		[Required] public AudioClip MenuErrorClip;
+		[Required] public AudioClip MenuSuccessClip;
+		[Range(0f, 1f)] public float MusicVolume = 1f;
+		[Range(0f, 1f)] public float SoundVolume = 1f;
 
 		[Title("Debug")]
 		[SerializeField] private List<UnitAuthoring> _startingParty;

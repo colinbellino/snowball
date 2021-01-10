@@ -52,10 +52,12 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			if (_validMovePositions.Contains(_cursorPosition) == false)
 			{
-				Debug.Log("Invalid destination");
+				_audio.PlaySoundEffect(_config.MenuErrorClip);
+				Debug.Log("Invalid destination!");
 				return;
 			}
 
+			_audio.PlaySoundEffect(_config.MenuSuccessClip);
 			_turn.MovePath = _path;
 			_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 		}
