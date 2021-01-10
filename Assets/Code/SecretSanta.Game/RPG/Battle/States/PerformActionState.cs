@@ -130,7 +130,7 @@ namespace Code.SecretSanta.Game.RPG
 			GameObject.Destroy(instance);
 		}
 
-		private async UniTask ApplyDamage(Unit unit, int amount)
+		private UniTask ApplyDamage(Unit unit, int amount)
 		{
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
 
@@ -147,7 +147,7 @@ namespace Code.SecretSanta.Game.RPG
 			);
 			tasks.Add(spawnDamageText);
 
-			await UniTask.WhenAll(tasks);
+			return UniTask.WhenAll(tasks);
 		}
 
 		private UniTask Miss(Unit unit)

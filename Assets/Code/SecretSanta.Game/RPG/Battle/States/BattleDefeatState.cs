@@ -7,15 +7,13 @@ namespace Code.SecretSanta.Game.RPG
 	{
 		public BattleDefeatState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public override UniTask Enter()
+		public async override UniTask Enter()
 		{
-			base.Enter();
+			await base.Enter();
 
 			Debug.Log("Battle lost :(");
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
-
-			return default;
 		}
 	}
 }
