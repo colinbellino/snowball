@@ -8,6 +8,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class UnitFacade : MonoBehaviour
 	{
+		[SerializeField] private Transform _bodyPivot;
 		[SerializeField] private SpriteRenderer _bodyRenderer;
 
 		public override string ToString() => name;
@@ -64,6 +65,11 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			await _bodyRenderer.transform.DORotate(new Vector3(0f, 0f, 45f), 0.3f);
 			await _bodyRenderer.transform.DOScale(0, 0.3f);
+		}
+
+		public async UniTask AnimateMelt()
+		{
+			await _bodyPivot.DOScaleY(0, 0.3f);
 		}
 
 		private void SetName(string value)

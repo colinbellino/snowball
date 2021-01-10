@@ -98,7 +98,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsActive(Unit unit)
 		{
-			return unit.HealthCurrent > 0 && unit.Type == Unit.Types.Humanoid;
+			return unit.HealthCurrent > 0;
 		}
 
 		public List<Unit> GetActiveUnits()

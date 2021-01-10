@@ -31,14 +31,14 @@ namespace Code.SecretSanta.Game.RPG
 				_validMovePositions = GridHelpers.GetAllTiles(_turnManager.WalkGrid);
 			}
 
-			_ui.InitMenu(_turn.Unit);
+			_ui.SetTurnUnit(_turn.Unit);
 		}
 
 		public override UniTask Exit()
 		{
 			base.Exit();
 
-			_ui.InitMenu(null);
+			_ui.SetTurnUnit(null);
 			_ui.ClearTarget();
 			_board.ClearHighlight();
 

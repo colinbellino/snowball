@@ -38,20 +38,14 @@ namespace Code.SecretSanta.Game.RPG
 				return default;
 			}
 
-			_ui.InitMenu(_turn.Unit);
+			_ui.SetTurnUnit(_turn.Unit);
 
 			if (_turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_ui.ToggleButton(BattleActions.Move, _turn.HasMoved == false);
 				_ui.ToggleButton(BattleActions.Attack, _turn.HasActed == false);
+				_ui.ToggleButton(BattleActions.Build, _turn.HasActed == false);
 				_ui.ShowActionsMenu();
-			}
-			else if (_turn.Unit.Driver == Unit.Drivers.None)
-			{
-				_turn.HasMoved = true;
-				_turn.HasActed = true;
-
-				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 			}
 			else
 			{
@@ -61,7 +55,7 @@ namespace Code.SecretSanta.Game.RPG
 				{
 					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 				}
-				else if (_turn.ActionDestination != null)
+				else if (_turn.Action != Turn.Actions.None)
 				{
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 				}
@@ -78,7 +72,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			base.Exit();
 
-			_ui.InitMenu(null);
+			_ui.SetTurnUnit(null);
 			_ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
 
@@ -101,13 +95,16 @@ namespace Code.SecretSanta.Game.RPG
 			switch (action)
 			{
 				case BattleActions.Move:
+					if (_turn.HasMoved) { return; }
 					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
 					return;
 				case BattleActions.Attack:
+					if (_turn.HasActed) { return; }
 					_turn.Action = Turn.Actions.Attack;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleActions.Build:
+					if (_turn.HasActed) { return; }
 					_turn.Action = Turn.Actions.Build;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
@@ -122,6 +119,14 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void PlanComputerTurn()
 		{
+			if (_turn.Unit.Type == Unit.Types.Snowpal)
+			{
+				_turn.HasMoved = true;
+				_turn.HasActed = true;
+				_turn.Action = Turn.Actions.Melt;
+				return;
+			}
+
 			var foes = _turnManager.GetActiveUnits()
 				.Where(unit => unit.Alliance != _turn.Unit.Alliance && unit.Type == Unit.Types.Humanoid)
 				.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
@@ -136,12 +141,12 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsVictoryConditionReached()
 		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Foe).Count() == 0;
+			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Foe && unit.Type == Unit.Types.Humanoid).Count() == 0;
 		}
 
 		private bool IsDefeatConditionReached()
 		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Ally).Count() == 0;
+			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Ally && unit.Type == Unit.Types.Humanoid).Count() == 0;
 		}
 	}
 }

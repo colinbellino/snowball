@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 40356880270672144}
   - component: {fileID: 6928755102110736747}
   m_Layer: 0
-  m_Name: Unit Prefab
+  m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8318760806411994769}
+  - {fileID: 6051934595333448455}
   - {fileID: 1108053048798086605}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d367224a66ef45aeb078068518d7c43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bodyPivot: {fileID: 6051934595333448455}
   _bodyRenderer: {fileID: 251671757569734556}
 --- !u!114 &6928755102110736747
 MonoBehaviour:
@@ -241,6 +242,37 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
   m_Text: "Annyong\n[99,99] \xB7 10/10"
+--- !u!1 &6799837793987312766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6051934595333448455}
+  m_Layer: 0
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6051934595333448455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6799837793987312766}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8318760806411994769}
+  m_Father: {fileID: 7998447785115777642}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8471401926976616506
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +284,7 @@ GameObject:
   - component: {fileID: 8318760806411994769}
   - component: {fileID: 251671757569734556}
   m_Layer: 0
-  m_Name: Body Sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,11 +297,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8471401926976616506}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7998447785115777642}
+  m_Father: {fileID: 6051934595333448455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &251671757569734556

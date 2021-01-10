@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 4
   Name: Ursula
+  Sprite: {fileID: 8558543474043534102, guid: a0b31f40b0d7e0d4a84a5ee204481e92, type: 3}
   Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
+  Type: 0
   MoveRange: 8
   Health: 1
   Speed: 4
-  Sprite: {fileID: 8558543474043534102, guid: a0b31f40b0d7e0d4a84a5ee204481e92, type: 3}
+  HitAccuracy: 100
+  HitRange: 10
+  HitDamage: 1
