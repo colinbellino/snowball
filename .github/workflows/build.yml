@@ -47,7 +47,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Patch manifest.json
-        run: ${{ matrix.projectPath }}/Scripts/replace-manifest-github-url.sh
+        run: chmod +x ${{ matrix.projectPath }}Scripts/replace-manifest-github-url.sh && ${{ matrix.projectPath }}Scripts/replace-manifest-github-url.sh
         env:
           PRIVATE_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
 
