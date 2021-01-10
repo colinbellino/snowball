@@ -2,23 +2,12 @@ name: Build & deploy
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-  BUILD_NAME: ${{ secrets.BUILD_NAME }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Version (RELEASE_VERSION)"
-        required: true
-        default: "0.0.0"
+  workflow_dispatch: {}
   push:
-    branches:
-      - main
     tags:
       - "*.*.*"
-    env:
-      DEPLOY: true
 
 jobs:
   testAndBuild:
@@ -42,7 +31,7 @@ jobs:
           lfs: true
 
       - name: Set RELEASE_VERSION
-        run: echo ::set-env name=RELEASE_VERSION::$(git describe --abbrev=0 --tags 2> /dev/null || echo "${{ github.event.inputs.version }}")
+        run: echo ::set-env name=RELEASE_VERSION::$(git describe --abbrev=0 --tags 2> /dev/null)
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
@@ -62,23 +51,23 @@ jobs:
       - name: Activate Unity
         uses: webbertakken/unity-activate@v1.3
 
-      - uses: webbertakken/unity-test-runner@v2.0-alpha-1
-        id: testRunner
-        with:
-          projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
+      # - uses: webbertakken/unity-test-runner@v2.0-alpha-1
+      #   id: testRunner
+      #   with:
+      #     projectPath: ${{ matrix.projectPath }}
+      #     unityVersion: ${{ matrix.unityVersion }}
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
+      # - uses: actions/upload-artifact@v1
+      #   with:
+      #     name: Test results (all modes)
+      #     path: ${{ steps.testRunner.outputs.artifactsPath }}
 
       - uses: webbertakken/unity-builder@v2.0-alpha-6
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildName: ${{ env.BUILD_NAME }}
+          buildName: ${{ secrets.BUILD_NAME }}
           buildMethod: UnityBuilderAction.Builder.BuildProject
           versioning: Custom
           version: ${{ env.RELEASE_VERSION }}
@@ -93,8 +82,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [testAndBuild]
     steps:
+      - name: Set RELEASE_VERSION
+        run: echo ::set-env name=RELEASE_VERSION::$(git describe --abbrev=0 --tags 2> /dev/null)
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
       - name: Deploy (Windows)
-        if: env.DEPLOY == true && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
+        if: env.RELEASE_VERSION != '' && secrets.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -105,7 +99,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (MacOS)
-        if: env.DEPLOY == true && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
+        if: env.RELEASE_VERSION != '' && secrets.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -116,7 +110,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (Linux)
-        if: env.DEPLOY == true && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
+        if: env.RELEASE_VERSION != '' && secrets.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -127,7 +121,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (WebGL)
-        if: env.DEPLOY == true && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
+        if: env.RELEASE_VERSION != '' && secrets.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}

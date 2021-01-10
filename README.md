@@ -1,19 +1,8 @@
-# Secret Santa 2020
+# Project: Snowball
 
-A simplified Tactical RPG where you meet new friends <3 Made for secret santa game jam: https://itch.io/jam/secret-santa
+A simple Tactical RPG where you challenge other teams in snowball fights. ⛄
 
 - **Engine:** Unity
-- **Art:** TBD
-- **Paid assets:** no
-
-## Inputs
-
-TBD
-
-## Placeholder assets:
-
-### Audio:
-
-| Filename | Source |
-| -------- | ------ |
-|          |        |
+- **Art:** Bad pixel art by me
+- **Audio:** Bad sounds and music by me
+- **Paid assets:** yes (private package)
