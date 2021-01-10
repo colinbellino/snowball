@@ -32,7 +32,7 @@ jobs:
         unityVersion:
           - 2020.2.1f1
         targetPlatform:
-          - StandaloneOSX
+          # - StandaloneOSX # Looks like it's busted right now: https://github.com/game-ci/unity-builder/issues/191
           - StandaloneWindows64
           - StandaloneLinux64
           # - WebGL
