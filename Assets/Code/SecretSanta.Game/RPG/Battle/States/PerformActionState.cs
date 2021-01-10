@@ -16,7 +16,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			await base.Enter();
 
-			_ui.InitMenu(_turn.Unit);
+			_ui.SetTurnUnit(_turn.Unit);
 
 			switch (_turn.Action)
 			{
@@ -25,6 +25,9 @@ namespace Code.SecretSanta.Game.RPG
 					break;
 				case Turn.Actions.Build:
 					await PerformBuild();
+					break;
+				case Turn.Actions.Melt:
+					await PerformMelt();
 					break;
 				default:
 					Debug.LogWarning("No action selected but we still tried to perform it ? We probably have a bug in our state machine.");
@@ -39,7 +42,7 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			base.Exit();
 
-			_ui.InitMenu(null);
+			_ui.SetTurnUnit(null);
 
 			return default;
 		}
@@ -106,7 +109,7 @@ namespace Code.SecretSanta.Game.RPG
 				_config.UnitPrefab,
 				newUnit,
 				_turn.ActionDestination.Value,
-				Unit.Drivers.None,
+				Unit.Drivers.Computer,
 				Unit.Alliances.Ally,
 				direction
 			);
@@ -115,6 +118,15 @@ namespace Code.SecretSanta.Game.RPG
 			await newUnit.Facade.AnimateSpawn();
 
 			_turnManager.SortedUnits.Add(newUnit);
+		}
+
+		private async UniTask PerformMelt()
+		{
+			_turn.Unit.HealthCurrent = Math.Max(_turn.Unit.HealthCurrent - 1, 0);
+
+			await _turn.Unit.Facade.AnimateMelt();
+
+			_turnManager.SortedUnits.Remove(_turn.Unit);
 		}
 
 		// TODO: Do this in Projectile.cs
@@ -137,6 +149,7 @@ namespace Code.SecretSanta.Game.RPG
 			var tasks = new List<UniTask>();
 			if (unit.HealthCurrent <= 0)
 			{
+				_turnManager.SortedUnits.Remove(unit);
 				tasks.Add(unit.Facade.AnimateDeath());
 			}
 

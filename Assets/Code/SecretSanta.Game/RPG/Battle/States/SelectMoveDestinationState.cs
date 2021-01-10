@@ -19,7 +19,7 @@ namespace Code.SecretSanta.Game.RPG
 				_turnManager.WalkGrid, _turnManager.SortedUnits);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
-			_ui.InitMenu(_turn.Unit);
+			_ui.SetTurnUnit(_turn.Unit);
 
 			return default;
 		}
@@ -29,7 +29,7 @@ namespace Code.SecretSanta.Game.RPG
 			base.Exit();
 
 			_ui.ClearMovePath();
-			_ui.InitMenu(null);
+			_ui.SetTurnUnit(null);
 			_board.ClearHighlight();
 
 			return default;

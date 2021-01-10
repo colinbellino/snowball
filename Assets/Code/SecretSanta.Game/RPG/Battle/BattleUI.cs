@@ -67,7 +67,7 @@ namespace Code.SecretSanta.Game.RPG
 			ClearTarget();
 		}
 
-		public void InitMenu(Unit unit)
+		public void SetTurnUnit(Unit unit)
 		{
 			if (unit == null)
 			{
@@ -76,7 +76,7 @@ namespace Code.SecretSanta.Game.RPG
 				return;
 			}
 
-			_currentUnitCursor.transform.position = unit.GridPosition + Vector3Int.up;
+			_currentUnitCursor.transform.position = unit.GridPosition;
 			_actionsTitle.text = $"{unit.Name}";
 		}
 

@@ -10,10 +10,10 @@ namespace Code.SecretSanta.Game.RPG
 		public bool HasActed;
 		public Actions Action;
 
+		public List<Vector3Int> MovePath;
 		public List<Vector3Int> ActionTargets;
 		public Vector3Int? ActionDestination;
-		public List<Vector3Int> MovePath;
 
-		public enum Actions { None, Attack, Build }
+		public enum Actions { None, Attack, Build, Melt }
 	}
 }
