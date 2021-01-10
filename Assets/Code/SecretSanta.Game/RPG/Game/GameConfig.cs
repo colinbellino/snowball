@@ -42,7 +42,8 @@ namespace Code.SecretSanta.Game.RPG
 		[Required] public AudioClip WorldmapMusic;
 		[Required] public AudioClip BattleMusic;
 		[Required] public AudioClip MenuErrorClip;
-		[Required] public AudioClip MenuSuccessClip;
+		[Required] public AudioClip MenuConfirmClip;
+		[Required] public AudioClip MenuCancelClip;
 		[Range(0f, 1f)] public float MusicVolume = 1f;
 		[Range(0f, 1f)] public float SoundVolume = 1f;
 
