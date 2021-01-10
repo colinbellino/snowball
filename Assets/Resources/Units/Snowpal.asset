@@ -17,9 +17,9 @@ MonoBehaviour:
   Sprite: {fileID: 5769865627775720548, guid: 4273ef8b92fd1fb419e4eb9cafeade11, type: 3}
   Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
   Type: 1
-  MoveRange: 99
+  MoveRange: 0
   Health: 1
-  Speed: 4
+  Speed: 1
   HitAccuracy: 100
   HitRange: 10
   HitDamage: 1

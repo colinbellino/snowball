@@ -83,7 +83,8 @@ namespace Code.SecretSanta.Game.RPG
 			{
 				cost += _moveCost;
 			}
-			if (turn.HasActed) {
+			if (turn.HasActed)
+			{
 				cost += _actionCost;
 			}
 
@@ -97,7 +98,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsActive(Unit unit)
 		{
-			return unit.HealthCurrent > 0;
+			return unit.HealthCurrent > 0 && unit.Type == Unit.Types.Humanoid;
 		}
 
 		public List<Unit> GetActiveUnits()
