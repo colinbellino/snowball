@@ -40,11 +40,18 @@ namespace Code.SecretSanta.Game.RPG
 
 			_ui.InitMenu(_turn.Unit);
 
-			if (_turn.Unit.IsPlayerControlled)
+			if (_turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_ui.ToggleButton(BattleActions.Move, _turn.HasMoved == false);
 				_ui.ToggleButton(BattleActions.Attack, _turn.HasActed == false);
 				_ui.ShowActionsMenu();
+			}
+			else if (_turn.Unit.Driver == Unit.Drivers.None)
+			{
+				_turn.HasMoved = true;
+				_turn.HasActed = true;
+
+				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 			}
 			else
 			{
@@ -115,13 +122,8 @@ namespace Code.SecretSanta.Game.RPG
 
 		private void PlanComputerTurn()
 		{
-			if (_turn.Unit.Type == Unit.Types.Snowpal)
-			{
-				return;
-			}
-
 			var foes = _turnManager.GetActiveUnits()
-				.Where(unit => unit.IsPlayerControlled)
+				.Where(unit => unit.Alliance != _turn.Unit.Alliance && unit.Type == Unit.Types.Humanoid)
 				.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
 				.ToList();
 			var closestTarget = foes[0];
@@ -134,12 +136,12 @@ namespace Code.SecretSanta.Game.RPG
 
 		private bool IsVictoryConditionReached()
 		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled == false).Count() == 0;
+			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Foe).Count() == 0;
 		}
 
 		private bool IsDefeatConditionReached()
 		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.IsPlayerControlled).Count() == 0;
+			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Ally).Count() == 0;
 		}
 	}
 }

@@ -5,9 +5,7 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class BattleDefeatState : BaseBattleState
 	{
-		public BattleDefeatState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
-		{
-		}
+		public BattleDefeatState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
 		public override UniTask Enter()
 		{
