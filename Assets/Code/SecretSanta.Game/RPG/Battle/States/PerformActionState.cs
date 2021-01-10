@@ -102,7 +102,15 @@ namespace Code.SecretSanta.Game.RPG
 			await _turn.Unit.Facade.AnimateBuild(direction);
 
 			var newUnit = new Unit(_database.Units[_config.SnowmanUnitId]);
-			newUnit.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitPrefab, newUnit, _turn.ActionDestination.Value, false, direction));
+			var facade = UnitHelpers.SpawnUnitFacade(
+				_config.UnitPrefab,
+				newUnit,
+				_turn.ActionDestination.Value,
+				Unit.Drivers.None,
+				Unit.Alliances.Ally,
+				direction
+			);
+			newUnit.SetFacade(facade);
 
 			await newUnit.Facade.AnimateSpawn();
 

@@ -5,7 +5,9 @@ namespace Code.SecretSanta.Game.RPG
 	public class Unit
 	{
 		public enum Types { Humanoid, Snowpal }
+		public enum Alliances { Ally, Neutral, Foe }
 		public enum Directions { Left = -1, Right = 1 }
+		public enum Drivers { None, Human, Computer }
 
 		public int Id;
 		public string Name;
@@ -23,7 +25,8 @@ namespace Code.SecretSanta.Game.RPG
 		public int BuildRange = 1;
 		public Vector3Int GridPosition;
 		public Directions Direction;
-		public bool IsPlayerControlled;
+		public Drivers Driver;
+		public Alliances Alliance;
 
 		public UnitFacade Facade { get; private set; }
 

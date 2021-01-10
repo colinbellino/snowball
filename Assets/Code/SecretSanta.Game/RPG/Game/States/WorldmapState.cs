@@ -10,8 +10,6 @@ namespace Code.SecretSanta.Game.RPG
 		private readonly GameConfig _config;
 		private readonly GameState _state;
 
-		private Unit _leader;
-
 		public WorldmapState(GameStateMachine machine, Worldmap worldmap, GameConfig config, GameState state)
 		{
 			_machine = machine;
@@ -26,9 +24,6 @@ namespace Code.SecretSanta.Game.RPG
 			_worldmap.SetEncounters(_config.Encounters);
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
-			_leader = _state.Party[0];
-			_leader.SetFacade(UnitHelpers.SpawnUnitFacade(_config.UnitWorldmapPrefab, _leader, _config.WorldmapStart, true, Unit.Directions.Right));
-
 			return default;
 		}
 
@@ -36,8 +31,6 @@ namespace Code.SecretSanta.Game.RPG
 		{
 			_worldmap.EncounterClicked -= OnEncounterClicked;
 			_worldmap.HideWorldmap();
-
-			_leader.DestroyFacade();
 
 			return default;
 		}

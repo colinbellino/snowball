@@ -31,7 +31,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public virtual UniTask Enter()
 		{
-			if (_turn != null && _turn.Unit.IsPlayerControlled)
+			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_controls.Gameplay.Confirm.performed += OnConfirmPerformed;
 				_controls.Gameplay.Cancel.performed += OnCancelPerformed;
@@ -42,7 +42,7 @@ namespace Code.SecretSanta.Game.RPG
 
 		public virtual UniTask Exit()
 		{
-			if (_turn != null && _turn.Unit.IsPlayerControlled)
+			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_controls.Gameplay.Confirm.performed -= OnConfirmPerformed;
 				_controls.Gameplay.Cancel.performed -= OnCancelPerformed;
@@ -53,14 +53,17 @@ namespace Code.SecretSanta.Game.RPG
 
 		public virtual void Tick()
 		{
-			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
-			var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
-			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
-
-			if (cursorPosition != _cursorPosition)
+			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
-				_cursorPosition = cursorPosition;
-				OnCursorMove();
+				var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+				var mouseWorldPosition = _camera.ScreenToWorldPoint(mousePosition);
+				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.TilemapSize);
+
+				if (cursorPosition != _cursorPosition)
+				{
+					_cursorPosition = cursorPosition;
+					OnCursorMove();
+				}
 			}
 		}
 

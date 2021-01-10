@@ -6,20 +6,24 @@ namespace Code.SecretSanta.Game.RPG
 {
 	public class SelectActionTargetState : BaseBattleState
 	{
-		private List<Vector3Int> _validMovePositions;
+		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager)
-		{
-		}
+		private List<Vector3Int> _validMovePositions;
 
 		public override async UniTask Enter()
 		{
 			await base.Enter();
 
+			if (_turn.Unit.Driver == Unit.Drivers.Computer)
+			{
+				await UniTask.Delay(300);
+				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+				return;
+			}
+
 			if (_turn.Action == Turn.Actions.Build)
 			{
-				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition,
-					_turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
+				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
 				_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
 			}
 			else
@@ -28,12 +32,6 @@ namespace Code.SecretSanta.Game.RPG
 			}
 
 			_ui.InitMenu(_turn.Unit);
-
-			if (_turn.Unit.IsPlayerControlled == false)
-			{
-				await UniTask.Delay(300);
-				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
-			}
 		}
 
 		public override UniTask Exit()
