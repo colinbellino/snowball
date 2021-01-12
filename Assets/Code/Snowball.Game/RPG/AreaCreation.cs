@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,13 +13,28 @@ namespace Snowball.Game
 		[SerializeField] private Tilemap _metaTilemap;
 		[SerializeField] private Area _area;
 
-		public void Clear()
+		private void Start()
+		{
+			Game.InitForDebug();
+		}
+
+		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
+		private void Clear()
 		{
 			TilemapHelpers.ClearTilemap(_tilemap);
 			TilemapHelpers.ClearTilemap(_metaTilemap);
 		}
 
-		public void Save()
+		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
+		private void Load()
+		{
+			Clear();
+			TilemapHelpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData, true);
+			TilemapHelpers.RenderMeta(_area, _metaTilemap);
+		}
+
+		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
+		private void Save()
 		{
 			_area.Size = new Vector2Int(32, 18);
 			_area.Tiles = new int[_area.Size.x * _area.Size.y];
@@ -61,18 +77,11 @@ namespace Snowball.Game
 			EditorUtility.SetDirty(_area);
 		}
 
-		public void Load()
-		{
-			Clear();
-			TilemapHelpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData);
-			TilemapHelpers.RenderMeta(_area, _metaTilemap);
-		}
-
 		private static int GetTileIndex(TileBase tile, TilesData tilesData)
 		{
 			for (var index = 0; index < tilesData.Count; index++)
 			{
-				if (tilesData[index].Tile == tile)
+				if (tilesData[index].TileEditor == tile)
 				{
 					return index;
 				}
@@ -81,29 +90,5 @@ namespace Snowball.Game
 			return 0;
 		}
 	}
-
-	public class StuffEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector();
-
-			var stuff = (AreaCreation)target;
-
-			if (GUILayout.Button("Clear"))
-			{
-				stuff.Clear();
-			}
-			if (GUILayout.Button("Save"))
-			{
-				stuff.Save();
-			}
-			if (GUILayout.Button("Load"))
-			{
-				stuff.Load();
-			}
-		}
-	}
 }
-
 #endif

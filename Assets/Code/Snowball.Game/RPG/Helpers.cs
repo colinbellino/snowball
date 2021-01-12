@@ -168,7 +168,7 @@ namespace Snowball.Game
 
 	public static class TilemapHelpers
 	{
-		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData)
+		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData, bool useEditorTile = false)
 		{
 			for (var x = 0; x < area.Size.x; x++)
 			{
@@ -178,7 +178,7 @@ namespace Snowball.Game
 					var position = new Vector3Int(x, y, 0);
 					var tileId = area.Tiles[index];
 
-					tilemap.SetTile(position, tilesData[tileId].Tile);
+					tilemap.SetTile(position, useEditorTile ? tilesData[tileId].TileEditor : tilesData[tileId].Tile);
 				}
 			}
 		}

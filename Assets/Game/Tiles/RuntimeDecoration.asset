@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SpawnAlly
+  m_Script: {fileID: 11500000, guid: 52f942ca9511f354a8efbf325740f4ab, type: 3}
+  m_Name: RuntimeDecoration
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 5441223297315994465, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
-    type: 3}
-  m_Color: {r: 0, g: 0.49859715, b: 1, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -35,3 +34,15 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  Sprites:
+  - Sprite: {fileID: 0}
+    Weight: 3
+  - Sprite: {fileID: 2403724249865808194, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
+      type: 3}
+    Weight: 1
+  - Sprite: {fileID: 8040196581939011165, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
+      type: 3}
+    Weight: 1
+  - Sprite: {fileID: -6056380807486736462, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
+      type: 3}
+    Weight: 1
