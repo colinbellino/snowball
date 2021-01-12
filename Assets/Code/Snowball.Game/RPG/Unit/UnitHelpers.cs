@@ -20,5 +20,11 @@ namespace Snowball.Game
 		{
 			return vector.x > 0 ? Unit.Directions.Right : Unit.Directions.Left;
 		}
+
+		public static void ApplyColors(Material material, Color color, Color color2)
+		{
+			material.SetColor("ReplacementColor0", color);
+			material.SetColor("ReplacementColor1", color2);
+		}
 	}
 }

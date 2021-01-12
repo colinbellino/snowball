@@ -13,6 +13,7 @@ namespace Snowball.Game
 		public string Name = "Annyong";
 		public Sprite Sprite;
 		public Color Color = Color.magenta;
+		public Color Color2 = Color.magenta;
 		public Unit.Types Type;
 		public int MoveRange = 3;
 		public int Health = 1;

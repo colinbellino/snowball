@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: Anri
+  Sprite: {fileID: -3576983417349369958, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
   Color: {r: 0, g: 0.6034198, b: 1, a: 1}
+  Color2: {r: 0.7254902, g: 0.4990692, b: 0, a: 1}
+  Type: 0
   MoveRange: 8
   Health: 2
   Speed: 5
-  Sprite: {fileID: 3346457816436727468, guid: dd658b6cc7e0d4e00b03cca22810a891, type: 3}
+  HitAccuracy: 100
+  HitRange: 10
+  HitDamage: 1

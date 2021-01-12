@@ -778,7 +778,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "14f641f15c12410ca1925dd247119145",
     "m_Id": 0,
-    "m_DisplayName": "ReplacementColor0",
+    "m_DisplayName": "Replacement: Main Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1217,7 +1217,7 @@
     "m_Guid": {
         "m_GuidSerialized": "0bbc8c78-df72-4166-a0ca-d0d21ed960b5"
     },
-    "m_Name": "OriginalColor1",
+    "m_Name": "Main Color (Highlight)",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "OriginalColor1",
     "m_GeneratePropertyBlock": true,
@@ -1370,7 +1370,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "50bde01b2d3c4a47acd34bd9262013e5",
     "m_Id": 0,
-    "m_DisplayName": "OriginalColor2",
+    "m_DisplayName": "Secondary Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1766,7 +1766,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "77c671553f4d4564b73ed120bcdafe81",
     "m_Id": 0,
-    "m_DisplayName": "ReplacementColor1",
+    "m_DisplayName": "Replacement: Secondary Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1806,7 +1806,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "78a6c39c5cff418fb1b063f9701fb02f",
     "m_Id": 0,
-    "m_DisplayName": "OriginalColor0",
+    "m_DisplayName": "Main Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1833,7 +1833,7 @@
     "m_Guid": {
         "m_GuidSerialized": "8b5118f9-7856-45af-a65b-f75cf4d1cc3d"
     },
-    "m_Name": "OriginalColor2",
+    "m_Name": "Secondary Color",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "OriginalColor2",
     "m_GeneratePropertyBlock": true,
@@ -2172,7 +2172,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "88305dc2fc994fb7af0fec4011dd334c",
     "m_Id": 0,
-    "m_DisplayName": "ReplacementColor1",
+    "m_DisplayName": "Replacement: Secondary Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2197,7 +2197,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "89c8c698bab741fa91a112b616c670e1",
     "m_Id": 0,
-    "m_DisplayName": "OriginalColor1",
+    "m_DisplayName": "Main Color (Highlight)",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2325,7 +2325,7 @@
     "m_Guid": {
         "m_GuidSerialized": "ecf4ad71-04e6-4fee-b194-55e8d66d3e7c"
     },
-    "m_Name": "ReplacementColor0",
+    "m_Name": "Replacement: Main Color",
     "m_DefaultReferenceName": "Color_913a3a628c1d4607a48a4a6b97c32556",
     "m_OverrideReferenceName": "ReplacementColor0",
     "m_GeneratePropertyBlock": true,
@@ -2895,7 +2895,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "c4152a842afa47ec8ecf482a71dce810",
     "m_Id": 0,
-    "m_DisplayName": "ReplacementColor0",
+    "m_DisplayName": "Replacement: Main Color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2952,7 +2952,7 @@
     "m_Guid": {
         "m_GuidSerialized": "e7551066-1edb-4194-beca-d3cc46dce976"
     },
-    "m_Name": "ReplacementColor1",
+    "m_Name": "Replacement: Secondary Color",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "ReplacementColor1",
     "m_GeneratePropertyBlock": true,
@@ -3176,7 +3176,7 @@
     "m_Guid": {
         "m_GuidSerialized": "cc1bba77-2561-42e6-aba6-04b92b8d47fe"
     },
-    "m_Name": "OriginalColor3",
+    "m_Name": "Secondary Color (Highlight)",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "OriginalColor3",
     "m_GeneratePropertyBlock": true,
@@ -3255,7 +3255,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "dba8c22a05464abb881a9c06b0b5df24",
     "m_Id": 0,
-    "m_DisplayName": "OriginalColor3",
+    "m_DisplayName": "Secondary Color (Highlight)",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -3609,7 +3609,7 @@
     "m_Guid": {
         "m_GuidSerialized": "719618a7-c5ab-4789-aed4-7c4e9ab0df41"
     },
-    "m_Name": "OriginalColor0",
+    "m_Name": "Main Color",
     "m_DefaultReferenceName": "Color_f3852e567cc04b33a9d0398b899b34a3",
     "m_OverrideReferenceName": "OriginalColor0",
     "m_GeneratePropertyBlock": true,

@@ -60,7 +60,16 @@ namespace Snowball.Game
 				Targets = targets,
 			};
 
-			await _turn.Unit.Facade.AnimateAttack(_turn.ActionDestination.Value);
+			var aimDirection = ((Vector3)(_turn.ActionDestination.Value - _turn.Unit.GridPosition)).normalized;
+			var direction = UnitHelpers.VectorToDirection(aimDirection);
+			var needsToChangeDirection = direction != _turn.Unit.Direction;
+
+			if (needsToChangeDirection)
+			{
+				await _turn.Unit.Facade.AnimateChangeDirection(direction);
+				_turn.Unit.Direction = direction;
+			}
+			await _turn.Unit.Facade.AnimateAttack(aimDirection);
 
 			await ShootProjectile(result.Attacker.GridPosition, _turn.ActionDestination.Value);
 
@@ -149,7 +158,6 @@ namespace Snowball.Game
 			var tasks = new List<UniTask>();
 			if (unit.HealthCurrent <= 0)
 			{
-				_turnManager.SortedUnits.Remove(unit);
 				tasks.Add(unit.Facade.AnimateDeath());
 			}
 

@@ -18,6 +18,12 @@ namespace Snowball.Game
 			// Do this when we start the game only.
 			Game.Instance.LoadStateFromSave();
 
+			if (Game.Instance.Config.SkipTitle)
+			{
+				StartBattle(0);
+				return default;
+			}
+
 			Game.Instance.DebugUI.Show();
 
 			Game.Instance.DebugUI.OnDebugButtonClicked += OnDebugButtonClicked;
@@ -39,19 +45,19 @@ namespace Snowball.Game
 #if UNITY_EDITOR
 			if (Keyboard.current.f1Key.wasPressedThisFrame)
 			{
-				var encounterId = Game.Instance.Config.Encounters[0];
-				Game.Instance.State.CurrentEncounterId = encounterId;
-
-				_machine.Fire(GameStateMachine.Triggers.StartBattle);
+				StartBattle(0);
 				return;
 			}
 
 			if (Keyboard.current.f2Key.wasPressedThisFrame)
 			{
-				var encounterId = Game.Instance.Config.Encounters[1];
-				Game.Instance.State.CurrentEncounterId = encounterId;
+				StartBattle(1);
+				return;
+			}
 
-				_machine.Fire(GameStateMachine.Triggers.StartBattle);
+			if (Keyboard.current.f3Key.wasPressedThisFrame)
+			{
+				StartBattle(2);
 				return;
 			}
 #endif
@@ -64,6 +70,14 @@ namespace Snowball.Game
 					UnityEngine.Application.Quit();
 #endif
 			}
+		}
+
+		private void StartBattle(int battleIndex)
+		{
+			var encounterId = Game.Instance.Config.Encounters[battleIndex];
+			Game.Instance.State.CurrentEncounterId = encounterId;
+
+			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
 
 		private void OnDebugButtonClicked(int key)

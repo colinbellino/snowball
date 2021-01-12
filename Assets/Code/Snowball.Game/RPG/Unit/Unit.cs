@@ -13,6 +13,7 @@ namespace Snowball.Game
 		public string Name;
 		public Sprite Sprite;
 		public Color Color;
+		public Color Color2;
 		public Types Type;
 		public int MoveRange;
 		public int HealthCurrent;
@@ -36,6 +37,7 @@ namespace Snowball.Game
 			Name = authoring.Name;
 			Sprite = authoring.Sprite;
 			Color = authoring.Color;
+			Color2 = authoring.Color2;
 			Type = authoring.Type;
 			MoveRange = authoring.MoveRange;
 			HealthCurrent = authoring.Health;

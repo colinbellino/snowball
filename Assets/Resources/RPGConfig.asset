@@ -25,7 +25,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: TilesData
       Entry: 7
-      Data: 0|Code.SecretSanta.Game.RPG.TilesData, SecretSanta.Game
+      Data: 0|Snowball.Game.TilesData, Snowball.Game
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
@@ -44,7 +44,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 2|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+      Data: 2|Snowball.Game.TileData, Snowball.Game
     - Name: Tile
       Entry: 6
       Data: 
@@ -71,7 +71,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 7
-      Data: 3|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+      Data: 3|Snowball.Game.TileData, Snowball.Game
     - Name: Tile
       Entry: 10
       Data: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 7
-      Data: 4|Code.SecretSanta.Game.RPG.TileData, SecretSanta.Game
+      Data: 4|Snowball.Game.TileData, Snowball.Game
     - Name: Tile
       Entry: 10
       Data: 1
@@ -156,6 +156,7 @@ MonoBehaviour:
   MenuCancelClip: {fileID: 8300000, guid: 80610ac3925faf74fb3ffb70c56d8292, type: 3}
   MusicVolume: 1
   SoundVolume: 1
+  SkipTitle: 0
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
