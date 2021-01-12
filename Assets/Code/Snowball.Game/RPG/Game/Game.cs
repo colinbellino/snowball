@@ -26,7 +26,7 @@ namespace Snowball.Game
 			Instance = null;
 		}
 
-		private Game()
+		private Game(bool suppressError = false)
 		{
 			var audioSource = GameObject.FindObjectOfType<AudioSource>();
 			Config = Resources.Load<GameConfig>("RPGConfig");
@@ -41,19 +41,29 @@ namespace Snowball.Game
 			Database = new Database();
 			AudioPlayer = new AudioPlayer(Config, audioSource);
 
-			Assert.IsNotNull(audioSource);
-			Assert.IsNotNull(Config);
-			Assert.IsNotNull(BattleUI);
-			Assert.IsNotNull(DebugUI);
-			Assert.IsNotNull(Board);
-			Assert.IsNotNull(Worldmap);
-			Assert.IsNotNull(Camera);
+			if (suppressError == false)
+			{
+				Assert.IsNotNull(audioSource);
+				Assert.IsNotNull(Config);
+				Assert.IsNotNull(BattleUI);
+				Assert.IsNotNull(DebugUI);
+				Assert.IsNotNull(Board);
+				Assert.IsNotNull(Worldmap);
+				Assert.IsNotNull(Camera);
+			}
 		}
 
 		public static void Init()
 		{
 			Instance = new Game();
 		}
+
+		#if UNITY_EDITOR
+		public static void InitForDebug()
+		{
+			Instance = new Game(true);
+		}
+		#endif
 
 		public void LoadStateFromSave()
 		{

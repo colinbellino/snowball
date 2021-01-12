@@ -16,8 +16,11 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 30567134ed0f749cc8222af839678a89, type: 2}
     - {fileID: 11400000, guid: 00a3f3a5959d04b05af7f7af5a96eae1, type: 2}
     - {fileID: 11400000, guid: 590a4c10306e7fb46b3250ae74a18e53, type: 2}
+    - {fileID: 11400000, guid: 8cfbced7253b98f45bd56b010903fcd4, type: 2}
+    - {fileID: 11400000, guid: fe6fe288fdf8f6945a3b17e0f58c8494, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -35,7 +38,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -45,6 +48,9 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 2|Snowball.Game.TileData, Snowball.Game
+    - Name: TileEditor
+      Entry: 6
+      Data: 
     - Name: Tile
       Entry: 6
       Data: 
@@ -72,9 +78,12 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 3|Snowball.Game.TileData, Snowball.Game
-    - Name: Tile
+    - Name: TileEditor
       Entry: 10
       Data: 0
+    - Name: Tile
+      Entry: 10
+      Data: 1
     - Name: Walkable
       Entry: 5
       Data: true
@@ -99,15 +108,48 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 4|Snowball.Game.TileData, Snowball.Game
+    - Name: TileEditor
+      Entry: 10
+      Data: 2
     - Name: Tile
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: Walkable
       Entry: 5
       Data: true
     - Name: Climbable
       Entry: 5
       Data: true
+    - Name: Blocking
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 5|Snowball.Game.TileData, Snowball.Game
+    - Name: TileEditor
+      Entry: 10
+      Data: 3
+    - Name: Tile
+      Entry: 10
+      Data: 4
+    - Name: Walkable
+      Entry: 5
+      Data: false
+    - Name: Climbable
+      Entry: 5
+      Data: false
     - Name: Blocking
       Entry: 5
       Data: false
@@ -126,7 +168,7 @@ MonoBehaviour:
   TilemapSize: {x: 32, y: 18}
   AllySpawnTile: {fileID: 11400000, guid: ebd44eed2a5824beca53cb86ba2cae2d, type: 2}
   FoeSpawnTile: {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
-  EmptyTile: {fileID: 11400000, guid: 5237f66cb3cd82a4eb36525ccd77f410, type: 2}
+  DebugTile: {fileID: 11400000, guid: 4ca402d9f58f5e24792e7c9c69021814, type: 2}
   HighlightTile: {fileID: 11400000, guid: 40f5dbcb8137f05449bdb68921d093f5, type: 2}
   HitEffectPrefab: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
     type: 3}

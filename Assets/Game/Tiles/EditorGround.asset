@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Ladder
+  m_Name: EditorGround
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -6108889420429456849, guid: 3a91d77dc9a274cfa9d390d3e3a74a21,
+  m_Sprite: {fileID: 8995154407686431259, guid: 89ece9bba2ce9fb4cbd5341878b02e5e,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:

@@ -40,12 +40,12 @@ namespace Snowball.Game
 
 		public void DrawGridWalk(Grid grid)
 		{
-			TilemapHelpers.RenderGridWalk(grid, _walkGridTilemap, Game.Instance.Config.EmptyTile);
+			TilemapHelpers.RenderGridWalk(grid, _walkGridTilemap, Game.Instance.Config.DebugTile);
 		}
 
 		public void DrawBlockWalk(Grid grid)
 		{
-			TilemapHelpers.RenderBlockWalk(grid, _blockGridTilemap, Game.Instance.Config.EmptyTile);
+			TilemapHelpers.RenderBlockWalk(grid, _blockGridTilemap, Game.Instance.Config.DebugTile);
 		}
 
 		public void ClearArea()

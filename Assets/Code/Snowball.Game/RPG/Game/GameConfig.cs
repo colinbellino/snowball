@@ -8,6 +8,8 @@ using UnityEngine.Tilemaps;
 
 namespace Snowball.Game
 {
+	public class TilesData : Dictionary<int, TileData> { }
+
 	[CreateAssetMenu(menuName = "Snowball/RPG/Game Config")]
 	public class GameConfig : SerializedScriptableObject
 	{
@@ -17,7 +19,7 @@ namespace Snowball.Game
 		[Required] public TilesData TilesData;
 		[Required] public TileBase AllySpawnTile;
 		[Required] public TileBase FoeSpawnTile;
-		[Required] public TileBase EmptyTile;
+		[FormerlySerializedAs("EmptyTile")] [Required] public TileBase DebugTile;
 		[Required] public TileBase HighlightTile;
 
 		[Title("Effects")]
@@ -48,21 +50,11 @@ namespace Snowball.Game
 		[Range(0f, 1f)] public float SoundVolume = 1f;
 
 		[Title("Debug")]
-		public bool SkipTitle = false;
+		public bool SkipTitle;
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;
 		[SerializeField] private UnitAuthoring _snowmanUnit;
 		[Required] public int SnowmanUnitId => _snowmanUnit.Id;
-	}
-
-	public class TilesData : Dictionary<int, TileData> { }
-
-	public class TileData
-	{
-		public TileBase Tile;
-		public bool Walkable;
-		public bool Climbable;
-		public bool Blocking;
 	}
 }
