@@ -48,6 +48,7 @@ namespace Snowball.Game
 		[Range(0f, 1f)] public float SoundVolume = 1f;
 
 		[Title("Debug")]
+		public bool SkipTitle = false;
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;

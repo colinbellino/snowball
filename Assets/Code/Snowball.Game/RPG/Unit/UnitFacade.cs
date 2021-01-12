@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -10,13 +9,15 @@ namespace Snowball.Game
 	{
 		[SerializeField] private Transform _bodyPivot;
 		[SerializeField] private SpriteRenderer _bodyRenderer;
+		[SerializeField] private SpriteRenderer _leftHandRenderer;
+		[SerializeField] private SpriteRenderer _rightHandRenderer;
 
 		public override string ToString() => name;
 
 		public void Initialize(Unit unit)
 		{
 			SetName(unit.Name);
-			SetColor(unit.Color);
+			UnitHelpers.ApplyColors(_bodyRenderer.material, unit.Color, unit.Color2);
 
 			transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
 			_bodyRenderer.sprite = unit.Sprite;
@@ -27,22 +28,27 @@ namespace Snowball.Game
 		{
 			for (var index = 1; index < path.Count; index++)
 			{
-				await MoveTo(path[index]);
+				await MoveTo(path[index], index % 2 == 0);
 			}
 		}
 
 		public async UniTask AnimateChangeDirection(Unit.Directions direction)
 		{
-			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
+			await _bodyPivot.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
-		public async UniTask AnimateAttack(Vector3 destination)
+		public async UniTask AnimateAttack(Vector3 aimDirection)
 		{
-			var origin = _bodyRenderer.transform.position;
-			var direction = (origin + destination).normalized;
-			var animDestination = origin.x + direction.x * 0.75f;
-			await _bodyRenderer.transform.DOMoveX(animDestination, 0.1f);
-			await _bodyRenderer.transform.DOMoveX(origin.x, 0.1f);
+			var origin = _rightHandRenderer.transform.position;
+
+			await DOTween.Sequence()
+				.Append(_leftHandRenderer.transform.DOMove(origin + aimDirection * 0.2f, 0.1f))
+				.Join(_rightHandRenderer.transform.DOMove(origin - aimDirection * 0.2f, 0.1f))
+				.Append(_rightHandRenderer.transform.DOMove(origin + aimDirection * 0.5f, 0.1f))
+			;
+
+			_leftHandRenderer.transform.DOMove(origin, 0.1f);
+			_rightHandRenderer.transform.DOMove(origin, 0.1f);
 		}
 
 		public async UniTask AnimateBuild(Unit.Directions direction)
@@ -50,8 +56,12 @@ namespace Snowball.Game
 			var originalPosition = _bodyRenderer.transform.position;
 
 			await DOTween.Sequence()
-				.Append(_bodyRenderer.transform.DOMoveX(originalPosition.x + (direction == Unit.Directions.Right ? 0.2f : -0.2f), 0.2f))
-				.Append(_bodyRenderer.transform.DOMoveX(originalPosition.x, 0.1f));
+				.Append(_leftHandRenderer.transform.DOLocalMove(_leftHandRenderer.transform.localPosition + new Vector3(0.1f, -0.2f, 0f), 0.1f))
+				.Join(_rightHandRenderer.transform.DOLocalMove(_rightHandRenderer.transform.localPosition + new Vector3(0.1f, -0.2f, 0f), 0.1f))
+				.Join(_bodyRenderer.transform.DOMoveX(originalPosition.x + (direction == Unit.Directions.Right ? 0.2f : -0.2f), 0.2f))
+				.Append(_bodyRenderer.transform.DOMoveX(originalPosition.x, 0.1f))
+				.Join(_leftHandRenderer.transform.DOLocalMove(_leftHandRenderer.transform.localPosition, 0.1f))
+				.Join(_rightHandRenderer.transform.DOLocalMove(_rightHandRenderer.transform.localPosition, 0.1f));
 		}
 
 		public async UniTask AnimateSpawn()
@@ -63,8 +73,12 @@ namespace Snowball.Game
 
 		public async UniTask AnimateDeath()
 		{
-			await _bodyRenderer.transform.DORotate(new Vector3(0f, 0f, 45f), 0.3f);
-			await _bodyRenderer.transform.DOScale(0, 0.3f);
+			await DOTween.Sequence()
+				.Append(_leftHandRenderer.transform.DOLocalMove(_leftHandRenderer.transform.localPosition + new Vector3(0.2f, 0.4f, 0f), 0.1f))
+				.Join(_rightHandRenderer.transform.DOLocalMove(_rightHandRenderer.transform.localPosition + new Vector3(-0.2f, 0.4f, 0f), 0.1f))
+				.Append(_bodyRenderer.transform.DORotate(new Vector3(0f, 0f, 45f), 0.3f))
+				.Append(_bodyRenderer.transform.DOScale(0, 0.3f))
+			;
 		}
 
 		public async UniTask AnimateMelt()
@@ -77,12 +91,7 @@ namespace Snowball.Game
 			name = $"{value}";
 		}
 
-		private void SetColor(Color color)
-		{
-			_bodyRenderer.material.SetColor("ReplacementColor0", color);
-		}
-
-		private async UniTask MoveTo(Vector3Int destination)
+		private async UniTask MoveTo(Vector3Int destination, bool reverseHands = true)
 		{
 			const float durationPerUnit = 0.15f;
 
@@ -94,7 +103,23 @@ namespace Snowball.Game
 			}
 
 			var distance = Vector3.Distance(transform.position, destination);
-			await transform.DOMove(destination, distance * durationPerUnit).SetEase(Ease.Linear);
+			var animDuration = distance * durationPerUnit;
+			var handsOffset = reverseHands ? 1f : -1f;
+
+			await DOTween.Sequence()
+				.Append(transform.DOMove(destination, animDuration).SetEase(Ease.Linear))
+				.Join(
+					DOTween.Sequence()
+						.Append(_leftHandRenderer.transform.DOLocalMove(_leftHandRenderer.transform.localPosition + new Vector3(+0.1f, +0.1f, 0f) * handsOffset, animDuration / 2))
+						.Join(_rightHandRenderer.transform.DOLocalMove(_rightHandRenderer.transform.localPosition + new Vector3(-0.1f, -0.1f, 0f) * handsOffset, animDuration / 2))
+						.Append(_leftHandRenderer.transform.DOLocalMove(_leftHandRenderer.transform.localPosition, animDuration / 2))
+						.Join(_rightHandRenderer.transform.DOLocalMove(_rightHandRenderer.transform.localPosition, animDuration / 2))
+				)
+				.Join(DOTween.Sequence()
+					.Append(_bodyPivot.transform.DOScale(new Vector3(0.9f, 1.1f, 1f), animDuration / 2))
+					.Append(_bodyPivot.transform.DOScale(new Vector3(1f, 1f, 1f), animDuration / 2))
+				)
+			;
 		}
 	}
 }

@@ -930,9 +930,9 @@ GameObject:
   - component: {fileID: 195099246}
   - component: {fileID: 195099245}
   - component: {fileID: 195099244}
-  - component: {fileID: 195099243}
   - component: {fileID: 195099247}
   - component: {fileID: 195099248}
+  - component: {fileID: 195099243}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 195099242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 10
@@ -11182,7 +11182,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2380703521546179501, guid: d6f689357fa25804085c2e702a4df8ae,
+  m_Sprite: {fileID: -8232485130227214915, guid: 3cc6f11ac9f62b2408233c5a532cb94d,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.colinbellino.plugins.odininspector": {
-      "version": "https://github.com/colinbellino/unity-private-plugins.git?path=Assets/Plugins/Sirenix",
+      "version": "https://github.com/colinbellino/unity-private-plugins.git?path=Assets/Plugins/Sirenix/",
       "depth": 0,
       "source": "git",
       "dependencies": {},

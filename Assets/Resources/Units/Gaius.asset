@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3
   Name: Gaius
-  Color: {r: 0.6594756, g: 0, b: 0.8584906, a: 1}
+  Sprite: {fileID: -3576983417349369958, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
+  Color: {r: 0.5188679, g: 0.11507414, b: 0, a: 1}
+  Color2: {r: 0.6509434, g: 0.6059096, b: 0.61223865, a: 1}
+  Type: 0
   MoveRange: 8
   Health: 1
   Speed: 4
-  Sprite: {fileID: 3346457816436727468, guid: dd658b6cc7e0d4e00b03cca22810a891, type: 3}
+  HitAccuracy: 100
+  HitRange: 10
+  HitDamage: 1
