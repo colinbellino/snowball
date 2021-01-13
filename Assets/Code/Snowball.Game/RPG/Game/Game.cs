@@ -17,6 +17,7 @@ namespace Snowball.Game
 		public GameState State { get; }
 		public Database Database { get; }
 		public AudioPlayer AudioPlayer { get; }
+		public TransitionManager Transition { get; }
 
 		public static Game Instance { get; private set; }
 
@@ -34,6 +35,7 @@ namespace Snowball.Game
 			DebugUI = GameObject.FindObjectOfType<DebugUI>();
 			Board = GameObject.FindObjectOfType<Board>();
 			Worldmap = GameObject.FindObjectOfType<Worldmap>();
+			Transition = GameObject.FindObjectOfType<TransitionManager>();
 			Camera = Camera.main;
 			Spawner = new StuffSpawner();
 			Controls = new GameControls();
@@ -50,6 +52,7 @@ namespace Snowball.Game
 				Assert.IsNotNull(Board);
 				Assert.IsNotNull(Worldmap);
 				Assert.IsNotNull(Camera);
+				Assert.IsNotNull(Transition);
 			}
 		}
 
