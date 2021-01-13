@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -14,22 +15,22 @@ namespace Snowball.Game
 			_machine = machine;
 		}
 
-		public UniTask Enter()
+		public async UniTask Enter()
 		{
 			_turnManager = new TurnManager();
 			_battleMachine = new BattleStateMachine(_turnManager);
-			_battleMachine.Start();
 
+			_battleMachine.Start();
 			_battleMachine.BattleOver += OnBattleOver;
 
-			return default;
+			await Game.Instance.Transition.EndTransition(Color.black);
 		}
 
-		public UniTask Exit()
+		public async UniTask Exit()
 		{
 			_battleMachine.BattleOver -= OnBattleOver;
 
-			return default;
+			await Game.Instance.Transition.StartTransition(Color.white);
 		}
 
 		public void Tick()

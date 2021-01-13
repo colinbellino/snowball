@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Snowball.Game
@@ -18,21 +19,21 @@ namespace Snowball.Game
 			_state = state;
 		}
 
-		public UniTask Enter()
+		public async UniTask Enter()
 		{
 			_worldmap.ShowWorldmap();
 			_worldmap.SetEncounters(_config.Encounters);
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
-			return default;
+			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
-		public UniTask Exit()
+		public async UniTask Exit()
 		{
+			await Game.Instance.Transition.StartTransition(Color.white);
+
 			_worldmap.EncounterClicked -= OnEncounterClicked;
 			_worldmap.HideWorldmap();
-
-			return default;
 		}
 
 		public void Tick()

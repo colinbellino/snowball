@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Snowball.Game
@@ -25,19 +26,17 @@ namespace Snowball.Game
 			}
 
 			Game.Instance.DebugUI.Show();
-
 			Game.Instance.DebugUI.OnDebugButtonClicked += OnDebugButtonClicked;
 
 			return default;
 		}
 
-		public UniTask Exit()
+		public async UniTask Exit()
 		{
+			await Game.Instance.Transition.StartTransition(Color.white);
+
 			Game.Instance.DebugUI.Hide();
-
 			Game.Instance.DebugUI.OnDebugButtonClicked -= OnDebugButtonClicked;
-
-			return default;
 		}
 
 		public void Tick()
@@ -67,7 +66,7 @@ namespace Snowball.Game
 #if UNITY_EDITOR
 				EditorApplication.isPlaying = false;
 #else
-					UnityEngine.Application.Quit();
+				UnityEngine.Application.Quit();
 #endif
 			}
 		}
