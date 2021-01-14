@@ -8,7 +8,7 @@ namespace Snowball.Game
 	{
 		public StartBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public override UniTask Enter()
+		public override async UniTask Enter()
 		{
 			base.Enter();
 
@@ -61,9 +61,9 @@ namespace Snowball.Game
 			_board.DrawBlockWalk(_turnManager.BlockGrid);
 #endif
 
-			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
+			await Game.Instance.Transition.EndTransition(Color.white);
 
-			return default;
+			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}
 	}
 }

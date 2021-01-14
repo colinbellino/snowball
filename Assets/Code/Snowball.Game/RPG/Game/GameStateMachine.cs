@@ -16,7 +16,6 @@ namespace Snowball.Game
 		public enum Triggers
 		{
 			Done,
-			StartGame,
 			StartBattle,
 			StartWorldmap,
 			BackToTitle,
@@ -44,7 +43,7 @@ namespace Snowball.Game
 
 			_machine.Configure(States.Title)
 				.Permit(Triggers.StartBattle, States.Battle)
-				.Permit(Triggers.StartGame, States.Worldmap);
+				.Permit(Triggers.StartWorldmap, States.Worldmap);
 
 			_machine.Configure(States.Worldmap)
 				.Permit(Triggers.BackToTitle, States.Title)

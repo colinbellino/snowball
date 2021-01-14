@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -22,15 +21,11 @@ namespace Snowball.Game
 
 			_battleMachine.Start();
 			_battleMachine.BattleEnded += OnBattleEnded;
-
-			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
 		public async UniTask Exit()
 		{
 			_battleMachine.BattleEnded -= OnBattleEnded;
-
-			await Game.Instance.Transition.StartTransition(Color.white);
 		}
 
 		public void Tick()
@@ -44,6 +39,8 @@ namespace Snowball.Game
 			{
 				Game.Instance.State.EncountersDone.Add(Game.Instance.State.CurrentEncounter);
 			}
+			
+			Game.Instance.State.CurrentEncounter = -1;
 
 			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 		}
