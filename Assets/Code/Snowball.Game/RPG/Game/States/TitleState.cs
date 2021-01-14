@@ -25,10 +25,7 @@ namespace Snowball.Game
 			}
 			else
 			{
-				Game.Instance.State.CurrentEncounter = -1;
-				Game.Instance.State.EncountersDone = new List<int>();
-				Game.Instance.State.Party = Game.Instance.Config.StartingParty;
-				Debug.Log("Creating save.");
+				ResetGameState();
 			}
 
 			if (Game.Instance.Config.SkipTitle)
@@ -39,6 +36,7 @@ namespace Snowball.Game
 
 			Game.Instance.TitleUI.Show(hasSaveFile);
 			Game.Instance.TitleUI.StartButtonClicked += OnStartButtonClicked;
+			Game.Instance.TitleUI.NewGameButtonClicked += OnNewGameButtonClicked;
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 		}
@@ -49,6 +47,7 @@ namespace Snowball.Game
 
 			Game.Instance.TitleUI.Hide();
 			Game.Instance.TitleUI.StartButtonClicked -= OnStartButtonClicked;
+			Game.Instance.TitleUI.NewGameButtonClicked -= OnNewGameButtonClicked;
 		}
 
 		public void Tick()
@@ -104,6 +103,20 @@ namespace Snowball.Game
 
 				_machine.Fire(GameStateMachine.Triggers.StartBattle);
 			}
+		}
+
+		private void OnNewGameButtonClicked()
+		{
+			ResetGameState();
+			OnStartButtonClicked();
+		}
+
+		private static void ResetGameState()
+		{
+			Game.Instance.State.CurrentEncounter = -1;
+			Game.Instance.State.EncountersDone = new List<int>();
+			Game.Instance.State.Party = Game.Instance.Config.StartingParty;
+			Debug.Log("Creating save.");
 		}
 	}
 }
