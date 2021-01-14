@@ -11,6 +11,7 @@ namespace Snowball.Game
 		public Camera Camera { get; }
 		public BattleUI BattleUI { get; }
 		public TitleUI TitleUI { get; }
+		public CreditsUI CreditsUI { get; }
 		public Board Board { get; }
 		public Worldmap Worldmap { get; }
 		public GameState State { get; }
@@ -32,6 +33,7 @@ namespace Snowball.Game
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			TitleUI = GameObject.FindObjectOfType<TitleUI>();
+			CreditsUI = GameObject.FindObjectOfType<CreditsUI>();
 			Board = GameObject.FindObjectOfType<Board>();
 			Worldmap = GameObject.FindObjectOfType<Worldmap>();
 			Transition = GameObject.FindObjectOfType<TransitionManager>();
@@ -48,6 +50,7 @@ namespace Snowball.Game
 				Assert.IsNotNull(Config);
 				Assert.IsNotNull(BattleUI);
 				Assert.IsNotNull(TitleUI);
+				Assert.IsNotNull(CreditsUI);
 				Assert.IsNotNull(Board);
 				Assert.IsNotNull(Worldmap);
 				Assert.IsNotNull(Camera);

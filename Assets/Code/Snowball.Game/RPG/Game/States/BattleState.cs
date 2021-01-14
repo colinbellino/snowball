@@ -35,12 +35,21 @@ namespace Snowball.Game
 
 		private void OnBattleEnded(BattleResults result)
 		{
+			var encounterId = Game.Instance.State.CurrentEncounter;
+
+			Game.Instance.State.CurrentEncounter = -1;
+
 			if (result == BattleResults.Victory)
 			{
-				Game.Instance.State.EncountersDone.Add(Game.Instance.State.CurrentEncounter);
+				Game.Instance.State.EncountersDone.Add(encounterId);
+
+				var lastEncounterId = Game.Instance.Config.Encounters[Game.Instance.Config.Encounters.Count - 1];
+				if (encounterId == lastEncounterId)
+				{
+					_machine.Fire(GameStateMachine.Triggers.StartCredits);
+					return;
+				}
 			}
-			
-			Game.Instance.State.CurrentEncounter = -1;
 
 			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 		}

@@ -10,14 +10,16 @@ namespace Snowball.Game
 		{
 			Bootstrap,
 			Title,
-			Worldmap,
 			Battle,
+			Worldmap,
+			Credits,
 		}
 		public enum Triggers
 		{
 			Done,
 			StartBattle,
 			StartWorldmap,
+			StartCredits,
 			BackToTitle,
 		}
 
@@ -33,6 +35,7 @@ namespace Snowball.Game
 				{ States.Title, new TitleState(this) },
 				{ States.Worldmap, new WorldmapState(this, worldmap, config, state) },
 				{ States.Battle, new BattleState(this) },
+				{ States.Credits, new CreditsState(this) },
 			};
 
 			_machine = new StateMachine<States, Triggers>(States.Bootstrap);
@@ -50,7 +53,11 @@ namespace Snowball.Game
 				.Permit(Triggers.StartBattle, States.Battle);
 
 			_machine.Configure(States.Battle)
-				.Permit(Triggers.StartWorldmap, States.Worldmap);
+				.Permit(Triggers.StartWorldmap, States.Worldmap)
+				.Permit(Triggers.StartCredits, States.Credits);
+
+			_machine.Configure(States.Credits)
+				.Permit(Triggers.Done, States.Title);
 
 			_currentState = _states[_machine.State];
 		}
