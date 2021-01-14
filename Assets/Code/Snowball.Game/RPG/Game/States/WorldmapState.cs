@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,8 +22,11 @@ namespace Snowball.Game
 
 		public async UniTask Enter()
 		{
-			_worldmap.ShowWorldmap();
-			_worldmap.SetEncounters(_config.Encounters);
+			SaveHelpers.SaveToFile(Game.Instance.State);
+
+			_worldmap.Show();
+			var availableEncounters = _config.Encounters.Select(id => Game.Instance.Database.Encounters[id]).ToList();
+			_worldmap.SetEncounters(availableEncounters, Game.Instance.State);
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
 			await Game.Instance.Transition.EndTransition(Color.white);
@@ -33,7 +37,7 @@ namespace Snowball.Game
 			await Game.Instance.Transition.StartTransition(Color.white);
 
 			_worldmap.EncounterClicked -= OnEncounterClicked;
-			_worldmap.HideWorldmap();
+			_worldmap.Hide();
 		}
 
 		public void Tick()
@@ -49,7 +53,7 @@ namespace Snowball.Game
 		private void OnEncounterClicked(int encounterIndex)
 		{
 			var encounterId = _config.Encounters[encounterIndex];
-			_state.CurrentEncounterId = encounterId;
+			_state.CurrentEncounter = encounterId;
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}

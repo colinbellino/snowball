@@ -21,14 +21,14 @@ namespace Snowball.Game
 			_battleMachine = new BattleStateMachine(_turnManager);
 
 			_battleMachine.Start();
-			_battleMachine.BattleOver += OnBattleOver;
+			_battleMachine.BattleEnded += OnBattleEnded;
 
-			await Game.Instance.Transition.EndTransition(Color.black);
+			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
 		public async UniTask Exit()
 		{
-			_battleMachine.BattleOver -= OnBattleOver;
+			_battleMachine.BattleEnded -= OnBattleEnded;
 
 			await Game.Instance.Transition.StartTransition(Color.white);
 		}
@@ -38,8 +38,13 @@ namespace Snowball.Game
 			_battleMachine?.Tick();
 		}
 
-		private void OnBattleOver()
+		private void OnBattleEnded(BattleResults result)
 		{
+			if (result == BattleResults.Victory)
+			{
+				Game.Instance.State.EncountersDone.Add(Game.Instance.State.CurrentEncounter);
+			}
+
 			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 		}
 	}

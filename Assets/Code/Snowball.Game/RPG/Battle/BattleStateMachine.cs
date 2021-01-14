@@ -31,14 +31,14 @@ namespace Snowball.Game
 			Cancelled,
 			Done,
 			Victory,
-			Loss,
+			Defeat,
 		}
 
 		private readonly Dictionary<States, IState> _states;
 		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		public event Action BattleOver;
+		public event Action<BattleResults> BattleEnded;
 
 		public BattleStateMachine(TurnManager turnManager)
 		{
@@ -71,7 +71,7 @@ namespace Snowball.Game
 				.Permit(Triggers.ActionSelected, States.SelectActionTarget)
 				.Permit(Triggers.TurnEnded, States.EndTurn)
 				.Permit(Triggers.Victory, States.BattleVictory)
-				.Permit(Triggers.Loss, States.BattleDefeat);
+				.Permit(Triggers.Defeat, States.BattleDefeat);
 
 			_machine.Configure(States.SelectMoveDestination)
 				.Permit(Triggers.Cancelled, States.SelectAction)
@@ -108,7 +108,7 @@ namespace Snowball.Game
 
 		public void Fire(Triggers trigger) => _machine.Fire(trigger);
 
-		public void FireBattleOver() => BattleOver?.Invoke();
+		public void FireBattleEnded(BattleResults result) => BattleEnded?.Invoke(result);
 
 		private async void OnTransitioned(StateMachine<States, Triggers>.Transition transition)
 		{

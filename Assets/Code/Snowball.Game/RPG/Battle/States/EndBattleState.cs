@@ -19,7 +19,8 @@ namespace Snowball.Game
 				unit.DestroyFacade();
 			}
 
-			_machine.FireBattleOver();
+			var result = _turnManager.GetBattleResult();
+			_machine.FireBattleEnded(result);
 
 			return default;
 		}

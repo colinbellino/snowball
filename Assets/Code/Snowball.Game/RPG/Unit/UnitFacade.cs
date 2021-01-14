@@ -47,8 +47,8 @@ namespace Snowball.Game
 				.Append(_rightHandRenderer.transform.DOMove(origin + aimDirection * 0.5f, 0.1f))
 			;
 
-			_leftHandRenderer.transform.DOMove(origin, 0.1f);
-			_rightHandRenderer.transform.DOMove(origin, 0.1f);
+			_ = _leftHandRenderer.transform.DOMove(origin, 0.1f);
+			_ = _rightHandRenderer.transform.DOMove(origin, 0.1f);
 		}
 
 		public async UniTask AnimateBuild(Unit.Directions direction)

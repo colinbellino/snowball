@@ -12,7 +12,7 @@ namespace Snowball.Game
 		{
 			base.Enter();
 
-			var encounter = _database.Encounters[_state.CurrentEncounterId];
+			var encounter = _database.Encounters[_state.CurrentEncounter];
 
 			Debug.Log($"Starting battle: {encounter.Name}");
 			_board.DrawArea(encounter.Area);
@@ -21,9 +21,8 @@ namespace Snowball.Game
 			var allUnits = new List<Unit>();
 			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x,
-					encounter.Area.AllySpawnPoints[index].y, 0);
-				var unit = _state.Party[index];
+				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
+				var unit = new Unit(_database.Units[_state.Party[index]]);
 				var facade = UnitHelpers.SpawnUnitFacade(
 					_config.UnitPrefab,
 					unit,
@@ -39,8 +38,7 @@ namespace Snowball.Game
 
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
-				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x,
-					encounter.Area.FoeSpawnPoints[index].y, 0);
+				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
 				var unit = new Unit(encounter.Foes[index]);
 				var facade = UnitHelpers.SpawnUnitFacade(
 					_config.UnitPrefab,

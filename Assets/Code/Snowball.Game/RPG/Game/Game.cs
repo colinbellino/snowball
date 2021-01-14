@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,7 +10,7 @@ namespace Snowball.Game
 		public GameControls Controls { get; }
 		public Camera Camera { get; }
 		public BattleUI BattleUI { get; }
-		public DebugUI DebugUI { get; }
+		public TitleUI TitleUI { get; }
 		public Board Board { get; }
 		public Worldmap Worldmap { get; }
 		public GameState State { get; }
@@ -32,7 +31,7 @@ namespace Snowball.Game
 			var audioSource = GameObject.FindObjectOfType<AudioSource>();
 			Config = Resources.Load<GameConfig>("RPGConfig");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
-			DebugUI = GameObject.FindObjectOfType<DebugUI>();
+			TitleUI = GameObject.FindObjectOfType<TitleUI>();
 			Board = GameObject.FindObjectOfType<Board>();
 			Worldmap = GameObject.FindObjectOfType<Worldmap>();
 			Transition = GameObject.FindObjectOfType<TransitionManager>();
@@ -48,7 +47,7 @@ namespace Snowball.Game
 				Assert.IsNotNull(audioSource);
 				Assert.IsNotNull(Config);
 				Assert.IsNotNull(BattleUI);
-				Assert.IsNotNull(DebugUI);
+				Assert.IsNotNull(TitleUI);
 				Assert.IsNotNull(Board);
 				Assert.IsNotNull(Worldmap);
 				Assert.IsNotNull(Camera);
@@ -67,15 +66,5 @@ namespace Snowball.Game
 			Instance = new Game(true);
 		}
 		#endif
-
-		public void LoadStateFromSave()
-		{
-			var party = new List<Unit>();
-			foreach (var unitId in Config.StartingParty)
-			{
-				party.Add(new Unit(Database.Units[unitId]));
-			}
-			State.Party = party;
-		}
 	}
 }

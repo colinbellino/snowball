@@ -3,7 +3,6 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Snowball.Game
@@ -19,7 +18,7 @@ namespace Snowball.Game
 		[Required] public TilesData TilesData;
 		[Required] public TileBase AllySpawnTile;
 		[Required] public TileBase FoeSpawnTile;
-		[FormerlySerializedAs("EmptyTile")] [Required] public TileBase DebugTile;
+		[Required] public TileBase DebugTile;
 		[Required] public TileBase HighlightTile;
 
 		[Title("Effects")]
