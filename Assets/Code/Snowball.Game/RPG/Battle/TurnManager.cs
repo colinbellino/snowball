@@ -6,6 +6,8 @@ using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Snowball.Game
 {
+	public enum BattleResults { None, Defeat, Victory }
+
 	public class TurnManager
 	{
 		private const int _turnActivation = 100;
@@ -35,6 +37,31 @@ namespace Snowball.Game
 		public void NextTurn()
 		{
 			_turns.MoveNext();
+		}
+
+		public BattleResults GetBattleResult()
+		{
+			if (IsVictoryConditionReached())
+			{
+				return BattleResults.Victory;
+			}
+
+			if (IsDefeatConditionReached())
+			{
+				return BattleResults.Defeat;
+			}
+
+			return BattleResults.None;
+		}
+
+		private bool IsVictoryConditionReached()
+		{
+			return GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Foe && unit.Type == Unit.Types.Humanoid).Count() == 0;
+		}
+
+		private bool IsDefeatConditionReached()
+		{
+			return GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Ally && unit.Type == Unit.Types.Humanoid).Count() == 0;
 		}
 
 		private IEnumerator<Turn> StartTurn()

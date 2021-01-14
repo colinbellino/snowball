@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Snowball.Game
 {
@@ -10,25 +9,31 @@ namespace Snowball.Game
 	{
 		[SerializeField][Required] private GameObject _worldmapRoot;
 		[SerializeField][Required] private List<WorldmapEncounterPoint> _encounterPoints;
+		private Database _database;
 
 		public event Action<int> EncounterClicked;
 
 		public void Awake()
 		{
-			HideWorldmap();
+			Hide();
 		}
 
-		public void OnEnable()
+		public void Show()
 		{
+			_database = Game.Instance.Database;
+
 			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
 			{
 				var encounterPoint = _encounterPoints[encounterIndex];
 				encounterPoint.Clicked += OnEncounterPointClicked(encounterIndex);
 			}
+
+			_worldmapRoot.SetActive(true);
 		}
 
-		public void OnDisable()
+		public void Hide()
 		{
+			_worldmapRoot.SetActive(false);
 			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
 			{
 				var encounterPoint = _encounterPoints[encounterIndex];
@@ -36,16 +41,19 @@ namespace Snowball.Game
 			}
 		}
 
-		public void ShowWorldmap() => _worldmapRoot.SetActive(true);
-
-		public void HideWorldmap() => _worldmapRoot.SetActive(false);
-
-		public void SetEncounters(List<int> encounters)
+		public void SetEncounters(List<EncounterAuthoring> encounters, GameState state)
 		{
 			for (var encounterIndex = 0; encounterIndex < _encounterPoints.Count; encounterIndex++)
 			{
 				var encounterPoint = _encounterPoints[encounterIndex];
+
 				encounterPoint.gameObject.SetActive(encounterIndex < encounters.Count);
+				if (encounterIndex < encounters.Count)
+				{
+					var encounter = encounters[encounterIndex];
+					encounterPoint.name = encounter.Name;
+					encounterPoint.SetEnabled(state.EncountersDone.Contains(encounter.Id) == false);
+				}
 			}
 		}
 

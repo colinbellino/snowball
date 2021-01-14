@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,29 +15,40 @@ namespace Snowball.Game
 			_machine = machine;
 		}
 
-		public UniTask Enter()
+		public async UniTask Enter()
 		{
-			// Do this when we start the game only.
-			Game.Instance.LoadStateFromSave();
+			var hasSaveFile = SaveHelpers.HasFile();
+
+			if (hasSaveFile)
+			{
+				Game.Instance.State.Update(SaveHelpers.LoadFromFile());
+			}
+			else
+			{
+				Game.Instance.State.CurrentEncounter = -1;
+				Game.Instance.State.EncountersDone = new List<int>();
+				Game.Instance.State.Party = Game.Instance.Config.StartingParty;
+				Debug.Log("Using save");
+			}
 
 			if (Game.Instance.Config.SkipTitle)
 			{
 				StartBattle(0);
-				return default;
+				return;
 			}
 
-			Game.Instance.DebugUI.Show();
-			Game.Instance.DebugUI.OnDebugButtonClicked += OnDebugButtonClicked;
+			Game.Instance.TitleUI.Show(hasSaveFile);
+			Game.Instance.TitleUI.StartButtonClicked += OnStartButtonClicked;
 
-			return default;
+			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
 		public async UniTask Exit()
 		{
 			await Game.Instance.Transition.StartTransition(Color.white);
 
-			Game.Instance.DebugUI.Hide();
-			Game.Instance.DebugUI.OnDebugButtonClicked -= OnDebugButtonClicked;
+			Game.Instance.TitleUI.Hide();
+			Game.Instance.TitleUI.StartButtonClicked -= OnStartButtonClicked;
 		}
 
 		public void Tick()
@@ -74,19 +86,14 @@ namespace Snowball.Game
 		private void StartBattle(int battleIndex)
 		{
 			var encounterId = Game.Instance.Config.Encounters[battleIndex];
-			Game.Instance.State.CurrentEncounterId = encounterId;
+			Game.Instance.State.CurrentEncounter = encounterId;
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
 
-		private void OnDebugButtonClicked(int key)
+		private void OnStartButtonClicked()
 		{
-			switch (key)
-			{
-				case 1:
-					_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
-					return;
-			}
+			_machine.Fire(GameStateMachine.Triggers.StartGame);
 		}
 	}
 }

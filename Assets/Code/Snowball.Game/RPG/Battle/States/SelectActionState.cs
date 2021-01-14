@@ -19,14 +19,15 @@ namespace Snowball.Game
 			_ui.ShowTurnOrder();
 			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
 
-			if (IsVictoryConditionReached())
+			var battleResult = _turnManager.GetBattleResult();
+			if (battleResult == BattleResults.Victory)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Victory);
 				return default;
 			}
-			if (IsDefeatConditionReached())
+			if (battleResult == BattleResults.Defeat)
 			{
-				_machine.Fire(BattleStateMachine.Triggers.Loss);
+				_machine.Fire(BattleStateMachine.Triggers.Defeat);
 				return default;
 			}
 
@@ -85,7 +86,7 @@ namespace Snowball.Game
 			if (Keyboard.current.escapeKey.wasPressedThisFrame)
 			{
 				Debug.Log("DEBUG: Abandoning fight");
-				_machine.Fire(BattleStateMachine.Triggers.Loss);
+				_machine.Fire(BattleStateMachine.Triggers.Defeat);
 			}
 			#endif
 		}
@@ -141,16 +142,6 @@ namespace Snowball.Game
 			_turn.ActionTargets = new List<Vector3Int> { closestTarget.GridPosition };
 			_turn.ActionDestination = closestTarget.GridPosition;
 			_turn.HasMoved = true;
-		}
-
-		private bool IsVictoryConditionReached()
-		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Foe && unit.Type == Unit.Types.Humanoid).Count() == 0;
-		}
-
-		private bool IsDefeatConditionReached()
-		{
-			return _turnManager.GetActiveUnits().Where(unit => unit.Alliance == Unit.Alliances.Ally && unit.Type == Unit.Types.Humanoid).Count() == 0;
 		}
 	}
 }
