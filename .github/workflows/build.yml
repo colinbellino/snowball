@@ -54,16 +54,16 @@ jobs:
       - name: Activate Unity
         uses: webbertakken/unity-activate@v1.3
 
-      - uses: webbertakken/unity-test-runner@v2.0-alpha-1
-        id: testRunner
-        with:
-          projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
+      # - uses: webbertakken/unity-test-runner@v2.0-alpha-1
+      #   id: testRunner
+      #   with:
+      #     projectPath: ${{ matrix.projectPath }}
+      #     unityVersion: ${{ matrix.unityVersion }}
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Test results (all modes)
-          path: ${{ steps.testRunner.outputs.artifactsPath }}
+      # - uses: actions/upload-artifact@v1
+      #   with:
+      #     name: Test results (all modes)
+      #     path: ${{ steps.testRunner.outputs.artifactsPath }}
 
       - uses: webbertakken/unity-builder@v2.0-alpha-6
         with:
@@ -81,7 +81,7 @@ jobs:
           path: build
 
       - name: Deploy (Windows)
-        if: env.RELEASE_VERSION != '' && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
+        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -92,7 +92,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (MacOS)
-        if: env.RELEASE_VERSION != '' && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
+        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -103,7 +103,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (Linux)
-        if: env.RELEASE_VERSION != '' && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
+        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -114,7 +114,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (WebGL)
-        if: env.RELEASE_VERSION != '' && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
+        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
