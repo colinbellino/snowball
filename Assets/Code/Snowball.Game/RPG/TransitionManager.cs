@@ -22,7 +22,7 @@ namespace Snowball.Game
 				.Join(_pane2.rectTransform.DOAnchorPosX(0, 0.5f).SetDelay(0.1f))
 				.Join(_pane3.rectTransform.DOAnchorPosX(0, 0.5f).SetDelay(0.1f))
 			;
-			await UniTask.Delay(TimeSpan.FromSeconds(0.3f));
+			await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
 		}
 
 		public async UniTask EndTransition(Color color)
@@ -34,7 +34,7 @@ namespace Snowball.Game
 				.Join(_pane2.rectTransform.DOAnchorPosX(-1920f, 0.5f).SetDelay(0.1f))
 				.Join(_pane3.rectTransform.DOAnchorPosX(-1920f, 0.5f).SetDelay(0.1f))
 			;
-			await UniTask.Delay(TimeSpan.FromSeconds(0.3f));
+			await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
 		}
 	}
 }

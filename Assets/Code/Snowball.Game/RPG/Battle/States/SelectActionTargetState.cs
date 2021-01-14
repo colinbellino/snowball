@@ -16,7 +16,6 @@ namespace Snowball.Game
 
 			if (_turn.Unit.Driver == Unit.Drivers.Computer)
 			{
-				await UniTask.Delay(300);
 				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
 				return;
 			}

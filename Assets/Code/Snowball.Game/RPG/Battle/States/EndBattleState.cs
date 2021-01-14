@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -6,7 +7,7 @@ namespace Snowball.Game
 	{
 		public EndBattleState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public override UniTask Enter()
+		public override async UniTask Enter()
 		{
 			base.Enter();
 
@@ -19,10 +20,10 @@ namespace Snowball.Game
 				unit.DestroyFacade();
 			}
 
+			await Game.Instance.Transition.StartTransition(Color.white);
+
 			var result = _turnManager.GetBattleResult();
 			_machine.FireBattleEnded(result);
-
-			return default;
 		}
 	}
 }

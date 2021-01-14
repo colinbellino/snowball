@@ -10,8 +10,6 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			await UniTask.Delay(200);
-
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 	}

@@ -12,7 +12,7 @@ namespace Snowball.Game
 	{
 		public SelectActionState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public override UniTask Enter()
+		public override async UniTask Enter()
 		{
 			base.Enter();
 
@@ -23,12 +23,12 @@ namespace Snowball.Game
 			if (battleResult == BattleResults.Victory)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Victory);
-				return default;
+				return;
 			}
 			if (battleResult == BattleResults.Defeat)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.Defeat);
-				return default;
+				return;
 			}
 
 			_ui.OnActionClicked += OnActionClicked;
@@ -36,10 +36,11 @@ namespace Snowball.Game
 			if (_turn.HasActed && _turn.HasMoved)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
-				return default;
+				return;
 			}
 
 			_ui.SetTurnUnit(_turn.Unit);
+			await UniTask.Delay(300);
 
 			if (_turn.Unit.Driver == Unit.Drivers.Human)
 			{
@@ -66,7 +67,7 @@ namespace Snowball.Game
 				}
 			}
 
-			return default;
+			return;
 		}
 
 		public override UniTask Exit()

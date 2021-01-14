@@ -28,7 +28,7 @@ namespace Snowball.Game
 				Game.Instance.State.CurrentEncounter = -1;
 				Game.Instance.State.EncountersDone = new List<int>();
 				Game.Instance.State.Party = Game.Instance.Config.StartingParty;
-				Debug.Log("Using save");
+				Debug.Log("Creating save.");
 			}
 
 			if (Game.Instance.Config.SkipTitle)
@@ -93,7 +93,17 @@ namespace Snowball.Game
 
 		private void OnStartButtonClicked()
 		{
-			_machine.Fire(GameStateMachine.Triggers.StartGame);
+			var introEncounter = Game.Instance.Database.Encounters[Game.Instance.Config.Encounters[0]];
+			if (Game.Instance.State.EncountersDone.Contains(introEncounter.Id))
+			{
+				_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
+			}
+			else
+			{
+				Game.Instance.State.CurrentEncounter = Game.Instance.Config.Encounters[0];
+
+				_machine.Fire(GameStateMachine.Triggers.StartBattle);
+			}
 		}
 	}
 }

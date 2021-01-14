@@ -73,11 +73,12 @@ namespace Snowball.Game
 			{
 				_currentUnitCursor.transform.position = OUT_OF_SCREEN_POSITION;
 				_actionsTitle.text = "";
-				return;
 			}
-
-			_currentUnitCursor.transform.position = unit.GridPosition;
-			_actionsTitle.text = $"{unit.Name}";
+			else
+			{
+				_currentUnitCursor.transform.position = unit.GridPosition;
+				_actionsTitle.text = $"{unit.Name}";
+			}
 		}
 
 		public void ShowActionsMenu() => _actionsRoot.SetActive(true);
