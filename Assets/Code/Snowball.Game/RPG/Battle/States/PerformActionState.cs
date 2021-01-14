@@ -93,7 +93,7 @@ namespace Snowball.Game
 				}
 				else
 				{
-					Debug.Log($"{_turn.Unit} evaded! ({roll}/{hitChance})");
+					Debug.Log($"{_turn.Unit} missed! ({roll}/{hitChance})");
 					hitTasks.Add(Miss(target));
 				}
 			}
