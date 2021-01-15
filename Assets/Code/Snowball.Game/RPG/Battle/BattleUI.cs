@@ -62,7 +62,6 @@ namespace Snowball.Game
 		public void HideAll()
 		{
 			HideActionsMenu();
-			HideTurnOrder();
 			ClearMovePath();
 			ClearTarget();
 		}
