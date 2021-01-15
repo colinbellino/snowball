@@ -4,6 +4,7 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
   BUILD_NAME: ${{ secrets.BUILD_NAME }}
+  UNITY_VERSION: ${{ secrets.UNITY_VERSION }}
 
 on:
   workflow_dispatch: {}
@@ -15,18 +16,6 @@ jobs:
   testAndBuild:
     name: ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        projectPath:
-          - ./
-        unityVersion:
-          - 2020.2.1f1
-        targetPlatform:
-          # - StandaloneOSX # Looks like it's busted right now: https://github.com/game-ci/unity-builder/issues/191
-          - StandaloneWindows64
-          - StandaloneLinux64
-          # - WebGL
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,25 +40,42 @@ jobs:
             Library-${{ matrix.projectPath }}-
             Library-
 
+      - uses: actions/cache@v1.1.0
+        with:
+          key: Library
+          path: ./Library
+
       - name: Activate Unity
         uses: webbertakken/unity-activate@v1.3
 
-      # - uses: webbertakken/unity-test-runner@v2.0-alpha-1
-      #   id: testRunner
-      #   with:
-      #     projectPath: ${{ matrix.projectPath }}
-      #     unityVersion: ${{ matrix.unityVersion }}
-
-      # - uses: actions/upload-artifact@v1
-      #   with:
-      #     name: Test results (all modes)
-      #     path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-      - uses: webbertakken/unity-builder@v2.0-alpha-6
+      - name: Build (Windows)
+        uses: webbertakken/unity-builder@v2.0-alpha-6
         with:
-          projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
+          projectPath: ./
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneWindows64
+          buildName: ${{ env.BUILD_NAME }}
+          buildMethod: UnityBuilderAction.Builder.BuildProject
+          versioning: Custom
+          version: ${{ env.RELEASE_VERSION }}
+
+      # - name: Build (MacOS)
+      #   uses: webbertakken/unity-builder@v2.0-alpha-6
+      #   with:
+      #     projectPath: ./
+      #     unityVersion: ${{ env.UNITY_VERSION }}
+      #     targetPlatform: StandaloneOSX
+      #     buildName: ${{ env.BUILD_NAME }}
+      #     buildMethod: UnityBuilderAction.Builder.BuildProject
+      #     versioning: Custom
+      #     version: ${{ env.RELEASE_VERSION }}
+
+      - name: Build (Linux)
+        uses: webbertakken/unity-builder@v2.0-alpha-6
+        with:
+          projectPath: ./
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneLinux64
           buildName: ${{ env.BUILD_NAME }}
           buildMethod: UnityBuilderAction.Builder.BuildProject
           versioning: Custom
@@ -81,7 +87,7 @@ jobs:
           path: build
 
       - name: Deploy (Windows)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
+        if: contains(env.RELEASE_VERSION, '.')
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -91,19 +97,19 @@ jobs:
           PACKAGE: build/StandaloneWindows64
           VERSION: ${{ env.RELEASE_VERSION }}
 
-      - name: Deploy (MacOS)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
-        uses: josephbmanley/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
-          CHANNEL: mac
-          ITCH_USER: ${{ secrets.BUTLER_USER }}
-          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
-          PACKAGE: build/StandaloneOSX
-          VERSION: ${{ env.RELEASE_VERSION }}
+      # - name: Deploy (MacOS)
+      #   if: contains(env.RELEASE_VERSION, '.')
+      #   uses: josephbmanley/butler-publish-itchio-action@master
+      #   env:
+      #     BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
+      #     CHANNEL: mac
+      #     ITCH_USER: ${{ secrets.BUTLER_USER }}
+      #     ITCH_GAME: ${{ secrets.BUTLER_GAME }}
+      #     PACKAGE: build/StandaloneOSX
+      #     VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (Linux)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
+        if: contains(env.RELEASE_VERSION, '.')
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -111,15 +117,4 @@ jobs:
           ITCH_USER: ${{ secrets.BUTLER_USER }}
           ITCH_GAME: ${{ secrets.BUTLER_GAME }}
           PACKAGE: build/StandaloneLinux64
-          VERSION: ${{ env.RELEASE_VERSION }}
-
-      - name: Deploy (WebGL)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
-        uses: josephbmanley/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
-          CHANNEL: webgl
-          ITCH_USER: ${{ secrets.BUTLER_USER }}
-          ITCH_GAME: ${{ secrets.BUTLER_GAME }}
-          PACKAGE: build/WebGL
           VERSION: ${{ env.RELEASE_VERSION }}
