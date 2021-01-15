@@ -11,7 +11,7 @@ namespace Snowball.Game
 		{
 			var json = JsonUtility.ToJson(state, true);
 			File.WriteAllText(_path, json);
-			Debug.Log("Saving game state:" + _path + "\n" + json);
+			Debug.Log("Saving game state: " + _path + "\n" + json);
 		}
 
 		public static bool HasFile()
@@ -22,7 +22,7 @@ namespace Snowball.Game
 		public static GameState LoadFromFile()
 		{
 			var json = File.ReadAllText(_path);
-			Debug.Log("Loading game state:" + _path + "\n" + json);
+			Debug.Log("Loading game state: " + _path + "\n" + json);
 			return JsonUtility.FromJson<GameState>(json);
 		}
 	}

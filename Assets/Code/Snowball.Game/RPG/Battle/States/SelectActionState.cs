@@ -16,7 +16,6 @@ namespace Snowball.Game
 		{
 			base.Enter();
 
-			_ui.ShowTurnOrder();
 			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
 
 			var battleResult = _turnManager.GetBattleResult();
