@@ -64,7 +64,7 @@ jobs:
       #     name: Test results (all modes)
       #     path: ${{ steps.testRunner.outputs.artifactsPath }}
 
-      - name: Free disk spacegit
+      - name: Free disk space
         run: chmod +x ${{ matrix.projectPath }}Scripts/free-disk-space.sh && ${{ matrix.projectPath }}Scripts/free-disk-space.sh
 
       - uses: webbertakken/unity-builder@v2.0-alpha-6

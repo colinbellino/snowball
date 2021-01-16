@@ -172,6 +172,8 @@ MonoBehaviour:
   HighlightTile: {fileID: 11400000, guid: 40f5dbcb8137f05449bdb68921d093f5, type: 2}
   HitEffectPrefab: {fileID: 5222982771606496457, guid: af50ec80a30e24ab9b406f5b354989ba,
     type: 3}
+  SnowfallPrefab: {fileID: 506757390901284398, guid: adaac26583ed1c64f8e08284a0d3b422,
+    type: 3}
   UnitPrefab: {fileID: 40356880270672144, guid: f43b4dbd642334b7fa971aa92e0b62fe,
     type: 3}
   UnitWorldmapPrefab: {fileID: 4184923769416239182, guid: c4e3ff59846c08545a499c413179ec73,

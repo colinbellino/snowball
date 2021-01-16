@@ -1,14 +1,18 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Snowball.Game
 {
 	public class StuffSpawner
 	{
-		public void SpawnEffect(ParticleSystem effectPrefab, Vector3 position)
+		public ParticleSystem SpawnEffect(ParticleSystem effectPrefab)
 		{
-			GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
+			return GameObject.Instantiate(effectPrefab);
+		}
+
+		public ParticleSystem SpawnEffect(ParticleSystem effectPrefab, Vector3 position)
+		{
+			return GameObject.Instantiate(effectPrefab, position, Quaternion.identity);
 		}
 
 		public async UniTask SpawnText(FloatingText textPrefab, string text, Vector3 position)

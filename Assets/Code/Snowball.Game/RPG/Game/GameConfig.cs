@@ -23,6 +23,7 @@ namespace Snowball.Game
 
 		[Title("Effects")]
 		[Required] public ParticleSystem HitEffectPrefab;
+		[Required] public ParticleSystem SnowfallPrefab;
 
 		[Title("Data")]
 		[Required] public UnitFacade UnitPrefab;
