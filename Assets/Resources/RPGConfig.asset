@@ -187,6 +187,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
   - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}
   - {fileID: 11400000, guid: 37695e6998378a747a17ae7661881f62, type: 2}
+  - {fileID: 11400000, guid: 9ec9058127a4bd14ab274fad69e47ebd, type: 2}
+  - {fileID: 11400000, guid: f78bda544abca734d9d9c5b8469f88a9, type: 2}
+  - {fileID: 11400000, guid: c908a455dc6257141b6bd2ed5b7af7b1, type: 2}
   AudioMixer: {fileID: 24100000, guid: c00711887b3714031932c58a1ac16396, type: 2}
   MusicAudioMixerGroup: {fileID: -1804572004088458924, guid: c00711887b3714031932c58a1ac16396,
     type: 2}
@@ -205,4 +208,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
   WorldmapStart: {x: 9, y: 7, z: 0}
-  _snowmanUnit: {fileID: 11400000, guid: ec1e371e29602104094a24bfd34c3df9, type: 2}
+  _snowmanUnit: {fileID: 11400000, guid: 590af672022a790419e5e5b9fa795112, type: 2}

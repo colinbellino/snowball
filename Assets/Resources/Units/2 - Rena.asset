@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: Anri
+  m_Name: 2 - Rena
   m_EditorClassIdentifier: 
-  Id: 1
-  Name: Anri
-  Sprite: {fileID: 4827980482346254395, guid: 2cae62b046bcaae4baa69118ea0e4eca, type: 3}
-  ColorCloth: {r: 0.015686275, g: 0.70980394, b: 0.9921569, a: 1}
-  ColorHair: {r: 0.7019608, g: 0.4901961, b: 0.050980397, a: 1}
-  ColorSkin: {r: 0.8679245, g: 0.73817986, b: 0.6195561, a: 1}
+  Id: 2
+  Name: Rena
+  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
+  ColorCloth: {r: 0.015686275, g: 0.89019614, b: 0.16470589, a: 1}
+  ColorHair: {r: 0.21960786, g: 0.11764707, b: 0.69803923, a: 1}
+  ColorSkin: {r: 0.745283, g: 0.5416506, b: 0.3421739, a: 1}
   Type: 0
   MoveRange: 8
   Health: 2

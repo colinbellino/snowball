@@ -26,10 +26,11 @@ namespace Snowball.Game
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
-			if (name != Name)
+			var fileName = $"{Id} - {Name}";
+			if (name != fileName)
 			{
 				var assetPath = AssetDatabase.GetAssetPath(this.GetInstanceID());
-				AssetDatabase.RenameAsset(assetPath, Name);
+				AssetDatabase.RenameAsset(assetPath, fileName);
 				AssetDatabase.SaveAssets();
 			}
 		}
