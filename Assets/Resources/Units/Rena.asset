@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   Name: Rena
-  Sprite: {fileID: 3827289592664535785, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
+  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
   ColorCloth: {r: 0.015686275, g: 0.89019614, b: 0.16470589, a: 1}
   ColorHair: {r: 0.21960786, g: 0.11764707, b: 0.69803923, a: 1}
   ColorSkin: {r: 0.745283, g: 0.5416506, b: 0.3421739, a: 1}
