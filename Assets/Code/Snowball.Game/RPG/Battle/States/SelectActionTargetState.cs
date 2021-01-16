@@ -23,7 +23,7 @@ namespace Snowball.Game
 			if (_turn.Action == Turn.Actions.Build)
 			{
 				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
-				_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
+				_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
 			}
 			else
 			{

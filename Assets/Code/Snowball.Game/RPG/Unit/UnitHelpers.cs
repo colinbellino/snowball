@@ -21,10 +21,11 @@ namespace Snowball.Game
 			return vector.x > 0 ? Unit.Directions.Right : Unit.Directions.Left;
 		}
 
-		public static void ApplyColors(Material material, Color color, Color color2)
+		public static void ApplyColors(Material material, Color clothColor, Color hairColor, Color skinColor)
 		{
-			material.SetColor("ReplacementColor0", color);
-			material.SetColor("ReplacementColor1", color2);
+			material.SetColor("ReplacementColor1", clothColor);
+			material.SetColor("ReplacementColor2", hairColor);
+			material.SetColor("ReplacementColor3", skinColor);
 		}
 	}
 }

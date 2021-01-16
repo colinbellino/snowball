@@ -18,7 +18,7 @@ namespace Snowball.Game
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange,
 				_turnManager.WalkGrid, _turnManager.SortedUnits);
 
-			_board.HighlightTiles(_validMovePositions, _turn.Unit.Color);
+			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
 			_ui.SetTurnUnit(_turn.Unit);
 
 			return default;

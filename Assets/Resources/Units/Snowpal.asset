@@ -15,8 +15,9 @@ MonoBehaviour:
   Id: 5
   Name: Snowpal
   Sprite: {fileID: 430705962536534389, guid: 4273ef8b92fd1fb419e4eb9cafeade11, type: 3}
-  Color: {r: 0.745283, g: 0.19918919, b: 0, a: 1}
-  Color2: {r: 1, g: 0, b: 1, a: 1}
+  ColorCloth: {r: 0.35686275, g: 0.43137258, b: 0.882353, a: 1}
+  ColorHair: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
+  ColorSkin: {r: 0.9333334, g: 0.76470596, b: 0.6039216, a: 1}
   Type: 1
   MoveRange: 0
   Health: 1

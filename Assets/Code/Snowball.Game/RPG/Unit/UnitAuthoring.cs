@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,8 +12,9 @@ namespace Snowball.Game
 		public int Id;
 		public string Name = "Annyong";
 		public Sprite Sprite;
-		public Color Color = Color.magenta;
-		public Color Color2 = Color.magenta;
+		[FormerlySerializedAs("Color")] public Color ColorCloth = Color.magenta;
+		[FormerlySerializedAs("Color2")] public Color ColorHair = Color.magenta;
+		[FormerlySerializedAs("Color3")] public Color ColorSkin = Color.magenta;
 		public Unit.Types Type;
 		public int MoveRange = 3;
 		public int Health = 1;

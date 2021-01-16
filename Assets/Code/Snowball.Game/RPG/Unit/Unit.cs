@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -13,8 +12,9 @@ namespace Snowball.Game
 		public int Id;
 		public string Name;
 		public Sprite Sprite;
-		public Color Color;
-		public Color Color2;
+		public Color ColorCloth;
+		public Color ColorHair;
+		public Color ColorSkin;
 		public Types Type;
 		public int MoveRange;
 		public int HealthCurrent;
@@ -37,8 +37,9 @@ namespace Snowball.Game
 			Id = authoring.Id;
 			Name = authoring.Name;
 			Sprite = authoring.Sprite;
-			Color = authoring.Color;
-			Color2 = authoring.Color2;
+			ColorCloth = authoring.ColorCloth;
+			ColorHair = authoring.ColorHair;
+			ColorSkin = authoring.ColorSkin;
 			Type = authoring.Type;
 			MoveRange = authoring.MoveRange;
 			HealthCurrent = authoring.Health;
