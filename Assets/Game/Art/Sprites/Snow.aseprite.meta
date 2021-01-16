@@ -80,7 +80,7 @@ ScriptedImporter:
     spriteMode: 2
     spritePixelsPerUnit: 8
     spriteTessellationDetail: 0
-    spriteExtrude: 1
+    spriteExtrude: 0
     spriteMeshType: 1
     spriteAlignment: 0
     spritePivot: {x: 0, y: 0}

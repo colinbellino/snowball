@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -8,6 +9,7 @@ namespace Snowball.Game
 
 		private BattleStateMachine _battleMachine;
 		private TurnManager _turnManager;
+		private ParticleSystem _snowballEffect;
 
 		public BattleState(GameStateMachine machine)
 		{
@@ -18,6 +20,7 @@ namespace Snowball.Game
 		{
 			_turnManager = new TurnManager();
 			_battleMachine = new BattleStateMachine(_turnManager);
+			_snowballEffect = Game.Instance.Spawner.SpawnEffect(Game.Instance.Config.SnowfallPrefab);
 
 			_battleMachine.Start();
 			_battleMachine.BattleEnded += OnBattleEnded;
@@ -26,6 +29,8 @@ namespace Snowball.Game
 		public async UniTask Exit()
 		{
 			_battleMachine.BattleEnded -= OnBattleEnded;
+
+			GameObject.Destroy(_snowballEffect.gameObject);
 		}
 
 		public void Tick()
