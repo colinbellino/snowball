@@ -23,10 +23,9 @@ jobs:
         unityVersion:
           - 2020.2.1f1
         targetPlatform:
-          # - StandaloneOSX # Looks like it's busted right now: https://github.com/game-ci/unity-builder/issues/191
+          - StandaloneOSX
           - StandaloneWindows64
           - StandaloneLinux64
-          # - WebGL
     steps:
       - uses: actions/checkout@v2
         with:
@@ -65,6 +64,9 @@ jobs:
       #     name: Test results (all modes)
       #     path: ${{ steps.testRunner.outputs.artifactsPath }}
 
+      - name: Free disk spacegit
+        run: chmod +x ${{ matrix.projectPath }}Scripts/free-disk-space.sh && ${{ matrix.projectPath }}Scripts/free-disk-space.sh
+
       - uses: webbertakken/unity-builder@v2.0-alpha-6
         with:
           projectPath: ${{ matrix.projectPath }}
@@ -81,7 +83,7 @@ jobs:
           path: build
 
       - name: Deploy (Windows)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneWindows64'
+        if: contains(env.RELEASE_VERSION, '.') && matrix.targetPlatform == 'StandaloneWindows64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -92,7 +94,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (MacOS)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneOSX'
+        if: contains(env.RELEASE_VERSION, '.') && matrix.targetPlatform == 'StandaloneOSX'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -103,7 +105,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (Linux)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'StandaloneLinux64'
+        if: contains(env.RELEASE_VERSION, '.') && matrix.targetPlatform == 'StandaloneLinux64'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
@@ -114,7 +116,7 @@ jobs:
           VERSION: ${{ env.RELEASE_VERSION }}
 
       - name: Deploy (WebGL)
-        if: contains(env.RELEASE_VERSION, '.') && env.BUTLER_CREDENTIALS != '' && matrix.targetPlatform == 'WebGL'
+        if: contains(env.RELEASE_VERSION, '.') && matrix.targetPlatform == 'WebGL'
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ env.BUTLER_CREDENTIALS }}
