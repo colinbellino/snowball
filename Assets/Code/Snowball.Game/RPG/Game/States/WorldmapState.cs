@@ -11,6 +11,7 @@ namespace Snowball.Game
 		private readonly Worldmap _worldmap;
 		private readonly GameConfig _config;
 		private readonly GameState _state;
+		private ParticleSystem _snowballEffect;
 
 		public WorldmapState(GameStateMachine machine, Worldmap worldmap, GameConfig config, GameState state)
 		{
@@ -22,6 +23,8 @@ namespace Snowball.Game
 
 		public async UniTask Enter()
 		{
+			_snowballEffect = Game.Instance.Spawner.SpawnEffect(Game.Instance.Config.SnowfallPrefab);
+
 			SaveHelpers.SaveToFile(Game.Instance.State);
 
 			_worldmap.Show();
@@ -38,6 +41,8 @@ namespace Snowball.Game
 
 			_worldmap.EncounterClicked -= OnEncounterClicked;
 			_worldmap.Hide();
+
+			GameObject.Destroy(_snowballEffect.gameObject);
 		}
 
 		public void Tick()

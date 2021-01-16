@@ -52,7 +52,7 @@ namespace Snowball.Game
 				{
 					var encounter = encounters[encounterIndex];
 					encounterPoint.name = encounter.Name;
-					encounterPoint.SetCleared(state.EncountersDone.Contains(encounter.Id));
+					encounterPoint.SetCleared(encounter, state.EncountersDone.Contains(encounter.Id));
 				}
 			}
 		}
