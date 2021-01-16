@@ -1,0 +1,756 @@
+fileFormatVersion: 2
+guid: 7d0f4ab0ecc55bb4b9f61b67b81b9d22
+ScriptedImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2610555894223056053
+    second: Worldmap2_0
+  - first:
+      213: 6426172057797693106
+    second: Worldmap2_1
+  - first:
+      213: -449768686831993973
+    second: Worldmap2_2
+  - first:
+      213: -7568868330700792316
+    second: Worldmap2_3
+  - first:
+      213: -4625628248543865771
+    second: Worldmap2_4
+  - first:
+      213: 8520950212428290933
+    second: Worldmap2_5
+  - first:
+      213: 288015682310783218
+    second: Worldmap2_6
+  - first:
+      213: 8939601693732466048
+    second: Worldmap2_7
+  - first:
+      213: -2925574048200024335
+    second: Worldmap2_8
+  - first:
+      213: -1924501232039061220
+    second: Worldmap2_9
+  - first:
+      213: 8271640349889875991
+    second: Worldmap2_10
+  - first:
+      213: -1698493131473987553
+    second: Worldmap2_11
+  - first:
+      213: 72309798543964101
+    second: Worldmap2_12
+  - first:
+      213: -5334818541621118165
+    second: Worldmap2_13
+  - first:
+      213: -7789791523022039226
+    second: Worldmap2_14
+  - first:
+      213: -6133951809479600165
+    second: Worldmap2_15
+  - first:
+      213: -2659426265240469029
+    second: Worldmap2_16
+  - first:
+      213: -7597403656426979036
+    second: Worldmap2_17
+  - first:
+      213: 7102472577155048930
+    second: Worldmap2_18
+  - first:
+      213: -3876913112068558545
+    second: Worldmap2_19
+  - first:
+      213: 2610555894223056053
+    second: Worldmap2_0
+  - first:
+      213: 6426172057797693106
+    second: Worldmap2_1
+  - first:
+      213: -449768686831993973
+    second: Worldmap2_2
+  - first:
+      213: -7568868330700792316
+    second: Worldmap2_3
+  - first:
+      213: -4625628248543865771
+    second: Worldmap2_4
+  - first:
+      213: 8520950212428290933
+    second: Worldmap2_5
+  - first:
+      213: 288015682310783218
+    second: Worldmap2_6
+  - first:
+      213: 8939601693732466048
+    second: Worldmap2_7
+  - first:
+      213: -2925574048200024335
+    second: Worldmap2_8
+  - first:
+      213: -1924501232039061220
+    second: Worldmap2_9
+  - first:
+      213: 8271640349889875991
+    second: Worldmap2_10
+  - first:
+      213: -1698493131473987553
+    second: Worldmap2_11
+  - first:
+      213: 72309798543964101
+    second: Worldmap2_12
+  - first:
+      213: -5334818541621118165
+    second: Worldmap2_13
+  - first:
+      213: -7789791523022039226
+    second: Worldmap2_14
+  - first:
+      213: -6133951809479600165
+    second: Worldmap2_15
+  - first:
+      213: -2659426265240469029
+    second: Worldmap2_16
+  - first:
+      213: -7597403656426979036
+    second: Worldmap2_17
+  - first:
+      213: 7102472577155048930
+    second: Worldmap2_18
+  - first:
+      213: -3876913112068558545
+    second: Worldmap2_19
+  - first:
+      213: -1469136226710915410
+    second: Worldmap2_20
+  - first:
+      213: 6924789603945690197
+    second: Worldmap2_21
+  - first:
+      213: -1919441755968753088
+    second: Worldmap2_22
+  - first:
+      213: 6934372280085602032
+    second: Worldmap2_23
+  - first:
+      213: -6590476874679888762
+    second: Worldmap2_24
+  - first:
+      213: 1211742449395432042
+    second: Worldmap2_25
+  - first:
+      213: 6198314839444049057
+    second: Worldmap2_26
+  - first:
+      213: 2455051467448928307
+    second: Worldmap2_27
+  - first:
+      213: -754174888099233828
+    second: Worldmap2_28
+  - first:
+      213: -5222158816558514929
+    second: Worldmap2_29
+  - first:
+      213: 984251369215944215
+    second: Worldmap2_30
+  - first:
+      213: -1684936530279065748
+    second: Worldmap2_31
+  - first:
+      213: 1819523466648317236
+    second: Worldmap2_32
+  - first:
+      213: 2610555894223056053
+    second: Worldmap2_0
+  - first:
+      213: 6426172057797693106
+    second: Worldmap2_1
+  - first:
+      213: -449768686831993973
+    second: Worldmap2_2
+  - first:
+      213: -7568868330700792316
+    second: Worldmap2_3
+  - first:
+      213: -4625628248543865771
+    second: Worldmap2_4
+  - first:
+      213: 8520950212428290933
+    second: Worldmap2_5
+  - first:
+      213: 288015682310783218
+    second: Worldmap2_6
+  - first:
+      213: 8939601693732466048
+    second: Worldmap2_7
+  - first:
+      213: -2925574048200024335
+    second: Worldmap2_8
+  - first:
+      213: -1924501232039061220
+    second: Worldmap2_9
+  - first:
+      213: 8271640349889875991
+    second: Worldmap2_10
+  - first:
+      213: -1698493131473987553
+    second: Worldmap2_11
+  - first:
+      213: 72309798543964101
+    second: Worldmap2_12
+  - first:
+      213: -5334818541621118165
+    second: Worldmap2_13
+  - first:
+      213: -7789791523022039226
+    second: Worldmap2_14
+  - first:
+      213: -6133951809479600165
+    second: Worldmap2_15
+  - first:
+      213: -2659426265240469029
+    second: Worldmap2_16
+  - first:
+      213: -7597403656426979036
+    second: Worldmap2_17
+  - first:
+      213: 7102472577155048930
+    second: Worldmap2_18
+  - first:
+      213: -3876913112068558545
+    second: Worldmap2_19
+  - first:
+      213: -1469136226710915410
+    second: Worldmap2_20
+  - first:
+      213: 6924789603945690197
+    second: Worldmap2_21
+  - first:
+      213: -1919441755968753088
+    second: Worldmap2_22
+  - first:
+      213: 6934372280085602032
+    second: Worldmap2_23
+  - first:
+      213: -6590476874679888762
+    second: Worldmap2_24
+  - first:
+      213: 1211742449395432042
+    second: Worldmap2_25
+  - first:
+      213: 6198314839444049057
+    second: Worldmap2_26
+  - first:
+      213: 2455051467448928307
+    second: Worldmap2_27
+  - first:
+      213: -754174888099233828
+    second: Worldmap2_28
+  - first:
+      213: -5222158816558514929
+    second: Worldmap2_29
+  - first:
+      213: 984251369215944215
+    second: Worldmap2_30
+  - first:
+      213: -1684936530279065748
+    second: Worldmap2_31
+  - first:
+      213: 1819523466648317236
+    second: Worldmap2_32
+  - first:
+      213: 8707278544108514387
+    second: Worldmap2_33
+  - first:
+      213: -2219407613550622840
+    second: Worldmap2_34
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: d1956ce1ff810451f9738b29e9df561a, type: 3}
+  settings:
+    importType: 0
+    transparencyMode: 0
+    transparentColor: {r: 1, g: 0, b: 1, a: 1}
+    pixelsPerUnit: 16
+    spriteAlignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    generateAnimations: 1
+    createAnimationAssets: 0
+    bindType: 0
+    animType: 0
+    baseAnimator: {instanceID: 0}
+    buildAtlas: 0
+    tileSize: {x: 16, y: 16}
+    tileNameType: 0
+    tileEmpty: 0
+  textureImporterSettings:
+    seamlessCubemap: 0
+    mipmapBias: 0.5
+    wrapMode: 1
+    wrapModeU: 0
+    wrapModeV: 0
+    wrapModeW: 0
+    alphaIsTransparency: 1
+    spriteMode: 2
+    spritePixelsPerUnit: 8
+    spriteTessellationDetail: 0
+    spriteExtrude: 1
+    spriteMeshType: 1
+    spriteAlignment: 0
+    spritePivot: {x: 0, y: 0}
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 1
+    aniso: 1
+    filterMode: 0
+    cubemapConvolution: 0
+    textureType: 8
+    textureShape: 1
+    mipmapFilter: 0
+    mipmapEnabled: 0
+    sRGBTexture: 1
+    fadeOut: 0
+    borderMipmap: 0
+    mipMapsPreserveCoverage: 0
+    mipmapFadeDistanceStart: 1
+    alphaTestReferenceValue: 1
+    convertToNormalMap: 0
+    heightmapScale: 0
+    normalMapFilter: 0
+    alphaSource: 1
+    singleChannelComponent: 0
+    readable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    npotScale: 0
+    generateCubemap: 0
+    mipmapFadeDistanceEnd: 3
+  animationSettings: []
+  texture: {instanceID: 0}
+  spriteImportData:
+  - name: Worldmap2_0
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 5bca77521ce8a3420800000000000000
+  - name: Worldmap2_1
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 2be829270795e2950800000000000000
+  - name: Worldmap2_2
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: b8bf84623c912c9f0800000000000000
+  - name: Worldmap2_3
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 40e10e4da5af5f690800000000000000
+  - name: Worldmap2_4
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 554d7869d977ecfb0800000000000000
+  - name: Worldmap2_5
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 57bd390821f704670800000000000000
+  - name: Worldmap2_6
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 32
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 2f040e1bcbc3ff300800000000000000
+  - name: Worldmap2_7
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 08d676c5068df0c70800000000000000
+  - name: Worldmap2_8
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 1fe9fec47e54667d0800000000000000
+  - name: Worldmap2_9
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: c19928e635cca45e0800000000000000
+  - name: Worldmap2_10
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 71059fcb215cac270800000000000000
+  - name: Worldmap2_11
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: f185d05fe7dbd68e0800000000000000
+  - name: Worldmap2_12
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 5c73effe065e00100800000000000000
+  - name: Worldmap2_13
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: b2b718d2dcae6f5b0800000000000000
+  - name: Worldmap2_14
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 6471ce3c1e915e390800000000000000
+  - name: Worldmap2_15
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: bd79a9e0453dfdaa0800000000000000
+  - name: Worldmap2_16
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: bd18ff9e6e1d71bd0800000000000000
+  - name: Worldmap2_17
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 4218a6390a9909690800000000000000
+  - name: Worldmap2_18
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 2e5a74cad2d019260800000000000000
+  - name: Worldmap2_19
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: f21791ab010723ac0800000000000000
+  - name: Worldmap2_20
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: ea6fc38b2649c9be0800000000000000
+  - name: Worldmap2_21
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 5543087a47bc91060800000000000000
+  - name: Worldmap2_22
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 0423e6084e5cc55e0800000000000000
+  - name: Worldmap2_23
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 0fe51de49d6db3060800000000000000
+  - name: Worldmap2_24
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 6845748433ce984a0800000000000000
+  - name: Worldmap2_25
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: a6af97f6659f0d010800000000000000
+  - name: Worldmap2_26
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 1ac4813a186d40650800000000000000
+  - name: Worldmap2_27
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 338489e5d48121220800000000000000
+  - name: Worldmap2_28
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: cdf33506fe1a885f0800000000000000
+  - name: Worldmap2_29
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: f0dfa5a793a2787b0800000000000000
+  - name: Worldmap2_30
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 716eecfc763c8ad00800000000000000
+  - name: Worldmap2_31
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: c6713a32727ed98e0800000000000000
+  - name: Worldmap2_32
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 43d6f02e3fe304910800000000000000
+  - name: Worldmap2_33
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 35ce7f5e3b776d870800000000000000
+  - name: Worldmap2_34
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 887848ec8841331e0800000000000000
+  spriteRects: []
+  selectedImporter: 1

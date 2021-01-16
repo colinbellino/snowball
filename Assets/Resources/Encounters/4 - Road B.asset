@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9bd395213f44c279293f051d7143c19, type: 3}
-  m_Name: Encounter2
+  m_Name: 4 - Road B
   m_EditorClassIdentifier: 
-  Id: 2
-  Name: Encounter2
-  Area: {fileID: 11400000, guid: 281dd3fd1e724ad47820e74bd3dcf3b6, type: 2}
+  Id: 4
+  Name: Road B
+  Area: {fileID: 11400000, guid: 9fa7dec324aaf3841ba4dec8ae90c91f, type: 2}
   Foes:
-  - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
