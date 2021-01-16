@@ -17,7 +17,9 @@ namespace Snowball.Game
 		public void Initialize(Unit unit)
 		{
 			SetName(unit.Name);
-			UnitHelpers.ApplyColors(_bodyRenderer.material, unit.Color, unit.Color2);
+			UnitHelpers.ApplyColors(_bodyRenderer.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			UnitHelpers.ApplyColors(_leftHandRenderer.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			UnitHelpers.ApplyColors(_rightHandRenderer.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
 
 			transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
 			_bodyRenderer.sprite = unit.Sprite;

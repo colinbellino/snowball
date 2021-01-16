@@ -15,8 +15,9 @@ MonoBehaviour:
   Id: 3
   Name: Gaius
   Sprite: {fileID: 3827289592664535785, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
-  Color: {r: 0.5188679, g: 0.11507414, b: 0, a: 1}
-  Color2: {r: 0.6509434, g: 0.6059096, b: 0.61223865, a: 1}
+  ColorCloth: {r: 0.6039216, g: 0.13333334, b: 0.015686275, a: 1}
+  ColorHair: {r: 0.6313726, g: 0.59607846, b: 0.6039216, a: 1}
+  ColorSkin: {r: 0.9622642, g: 0.8367039, b: 0.71413314, a: 1}
   Type: 0
   MoveRange: 8
   Health: 1

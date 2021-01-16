@@ -173,7 +173,7 @@ namespace Snowball.Game
 				image.sprite = unit.Sprite;
 				// Normally this is done by unity when we call SetColor but not for UnityEngine.UI.Image
 				var materialInstance = Instantiate(image.material);
-				UnitHelpers.ApplyColors(materialInstance, unit.Color, unit.Color2);
+				UnitHelpers.ApplyColors(materialInstance, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
 				image.material = materialInstance;
 
 				image.gameObject.SetActive(true);
