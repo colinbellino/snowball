@@ -15,8 +15,12 @@ namespace Snowball.Game
 		{
 			base.Enter();
 
-			_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.MoveRange,
-				_turnManager.WalkGrid, _turnManager.SortedUnits);
+			_validMovePositions = GridHelpers.GetWalkableTilesInRange(
+				_turn.Unit.GridPosition,
+				_turn.Unit.MoveRange,
+				_turnManager.WalkGrid,
+				_turnManager.GetActiveUnits()
+			);
 
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
 			_ui.SetTurnUnit(_turn.Unit);
@@ -43,9 +47,13 @@ namespace Snowball.Game
 			);
 
 			if (_cursorPosition != _turn.Unit.GridPosition && _validMovePositions.Contains(_cursorPosition))
+			{
 				_ui.HighlightMovePath(_path);
+			}
 			else
+			{
 				_ui.ClearMovePath();
+			}
 		}
 
 		protected override void OnConfirm()
@@ -58,7 +66,7 @@ namespace Snowball.Game
 			}
 
 			_audio.PlaySoundEffect(_config.MenuConfirmClip);
-			_turn.MovePath = _path;
+			_turn.Plan.MoveDestination = _cursorPosition;
 			_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 		}
 

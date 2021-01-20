@@ -16,7 +16,7 @@ namespace Snowball.Game
 			_machine = machine;
 		}
 
-		public async UniTask Enter()
+		public UniTask Enter()
 		{
 			_turnManager = new TurnManager();
 			_battleMachine = new BattleStateMachine(_turnManager);
@@ -24,13 +24,17 @@ namespace Snowball.Game
 
 			_battleMachine.Start();
 			_battleMachine.BattleEnded += OnBattleEnded;
+
+			return default;
 		}
 
-		public async UniTask Exit()
+		public UniTask Exit()
 		{
 			_battleMachine.BattleEnded -= OnBattleEnded;
 
 			GameObject.Destroy(_snowballEffect.gameObject);
+
+			return default;
 		}
 
 		public void Tick()

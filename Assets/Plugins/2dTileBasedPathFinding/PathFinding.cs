@@ -8,6 +8,7 @@
  * Since: 2016.
 */
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace NesScripts.Controls.PathFind
@@ -121,6 +122,39 @@ namespace NesScripts.Controls.PathFind
 			}
 
 			return null;
+		}
+
+		public static List<Node> GetTilesInRange(Node startNode, int maxDistance, Grid grid, DistanceType distanceType = DistanceType.Manhattan, bool ignorePrices = false)
+		{
+			var nodesInRange = new List<Node>();
+			var nodesToCheck = new HashSet<Node>();
+			nodesInRange.Add(startNode);
+
+			while (nodesInRange.Count > 0)
+			{
+				var currentNode = nodesInRange[0];
+
+				nodesInRange.Remove(currentNode);
+				nodesToCheck.Add(currentNode);
+
+				var neighbours = grid.GetNeighbours(currentNode, distanceType);
+				foreach (var neighbour in neighbours)
+				{
+					if (!neighbour.walkable || nodesToCheck.Contains(neighbour))
+					{
+						continue;
+					}
+
+					var distance = GetDistance(startNode, neighbour);
+					if (distance <= maxDistance * 10)
+					{
+						nodesToCheck.Add(neighbour);
+						nodesInRange.Add(neighbour);
+					}
+				}
+			}
+
+			return nodesToCheck.ToList();
 		}
 
 		/// <summary>

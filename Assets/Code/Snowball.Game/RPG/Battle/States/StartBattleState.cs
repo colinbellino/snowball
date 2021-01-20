@@ -10,7 +10,7 @@ namespace Snowball.Game
 
 		public override async UniTask Enter()
 		{
-			base.Enter();
+			await base.Enter();
 
 			var encounter = _database.Encounters[_state.CurrentEncounter];
 

@@ -1,15 +1,32 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NesScripts.Controls.PathFind;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Grid = NesScripts.Controls.PathFind.Grid;
 
 namespace Snowball.Game
 {
 	public static class GridHelpers
 	{
+		public static Grid GetEmptyGrid(Area area, TilesData tilesData)
+		{
+			var data = new bool[area.Size.x, area.Size.y];
+			for (var x = 0; x < area.Size.x; x++)
+			{
+				for (var y = 0; y < area.Size.y; y++)
+				{
+					var index = x + y * area.Size.x;
+					var tileId = area.Tiles[index];
+					var tileData = tilesData[tileId];
+
+					data[x, y] = tileData.Blocking == false;
+				}
+			}
+
+			return new Grid(data);
+		}
+
 		public static Grid GetWalkGrid(Area area, TilesData tilesData)
 		{
 			var data = new bool[area.Size.x, area.Size.y];
@@ -33,6 +50,7 @@ namespace Snowball.Game
 						continue;
 					}
 
+					// Check if the tile below is walkable (ground)
 					if (y > 0)
 					{
 						var belowIndex = x + (y - 1) * area.Size.x;
@@ -84,25 +102,23 @@ namespace Snowball.Game
 			return position;
 		}
 
-		public static List<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid, List<Unit> allUnits)
+		public static List<Vector3Int> GetTilesInRange(Vector3Int start, int maxDistance, Grid grid)
 		{
 			var startNode = grid.nodes[start.x, start.y];
 			return GetNodesInRange(startNode, maxDistance, grid)
-				.Where(node => node.walkable && GetUnitInNode(node, allUnits) == null)
 				.Select(node => (Vector3Int) node)
 				.ToList();
 		}
 
-		public static List<Vector3Int> GetAllTiles(Grid grid)
+		public static List<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid, List<Unit> allUnits)
 		{
-			var tiles = new Vector3Int[grid.nodes.Length];
-			foreach (var node in grid.nodes)
-			{
-				var index = node.gridX + node.gridY * grid.nodes.GetLength(0);
-				tiles[index] = (Vector3Int) node;
-			}
+			var startNode = grid.nodes[start.x, start.y];
+			var nodes = GetNodesInRange(startNode, maxDistance, grid, Pathfinding.DistanceType.Euclidean);
 
-			return tiles.ToList();
+			return nodes
+				.Where(node => GetUnitInNode(node, allUnits) == null)
+				.Select(node => (Vector3Int) node)
+				.ToList();
 		}
 
 		private static Unit GetUnitInNode(Node node, List<Unit> allUnits)
@@ -110,16 +126,9 @@ namespace Snowball.Game
 			return allUnits.Find(unit => unit.GridPosition.x == node.gridX && unit.GridPosition.y == node.gridY);
 		}
 
-		private static IEnumerable<Node> GetNodesInRange(Node startNode, int maxDistance, Grid grid)
+		private static IEnumerable<Node> GetNodesInRange(Node startNode, int maxDistance, Grid grid, Pathfinding.DistanceType distanceType = Pathfinding.DistanceType.Manhattan)
 		{
-			foreach (var node in grid.nodes)
-			{
-				var path = Pathfinding.FindPath(grid, startNode, node);
-				if (path.Count > 0 && path.Count <= maxDistance)
-				{
-					yield return node;
-				}
-			}
+			return Pathfinding.GetTilesInRange(startNode, maxDistance, grid, distanceType);
 		}
 
 		public static int CalculateHitAccuracy(Vector3 origin, Vector3 destination, Grid blockGrid, Unit attacker, List<Unit> allUnits)
@@ -159,86 +168,10 @@ namespace Snowball.Game
 
 			if (direction.magnitude > attacker.HitRange)
 			{
-				hitChance -= 25;
+				hitChance = 0;
 			}
 
 			return Math.Max(0, hitChance);
-		}
-	}
-
-	public static class TilemapHelpers
-	{
-		public static void RenderArea(Area area, Tilemap tilemap, TilesData tilesData, bool useEditorTile = false)
-		{
-			for (var x = 0; x < area.Size.x; x++)
-			{
-				for (var y = 0; y < area.Size.y; y++)
-				{
-					var index = x + y * area.Size.x;
-					var position = new Vector3Int(x, y, 0);
-					var tileId = area.Tiles[index];
-
-					tilemap.SetTile(position, useEditorTile ? tilesData[tileId].TileEditor : tilesData[tileId].Tile);
-				}
-			}
-		}
-
-		public static void RenderMeta(Area area, Tilemap tilemap)
-		{
-			foreach (var position in area.AllySpawnPoints)
-			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.AllySpawnTile);
-			}
-			foreach (var position in area.FoeSpawnPoints)
-			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.FoeSpawnTile);
-			}
-		}
-
-		public static void RenderGridWalk(Grid grid, Tilemap tilemap, TileBase tile)
-		{
-			foreach (var node in grid.nodes)
-			{
-				var position = new Vector3Int(node.gridX, node.gridY, 0);
-				var color = Color.clear;
-				switch (node.price)
-				{
-					case 0.5f:
-						color = Color.green; break;
-					case 1f:
-						color = Color.blue; break;
-				}
-
-				tilemap.SetTile(position, tile);
-				tilemap.SetColor(position, color);
-			}
-		}
-
-		public static void RenderBlockWalk(Grid grid, Tilemap tilemap, TileBase tile)
-		{
-			foreach (var node in grid.nodes)
-			{
-				var position = new Vector3Int(node.gridX, node.gridY, 0);
-				tilemap.SetTile(position, tile);
-				if (node.walkable)
-				{
-					tilemap.SetColor(position, Color.red);
-				}
-			}
-		}
-
-		public static void SetTiles(IEnumerable<Vector3Int> positions, Tilemap tilemap, TileBase tile, Color color)
-		{
-			foreach (var position in positions)
-			{
-				tilemap.SetTile(position, tile);
-				tilemap.SetColor(position, color);
-			}
-		}
-
-		public static void ClearTilemap(Tilemap tilemap)
-		{
-			tilemap.ClearAllTiles();
 		}
 	}
 }

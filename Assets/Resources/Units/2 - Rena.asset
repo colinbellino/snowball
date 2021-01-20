@@ -19,9 +19,9 @@ MonoBehaviour:
   ColorHair: {r: 0.21960786, g: 0.11764707, b: 0.69803923, a: 1}
   ColorSkin: {r: 0.745283, g: 0.5416506, b: 0.3421739, a: 1}
   Type: 0
-  MoveRange: 8
-  Health: 2
+  MoveRange: 10
+  Health: 3
   Speed: 5
   HitAccuracy: 100
   HitRange: 10
-  HitDamage: 1
+  HitDamage: 2

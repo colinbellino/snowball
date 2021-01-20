@@ -10,10 +10,15 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			await _turn.Unit.Facade.MoveOnPath(_turn.MovePath);
+			var path = GridHelpers.CalculatePathWithFall(
+				_turn.Unit.GridPosition, _turn.Plan.MoveDestination.Value,
+				_turnManager.WalkGrid
+			);
+
+			await _turn.Unit.Facade.MoveOnPath(path);
 			await _turn.Unit.Facade.AnimateChangeDirection(_turn.Unit.Direction);
 
-			_turn.Unit.GridPosition = _turn.MovePath[_turn.MovePath.Count - 1];
+			_turn.Unit.GridPosition = _turn.Plan.MoveDestination.Value;
 			_turn.HasMoved = true;
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
