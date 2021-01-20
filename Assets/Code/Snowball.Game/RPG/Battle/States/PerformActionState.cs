@@ -18,15 +18,15 @@ namespace Snowball.Game
 
 			_ui.SetTurnUnit(_turn.Unit);
 
-			switch (_turn.Action)
+			switch (_turn.Plan.Action)
 			{
-				case Turn.Actions.Attack:
+				case TurnActions.Attack:
 					await PerformAttack();
 					break;
-				case Turn.Actions.Build:
+				case TurnActions.Build:
 					await PerformBuild();
 					break;
-				case Turn.Actions.Melt:
+				case TurnActions.Melt:
 					await PerformMelt();
 					break;
 				default:
@@ -50,7 +50,7 @@ namespace Snowball.Game
 		private async UniTask PerformAttack()
 		{
 			var units = _turnManager.GetActiveUnits();
-			var targets = _turn.ActionTargets
+			var targets = _turn.Plan.ActionTargets
 				.Select(position => units.Find(unit => unit.GridPosition == position))
 				.Where(unit => unit != null)
 				.ToList();
@@ -60,7 +60,7 @@ namespace Snowball.Game
 				Targets = targets,
 			};
 
-			var aimDirection = ((Vector3)(_turn.ActionDestination.Value - _turn.Unit.GridPosition)).normalized;
+			var aimDirection = ((Vector3)(_turn.Plan.ActionDestination.Value - _turn.Unit.GridPosition)).normalized;
 			var direction = UnitHelpers.VectorToDirection(aimDirection);
 			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
@@ -71,7 +71,7 @@ namespace Snowball.Game
 			}
 			await _turn.Unit.Facade.AnimateAttack(aimDirection);
 
-			await ShootProjectile(result.Attacker.GridPosition, _turn.ActionDestination.Value);
+			await ShootProjectile(result.Attacker.GridPosition, _turn.Plan.ActionDestination.Value);
 
 			var hitTasks = new List<UniTask>();
 			foreach (var target in result.Targets)
@@ -103,7 +103,7 @@ namespace Snowball.Game
 
 		private async UniTask PerformBuild()
 		{
-			var direction = UnitHelpers.VectorToDirection(_turn.ActionDestination.Value - _turn.Unit.GridPosition);
+			var direction = UnitHelpers.VectorToDirection(_turn.Plan.ActionDestination.Value - _turn.Unit.GridPosition);
 			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
 			if (needsToChangeDirection)
@@ -117,7 +117,7 @@ namespace Snowball.Game
 			var facade = UnitHelpers.SpawnUnitFacade(
 				_config.UnitPrefab,
 				newUnit,
-				_turn.ActionDestination.Value,
+				_turn.Plan.ActionDestination.Value,
 				Unit.Drivers.Computer,
 				Unit.Alliances.Ally,
 				direction

@@ -14,7 +14,7 @@ namespace Snowball.Game
 
 		public override async UniTask Enter()
 		{
-			base.Enter();
+			await base.Enter();
 
 			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
 
@@ -51,22 +51,7 @@ namespace Snowball.Game
 			else
 			{
 				PlanComputerTurn();
-
-				if (_turn.MovePath?.Count > 0)
-				{
-					_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
-				}
-				else if (_turn.Action != Turn.Actions.None)
-				{
-					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
-				}
-				else
-				{
-					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
-				}
 			}
-
-			return;
 		}
 
 		public override UniTask Exit()
@@ -105,12 +90,12 @@ namespace Snowball.Game
 					return;
 				case BattleActions.Attack:
 					if (_turn.HasActed) { return; }
-					_turn.Action = Turn.Actions.Attack;
+					_turn.Plan.Action = TurnActions.Attack;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleActions.Build:
 					if (_turn.HasActed) { return; }
-					_turn.Action = Turn.Actions.Build;
+					_turn.Plan.Action = TurnActions.Build;
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleActions.Wait:
@@ -128,20 +113,65 @@ namespace Snowball.Game
 			{
 				_turn.HasMoved = true;
 				_turn.HasActed = true;
-				_turn.Action = Turn.Actions.Melt;
-				return;
+				_turn.Plan.Action = TurnActions.Melt;
+			}
+			else
+			{
+				var foes = _turnManager.GetActiveUnits()
+					.Where(unit => unit.Alliance != _turn.Unit.Alliance && unit.Type == Unit.Types.Humanoid)
+					.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
+					.ToList();
+				var closestTarget = foes[0];
+
+				_turn.Plan.Action = TurnActions.Attack;
+				_turn.Plan.ActionTargets = new List<Vector3Int> { closestTarget.GridPosition };
+				_turn.Plan.ActionDestination = closestTarget.GridPosition;
+				_turn.HasMoved = true;
 			}
 
-			var foes = _turnManager.GetActiveUnits()
-				.Where(unit => unit.Alliance != _turn.Unit.Alliance && unit.Type == Unit.Types.Humanoid)
-				.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
-				.ToList();
-			var closestTarget = foes[0];
-
-			_turn.Action = Turn.Actions.Attack;
-			_turn.ActionTargets = new List<Vector3Int> { closestTarget.GridPosition };
-			_turn.ActionDestination = closestTarget.GridPosition;
-			_turn.HasMoved = true;
+			if (_turn.Plan.MoveDestination != null)
+			{
+				_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
+			}
+			else if (_turn.Plan.Action != TurnActions.None)
+			{
+				_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+			}
+			else
+			{
+				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+			}
 		}
+
+		// private void PlanDirectionDependent (PlanOfAttack poa)
+		// {
+		// 	Tile startTile = actor.tile;
+		// 	Directions startDirection = actor.dir;
+		// 	var list = new List<AttackOption>();
+		// 	List<Tile> moveOptions = GetMoveOptions();
+		//
+		// 	// Loop on the move options (movement range)
+		// 	for (int i = 0; i < moveOptions.Count; ++i) {
+		// 		Tile moveTile = moveOptions[i];
+		// 		actor.Place(moveTile);
+		//
+		// 		// Loop on the directions.
+		// 		for (int j = 0; j < 4; ++j) {
+		// 			actor.dir = (Directions)j;
+		// 			var actionOption = new AttackOption();
+		// 			actionOption.target = moveTile;
+		// 			actionOption.direction = actor.dir;
+		// 			RateFireLocation(poa, actionOption);
+		// 			actionOption.AddMoveTarget(moveTile);
+		// 			list.Add(actionOption);
+		// 		}
+		// 	}
+		//
+		// 	// Place the actor back to the initial tile. If we didn't do this, the
+		// 	// AI would be out of sync with the visuals.
+		// 	actor.Place(startTile);
+		// 	actor.dir = startDirection;
+		// 	PickBestOption(poa, list);
+		// }
 	}
 }

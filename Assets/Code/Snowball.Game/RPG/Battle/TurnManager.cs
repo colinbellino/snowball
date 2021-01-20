@@ -20,6 +20,7 @@ namespace Snowball.Game
 		private int _turnNumber;
 
 		public Turn Turn => _turns?.Current;
+		public Grid EmptyGrid { get; private set; }
 		public Grid WalkGrid { get; private set; }
 		public Grid BlockGrid { get; private set; }
 		public List<Unit> SortedUnits { get; private set; }
@@ -30,6 +31,7 @@ namespace Snowball.Game
 			_units = units;
 			_turns = StartTurn();
 			SortedUnits = new List<Unit>(_units);
+			EmptyGrid = GridHelpers.GetEmptyGrid(area, tilesData);
 			WalkGrid = GridHelpers.GetWalkGrid(area, tilesData);
 			BlockGrid = GridHelpers.GetBlockGrid(area, tilesData);
 		}

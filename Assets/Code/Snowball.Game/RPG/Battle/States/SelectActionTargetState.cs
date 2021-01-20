@@ -16,19 +16,12 @@ namespace Snowball.Game
 
 			if (_turn.Unit.Driver == Unit.Drivers.Computer)
 			{
-				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+				ComputerTurn();
 				return;
 			}
 
-			if (_turn.Action == Turn.Actions.Build)
-			{
-				_validMovePositions = GridHelpers.GetWalkableTilesInRange(_turn.Unit.GridPosition, _turn.Unit.BuildRange, _turnManager.WalkGrid, _turnManager.SortedUnits);
-				_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
-			}
-			else
-			{
-				_validMovePositions = GridHelpers.GetAllTiles(_turnManager.WalkGrid);
-			}
+			_validMovePositions = GetTilesInRange();
+			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
 
 			_ui.SetTurnUnit(_turn.Unit);
 		}
@@ -46,21 +39,7 @@ namespace Snowball.Game
 
 		protected override void OnCursorMove()
 		{
-			if (_turn.Action == Turn.Actions.Build)
-			{
-				_ui.HighlightBuildTarget(_cursorPosition);
-			}
-			else
-			{
-				var hitChance = GridHelpers.CalculateHitAccuracy(
-					_turn.Unit.GridPosition,
-					_cursorPosition,
-					_turnManager.BlockGrid,
-					_turn.Unit,
-					_turnManager.SortedUnits
-				);
-				_ui.HighlightAttackTarget(_turn.Unit.GridPosition, _cursorPosition, hitChance);
-			}
+			MoveTargetCursor(_cursorPosition);
 		}
 
 		protected override void OnConfirm()
@@ -73,8 +52,8 @@ namespace Snowball.Game
 			}
 
 			_audio.PlaySoundEffect(_config.MenuConfirmClip);
-			_turn.ActionTargets = new List<Vector3Int> {_cursorPosition};
-			_turn.ActionDestination = _cursorPosition;
+			_turn.Plan.ActionTargets = new List<Vector3Int> {_cursorPosition};
+			_turn.Plan.ActionDestination = _cursorPosition;
 
 			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
 		}
@@ -84,6 +63,47 @@ namespace Snowball.Game
 			_audio.PlaySoundEffect(_config.MenuCancelClip);
 
 			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
+		}
+
+		private List<Vector3Int> GetTilesInRange()
+		{
+			if (_turn.Plan.Action == TurnActions.Build)
+			{
+				return GridHelpers.GetWalkableTilesInRange(
+					_turn.Unit.GridPosition, _turn.Unit.BuildRange,
+					_turnManager.WalkGrid, _turnManager.GetActiveUnits()
+				);
+			}
+
+			return GridHelpers.GetTilesInRange(_turn.Unit.GridPosition, _turn.Unit.HitRange, _turnManager.EmptyGrid);
+		}
+
+		private async void ComputerTurn()
+		{
+			_validMovePositions = GetTilesInRange();
+			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
+
+			await UniTask.Delay(300);
+
+			if (_turn.Plan.Action == TurnActions.Attack)
+			{
+				MoveTargetCursor(_turn.Plan.ActionTargets[0]);
+				await UniTask.Delay(300);
+			}
+
+			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+		}
+
+		private void MoveTargetCursor(Vector3Int cursorPosition)
+		{
+			var hitChance = GridHelpers.CalculateHitAccuracy(
+				_turn.Unit.GridPosition,
+				cursorPosition,
+				_turnManager.BlockGrid,
+				_turn.Unit,
+				_turnManager.SortedUnits
+			);
+			_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
 		}
 	}
 }

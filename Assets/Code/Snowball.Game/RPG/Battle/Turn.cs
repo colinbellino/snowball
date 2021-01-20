@@ -8,12 +8,16 @@ namespace Snowball.Game
 		public Unit Unit;
 		public bool HasMoved;
 		public bool HasActed;
-		public Actions Action;
+		public Plan Plan = new Plan();
+	}
 
-		public List<Vector3Int> MovePath;
+	public enum TurnActions { None, Attack, Build, Melt }
+
+	public class Plan
+	{
+		public TurnActions Action;
 		public List<Vector3Int> ActionTargets;
 		public Vector3Int? ActionDestination;
-
-		public enum Actions { None, Attack, Build, Melt }
+		public Vector3Int? MoveDestination;
 	}
 }
