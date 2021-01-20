@@ -143,7 +143,7 @@ namespace Snowball.Game
 			_aimLine.startColor = color;
 			_aimLine.endColor = color;
 			_aimCursor.color = color;
-			_aimCursorText.color = color;
+			// _aimCursorText.color = color;
 		}
 
 		public void ClearTarget()

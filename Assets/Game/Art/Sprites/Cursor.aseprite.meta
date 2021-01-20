@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4edb74aa565033544ac8dda48cc68e17
+guid: a2b928446d10a4148ad41fe8bbae8acc
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -68,7 +68,7 @@ ScriptedImporter:
   animationSettings: []
   texture: {instanceID: 0}
   spriteImportData:
-  - name: Highlight
+  - name: Cursor
     rect:
       serializedVersion: 2
       x: 0
@@ -79,6 +79,6 @@ ScriptedImporter:
     pivot: {x: 0.5, y: 0.5}
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
-    spriteID: 1d44cbf0bfa4bbb47bf6850a0a593425
+    spriteID: 12b5c76e705a409419295cf7e06d6171
   spriteRects: []
   selectedImporter: 1
