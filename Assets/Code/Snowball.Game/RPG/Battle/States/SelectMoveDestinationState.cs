@@ -11,9 +11,9 @@ namespace Snowball.Game
 
 		public SelectMoveDestinationState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
-		public override UniTask Enter()
+		public override async UniTask Enter()
 		{
-			base.Enter();
+			await base.Enter();
 
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(
 				_turn.Unit.GridPosition,
@@ -21,11 +21,15 @@ namespace Snowball.Game
 				_turnManager.WalkGrid,
 				_turnManager.GetActiveUnits()
 			);
-
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
 			_ui.SetTurnUnit(_turn.Unit);
 
-			return default;
+			if (_turn.Unit.Driver == Unit.Drivers.Computer)
+			{
+				await ShowComputerPlan();
+
+				_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
+			}
 		}
 
 		public override UniTask Exit()
@@ -67,6 +71,7 @@ namespace Snowball.Game
 
 			_audio.PlaySoundEffect(_config.MenuConfirmClip);
 			_turn.Plan.MoveDestination = _cursorPosition;
+
 			_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
 		}
 
@@ -75,6 +80,19 @@ namespace Snowball.Game
 			_audio.PlaySoundEffect(_config.MenuCancelClip);
 
 			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
+		}
+
+		private async UniTask ShowComputerPlan()
+		{
+			await UniTask.Delay(300);
+
+			_path = GridHelpers.CalculatePathWithFall(
+				_turn.Unit.GridPosition, _turn.Plan.MoveDestination,
+				_turnManager.WalkGrid
+			);
+			_ui.HighlightMovePath(_path);
+
+			await UniTask.Delay(300);
 		}
 	}
 }

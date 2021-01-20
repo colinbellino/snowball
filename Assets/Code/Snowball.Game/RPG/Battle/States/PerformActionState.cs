@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -50,17 +49,15 @@ namespace Snowball.Game
 		private async UniTask PerformAttack()
 		{
 			var units = _turnManager.GetActiveUnits();
-			var targets = _turn.Plan.ActionTargets
-				.Select(position => units.Find(unit => unit.GridPosition == position))
-				.Where(unit => unit != null)
-				.ToList();
-			var result = new AttackResult
-			{
-				Attacker = _turn.Unit,
-				Targets = targets,
-			};
+			var targets = new List<Unit>(); // TODO: Get This from ability area
 
-			var aimDirection = ((Vector3)(_turn.Plan.ActionDestination.Value - _turn.Unit.GridPosition)).normalized;
+			var destinationUnit = units.Find(unit => unit.GridPosition == _turn.Plan.ActionDestination);
+			if (destinationUnit != null)
+			{
+				targets.Add(destinationUnit);
+			}
+
+			var aimDirection = ((Vector3)(_turn.Plan.ActionDestination - _turn.Unit.GridPosition)).normalized;
 			var direction = UnitHelpers.VectorToDirection(aimDirection);
 			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
@@ -71,10 +68,10 @@ namespace Snowball.Game
 			}
 			await _turn.Unit.Facade.AnimateAttack(aimDirection);
 
-			await ShootProjectile(result.Attacker.GridPosition, _turn.Plan.ActionDestination.Value);
+			await ShootProjectile(_turn.Unit.GridPosition, _turn.Plan.ActionDestination);
 
 			var hitTasks = new List<UniTask>();
-			foreach (var target in result.Targets)
+			foreach (var target in targets)
 			{
 				var hitChance = GridHelpers.CalculateHitAccuracy(
 					_turn.Unit.GridPosition,
@@ -88,8 +85,8 @@ namespace Snowball.Game
 				var didHit = roll < hitChance;
 				if (didHit)
 				{
-					Debug.Log($"{_turn.Unit} hit for {result.Attacker.HitDamage} damage! ({roll}/{hitChance})");
-					hitTasks.Add(ApplyDamage(target, result.Attacker.HitDamage));
+					Debug.Log($"{_turn.Unit} hit for {_turn.Unit.HitDamage} damage! ({roll}/{hitChance})");
+					hitTasks.Add(ApplyDamage(target, _turn.Unit.HitDamage));
 				}
 				else
 				{
@@ -103,7 +100,7 @@ namespace Snowball.Game
 
 		private async UniTask PerformBuild()
 		{
-			var direction = UnitHelpers.VectorToDirection(_turn.Plan.ActionDestination.Value - _turn.Unit.GridPosition);
+			var direction = UnitHelpers.VectorToDirection(_turn.Plan.ActionDestination - _turn.Unit.GridPosition);
 			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
 			if (needsToChangeDirection)
@@ -117,7 +114,7 @@ namespace Snowball.Game
 			var facade = UnitHelpers.SpawnUnitFacade(
 				_config.UnitPrefab,
 				newUnit,
-				_turn.Plan.ActionDestination.Value,
+				_turn.Plan.ActionDestination,
 				Unit.Drivers.Computer,
 				Unit.Alliances.Ally,
 				direction

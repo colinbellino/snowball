@@ -19,6 +19,7 @@ namespace Snowball.Game
 		protected StuffSpawner _spawner => _game.Spawner;
 		protected Board _board => _game.Board;
 		protected AudioPlayer _audio => _game.AudioPlayer;
+		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
 
 		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
