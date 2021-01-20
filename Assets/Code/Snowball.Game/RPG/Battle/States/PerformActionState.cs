@@ -59,13 +59,14 @@ namespace Snowball.Game
 
 			var aimDirection = ((Vector3)(_turn.Plan.ActionDestination - _turn.Unit.GridPosition)).normalized;
 			var direction = UnitHelpers.VectorToDirection(aimDirection);
-			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
+			var needsToChangeDirection = direction != _turn.Unit.Direction;
 			if (needsToChangeDirection)
 			{
 				await _turn.Unit.Facade.AnimateChangeDirection(direction);
 				_turn.Unit.Direction = direction;
 			}
+
 			await _turn.Unit.Facade.AnimateAttack(aimDirection);
 
 			await ShootProjectile(_turn.Unit.GridPosition, _turn.Plan.ActionDestination);
@@ -101,8 +102,8 @@ namespace Snowball.Game
 		private async UniTask PerformBuild()
 		{
 			var direction = UnitHelpers.VectorToDirection(_turn.Plan.ActionDestination - _turn.Unit.GridPosition);
-			var needsToChangeDirection = direction != _turn.Unit.Direction;
 
+			var needsToChangeDirection = direction != _turn.Unit.Direction;
 			if (needsToChangeDirection)
 			{
 				await _turn.Unit.Facade.AnimateChangeDirection(direction);

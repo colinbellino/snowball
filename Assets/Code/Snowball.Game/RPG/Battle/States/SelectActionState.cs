@@ -46,6 +46,8 @@ namespace Snowball.Game
 
 				if (_turn.Plan.Action == TurnActions.Wait)
 				{
+					await UniTask.Delay(500);
+
 					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 				}
 				else
