@@ -78,7 +78,7 @@ namespace Snowball.Game
 					target.GridPosition,
 					_turnManager.BlockGrid,
 					_turn.Unit,
-					_turnManager.SortedUnits
+					_turnManager.GetActiveUnits()
 				);
 
 				var roll = Random.Range(0, 100);

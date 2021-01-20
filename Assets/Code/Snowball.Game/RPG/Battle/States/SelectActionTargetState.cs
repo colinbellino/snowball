@@ -95,7 +95,7 @@ namespace Snowball.Game
 				cursorPosition,
 				_turnManager.BlockGrid,
 				_turn.Unit,
-				_turnManager.SortedUnits
+				_turnManager.GetActiveUnits()
 			);
 			_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
 		}

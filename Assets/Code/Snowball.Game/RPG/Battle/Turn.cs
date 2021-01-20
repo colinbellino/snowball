@@ -11,7 +11,7 @@ namespace Snowball.Game
 		public Plan Plan;
 	}
 
-	public enum TurnActions { None, Attack, Build, Melt }
+	public enum TurnActions { Wait, Attack, Build, Melt }
 
 	public class Plan
 	{

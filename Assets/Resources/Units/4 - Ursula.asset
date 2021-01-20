@@ -23,5 +23,5 @@ MonoBehaviour:
   Health: 1
   Speed: 4
   HitAccuracy: 100
-  HitRange: 10
+  HitRange: 12
   HitDamage: 1
