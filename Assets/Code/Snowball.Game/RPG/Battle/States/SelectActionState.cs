@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,8 +14,6 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
-
 			var battleResult = _turnManager.GetBattleResult();
 			if (battleResult == BattleResults.Victory)
 			{
@@ -30,8 +26,6 @@ namespace Snowball.Game
 				return;
 			}
 
-			_ui.OnActionClicked += OnActionClicked;
-
 			if (_turn.HasActed && _turn.HasMoved)
 			{
 				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
@@ -39,30 +33,49 @@ namespace Snowball.Game
 			}
 
 			_ui.SetTurnUnit(_turn.Unit);
-			await UniTask.Delay(300);
+			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
+			_ui.OnActionClicked += OnActionClicked;
 
-			if (_turn.Unit.Driver == Unit.Drivers.Human)
+			if (_turn.Unit.Driver == Unit.Drivers.Computer)
 			{
-				_ui.ToggleButton(BattleActions.Move, _turn.HasMoved == false);
-				_ui.ToggleButton(BattleActions.Attack, _turn.HasActed == false);
-				_ui.ToggleButton(BattleActions.Build, _turn.HasActed == false);
-				_ui.ShowActionsMenu();
+				if (_turn.Plan == null)
+				{
+					_turn.Plan = _cpu.CalculateBestPlan(_turn.Unit, _turnManager);
+				}
+
+				if (_turn.Plan.MoveDestination != _turn.Unit.GridPosition)
+				{
+					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
+				}
+				else if (_turn.Plan.Action != TurnActions.None)
+				{
+					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+				}
+				else
+				{
+					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+				}
+
+				return;
 			}
-			else
+
+			if (_turn.Plan == null)
 			{
-				PlanComputerTurn();
+				_turn.Plan = new Plan();
 			}
+			_ui.ToggleButton(BattleActions.Move, _turn.HasMoved == false);
+			_ui.ToggleButton(BattleActions.Attack, _turn.HasActed == false);
+			_ui.ToggleButton(BattleActions.Build, _turn.HasActed == false);
+			_ui.ShowActionsMenu();
 		}
 
-		public override UniTask Exit()
+		public override async UniTask Exit()
 		{
-			base.Exit();
+			await base.Exit();
 
 			_ui.SetTurnUnit(null);
-			_ui.HideActionsMenu();
+			await _ui.HideActionsMenu();
 			_ui.OnActionClicked -= OnActionClicked;
-
-			return default;
 		}
 
 		protected override void OnCancel()
@@ -106,72 +119,5 @@ namespace Snowball.Game
 					return;
 			}
 		}
-
-		private void PlanComputerTurn()
-		{
-			if (_turn.Unit.Type == Unit.Types.Snowpal)
-			{
-				_turn.HasMoved = true;
-				_turn.HasActed = true;
-				_turn.Plan.Action = TurnActions.Melt;
-			}
-			else
-			{
-				var foes = _turnManager.GetActiveUnits()
-					.Where(unit => unit.Alliance != _turn.Unit.Alliance && unit.Type == Unit.Types.Humanoid)
-					.OrderBy(unit => (unit.GridPosition - _turn.Unit.GridPosition).magnitude)
-					.ToList();
-				var closestTarget = foes[0];
-
-				_turn.Plan.Action = TurnActions.Attack;
-				_turn.Plan.ActionTargets = new List<Vector3Int> { closestTarget.GridPosition };
-				_turn.Plan.ActionDestination = closestTarget.GridPosition;
-				_turn.HasMoved = true;
-			}
-
-			if (_turn.Plan.MoveDestination != null)
-			{
-				_machine.Fire(BattleStateMachine.Triggers.MoveDestinationSelected);
-			}
-			else if (_turn.Plan.Action != TurnActions.None)
-			{
-				_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
-			}
-			else
-			{
-				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
-			}
-		}
-
-		// private void PlanDirectionDependent (PlanOfAttack poa)
-		// {
-		// 	Tile startTile = actor.tile;
-		// 	Directions startDirection = actor.dir;
-		// 	var list = new List<AttackOption>();
-		// 	List<Tile> moveOptions = GetMoveOptions();
-		//
-		// 	// Loop on the move options (movement range)
-		// 	for (int i = 0; i < moveOptions.Count; ++i) {
-		// 		Tile moveTile = moveOptions[i];
-		// 		actor.Place(moveTile);
-		//
-		// 		// Loop on the directions.
-		// 		for (int j = 0; j < 4; ++j) {
-		// 			actor.dir = (Directions)j;
-		// 			var actionOption = new AttackOption();
-		// 			actionOption.target = moveTile;
-		// 			actionOption.direction = actor.dir;
-		// 			RateFireLocation(poa, actionOption);
-		// 			actionOption.AddMoveTarget(moveTile);
-		// 			list.Add(actionOption);
-		// 		}
-		// 	}
-		//
-		// 	// Place the actor back to the initial tile. If we didn't do this, the
-		// 	// AI would be out of sync with the visuals.
-		// 	actor.Place(startTile);
-		// 	actor.dir = startDirection;
-		// 	PickBestOption(poa, list);
-		// }
 	}
 }

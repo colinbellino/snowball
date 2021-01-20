@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -61,7 +62,7 @@ namespace Snowball.Game
 
 		public void HideAll()
 		{
-			HideActionsMenu();
+			_ = HideActionsMenu();
 			ClearMovePath();
 			ClearTarget();
 		}
@@ -82,7 +83,13 @@ namespace Snowball.Game
 
 		public void ShowActionsMenu() => _actionsRoot.SetActive(true);
 
-		public void HideActionsMenu() => _actionsRoot.SetActive(false);
+		// TODO: Animate this
+		public async UniTask HideActionsMenu()
+		{
+			_actionsRoot.SetActive(false);
+
+			await UniTask.Delay(100);
+		}
 
 		public void ToggleButton(BattleActions action, bool value)
 		{
@@ -111,18 +118,6 @@ namespace Snowball.Game
 		{
 			_moveLine.positionCount = 0;
 			_moveCursor.transform.position = OUT_OF_SCREEN_POSITION;
-		}
-
-		public void HighlightBuildTarget(Vector3Int destination)
-		{
-			_aimLine.positionCount = 0;
-			_aimCursor.transform.position = destination;
-			_aimCursorText.text = $"{destination}";
-
-			_aimLine.startColor = _cursorColors[CursorColors.Default];
-			_aimLine.endColor = _cursorColors[CursorColors.Default];
-			_aimCursor.color = _cursorColors[CursorColors.Default];
-			_aimCursorText.color = _cursorColors[CursorColors.Default];
 		}
 
 		public void HighlightAttackTarget(Vector3Int origin, Vector3Int destination, int hitChance)

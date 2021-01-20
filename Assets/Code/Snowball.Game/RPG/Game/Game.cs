@@ -18,6 +18,7 @@ namespace Snowball.Game
 		public Database Database { get; }
 		public AudioPlayer AudioPlayer { get; }
 		public TransitionManager Transition { get; }
+		public ComputerPlayerUnit CPU { get; }
 
 		public static Game Instance { get; private set; }
 
@@ -42,6 +43,7 @@ namespace Snowball.Game
 			Controls = new GameControls();
 			State = new GameState();
 			Database = new Database();
+			CPU = new ComputerPlayerUnit();
 			AudioPlayer = new AudioPlayer(Config, audioSource);
 
 			if (suppressError == false)

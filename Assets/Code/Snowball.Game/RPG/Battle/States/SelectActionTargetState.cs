@@ -14,16 +14,16 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			if (_turn.Unit.Driver == Unit.Drivers.Computer)
-			{
-				ComputerTurn();
-				return;
-			}
-
 			_validMovePositions = GetTilesInRange();
 			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
-
 			_ui.SetTurnUnit(_turn.Unit);
+
+			if (_turn.Unit.Driver == Unit.Drivers.Computer)
+			{
+				await ShowComputerPlan();
+
+				_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
+			}
 		}
 
 		public override UniTask Exit()
@@ -52,7 +52,6 @@ namespace Snowball.Game
 			}
 
 			_audio.PlaySoundEffect(_config.MenuConfirmClip);
-			_turn.Plan.ActionTargets = new List<Vector3Int> {_cursorPosition};
 			_turn.Plan.ActionDestination = _cursorPosition;
 
 			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
@@ -78,20 +77,15 @@ namespace Snowball.Game
 			return GridHelpers.GetTilesInRange(_turn.Unit.GridPosition, _turn.Unit.HitRange, _turnManager.EmptyGrid);
 		}
 
-		private async void ComputerTurn()
+		private async UniTask ShowComputerPlan()
 		{
-			_validMovePositions = GetTilesInRange();
-			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
-
 			await UniTask.Delay(300);
 
 			if (_turn.Plan.Action == TurnActions.Attack)
 			{
-				MoveTargetCursor(_turn.Plan.ActionTargets[0]);
+				MoveTargetCursor(_turn.Plan.ActionDestination);
 				await UniTask.Delay(300);
 			}
-
-			_machine.Fire(BattleStateMachine.Triggers.ActionTargetSelected);
 		}
 
 		private void MoveTargetCursor(Vector3Int cursorPosition)
