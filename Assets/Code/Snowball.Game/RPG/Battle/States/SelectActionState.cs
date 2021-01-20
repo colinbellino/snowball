@@ -41,19 +41,23 @@ namespace Snowball.Game
 				if (_turn.Plan == null)
 				{
 					_turn.Plan = _cpu.CalculateBestPlan(_turn.Unit, _turnManager);
+					Debug.Log($"{_turn.Unit.Name} => {_turn.Plan.MoveDestination} > {_turn.Plan.Action} | {_turn.Plan.ActionDestination}");
 				}
 
-				if (_turn.Plan.MoveDestination != _turn.Unit.GridPosition)
+				if (_turn.Plan.Action == TurnActions.Wait)
 				{
-					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
-				}
-				else if (_turn.Plan.Action != TurnActions.None)
-				{
-					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 				}
 				else
 				{
-					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+					if (_turn.Plan.MoveDestination != _turn.Unit.GridPosition)
+					{
+						_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
+					}
+					else
+					{
+						_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+					}
 				}
 
 				return;

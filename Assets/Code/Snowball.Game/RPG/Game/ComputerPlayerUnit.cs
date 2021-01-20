@@ -46,7 +46,7 @@ namespace Snowball.Game
 						{
 							actionOption = new ActionOption();
 							actionOption.ActionTarget = actionTarget;
-							actionOption.AreaTargets = new List<Vector3Int> { moveOption };
+							actionOption.AreaTargets = new List<Vector3Int> { actionTarget };
 							actionsMap.Add(actionTarget, actionOption);
 						}
 
@@ -61,22 +61,71 @@ namespace Snowball.Game
 				}
 			}
 
-			if (actionOptions.Count == 0)
 			{
-				return plan;
+				var bestOptions = new List<ActionOption>();
+				var bestScore = 1;
+
+				foreach (var option in actionOptions)
+				{
+					var score = CalculateScore(option, unit, turnManager.SortedUnits);
+
+					if (score > bestScore)
+					{
+						bestScore = score;
+						bestOptions.Clear();
+						bestOptions.Add(option);
+					}
+					else if (score == bestScore)
+					{
+						bestOptions.Add(option);
+					}
+				}
+
+				if (bestOptions.Count == 0)
+				{
+					// TODO: Move towards target if can't act from current position.
+					plan.Action = TurnActions.Wait;
+					return plan;
+				}
+
+				var bestOption = bestOptions[Random.Range(0, bestOptions.Count - 1)];
+
+				plan.ActionDestination = bestOption.ActionTarget;
+				plan.MoveDestination = bestOption.MoveTarget;
 			}
-
-			var bestOption = PickBestOption(actionOptions);
-
-			plan.ActionDestination = bestOption.ActionTarget;
-			plan.MoveDestination = bestOption.MoveTarget;
 
 			return plan;
 		}
 
-		private static ActionOption PickBestOption(List<ActionOption> options)
+		private static int CalculateScore(ActionOption option, Unit unit, List<Unit> units)
 		{
-			return options[UnityEngine.Random.Range(0, options.Count - 1)];
+			var score = 0;
+
+			foreach (var areaTarget in option.AreaTargets)
+			{
+				var targetUnit = units.Find(u => u.GridPosition == areaTarget);
+				if (IsValidTarget(unit, targetUnit))
+				{
+					score += 1;
+				}
+				else
+				{
+					score -= 1;
+				}
+			}
+
+			if (option.AreaTargets.Contains(option.MoveTarget))
+			{
+				score += 1;
+			}
+
+			return score;
+		}
+
+		// TODO: use ability target for this
+		private static bool IsValidTarget(Unit unit, Unit target)
+		{
+			return target != null && target.HealthCurrent > 0 && target.Alliance != unit.Alliance;
 		}
 	}
 }

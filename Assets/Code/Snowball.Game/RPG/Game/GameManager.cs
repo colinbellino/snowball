@@ -18,7 +18,7 @@ namespace Snowball.Game
 
 		private void Update()
 		{
-			Game.Instance.AudioPlayer.Tick();
+			Game.Instance?.AudioPlayer.Tick();
 			_stateMachine?.Tick();
 		}
 	}
