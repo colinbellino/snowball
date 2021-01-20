@@ -36,7 +36,7 @@ namespace Snowball.Game
 
 		public async UniTask AnimateChangeDirection(Unit.Directions direction)
 		{
-			await _bodyPivot.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
+			await _bodyRenderer.transform.DORotate(new Vector3(0f, direction > 0 ? 0f : 180f, 0f), 0.15f);
 		}
 
 		public async UniTask AnimateAttack(Vector3 aimDirection)
@@ -98,8 +98,7 @@ namespace Snowball.Game
 			const float durationPerUnit = 0.15f;
 
 			var direction = destination.x - transform.position.x;
-
-			if (direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0)
+			if (NeedsToRotate(direction))
 			{
 				await AnimateChangeDirection(direction > 0f ? Unit.Directions.Right : Unit.Directions.Left);
 			}
@@ -122,6 +121,11 @@ namespace Snowball.Game
 					.Append(_bodyPivot.transform.DOScale(new Vector3(1f, 1f, 1f), animDuration / 2))
 				)
 			;
+		}
+
+		private bool NeedsToRotate(float direction)
+		{
+			return direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0;
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace Snowball.Game
 			foreach (var item in _actionButtons)
 			{
 				item.Value.onClick.AddListener(OnBattleActionClicked(item.Key));
-				item.Value.GetComponentInChildren<Text>().text = item.Key.ToString();
+				// item.Value.GetComponentInChildren<Text>().text = item.Key.ToString();
 			}
 		}
 

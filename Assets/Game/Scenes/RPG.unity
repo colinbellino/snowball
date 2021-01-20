@@ -8517,6 +8517,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Button (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3435229687317989831, guid: 0dbaeda1a9f5f064bb537814d7aace1b,
+        type: 3}
+      propertyPath: m_Text
+      value: Throw
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dbaeda1a9f5f064bb537814d7aace1b, type: 3}
 --- !u!224 &460092744 stripped
@@ -11122,6 +11127,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Button
       objectReference: {fileID: 0}
+    - target: {fileID: 3435229687317989831, guid: 0dbaeda1a9f5f064bb537814d7aace1b,
+        type: 3}
+      propertyPath: m_Text
+      value: Move
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dbaeda1a9f5f064bb537814d7aace1b, type: 3}
 --- !u!224 &1267396146 stripped
@@ -13094,6 +13104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Button (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3435229687317989831, guid: 0dbaeda1a9f5f064bb537814d7aace1b,
+        type: 3}
+      propertyPath: m_Text
+      value: Wait
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dbaeda1a9f5f064bb537814d7aace1b, type: 3}
 --- !u!114 &1781601153 stripped
@@ -13957,6 +13972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Menu Button (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435229687317989831, guid: 0dbaeda1a9f5f064bb537814d7aace1b,
+        type: 3}
+      propertyPath: m_Text
+      value: Build
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dbaeda1a9f5f064bb537814d7aace1b, type: 3}
