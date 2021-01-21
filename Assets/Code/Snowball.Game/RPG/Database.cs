@@ -8,6 +8,7 @@ namespace Snowball.Game
 	{
 		public Dictionary<int, UnitAuthoring> Units;
 		public Dictionary<int, EncounterAuthoring> Encounters;
+		public Dictionary<Abilities, IAbility> Abilities;
 	}
 
 	public static class DatabaseHelpers
@@ -35,6 +36,16 @@ namespace Snowball.Game
 				}
 				database.Encounters.Add(encounter.Id, Object.Instantiate(encounter));
 			}
+		}
+
+		public static void PrepareAbilities(Database database, GameConfig config, StuffSpawner spawner)
+		{
+			database.Abilities = new Dictionary<Abilities, IAbility>
+			{
+				{ Abilities.Attack, new AttackAbility(config, spawner) },
+				{ Abilities.Build, new BuildAbility(config, database) },
+				{ Abilities.Melt, new MeltAbility() },
+			};
 		}
 	}
 }

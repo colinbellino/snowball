@@ -6,7 +6,7 @@ namespace Snowball.Game
 {
 	public class SelectActionTargetState : BaseBattleState
 	{
-		private List<Vector3Int> _validMovePositions;
+		private List<Vector3Int> _validTargets;
 
 		public SelectActionTargetState(BattleStateMachine machine, TurnManager turnManager) : base(machine, turnManager) { }
 
@@ -14,8 +14,8 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			_validMovePositions = GetTilesInRange();
-			_board.HighlightTiles(_validMovePositions, _turn.Unit.ColorCloth);
+			_validTargets = _turn.Plan.Ability.GetTilesInRange(_turn.Unit.GridPosition, _turn.Unit, _turnManager);
+			_board.HighlightTiles(_validTargets, _turn.Unit.ColorCloth);
 			_ui.SetTurnUnit(_turn.Unit);
 
 			if (_turn.Unit.Driver == Unit.Drivers.Computer)
@@ -44,7 +44,7 @@ namespace Snowball.Game
 
 		protected override void OnConfirm()
 		{
-			if (_validMovePositions.Contains(_cursorPosition) == false)
+			if (_validTargets.Contains(_cursorPosition) == false)
 			{
 				_audio.PlaySoundEffect(_config.MenuErrorClip);
 				Debug.Log("Invalid target!");
@@ -64,24 +64,11 @@ namespace Snowball.Game
 			_machine.Fire(BattleStateMachine.Triggers.Cancelled);
 		}
 
-		private List<Vector3Int> GetTilesInRange()
-		{
-			if (_turn.Plan.Action == TurnActions.Build)
-			{
-				return GridHelpers.GetWalkableTilesInRange(
-					_turn.Unit.GridPosition, _turn.Unit.BuildRange,
-					_turnManager.WalkGrid, _turnManager.GetActiveUnits()
-				);
-			}
-
-			return GridHelpers.GetTilesInRange(_turn.Unit.GridPosition, _turn.Unit.HitRange, _turnManager.EmptyGrid);
-		}
-
 		private async UniTask ShowComputerPlan()
 		{
 			await UniTask.Delay(300);
 
-			if (_turn.Plan.Action == TurnActions.Attack)
+			if (_turn.Plan.ActionDestination != _turn.Unit.GridPosition)
 			{
 				MoveTargetCursor(_turn.Plan.ActionDestination);
 				await UniTask.Delay(300);

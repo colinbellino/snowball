@@ -26,7 +26,7 @@ namespace Snowball.Game
 				return;
 			}
 
-			if (_turn.HasActed && _turn.HasMoved)
+			if (_turn.HasActed && (_turn.HasMoved || _turn.Plan.NeedsToMove == false))
 			{
 				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 				return;
@@ -41,7 +41,7 @@ namespace Snowball.Game
 				if (_turn.Plan == null)
 				{
 					_turn.Plan = _cpu.CalculateBestPlan(_turn.Unit, _turnManager);
-					Debug.Log($"{_turn.Unit.Name} => {_turn.Plan.MoveDestination} > {_turn.Plan.Action} | {_turn.Plan.ActionDestination}");
+					Debug.Log($"{_turn.Unit.Name} => {_turn.Plan.MoveDestination} > {_turn.Plan.Ability?.GetType().Name} | {_turn.Plan.ActionDestination}");
 				}
 
 				if (_turn.Plan.NeedsToMove)
@@ -51,7 +51,7 @@ namespace Snowball.Game
 				}
 				else
 				{
-					if (_turn.Plan.Action == TurnActions.Build || _turn.Plan.Action == TurnActions.Attack)
+					if (_turn.Plan.Ability != null)
 					{
 						_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					}
@@ -105,17 +105,14 @@ namespace Snowball.Game
 			switch (action)
 			{
 				case BattleActions.Move:
-					if (_turn.HasMoved) { return; }
 					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
 					return;
 				case BattleActions.Attack:
-					if (_turn.HasActed) { return; }
-					_turn.Plan.Action = TurnActions.Attack;
+					_turn.Plan.Ability = _database.Abilities[Abilities.Attack];
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleActions.Build:
-					if (_turn.HasActed) { return; }
-					_turn.Plan.Action = TurnActions.Build;
+					_turn.Plan.Ability = _database.Abilities[Abilities.Build];
 					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 					return;
 				case BattleActions.Wait:

@@ -2,6 +2,9 @@
 
 namespace Snowball.Game
 {
+	public enum ActionPatterns { Random, Idle }
+	public enum Abilities { Attack, Build, Melt }
+
 	public class Unit
 	{
 		public enum Types { Humanoid, Snowpal }
@@ -29,6 +32,8 @@ namespace Snowball.Game
 		public Directions Direction;
 		public Drivers Driver;
 		public Alliances Alliance;
+		public ActionPatterns ActionPatterns;
+		public Abilities[] Abilities;
 
 		public UnitFacade Facade { get; private set; }
 
@@ -48,6 +53,8 @@ namespace Snowball.Game
 			HitAccuracy = authoring.HitAccuracy;
 			HitRange = authoring.HitRange;
 			HitDamage = authoring.HitDamage;
+			ActionPatterns = authoring.ActionPatterns;
+			Abilities = authoring.Abilities;
 		}
 
 		public void SetFacade(UnitFacade facade)

@@ -14,6 +14,7 @@ namespace Snowball.Game
 		public UniTask Enter()
 		{
 			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
+			DatabaseHelpers.PrepareAbilities(Game.Instance.Database, Game.Instance.Config, Game.Instance.Spawner);
 
 			_machine.Fire(GameStateMachine.Triggers.Done);
 

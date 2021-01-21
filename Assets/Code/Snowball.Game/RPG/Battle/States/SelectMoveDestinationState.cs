@@ -84,12 +84,12 @@ namespace Snowball.Game
 
 		private async UniTask ShowComputerPlan()
 		{
-			await UniTask.Delay(300);
-
 			_path = GridHelpers.FindPath(
 				_turn.Unit.GridPosition, _turn.Plan.MoveDestination,
 				_turnManager.WalkGrid
 			);
+
+			await UniTask.Delay(300);
 			_ui.HighlightMovePath(_path);
 
 			await UniTask.Delay(300);

@@ -1,122 +1,120 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Snowball.Game
 {
 	public class ComputerPlayerUnit
 	{
-		public Plan CalculateBestPlan(Unit owner, TurnManager turnManager)
+		private readonly Database _database;
+
+		public ComputerPlayerUnit(Database database, GameConfig config, StuffSpawner spawner)
+		{
+			_database = database;
+		}
+
+		public Plan CalculateBestPlan(Unit actor, TurnManager turnManager)
 		{
 			var plan = new Plan();
 			var actionOptions = new List<ActionOption>();
 			var moveOptions = GridHelpers.GetWalkableTilesInRange(
-				owner.GridPosition, owner.MoveRange,
+				actor.GridPosition, actor.MoveRange,
 				turnManager.WalkGrid, turnManager.GetActiveUnits()
 			);
+			moveOptions.Add(actor.GridPosition);
 
-			// Choose turn action.
-			if (owner.Type == Unit.Types.Snowpal)
-			{
-				plan.Action = TurnActions.Melt;
-			}
-			else
-			{
-				plan.Action = TurnActions.Attack;
-			}
+			plan.Ability = ChooseAbility(actor);
 
-			var isMoveDependent = plan.Action == TurnActions.Attack;
-			if (isMoveDependent)
-			{
-				foreach (var moveOption in moveOptions)
-				{
-					// TODO: get this from ability range
-					var targetOptions = GridHelpers.GetTilesInRange(moveOption, owner.HitRange, turnManager.EmptyGrid);
-					var actionsMap = new Dictionary<Vector3Int, ActionOption>();
-
-					// Loop on the target options.
-					foreach (var actionTarget in targetOptions)
-					{
-						ActionOption actionOption;
-
-						if (actionsMap.ContainsKey(actionTarget))
-						{
-							actionOption = actionsMap[actionTarget];
-						}
-						else
-						{
-							actionOption = new ActionOption();
-							actionOption.ActionTarget = actionTarget;
-							actionOption.AreaTargets = new List<Vector3Int> { actionTarget };
-							actionsMap.Add(actionTarget, actionOption);
-						}
-
-						// Don't allow moving to a tile that would negatively affect the caster.
-						if (actionOption.AreaTargets.Contains(moveOption) == false)
-						{
-							actionOption.MoveTarget = moveOption;
-						}
-
-						actionOptions.Add(actionOption);
-					}
-				}
-			}
-
-			{
-				var bestOptions = new List<ActionOption>();
-				var bestScore = 1;
-
-				foreach (var option in actionOptions)
-				{
-					var score = CalculateScore(option, owner, turnManager);
-
-					if (score > bestScore)
-					{
-						bestScore = score;
-						bestOptions.Clear();
-						bestOptions.Add(option);
-					}
-					else if (score == bestScore)
-					{
-						bestOptions.Add(option);
-					}
-				}
-
-				if (bestOptions.Count == 0)
-				{
-					plan.Action = TurnActions.None;
-				}
-				else
-				{
-					var bestOption = bestOptions[Random.Range(0, bestOptions.Count - 1)];
-
-					plan.ActionDestination = bestOption.ActionTarget;
-					plan.NeedsToMove = true;
-					plan.MoveDestination = bestOption.MoveTarget;
-				}
-			}
-
-			if (plan.Action == TurnActions.None)
+			// If we have no ability (no best plan found), run towards the nearest foe.
+			if (plan.Ability == null)
 			{
 				var foes = turnManager.GetActiveUnits()
-					.Where(unit => unit.Alliance != owner.Alliance && unit.Type == Unit.Types.Humanoid)
+					.Where(unit => unit.Alliance != actor.Alliance && unit.Type == Unit.Types.Humanoid)
 					.OrderBy(unit => (unit.GridPosition - unit.GridPosition).magnitude)
 					.ToList();
 				var nearestFoe = foes[0];
 
 				if (nearestFoe != null)
 				{
-					var walkPath = GridHelpers.FindPath(owner.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
+					var walkPath = GridHelpers.FindPath(actor.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
 					walkPath.Reverse();
+
 					foreach (var position in walkPath)
 					{
 						if (moveOptions.Contains(position))
 						{
-							plan.Action = TurnActions.Wait;
-							plan.NeedsToMove = true;
+							plan.NeedsToMove = position != actor.GridPosition;
 							plan.MoveDestination = position;
 							break;
 						}
+					}
+				}
+			}
+			else
+			{
+				// This works only for abilities that are movement dependent.
+				foreach (var moveOption in moveOptions)
+				{
+					var targetOptions = plan.Ability.GetTilesInRange(moveOption, actor, turnManager);
+					var actionsMap = new Dictionary<Vector3Int, ActionOption>();
+
+					// Loop on the target options.
+					foreach (var targetOption in targetOptions)
+					{
+						ActionOption actionOption;
+
+						if (actionsMap.ContainsKey(targetOption))
+						{
+							actionOption = actionsMap[targetOption];
+						}
+						else
+						{
+							actionOption = new ActionOption();
+							actionOption.ActionTarget = targetOption;
+							actionOption.AreaTargets = plan.Ability.GetAreaOfEffect(targetOption);
+							actionsMap.Add(targetOption, actionOption);
+						}
+
+						actionOption.MoveTarget = moveOption;
+						actionOption.NeedsToMove = moveOption != actor.GridPosition;
+						actionOptions.Add(actionOption);
+					}
+				}
+
+				// Try to find the best option for the ability.
+				{
+					var bestOptions = new List<ActionOption>();
+					var bestScore = 1;
+
+					foreach (var option in actionOptions)
+					{
+						var score = CalculateScore(option, plan.Ability, actor, turnManager);
+
+						if (score > bestScore)
+						{
+							bestScore = score;
+							bestOptions.Clear();
+							bestOptions.Add(option);
+						}
+						else if (score == bestScore)
+						{
+							bestOptions.Add(option);
+						}
+					}
+
+					if (bestOptions.Count == 0)
+					{
+						plan.Ability = null;
+					}
+					else
+					{
+						var bestOption = bestOptions[Random.Range(0, bestOptions.Count - 1)];
+
+						plan.ActionDestination = bestOption.ActionTarget;
+						plan.NeedsToMove = bestOption.NeedsToMove;
+						plan.MoveDestination = bestOption.MoveTarget;
 					}
 				}
 			}
@@ -124,7 +122,17 @@ namespace Snowball.Game
 			return plan;
 		}
 
-		private static int CalculateScore(ActionOption option, Unit owner, TurnManager turnManager)
+		private IAbility ChooseAbility(Unit actor)
+		{
+			return actor.ActionPatterns switch
+			{
+				ActionPatterns.Random => _database.Abilities[actor.Abilities[Random.Range(0, actor.Abilities.Length)]],
+				ActionPatterns.Idle => null,
+				_ => null
+			};
+		}
+
+		private static int CalculateScore(ActionOption option, IAbility ability, Unit actor, TurnManager turnManager)
 		{
 			var score = 0;
 			var activeUnits = turnManager.GetActiveUnits();
@@ -133,19 +141,28 @@ namespace Snowball.Game
 			{
 				var targetUnit = activeUnits.Find(unit => unit.GridPosition == areaTarget);
 
-				if (IsValidTarget(owner, targetUnit))
+				if (ability.RequiresUnitTarget)
 				{
-					var hitChance = GridHelpers.CalculateHitAccuracy(
-						option.MoveTarget,
-						targetUnit.GridPosition,
-						owner,
-						turnManager.BlockGrid,
-						activeUnits
-					);
-
-					if (hitChance > 75)
+					if (ability.IsValidTarget(actor, targetUnit))
 					{
-						score += 1;
+						var hitChance = GridHelpers.CalculateHitAccuracy(
+							option.MoveTarget,
+							targetUnit.GridPosition,
+							actor,
+							turnManager.BlockGrid,
+							activeUnits
+						);
+
+						if (hitChance > 0)
+						{
+							score += 1;
+						}
+
+						// Bonus score for high precision shots
+						if (hitChance > 75)
+						{
+							score += 1;
+						}
 					}
 					else
 					{
@@ -154,7 +171,7 @@ namespace Snowball.Game
 				}
 				else
 				{
-					score -= 1;
+					score += 1;
 				}
 			}
 
@@ -164,12 +181,6 @@ namespace Snowball.Game
 			}
 
 			return score;
-		}
-
-		// TODO: use ability target for this
-		private static bool IsValidTarget(Unit owner, Unit target)
-		{
-			return target != null && target.HealthCurrent > 0 && target.Alliance != owner.Alliance;
 		}
 	}
 }
