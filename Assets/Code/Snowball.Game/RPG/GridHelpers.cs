@@ -85,7 +85,7 @@ namespace Snowball.Game
 			return new Grid(data);
 		}
 
-		public static List<Vector3Int> CalculatePathWithFall(Vector3Int start, Vector3Int destination, Grid walkGrid)
+		public static List<Vector3Int> FindPath(Vector3Int start, Vector3Int destination, Grid walkGrid)
 		{
 			var path = Pathfinding.FindPath(walkGrid, start, destination);
 			return path.Prepend(start).ToList();

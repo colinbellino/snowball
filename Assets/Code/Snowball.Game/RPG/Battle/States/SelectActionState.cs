@@ -44,7 +44,12 @@ namespace Snowball.Game
 					Debug.Log($"{_turn.Unit.Name} => {_turn.Plan.MoveDestination} > {_turn.Plan.Action} | {_turn.Plan.ActionDestination}");
 				}
 
-				if (_turn.Plan.Action == TurnActions.Wait)
+				if (_turn.Plan.NeedsToMove)
+				{
+					_turn.Plan.NeedsToMove = false;
+					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
+				}
+				else if (_turn.Plan.Action == TurnActions.Wait)
 				{
 					await UniTask.Delay(500);
 
@@ -52,14 +57,7 @@ namespace Snowball.Game
 				}
 				else
 				{
-					if (_turn.Plan.MoveDestination != _turn.Unit.GridPosition)
-					{
-						_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
-					}
-					else
-					{
-						_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
-					}
+					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
 				}
 
 				return;
