@@ -27,32 +27,7 @@ namespace Snowball.Game
 
 			plan.Ability = ChooseAbility(actor);
 
-			// If we have no ability (no best plan found), run towards the nearest foe.
-			if (plan.Ability == null)
-			{
-				var foes = turnManager.GetActiveUnits()
-					.Where(unit => unit.Alliance != actor.Alliance && unit.Type == Unit.Types.Humanoid)
-					.OrderBy(unit => (unit.GridPosition - unit.GridPosition).magnitude)
-					.ToList();
-				var nearestFoe = foes[0];
-
-				if (nearestFoe != null)
-				{
-					var walkPath = GridHelpers.FindPath(actor.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
-					walkPath.Reverse();
-
-					foreach (var position in walkPath)
-					{
-						if (moveOptions.Contains(position))
-						{
-							plan.NeedsToMove = position != actor.GridPosition;
-							plan.MoveDestination = position;
-							break;
-						}
-					}
-				}
-			}
-			else
+			if (plan.Ability != null)
 			{
 				// This works only for abilities that are movement dependent.
 				foreach (var moveOption in moveOptions)
@@ -115,6 +90,32 @@ namespace Snowball.Game
 						plan.ActionDestination = bestOption.ActionTarget;
 						plan.NeedsToMove = bestOption.NeedsToMove;
 						plan.MoveDestination = bestOption.MoveTarget;
+					}
+				}
+			}
+
+			// If we have no ability (no best plan found), run towards the nearest foe.
+			if (plan.Ability == null)
+			{
+				var foes = turnManager.GetActiveUnits()
+					.Where(unit => unit.Alliance != actor.Alliance && unit.Type == Unit.Types.Humanoid)
+					.OrderBy(unit => (unit.GridPosition - unit.GridPosition).magnitude)
+					.ToList();
+				var nearestFoe = foes[0];
+
+				if (nearestFoe != null)
+				{
+					var walkPath = GridHelpers.FindPath(actor.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
+					walkPath.Reverse();
+
+					foreach (var position in walkPath)
+					{
+						if (moveOptions.Contains(position))
+						{
+							plan.NeedsToMove = position != actor.GridPosition;
+							plan.MoveDestination = position;
+							break;
+						}
 					}
 				}
 			}
