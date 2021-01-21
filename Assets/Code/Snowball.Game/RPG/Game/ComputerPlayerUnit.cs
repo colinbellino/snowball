@@ -68,7 +68,7 @@ namespace Snowball.Game
 
 				foreach (var option in actionOptions)
 				{
-					var score = CalculateScore(option, owner, turnManager.SortedUnits);
+					var score = CalculateScore(option, owner, turnManager);
 
 					if (score > bestScore)
 					{
@@ -124,16 +124,33 @@ namespace Snowball.Game
 			return plan;
 		}
 
-		private static int CalculateScore(ActionOption option, Unit owner, List<Unit> allUnits)
+		private static int CalculateScore(ActionOption option, Unit owner, TurnManager turnManager)
 		{
 			var score = 0;
+			var activeUnits = turnManager.GetActiveUnits();
 
 			foreach (var areaTarget in option.AreaTargets)
 			{
-				var targetUnit = allUnits.Find(unit => unit.GridPosition == areaTarget);
+				var targetUnit = activeUnits.Find(unit => unit.GridPosition == areaTarget);
+
 				if (IsValidTarget(owner, targetUnit))
 				{
-					score += 1;
+					var hitChance = GridHelpers.CalculateHitAccuracy(
+						option.MoveTarget,
+						targetUnit.GridPosition,
+						owner,
+						turnManager.BlockGrid,
+						activeUnits
+					);
+
+					if (hitChance > 75)
+					{
+						score += 1;
+					}
+					else
+					{
+						score -= 1;
+					}
 				}
 				else
 				{

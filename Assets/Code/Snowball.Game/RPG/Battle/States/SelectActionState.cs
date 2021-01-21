@@ -49,15 +49,18 @@ namespace Snowball.Game
 					_turn.Plan.NeedsToMove = false;
 					_machine.Fire(BattleStateMachine.Triggers.MoveSelected);
 				}
-				else if (_turn.Plan.Action == TurnActions.Wait)
-				{
-					await UniTask.Delay(500);
-
-					_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
-				}
 				else
 				{
-					_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+					if (_turn.Plan.Action == TurnActions.Build || _turn.Plan.Action == TurnActions.Attack)
+					{
+						_machine.Fire(BattleStateMachine.Triggers.ActionSelected);
+					}
+					else
+					{
+						await UniTask.Delay(500);
+
+						_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
+					}
 				}
 
 				return;
