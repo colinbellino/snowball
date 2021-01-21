@@ -131,17 +131,17 @@ namespace Snowball.Game
 			return Pathfinding.GetTilesInRange(startNode, maxDistance, grid, distanceType);
 		}
 
-		public static int CalculateHitAccuracy(Vector3 origin, Vector3 destination, Grid blockGrid, Unit attacker, List<Unit> allUnits)
+		public static int CalculateHitAccuracy(Vector3 start, Vector3 destination, Unit attacker, Grid blockGrid, List<Unit> allUnits)
 		{
 			var hitChance = attacker.HitAccuracy;
 
-			var direction = destination - origin;
+			var direction = destination - start;
 			const int segments = 100;
 			var checkedPositions = new List<Vector3Int>();
 
 			for (var i = 1; i <= segments; i++)
 			{
-				var segmentDestination = origin + 1f / segments * i * direction;
+				var segmentDestination = start + 1f / segments * i * direction;
 				var segmentGridDestination = new Vector3Int(Mathf.RoundToInt(segmentDestination.x), Mathf.RoundToInt(segmentDestination.y), 0);
 
 				if (checkedPositions.Contains(segmentGridDestination))

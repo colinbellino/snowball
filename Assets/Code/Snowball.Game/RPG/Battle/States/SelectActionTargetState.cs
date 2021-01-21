@@ -93,8 +93,8 @@ namespace Snowball.Game
 			var hitChance = GridHelpers.CalculateHitAccuracy(
 				_turn.Unit.GridPosition,
 				cursorPosition,
-				_turnManager.BlockGrid,
 				_turn.Unit,
+				_turnManager.BlockGrid,
 				_turnManager.GetActiveUnits()
 			);
 			_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
