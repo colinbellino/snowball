@@ -10,7 +10,7 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			var path = GridHelpers.CalculatePathWithFall(
+			var path = GridHelpers.FindPath(
 				_turn.Unit.GridPosition, _turn.Plan.MoveDestination,
 				_turnManager.WalkGrid
 			);

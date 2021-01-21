@@ -45,7 +45,7 @@ namespace Snowball.Game
 
 		protected override void OnCursorMove()
 		{
-			_path = GridHelpers.CalculatePathWithFall(
+			_path = GridHelpers.FindPath(
 				_turn.Unit.GridPosition, _cursorPosition,
 				_turnManager.WalkGrid
 			);
@@ -86,7 +86,7 @@ namespace Snowball.Game
 		{
 			await UniTask.Delay(300);
 
-			_path = GridHelpers.CalculatePathWithFall(
+			_path = GridHelpers.FindPath(
 				_turn.Unit.GridPosition, _turn.Plan.MoveDestination,
 				_turnManager.WalkGrid
 			);

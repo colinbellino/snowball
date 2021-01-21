@@ -11,13 +11,14 @@ namespace Snowball.Game
 		public Plan Plan;
 	}
 
-	public enum TurnActions { Wait, Attack, Build, Melt }
+	public enum TurnActions { None, Wait, Attack, Build, Melt }
 
 	public class Plan
 	{
 		public TurnActions Action;
 		public Vector3Int ActionDestination;
 		public Vector3Int MoveDestination;
+		public bool NeedsToMove;
 	}
 
 	public struct ActionOption
