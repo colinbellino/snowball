@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,9 +12,9 @@ namespace Snowball.Game
 		public int Id;
 		public string Name = "Annyong";
 		public Sprite Sprite;
-		[FormerlySerializedAs("Color")] public Color ColorCloth = Color.magenta;
-		[FormerlySerializedAs("Color2")] public Color ColorHair = Color.magenta;
-		[FormerlySerializedAs("Color3")] public Color ColorSkin = Color.magenta;
+		public Color ColorCloth = Color.magenta;
+		public Color ColorHair = Color.magenta;
+		public Color ColorSkin = Color.magenta;
 		public Unit.Types Type;
 		public int MoveRange = 3;
 		public int Health = 1;
@@ -22,6 +22,8 @@ namespace Snowball.Game
 		public int HitAccuracy = 100;
 		public int HitRange = 10;
 		public int HitDamage = 1;
+		public ActionPatterns ActionPatterns;
+		public Abilities[] Abilities;
 
 #if UNITY_EDITOR
 		private void OnValidate()

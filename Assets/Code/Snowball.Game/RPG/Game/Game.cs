@@ -43,7 +43,7 @@ namespace Snowball.Game
 			Controls = new GameControls();
 			State = new GameState();
 			Database = new Database();
-			CPU = new ComputerPlayerUnit();
+			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
 			AudioPlayer = new AudioPlayer(Config, audioSource);
 
 			if (suppressError == false)

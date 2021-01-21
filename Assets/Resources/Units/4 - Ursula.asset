@@ -25,3 +25,5 @@ MonoBehaviour:
   HitAccuracy: 100
   HitRange: 12
   HitDamage: 1
+  ActionPatterns: 0
+  Abilities: 00000000

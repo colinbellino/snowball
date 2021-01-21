@@ -11,11 +11,9 @@ namespace Snowball.Game
 		public Plan Plan;
 	}
 
-	public enum TurnActions { None, Wait, Attack, Build, Melt }
-
 	public class Plan
 	{
-		public TurnActions Action;
+		public IAbility Ability;
 		public Vector3Int ActionDestination;
 		public Vector3Int MoveDestination;
 		public bool NeedsToMove;
@@ -26,5 +24,6 @@ namespace Snowball.Game
 		public Vector3Int ActionTarget;
 		public List<Vector3Int> AreaTargets;
 		public Vector3Int MoveTarget;
+		public bool NeedsToMove;
 	}
 }

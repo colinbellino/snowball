@@ -116,7 +116,7 @@ namespace Snowball.Game
 			var nodes = GetNodesInRange(startNode, maxDistance, grid, Pathfinding.DistanceType.Euclidean);
 
 			return nodes
-				.Where(node => GetUnitInNode(node, allUnits) == null)
+				.Where(node => GetUnitInNode(node, allUnits) == null && node != startNode)
 				.Select(node => (Vector3Int) node)
 				.ToList();
 		}
