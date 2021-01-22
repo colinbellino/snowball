@@ -12,7 +12,8 @@ namespace Snowball.Game
 	[CreateAssetMenu(menuName = "Snowball/RPG/Game Config")]
 	public class GameConfig : SerializedScriptableObject
 	{
-		public Vector2Int TilemapSize = new Vector2Int(32, 18);
+		public Vector2Int GridSize = new Vector2Int(32, 18);
+		public Vector2Int GridOffset = new Vector2Int(1, 1);
 
 		[Title("Tilemap")]
 		[Required] public TilesData TilesData;

@@ -20,20 +20,22 @@ namespace Snowball.Game
 		private int _turnNumber;
 
 		public Turn Turn => _turns?.Current;
+		public Grid DefaultGrid { get; private set; }
 		public Grid EmptyGrid { get; private set; }
-		public Grid WalkGrid { get; private set; }
 		public Grid BlockGrid { get; private set; }
+		public Grid WalkGrid { get; private set; }
 		public List<Unit> SortedUnits { get; private set; }
 
-		public void Start(List<Unit> units, Area area, TilesData tilesData)
+		public void Start(List<Unit> units, Area area, Vector2Int gridOffset, TilesData tilesData)
 		{
 			_turnNumber = 0;
 			_units = units;
 			_turns = StartTurn();
 			SortedUnits = new List<Unit>(_units);
-			EmptyGrid = GridHelpers.GetEmptyGrid(area, tilesData);
-			WalkGrid = GridHelpers.GetWalkGrid(area, tilesData);
-			BlockGrid = GridHelpers.GetBlockGrid(area, tilesData);
+			DefaultGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.AlwaysTrue);
+			EmptyGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsEmpty);
+			BlockGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsBlocking);
+			WalkGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsWalkable);
 		}
 
 		public void NextTurn()

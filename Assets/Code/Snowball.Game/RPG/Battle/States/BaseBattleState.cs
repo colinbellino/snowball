@@ -57,7 +57,7 @@ namespace Snowball.Game
 			{
 				var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
 				var mouseWorldPosition = _game.Camera.ScreenToWorldPoint(mousePosition);
-				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.GridSize);
+				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.GridSize, _config.GridOffset);
 
 				if (cursorPosition != _cursorPosition)
 				{

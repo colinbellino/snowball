@@ -33,7 +33,7 @@ namespace Snowball.Game
 		public UniTask PlaySoundEffect(AudioClip clip)
 		{
 			// Default to the center of the screen
-			return PlaySoundEffect(clip, (Vector2) _config.TilemapSize / 2);
+			return PlaySoundEffect(clip, (Vector2) _config.GridSize / 2);
 		}
 
 		public UniTask PlaySoundEffect(AudioClip clip, Vector3 position)
