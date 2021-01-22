@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 4
   Name: Road B
-  Area: {fileID: 11400000, guid: 9fa7dec324aaf3841ba4dec8ae90c91f, type: 2}
+  Area: {fileID: 11400000, guid: 0f51ee6ec569e57499d596e493a7cf77, type: 2}
   Foes:
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  StartConversation: []

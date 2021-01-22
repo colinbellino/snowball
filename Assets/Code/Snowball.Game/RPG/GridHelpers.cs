@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 using NesScripts.Controls.PathFind;
 using UnityEngine;
 using Grid = NesScripts.Controls.PathFind.Grid;
@@ -10,76 +9,59 @@ namespace Snowball.Game
 {
 	public static class GridHelpers
 	{
-		public static Grid GetEmptyGrid(Area area, TilesData tilesData)
-		{
-			var data = new bool[area.Size.x, area.Size.y];
-			for (var x = 0; x < area.Size.x; x++)
-			{
-				for (var y = 0; y < area.Size.y; y++)
-				{
-					var index = x + y * area.Size.x;
-					var tileId = area.Tiles[index];
-					var tileData = tilesData[tileId];
+		public static bool AlwaysTrue(int x, int y, int index, Area area, TilesData tilesData) => true;
 
-					data[x, y] = tileData.Blocking == false;
+		public static bool IsEmpty(int x, int y, int index, Area area, TilesData tilesData)
+		{
+			var tileData = tilesData[area.Tiles[index]];
+			return tileData.Blocking == false;
+		}
+
+		public static bool IsBlocking(int x, int y, int index, Area area, TilesData tilesData)
+		{
+			var tileData = tilesData[area.Tiles[index]];
+			return tileData.Blocking;
+		}
+
+		public static bool IsWalkable(int x, int y, int index, Area area, TilesData tilesData)
+		{
+			var tileData = tilesData[area.Tiles[index]];
+			if (tileData.Climbable)
+			{
+				return true;
+			}
+
+			if (tileData.Blocking)
+			{
+				return false;
+			}
+
+			// Check if the tile below is walkable (ground)
+			if (y > 0)
+			{
+				var belowIndex = x + (y - 1) * area.Size.x;
+				var belowTileId = area.Tiles[belowIndex];
+
+				if (tilesData[belowTileId].Walkable)
+				{
+					return true;
 				}
 			}
 
-			return new Grid(data);
+			return false;
 		}
 
-		public static Grid GetWalkGrid(Area area, TilesData tilesData)
+		public static Grid GenerateGrid(Area area, Vector2Int offset, TilesData tilesData, Func<int, int, int, Area, TilesData, bool> Check)
 		{
 			var data = new bool[area.Size.x, area.Size.y];
-			for (var x = 0; x < area.Size.x; x++)
+
+			for (var x = offset.x; x < area.Size.x - offset.x; x++)
 			{
-				for (var y = 0; y < area.Size.y; y++)
+				for (var y = offset.y; y < area.Size.y - offset.y; y++)
 				{
 					var index = x + y * area.Size.x;
-					var tileId = area.Tiles[index];
-					var tileData = tilesData[tileId];
 
-					if (tileData.Climbable)
-					{
-						data[x, y] = true;
-						continue;
-					}
-
-					if (tileData.Blocking)
-					{
-						data[x, y] = false;
-						continue;
-					}
-
-					// Check if the tile below is walkable (ground)
-					if (y > 0)
-					{
-						var belowIndex = x + (y - 1) * area.Size.x;
-						var belowTileId = area.Tiles[belowIndex];
-
-						if (tilesData[belowTileId].Walkable)
-						{
-							data[x, y] = true;
-						}
-					}
-				}
-			}
-
-			return new Grid(data);
-		}
-
-		public static Grid GetBlockGrid(Area area, TilesData tilesData)
-		{
-			var data = new bool[area.Size.x, area.Size.y];
-			for (var x = 0; x < area.Size.x; x++)
-			{
-				for (var y = 0; y < area.Size.y; y++)
-				{
-					var index = x + y * area.Size.x;
-					var tileId = area.Tiles[index];
-					var tileData = tilesData[tileId];
-
-					data[x, y] = tileData.Blocking;
+					data[x, y] = Check(x, y, index, area, tilesData);
 				}
 			}
 
@@ -92,11 +74,11 @@ namespace Snowball.Game
 			return path.Prepend(start).ToList();
 		}
 
-		public static Vector3Int GetCursorPosition(Vector2 cursorPosition, Vector2Int areaSize)
+		public static Vector3Int GetCursorPosition(Vector2 cursorPosition, Vector2Int gridSize, Vector2Int offset)
 		{
 			var position = new Vector3Int(
-				Mathf.RoundToInt(cursorPosition.x).Clamp(0, areaSize.x - 1),
-				Mathf.RoundToInt(cursorPosition.y).Clamp(0, areaSize.y - 1),
+				Mathf.RoundToInt(cursorPosition.x).Clamp(offset.x, gridSize.x),
+				Mathf.RoundToInt(cursorPosition.y).Clamp(offset.y, gridSize.y),
 				0
 			);
 

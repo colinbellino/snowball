@@ -186,6 +186,7 @@ MonoBehaviour:
   _encounters:
   - {fileID: 11400000, guid: 86fa692402f9141d9a32bc710b6feb6c, type: 2}
   - {fileID: 11400000, guid: 0e5bfa029f57585498dbd38a5034e83a, type: 2}
+  - {fileID: 11400000, guid: 9ec9058127a4bd14ab274fad69e47ebd, type: 2}
   - {fileID: 11400000, guid: 37695e6998378a747a17ae7661881f62, type: 2}
   AudioMixer: {fileID: 24100000, guid: c00711887b3714031932c58a1ac16396, type: 2}
   MusicAudioMixerGroup: {fileID: -1804572004088458924, guid: c00711887b3714031932c58a1ac16396,

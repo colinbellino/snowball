@@ -54,7 +54,7 @@ namespace Snowball.Game
 			}
 
 			_controls.Enable();
-			_turnManager.Start(allUnits, encounter.Area, _config.TilesData);
+			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);
 
 #if UNITY_EDITOR
 			_board.DrawGridWalk(_turnManager.WalkGrid);

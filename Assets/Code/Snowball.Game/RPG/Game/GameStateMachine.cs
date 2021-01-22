@@ -62,9 +62,9 @@ namespace Snowball.Game
 			_currentState = _states[_machine.State];
 		}
 
-		public void Start()
+		public async void Start()
 		{
-			_currentState.Enter();
+			await _currentState.Enter();
 		}
 
 		public void Tick() => _currentState?.Tick();

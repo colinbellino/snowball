@@ -16,6 +16,7 @@ namespace Snowball.Game
 		private void Start()
 		{
 			Game.InitForDebug();
+			Load();
 		}
 
 		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
@@ -36,7 +37,7 @@ namespace Snowball.Game
 		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
 		private void Save()
 		{
-			_area.Size = new Vector2Int(32, 18);
+			_area.Size = Game.Instance.Config.GridSize + Game.Instance.Config.GridOffset * 2;
 			_area.Tiles = new int[_area.Size.x * _area.Size.y];
 			_area.AllySpawnPoints = new List<Vector2Int>();
 			_area.FoeSpawnPoints = new List<Vector2Int>();
