@@ -9,7 +9,6 @@ namespace Snowball.Game
 	public class TitleState : IState
 	{
 		private readonly GameStateMachine _machine;
-		private ParticleSystem _snowballEffect;
 
 		public TitleState(GameStateMachine machine)
 		{
@@ -29,17 +28,17 @@ namespace Snowball.Game
 				ResetGameState();
 			}
 
+			#if UNITY_EDITOR
 			if (Game.Instance.Config.SkipTitle)
 			{
 				StartBattle(0);
 				return;
 			}
+			#endif
 
 			Game.Instance.TitleUI.Show(hasSaveFile);
 			Game.Instance.TitleUI.StartButtonClicked += OnStartButtonClicked;
 			Game.Instance.TitleUI.NewGameButtonClicked += OnNewGameButtonClicked;
-
-			_snowballEffect = Game.Instance.Spawner.SpawnEffect(Game.Instance.Config.SnowfallPrefab);
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 		}
@@ -47,8 +46,6 @@ namespace Snowball.Game
 		public async UniTask Exit()
 		{
 			await Game.Instance.Transition.StartTransition(Color.white);
-
-			GameObject.Destroy(_snowballEffect.gameObject);
 
 			Game.Instance.TitleUI.Hide();
 			Game.Instance.TitleUI.StartButtonClicked -= OnStartButtonClicked;
