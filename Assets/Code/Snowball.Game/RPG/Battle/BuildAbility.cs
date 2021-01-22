@@ -27,7 +27,7 @@ namespace Snowball.Game
 		public List<Vector3Int> GetTilesInRange(Vector3Int origin, Unit actor, TurnManager turnManager)
 		{
 			return GridHelpers.GetWalkableTilesInRange(
-				origin, actor.BuildRange,
+				origin, actor, actor.BuildRange,
 				turnManager.WalkGrid, turnManager.GetActiveUnits()
 			);
 		}

@@ -7,6 +7,8 @@
  * Author: Ronen Ness.
  * Since: 2016.
 */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -124,11 +126,12 @@ namespace NesScripts.Controls.PathFind
 			return null;
 		}
 
-		public static List<Node> GetTilesInRange(Node startNode, int maxDistance, Grid grid, DistanceType distanceType = DistanceType.Manhattan, bool ignorePrices = false)
+		public static List<Node> GetTilesInRange(Node startNode, int maxDistance, Grid grid, DistanceType distanceType = DistanceType.Manhattan, Func<Node, int> Check = default)
 		{
-			var nodesInRange = new List<Node>();
+			var nodesInRange = new List<Node> { startNode };
 			var nodesToCheck = new HashSet<Node>();
-			nodesInRange.Add(startNode);
+			var nodesBlocked = new HashSet<Node>();
+			var nodesPassing = new HashSet<Node>();
 
 			while (nodesInRange.Count > 0)
 			{
@@ -140,21 +143,39 @@ namespace NesScripts.Controls.PathFind
 				var neighbours = grid.GetNeighbours(currentNode, distanceType);
 				foreach (var neighbour in neighbours)
 				{
-					if (!neighbour.walkable || nodesToCheck.Contains(neighbour))
+					if (neighbour.walkable == false || nodesToCheck.Contains(neighbour) || nodesBlocked.Contains(neighbour.parent))
 					{
+						continue;
+					}
+
+					var checkResult = 1;
+					if (Check != null)
+					{
+						checkResult = Check(neighbour);
+					}
+
+					if (checkResult == -1)
+					{
+						nodesBlocked.Add(neighbour);
 						continue;
 					}
 
 					var distance = GetDistance(startNode, neighbour);
 					if (distance <= maxDistance * 10)
 					{
-						nodesToCheck.Add(neighbour);
+						neighbour.parent = currentNode;
 						nodesInRange.Add(neighbour);
+						nodesToCheck.Add(neighbour);
+
+						if (checkResult > 0)
+						{
+							nodesPassing.Add(neighbour);
+						}
 					}
 				}
 			}
 
-			return nodesToCheck.ToList();
+			return nodesPassing.ToList();
 		}
 
 		/// <summary>

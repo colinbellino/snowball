@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using NesScripts.Controls.PathFind;
 using UnityEngine;
 using Grid = NesScripts.Controls.PathFind.Grid;
@@ -105,30 +106,38 @@ namespace Snowball.Game
 		public static List<Vector3Int> GetTilesInRange(Vector3Int start, int maxDistance, Grid grid)
 		{
 			var startNode = grid.nodes[start.x, start.y];
-			return GetNodesInRange(startNode, maxDistance, grid)
-				.Select(node => (Vector3Int) node)
-				.ToList();
+			var nodes = Pathfinding.GetTilesInRange(startNode, maxDistance, grid);
+
+			return nodes.Select(node => (Vector3Int) node).ToList();
 		}
 
-		public static List<Vector3Int> GetWalkableTilesInRange(Vector3Int start, int maxDistance, Grid grid, List<Unit> allUnits)
+		public static List<Vector3Int> GetWalkableTilesInRange(Vector3Int start, Unit actor, int maxDistance, Grid grid, List<Unit> allUnits)
 		{
 			var startNode = grid.nodes[start.x, start.y];
-			var nodes = GetNodesInRange(startNode, maxDistance, grid, Pathfinding.DistanceType.Euclidean);
 
-			return nodes
-				.Where(node => GetUnitInNode(node, allUnits) == null && node != startNode)
-				.Select(node => (Vector3Int) node)
-				.ToList();
+			Func<Node, int> Check = (node) =>
+			{
+				if (node == startNode)
+				{
+					return 0;
+				}
+
+				var unit = GetUnitInNode(node, allUnits);
+				if (unit != null)
+				{
+					return unit.Alliance == actor.Alliance ? 0 : -1;
+				}
+
+				return 1;
+			};
+			var nodes = Pathfinding.GetTilesInRange(startNode, maxDistance, grid, Pathfinding.DistanceType.Euclidean, Check);
+
+			return nodes.Select(node => (Vector3Int) node).ToList();
 		}
 
 		private static Unit GetUnitInNode(Node node, List<Unit> allUnits)
 		{
 			return allUnits.Find(unit => unit.GridPosition.x == node.gridX && unit.GridPosition.y == node.gridY);
-		}
-
-		private static IEnumerable<Node> GetNodesInRange(Node startNode, int maxDistance, Grid grid, Pathfinding.DistanceType distanceType = Pathfinding.DistanceType.Manhattan)
-		{
-			return Pathfinding.GetTilesInRange(startNode, maxDistance, grid, distanceType);
 		}
 
 		public static int CalculateHitAccuracy(Vector3 start, Vector3 destination, Unit attacker, Grid blockGrid, List<Unit> allUnits)
