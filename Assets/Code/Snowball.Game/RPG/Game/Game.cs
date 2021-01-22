@@ -12,6 +12,7 @@ namespace Snowball.Game
 		public BattleUI BattleUI { get; }
 		public TitleUI TitleUI { get; }
 		public CreditsUI CreditsUI { get; }
+		public ConversationUI ConversationUI { get; }
 		public Board Board { get; }
 		public Worldmap Worldmap { get; }
 		public GameState State { get; }
@@ -19,6 +20,7 @@ namespace Snowball.Game
 		public AudioPlayer AudioPlayer { get; }
 		public TransitionManager Transition { get; }
 		public ComputerPlayerUnit CPU { get; }
+		public Conversation Conversation { get; }
 
 		public static Game Instance { get; private set; }
 
@@ -35,6 +37,7 @@ namespace Snowball.Game
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			TitleUI = GameObject.FindObjectOfType<TitleUI>();
 			CreditsUI = GameObject.FindObjectOfType<CreditsUI>();
+			ConversationUI = GameObject.FindObjectOfType<ConversationUI>();
 			Board = GameObject.FindObjectOfType<Board>();
 			Worldmap = GameObject.FindObjectOfType<Worldmap>();
 			Transition = GameObject.FindObjectOfType<TransitionManager>();
@@ -43,6 +46,7 @@ namespace Snowball.Game
 			Controls = new GameControls();
 			State = new GameState();
 			Database = new Database();
+			Conversation = new Conversation(ConversationUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
 			AudioPlayer = new AudioPlayer(Config, audioSource);
 

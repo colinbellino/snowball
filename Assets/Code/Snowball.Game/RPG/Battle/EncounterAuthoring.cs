@@ -14,6 +14,7 @@ namespace Snowball.Game
 		public string Name;
 		public Area Area;
 		public List<UnitAuthoring> Foes;
+		public ConversationMessage[] StartConversation;
 
 #if UNITY_EDITOR
 		private void OnValidate()

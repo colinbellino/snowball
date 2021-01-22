@@ -200,7 +200,7 @@ MonoBehaviour:
   MenuCancelClip: {fileID: 8300000, guid: 80610ac3925faf74fb3ffb70c56d8292, type: 3}
   MusicVolume: 1
   SoundVolume: 1
-  SkipTitle: 0
+  SkipTitle: 1
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
