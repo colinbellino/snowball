@@ -22,7 +22,7 @@ namespace Snowball.Game
 
 		public bool IsValidTarget(Unit actor, Unit target)
 		{
-			return target != null && target.HealthCurrent > 0 && target.Alliance != actor.Alliance;
+			return target != null && target.HealthCurrent > 0 && target.Alliance != actor.Alliance && target.Type == Unit.Types.Humanoid;
 		}
 
 		public List<Vector3Int> GetAreaOfEffect(Vector3Int destination)
