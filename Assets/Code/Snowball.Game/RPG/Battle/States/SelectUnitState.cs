@@ -9,7 +9,7 @@ namespace Snowball.Game
 
 		public override async UniTask Enter()
 		{
-			base.Enter();
+			await base.Enter();
 
 			_turnManager.NextTurn();
 
