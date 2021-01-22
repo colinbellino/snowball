@@ -55,7 +55,7 @@ namespace Snowball.Game
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;
-		[SerializeField] private UnitAuthoring _snowmanUnit;
-		[Required] public int SnowmanUnitId => _snowmanUnit.Id;
+		[SerializeField] private UnitAuthoring _snowpalUnit;
+		[Required] public int SnowmanUnitId => _snowpalUnit.Id;
 	}
 }
