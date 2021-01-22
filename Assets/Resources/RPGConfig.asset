@@ -206,4 +206,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
   - {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
   WorldmapStart: {x: 9, y: 7, z: 0}
-  _snowmanUnit: {fileID: 11400000, guid: 590af672022a790419e5e5b9fa795112, type: 2}
+  _snowpalUnit: {fileID: 11400000, guid: 590af672022a790419e5e5b9fa795112, type: 2}
