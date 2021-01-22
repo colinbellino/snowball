@@ -16,8 +16,7 @@ namespace Snowball.Game
 			await base.Enter();
 
 			_validMovePositions = GridHelpers.GetWalkableTilesInRange(
-				_turn.Unit.GridPosition,
-				_turn.Unit.MoveRange,
+				_turn.Unit.GridPosition, _turn.Unit, _turn.Unit.MoveRange,
 				_turnManager.WalkGrid,
 				_turnManager.GetActiveUnits()
 			);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,7 +19,7 @@ namespace Snowball.Game
 			var plan = new Plan();
 			var actionOptions = new List<ActionOption>();
 			var moveOptions = GridHelpers.GetWalkableTilesInRange(
-				actor.GridPosition, actor.MoveRange,
+				actor.GridPosition, actor, actor.MoveRange,
 				turnManager.WalkGrid, turnManager.GetActiveUnits()
 			);
 			moveOptions.Add(actor.GridPosition);
