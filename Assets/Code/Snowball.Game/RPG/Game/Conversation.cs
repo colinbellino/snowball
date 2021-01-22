@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Snowball.Game
@@ -8,7 +9,7 @@ namespace Snowball.Game
 	[Serializable]
 	public class ConversationMessage
 	{
-		public string Text;
+		[TextArea] public string Text;
 		public UnitAuthoring Unit;
 	}
 
@@ -27,7 +28,7 @@ namespace Snowball.Game
 
 			_ui.Show();
 
-			ShowMessage(queue.Dequeue());
+			await _ui.SetMessage(queue.Dequeue());
 
 			while (true)
 			{
@@ -40,16 +41,11 @@ namespace Snowball.Game
 						break;
 					}
 
-					ShowMessage(queue.Dequeue());
+					await _ui.SetMessage(queue.Dequeue());
 				}
 			}
 
 			_ui.Hide();
-		}
-
-		private void ShowMessage(ConversationMessage message)
-		{
-			_ui.SetMessage(message);
 		}
 	}
 }

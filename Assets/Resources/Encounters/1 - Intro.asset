@@ -19,14 +19,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
   StartConversation:
-  - Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis
-      mi, auctor in ex sed, dictum accumsan nisi.
-    Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
-  - Text: Quisque lacus justo, venenatis vitae semper sit amet, faucibus vel odio.
+  - Text: 'Hey there !
+
+
+      I''m testing an early version of the conversation
+      system here.'
     Unit: {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
-  - Text: Nunc dignissim nibh quam, in porta nulla imperdiet at.
+  - Text: 'Looks good to me. '
     Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
-  - Text: Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque elit
-      tellus, lobortis in malesuada ut, egestas nec nisl. Vivamus porta placerat
-      lacus, in porta tortor hendrerit vitae.
+  - Text: 'Yeah, good enough for now i guess.
+
+
+      Alrighty then, on to battle
+      !'
     Unit: {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
+  - Text: Wait, what ?!
+    Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
