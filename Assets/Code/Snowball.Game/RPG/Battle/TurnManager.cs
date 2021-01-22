@@ -11,8 +11,8 @@ namespace Snowball.Game
 	public class TurnManager
 	{
 		private const int _turnActivation = 100;
-		private const int _turnCost = 50;
-		private const int _moveCost = 30;
+		private const int _turnCost = 60;
+		private const int _moveCost = 20;
 		private const int _actionCost = 20;
 
 		private IEnumerator<Turn> _turns;
@@ -81,6 +81,9 @@ namespace Snowball.Game
 				}
 				SortedUnits.Sort(CompareChargeTime);
 
+				// Yield an empty turn just so we can give the hand to the rest of the program for debugging purposes.
+				yield return null;
+
 				for (var unitIndex = SortedUnits.Count - 1; unitIndex >= 0; --unitIndex)
 				{
 					var unit = SortedUnits[unitIndex];
@@ -95,7 +98,7 @@ namespace Snowball.Game
 
 						_turnNumber += 1;
 
-						ConsumeCT(turn);
+						ConsumeChargeTime(turn);
 
 						Notification.Send("TurnEnded");
 					}
@@ -105,7 +108,7 @@ namespace Snowball.Game
 			}
 		}
 
-		private void ConsumeCT(Turn turn)
+		private void ConsumeChargeTime(Turn turn)
 		{
 			var cost = _turnCost;
 			if (turn.HasMoved)

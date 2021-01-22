@@ -11,17 +11,27 @@ namespace Snowball.Game
 
 		private Unit _unit;
 
+		private void Awake()
+		{
+			_canvas.gameObject.SetActive(false);
+		}
+
+		public void Init(Unit unit)
+		{
+			_unit = unit;
+		}
+
 		private void Update()
 		{
 			if (_unit == null)
 			{
-				// _unit = Game.Instance.Battle.SortedUnits.Find(unit => unit.Name == gameObject.name);
 				return;
 			}
 
 			if (_unit.HealthCurrent > 0)
 			{
-				SetDebugText($"{_unit.Name} \n [{_unit.GridPosition.x},{_unit.GridPosition.y}] · {_unit.HealthCurrent}/{_unit.HealthMax}");
+				_canvas.gameObject.SetActive(true);
+				SetDebugText($"{_unit.Name}\n[{_unit.GridPosition.x},{_unit.GridPosition.y}]\nHP {_unit.HealthCurrent}/{_unit.HealthMax} · CT {_unit.ChargeTime}");
 			}
 			else
 			{

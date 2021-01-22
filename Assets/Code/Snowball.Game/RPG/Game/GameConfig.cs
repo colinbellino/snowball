@@ -51,6 +51,7 @@ namespace Snowball.Game
 
 		[Title("Debug")]
 		public bool SkipTitle;
+		public bool DebugTurn;
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;

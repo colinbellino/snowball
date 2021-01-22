@@ -21,7 +21,7 @@ MonoBehaviour:
   Type: 0
   MoveRange: 8
   Health: 1
-  Speed: 4
+  Speed: 5
   HitAccuracy: 100
   HitRange: 10
   HitDamage: 1
