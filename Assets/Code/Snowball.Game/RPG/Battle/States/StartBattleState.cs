@@ -66,13 +66,6 @@ namespace Snowball.Game
 			if (encounter.StartConversation.Length > 0)
 			{
 				await Game.Instance.Conversation.Start(encounter.StartConversation);
-				var messages = new Queue<ConversationMessage>(new[]
-				{
-					new ConversationMessage { Unit = _database.Units[1], Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis mi, auctor in ex sed, dictum accumsan nisi." },
-					new ConversationMessage { Unit = _database.Units[2], Text = "Quisque lacus justo, venenatis vitae semper sit amet, faucibus vel odio." },
-					new ConversationMessage { Unit = _database.Units[1], Text = "Nunc dignissim nibh quam, in porta nulla imperdiet at." },
-					new ConversationMessage { Unit = _database.Units[2], Text = "Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque elit tellus, lobortis in malesuada ut, egestas nec nisl. Vivamus porta placerat lacus, in porta tortor hendrerit vitae." },
-				});
 			}
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
