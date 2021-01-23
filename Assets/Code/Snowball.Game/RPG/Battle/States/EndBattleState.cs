@@ -21,6 +21,7 @@ namespace Snowball.Game
 				unit.Facade = null;
 			}
 
+			_audio.StopMusic();
 			await Game.Instance.Transition.StartTransition(Color.white);
 
 			var result = _turnManager.GetBattleResult();

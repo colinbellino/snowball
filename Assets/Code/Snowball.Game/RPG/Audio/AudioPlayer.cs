@@ -9,14 +9,14 @@ namespace Snowball.Game
 	public class AudioPlayer
 	{
 		private readonly GameConfig _config;
-		private readonly AudioSource _source;
+		private readonly AudioSource _musicSource;
 
 		private readonly Dictionary<string, float> _musicTimes = new Dictionary<string, float>();
 
-		public AudioPlayer(GameConfig config, AudioSource source)
+		public AudioPlayer(GameConfig config, AudioSource musicSource)
 		{
 			_config = config;
-			_source = source;
+			_musicSource = musicSource;
 
 			SetMusicVolume(_config.MusicVolume);
 			SetSoundVolume(_config.SoundVolume);
@@ -24,9 +24,9 @@ namespace Snowball.Game
 
 		public void Tick()
 		{
-			if (_source.clip)
+			if (_musicSource.clip)
 			{
-				_musicTimes[_source.clip.name] = _source.time;
+				_musicTimes[_musicSource.clip.name] = _musicSource.time;
 			}
 		}
 
@@ -45,30 +45,30 @@ namespace Snowball.Game
 		{
 			if (fromStart)
 			{
-				_source.time = 0f;
+				_musicSource.time = 0f;
 			}
 			else
 			{
 				_musicTimes.TryGetValue(clip.name, out var time);
-				_source.time = time;
+				_musicSource.time = time;
 			}
 
-			_source.clip = clip;
-			_source.Play();
+			_musicSource.clip = clip;
+			_musicSource.Play();
 
 			if (fadeDuration > 0f)
 			{
-				await _source.DOFade(1f, fadeDuration);
+				await _musicSource.DOFade(1f, fadeDuration);
 			}
 			else
 			{
-				_source.volume = 1;
+				_musicSource.volume = 1;
 			}
 		}
 
 		public async UniTask StopMusic(float fadeDuration = 0.5f)
 		{
-			await _source.DOFade(0f, fadeDuration);
+			await _musicSource.DOFade(0f, fadeDuration);
 		}
 
 		private void OnPaused() => SetMusicVolume(-25);
@@ -86,7 +86,7 @@ namespace Snowball.Game
 		<br />0.5 => -40
 		<br />1   => 0
 		 */
-		private float ConvertToMixerVolume(float volume)
+		private static float ConvertToMixerVolume(float volume)
 		{
 			return (volume - 1f) * 80f;
 		}

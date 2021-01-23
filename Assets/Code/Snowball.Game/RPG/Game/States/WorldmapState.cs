@@ -11,14 +11,16 @@ namespace Snowball.Game
 		private readonly Worldmap _worldmap;
 		private readonly GameConfig _config;
 		private readonly GameState _state;
+		private readonly AudioPlayer _audio;
 		private ParticleSystem _snowballEffect;
 
-		public WorldmapState(GameStateMachine machine, Worldmap worldmap, GameConfig config, GameState state)
+		public WorldmapState(GameStateMachine machine, Worldmap worldmap, GameConfig config, GameState state, AudioPlayer audioPlayer)
 		{
 			_machine = machine;
 			_worldmap = worldmap;
 			_config = config;
 			_state = state;
+			_audio = audioPlayer;
 		}
 
 		public async UniTask Enter()
@@ -32,11 +34,13 @@ namespace Snowball.Game
 			_worldmap.SetEncounters(availableEncounters, Game.Instance.State);
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
+			_audio.PlayMusic(_config.WorldmapMusic, false, 0.5f);
 			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
 		public async UniTask Exit()
 		{
+			_audio.StopMusic();
 			await Game.Instance.Transition.StartTransition(Color.white);
 
 			_worldmap.EncounterClicked -= OnEncounterClicked;
