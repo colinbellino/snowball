@@ -116,6 +116,7 @@ namespace Snowball.Game
 
 			if (unit.HealthCurrent <= 0)
 			{
+				unit.Facade.PlaySound(_config.UnitDeathClip);
 				await unit.Facade.AnimateDeath();
 			}
 		}

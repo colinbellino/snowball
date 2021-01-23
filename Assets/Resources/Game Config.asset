@@ -204,6 +204,7 @@ MonoBehaviour:
   SoundVolume: 1
   UnitHitClip: {fileID: 8300000, guid: 48c7d4ba335c97648af223413b4befb4, type: 3}
   UnitMissClip: {fileID: 8300000, guid: 14e04fb7b9c10804c96c73890f1faeb9, type: 3}
+  UnitDeathClip: {fileID: 8300000, guid: ffc5f2c2a2042cf4e9e46cb858c5f4c7, type: 3}
   SkipTitle: 0
   DebugTurn: 0
   _startingParty:

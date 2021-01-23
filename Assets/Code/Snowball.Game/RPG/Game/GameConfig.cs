@@ -52,6 +52,7 @@ namespace Snowball.Game
 
 		[Required] public AudioClip UnitHitClip;
 		[Required] public AudioClip UnitMissClip;
+		[Required] public AudioClip UnitDeathClip;
 
 		[Title("Debug")]
 		public bool SkipTitle;
