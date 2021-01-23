@@ -12,17 +12,18 @@ namespace Snowball.Game
 			await base.Enter();
 
 			_ui.HideAll();
+
+			_audio.StopMusic();
+			await Game.Instance.Transition.StartTransition(Color.white);
+
 			_board.ClearArea();
 			_board.HideEncounter();
 
 			foreach (var unit in _turnManager.SortedUnits)
 			{
-				GameObject.Destroy(unit.Facade);
+				GameObject.Destroy(unit.Facade.gameObject);
 				unit.Facade = null;
 			}
-
-			_audio.StopMusic();
-			await Game.Instance.Transition.StartTransition(Color.white);
 
 			var result = _turnManager.GetBattleResult();
 			_machine.FireBattleEnded(result);
