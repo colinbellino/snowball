@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,71 +10,69 @@ namespace Snowball.Game
 	{
 		[SerializeField] private Tilemap _tilemap;
 		[SerializeField] private Tilemap _metaTilemap;
-		[SerializeField] private Area _area;
 
-		private void Start()
+		private GameConfig _config;
+
+		public void Init(GameConfig config)
 		{
-			Game.InitForDebug();
-			Load();
+			_config = config;
 		}
 
-		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
-		private void Clear()
+		public void Clear()
 		{
 			TilemapHelpers.ClearTilemap(_tilemap);
 			TilemapHelpers.ClearTilemap(_metaTilemap);
 		}
 
-		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
-		private void Load()
+		public void Load(Area area)
 		{
 			Clear();
-			TilemapHelpers.RenderArea(_area, _tilemap, Game.Instance.Config.TilesData, true);
-			TilemapHelpers.RenderMeta(_area, _metaTilemap);
+
+			TilemapHelpers.RenderArea(area, _tilemap, _config.TilesData, true);
+			TilemapHelpers.RenderMeta(area, _metaTilemap, _config.AllySpawnTile, _config.FoeSpawnTile);
 		}
 
-		[ButtonGroup("Actions")] [Button] [DisableInEditorMode]
-		private void Save()
+		public void Save(Area area)
 		{
-			_area.Size = Game.Instance.Config.GridSize + Game.Instance.Config.GridOffset * 2;
-			_area.Tiles = new int[_area.Size.x * _area.Size.y];
-			_area.AllySpawnPoints = new List<Vector2Int>();
-			_area.FoeSpawnPoints = new List<Vector2Int>();
-			var bounds = new BoundsInt(Vector3Int.zero, new Vector3Int(_area.Size.x, _area.Size.y, 1));
+			area.Size = _config.GridSize + _config.GridOffset * 2;
+			area.Tiles = new int[area.Size.x * area.Size.y];
+			area.AllySpawnPoints = new List<Vector2Int>();
+			area.FoeSpawnPoints = new List<Vector2Int>();
+			var bounds = new BoundsInt(Vector3Int.zero, new Vector3Int(area.Size.x, area.Size.y, 1));
 
 			var allTiles = _tilemap.GetTilesBlock(bounds);
-			for (var x = 0; x < _area.Size.x; x++)
+			for (var x = 0; x < area.Size.x; x++)
 			{
-				for (var y = 0; y < _area.Size.y; y++)
+				for (var y = 0; y < area.Size.y; y++)
 				{
-					var index = x + y * _area.Size.x;
-					var tileId = GetTileIndex(allTiles[index], Game.Instance.Config.TilesData);
+					var index = x + y * area.Size.x;
+					var tileId = GetTileIndex(allTiles[index], _config.TilesData);
 
-					_area.Tiles[index] = tileId;
+					area.Tiles[index] = tileId;
 				}
 			}
 
 			var allMeta = _metaTilemap.GetTilesBlock(bounds);
-			for (var x = 0; x < _area.Size.x; x++)
+			for (var x = 0; x < area.Size.x; x++)
 			{
-				for (var y = 0; y < _area.Size.y; y++)
+				for (var y = 0; y < area.Size.y; y++)
 				{
-					var index = x + y * _area.Size.x;
+					var index = x + y * area.Size.x;
 					var position = new Vector2Int(x, y);
 					var tile = allMeta[index];
 
-					if (tile == Game.Instance.Config.AllySpawnTile)
+					if (tile == _config.AllySpawnTile)
 					{
-						_area.AllySpawnPoints.Add(position);
+						area.AllySpawnPoints.Add(position);
 					}
-					if (tile == Game.Instance.Config.FoeSpawnTile)
+					if (tile == _config.FoeSpawnTile)
 					{
-						_area.FoeSpawnPoints.Add(position);
+						area.FoeSpawnPoints.Add(position);
 					}
 				}
 			}
 
-			EditorUtility.SetDirty(_area);
+			EditorUtility.SetDirty(area);
 		}
 
 		private static int GetTileIndex(TileBase tile, TilesData tilesData)

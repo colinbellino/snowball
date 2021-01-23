@@ -33,7 +33,7 @@ namespace Snowball.Game
 		private Game(bool suppressError = false)
 		{
 			var audioSource = GameObject.FindObjectOfType<AudioSource>();
-			Config = Resources.Load<GameConfig>("RPGConfig");
+			Config = Resources.Load<GameConfig>("Game Config");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			TitleUI = GameObject.FindObjectOfType<TitleUI>();
 			CreditsUI = GameObject.FindObjectOfType<CreditsUI>();

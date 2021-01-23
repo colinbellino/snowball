@@ -22,15 +22,15 @@ namespace Snowball.Game
 			}
 		}
 
-		public static void RenderMeta(Area area, Tilemap tilemap)
+		public static void RenderMeta(Area area, Tilemap tilemap, TileBase allySpawnTile, TileBase foeSpawnTile)
 		{
 			foreach (var position in area.AllySpawnPoints)
 			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.AllySpawnTile);
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), allySpawnTile);
 			}
 			foreach (var position in area.FoeSpawnPoints)
 			{
-				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), Game.Instance.Config.FoeSpawnTile);
+				tilemap.SetTile(new Vector3Int(position.x, position.y, 0), foeSpawnTile);
 			}
 		}
 

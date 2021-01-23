@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ec6d900c39d4951993c661d377d9a36, type: 3}
-  m_Name: RPGConfig
+  m_Name: Game Config
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -165,7 +165,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  TilemapSize: {x: 32, y: 18}
+  GridSize: {x: 32, y: 18}
+  GridOffset: {x: 1, y: 1}
   AllySpawnTile: {fileID: 11400000, guid: ebd44eed2a5824beca53cb86ba2cae2d, type: 2}
   FoeSpawnTile: {fileID: 11400000, guid: 6063212c35f054e309dfa5e141b952e7, type: 2}
   DebugTile: {fileID: 11400000, guid: 4ca402d9f58f5e24792e7c9c69021814, type: 2}
