@@ -32,7 +32,8 @@ namespace Snowball.Game
 
 		private Game(bool suppressError = false)
 		{
-			var audioSource = GameObject.FindObjectOfType<AudioSource>();
+			var _musicAudioSource = GameObject.Find("Music Audio Source").GetComponent<AudioSource>();
+
 			Config = Resources.Load<GameConfig>("Game Config");
 			BattleUI = GameObject.FindObjectOfType<BattleUI>();
 			TitleUI = GameObject.FindObjectOfType<TitleUI>();
@@ -48,11 +49,11 @@ namespace Snowball.Game
 			Database = new Database();
 			Conversation = new Conversation(ConversationUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
-			AudioPlayer = new AudioPlayer(Config, audioSource);
+			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
 
 			if (suppressError == false)
 			{
-				Assert.IsNotNull(audioSource);
+				Assert.IsNotNull(_musicAudioSource);
 				Assert.IsNotNull(Config);
 				Assert.IsNotNull(BattleUI);
 				Assert.IsNotNull(TitleUI);

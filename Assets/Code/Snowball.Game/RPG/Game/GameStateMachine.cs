@@ -27,13 +27,13 @@ namespace Snowball.Game
 		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
 
-		public GameStateMachine(GameConfig config, Worldmap worldmap, GameState state)
+		public GameStateMachine(GameConfig config, Worldmap worldmap, GameState state, AudioPlayer audioPlayer)
 		{
 			_states = new Dictionary<States, IState>
 			{
 				{ States.Bootstrap, new BootstrapState(this) },
 				{ States.Title, new TitleState(this) },
-				{ States.Worldmap, new WorldmapState(this, worldmap, config, state) },
+				{ States.Worldmap, new WorldmapState(this, worldmap, config, state, audioPlayer) },
 				{ States.Battle, new BattleState(this) },
 				{ States.Credits, new CreditsState(this) },
 			};

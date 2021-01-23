@@ -52,12 +52,6 @@ namespace Snowball.Game
 			}
 
 			_controls.Enable();
-			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);
-
-#if UNITY_EDITOR
-			_board.DrawGridWalk(_turnManager.WalkGrid);
-			_board.DrawBlockWalk(_turnManager.BlockGrid);
-#endif
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 
@@ -65,6 +59,15 @@ namespace Snowball.Game
 			{
 				await Game.Instance.Conversation.Start(encounter.StartConversation);
 			}
+
+			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);
+
+			#if UNITY_EDITOR
+			_board.DrawGridWalk(_turnManager.WalkGrid);
+			_board.DrawBlockWalk(_turnManager.BlockGrid);
+			#endif
+
+			_audio.PlayMusic(_config.BattleMusic, false, 0.5f);
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}
