@@ -11,6 +11,7 @@ namespace Snowball.Game
 		[SerializeField] private SpriteRenderer _bodyRenderer;
 		[SerializeField] private SpriteRenderer _leftHandRenderer;
 		[SerializeField] private SpriteRenderer _rightHandRenderer;
+		[SerializeField] private AudioSource _audioSource;
 
 		public override string ToString() => name;
 
@@ -98,7 +99,7 @@ namespace Snowball.Game
 			const float durationPerUnit = 0.15f;
 
 			var direction = destination.x - transform.position.x;
-			if (NeedsToRotate(direction))
+			if (NeedsToRotate((int) direction))
 			{
 				await AnimateChangeDirection(direction > 0f ? Unit.Directions.Right : Unit.Directions.Left);
 			}
@@ -123,9 +124,34 @@ namespace Snowball.Game
 			;
 		}
 
-		private bool NeedsToRotate(float direction)
+		private bool NeedsToRotate(int direction)
 		{
 			return direction != _bodyRenderer.transform.right.x && Mathf.Abs(direction) != 0;
+		}
+
+		public void PlaySound(AudioClip targetHitClip)
+		{
+			_audioSource.PlayOneShot(targetHitClip);
+		}
+
+		public async UniTask AnimateEvade(int direction)
+		{
+			var originalPosition = _bodyRenderer.transform.localPosition;
+
+			await DOTween.Sequence()
+				.Append(_bodyRenderer.transform.DOLocalMoveX(originalPosition.x + -0.3f * direction, 0.2f))
+				.Append(_bodyRenderer.transform.DOLocalMoveX(originalPosition.x, 0.1f))
+			;
+		}
+
+		public async UniTask AnimateHit(int direction)
+		{
+			await DOTween.Sequence()
+				.Append(_bodyPivot.transform.DORotate(new Vector3(0f, 0f, direction > 0 ? 10f : -10f), 0.1f))
+				.Join(_bodyPivot.transform.DOScaleY(1.1f, 0.1f))
+				.Append(_bodyPivot.transform.DORotate(new Vector3(0f, 0f, 0f), 0.1f))
+				.Join(_bodyPivot.transform.DOScaleY(1f, 0.1f))
+			;
 		}
 	}
 }

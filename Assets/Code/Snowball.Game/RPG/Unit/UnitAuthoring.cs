@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -11,17 +12,24 @@ namespace Snowball.Game
 	{
 		public int Id;
 		public string Name = "Annyong";
+		public Unit.Types Type;
+
+		[Title("Visuals")]
 		public Sprite Sprite;
 		public Color ColorCloth = Color.magenta;
 		public Color ColorHair = Color.magenta;
 		public Color ColorSkin = Color.magenta;
-		public Unit.Types Type;
+
+		[Title("Stats")]
 		public int MoveRange = 3;
 		public int Health = 1;
 		public int Speed = 5;
 		public int HitAccuracy = 100;
 		public int HitRange = 10;
 		public int HitDamage = 1;
+		public int BuildRange = 1;
+
+		[Title("AI")]
 		public ActionPatterns ActionPatterns;
 		public Abilities[] Abilities;
 

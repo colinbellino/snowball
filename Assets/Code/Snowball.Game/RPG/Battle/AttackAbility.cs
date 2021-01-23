@@ -79,12 +79,12 @@ namespace Snowball.Game
 				if (didHit)
 				{
 					Debug.Log($"{actor} hit for {actor.HitDamage} damage! ({roll}/{hitChance})");
-					hitTasks.Add(ShowDamage(target, actor.HitDamage));
+					hitTasks.Add(Hit(target, actor.HitDamage));
 				}
 				else
 				{
 					Debug.Log($"{actor} missed! ({roll}/{hitChance})");
-					hitTasks.Add(ShowMiss(target));
+					hitTasks.Add(Evade(target));
 				}
 			}
 
@@ -104,32 +104,29 @@ namespace Snowball.Game
 			GameObject.Destroy(instance);
 		}
 
-		private UniTask ShowDamage(Unit unit, int amount)
+		private async UniTask Hit(Unit unit, int amount)
 		{
+			unit.Facade.PlaySound(_config.UnitHitClip);
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
 
-			var tasks = new List<UniTask>();
+			await UniTask.WhenAll(
+				unit.Facade.AnimateHit((int) unit.Direction),
+				_spawner.SpawnText(_config.DamageTextPrefab, amount.ToString(), unit.GridPosition + Vector3.up)
+			);
+
 			if (unit.HealthCurrent <= 0)
 			{
-				tasks.Add(unit.Facade.AnimateDeath());
+				await unit.Facade.AnimateDeath();
 			}
-
-			var spawnDamageText = _spawner.SpawnText(
-				_config.DamageTextPrefab,
-				amount.ToString(),
-				unit.GridPosition + Vector3.up
-			);
-			tasks.Add(spawnDamageText);
-
-			return UniTask.WhenAll(tasks);
 		}
 
-		private UniTask ShowMiss(Unit unit)
+		private async UniTask Evade(Unit unit)
 		{
-			return _spawner.SpawnText(
-				_config.DamageTextPrefab,
-				"Miss",
-				unit.GridPosition + Vector3.up
+			unit.Facade.PlaySound(_config.UnitMissClip);
+
+			await UniTask.WhenAll(
+				unit.Facade.AnimateEvade((int) unit.Direction),
+				_spawner.SpawnText(_config.DamageTextPrefab, "Miss", unit.GridPosition + Vector3.up)
 			);
 		}
 	}

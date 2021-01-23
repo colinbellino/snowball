@@ -47,8 +47,8 @@ namespace Snowball.Game
 			}
 			await actor.Facade.AnimateBuild(direction);
 
-			var newUnit = new Unit(_database.Units[_config.SnowmanUnitId]);
-			var facade = UnitHelpers.SpawnUnitFacade(
+			var newUnit = UnitHelpers.Create(_database.Units[_config.SnowmanUnitId]);
+			newUnit.Facade = UnitHelpers.SpawnUnitFacade(
 				_config.UnitPrefab,
 				newUnit,
 				plan.ActionDestination,
@@ -56,7 +56,6 @@ namespace Snowball.Game
 				actor.Alliance,
 				direction
 			);
-			newUnit.SetFacade(facade);
 
 			await newUnit.Facade.AnimateSpawn();
 

@@ -27,5 +27,29 @@ namespace Snowball.Game
 			material.SetColor("ReplacementColor2", hairColor);
 			material.SetColor("ReplacementColor3", skinColor);
 		}
+
+		public static Unit Create(UnitAuthoring authoring)
+		{
+			return new Unit
+			{
+				Id = authoring.Id,
+				Name = authoring.Name,
+				Sprite = authoring.Sprite,
+				ColorCloth = authoring.ColorCloth,
+				ColorHair = authoring.ColorHair,
+				ColorSkin = authoring.ColorSkin,
+				Type = authoring.Type,
+				MoveRange = authoring.MoveRange,
+				HealthCurrent = authoring.Health,
+				HealthMax = authoring.Health,
+				Speed = authoring.Speed,
+				HitAccuracy = authoring.HitAccuracy,
+				HitRange = authoring.HitRange,
+				HitDamage = authoring.HitDamage,
+				BuildRange = authoring.BuildRange,
+				ActionPatterns = authoring.ActionPatterns,
+				Abilities = authoring.Abilities,
+			};
+		}
 	}
 }

@@ -41,7 +41,8 @@ namespace Snowball.Game
 				if (_turn.Plan == null)
 				{
 					_turn.Plan = _cpu.CalculateBestPlan(_turn.Unit, _turnManager);
-					Debug.Log($"{_turn.Unit.Name} => {_turn.Plan.MoveDestination} > {_turn.Plan.Ability?.GetType().Name} | {_turn.Plan.ActionDestination}");
+					var abilityName = _turn.Plan.Ability == null ? "Wait" : _turn.Plan.Ability.GetType().Name;
+					Debug.Log($"{_turn.Unit.Name} > Move: {_turn.Plan.MoveDestination} | {abilityName}: {_turn.Plan.ActionDestination}");
 				}
 
 				if (_turn.Plan.NeedsToMove)
