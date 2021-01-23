@@ -50,6 +50,9 @@ namespace Snowball.Game
 		[Range(0f, 1f)] public float MusicVolume = 1f;
 		[Range(0f, 1f)] public float SoundVolume = 1f;
 
+		[Required] public AudioClip UnitHitClip;
+		[Required] public AudioClip UnitMissClip;
+
 		[Title("Debug")]
 		public bool SkipTitle;
 		public bool DebugTurn;

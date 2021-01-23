@@ -17,7 +17,8 @@ namespace Snowball.Game
 
 			foreach (var unit in _turnManager.SortedUnits)
 			{
-				unit.DestroyFacade();
+				GameObject.Destroy(unit.Facade);
+				unit.Facade = null;
 			}
 
 			await Game.Instance.Transition.StartTransition(Color.white);

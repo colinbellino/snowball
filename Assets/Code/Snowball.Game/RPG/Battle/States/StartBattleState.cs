@@ -22,8 +22,8 @@ namespace Snowball.Game
 			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
-				var unit = new Unit(_database.Units[_state.Party[index]]);
-				var facade = UnitHelpers.SpawnUnitFacade(
+				var unit = UnitHelpers.Create(_database.Units[_state.Party[index]]);
+				unit.Facade = UnitHelpers.SpawnUnitFacade(
 					_config.UnitPrefab,
 					unit,
 					position,
@@ -31,7 +31,6 @@ namespace Snowball.Game
 					Unit.Alliances.Ally,
 					Unit.Directions.Right
 				);
-				unit.SetFacade(facade);
 
 				allUnits.Add(unit);
 			}
@@ -39,8 +38,8 @@ namespace Snowball.Game
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
-				var unit = new Unit(encounter.Foes[index]);
-				var facade = UnitHelpers.SpawnUnitFacade(
+				var unit = UnitHelpers.Create(encounter.Foes[index]);
+				unit.Facade = UnitHelpers.SpawnUnitFacade(
 					_config.UnitPrefab,
 					unit,
 					position,
@@ -48,7 +47,6 @@ namespace Snowball.Game
 					Unit.Alliances.Foe,
 					Unit.Directions.Left
 				);
-				unit.SetFacade(facade);
 
 				allUnits.Add(unit);
 			}

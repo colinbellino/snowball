@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 4
   Name: Ursula
+  Type: 0
   Sprite: {fileID: -1875141621306811350, guid: c49300bf619467647bc0f8f61d5de66e, type: 3}
   ColorCloth: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
   ColorHair: {r: 0.23584908, g: 0.086577535, b: 0.023733223, a: 1}
   ColorSkin: {r: 0.909804, g: 0.7568628, b: 0.6117647, a: 1}
-  Type: 0
   MoveRange: 8
   Health: 1
   Speed: 5
   HitAccuracy: 100
   HitRange: 12
   HitDamage: 1
+  BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

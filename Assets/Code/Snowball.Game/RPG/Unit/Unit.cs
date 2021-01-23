@@ -27,7 +27,7 @@ namespace Snowball.Game
 		public int HitAccuracy;
 		public int HitRange;
 		public int HitDamage;
-		public int BuildRange = 1;
+		public int BuildRange;
 		public Vector3Int GridPosition;
 		public Directions Direction;
 		public Drivers Driver;
@@ -35,38 +35,7 @@ namespace Snowball.Game
 		public ActionPatterns ActionPatterns;
 		public Abilities[] Abilities;
 
-		public UnitFacade Facade { get; private set; }
-
-		public Unit(UnitAuthoring authoring)
-		{
-			Id = authoring.Id;
-			Name = authoring.Name;
-			Sprite = authoring.Sprite;
-			ColorCloth = authoring.ColorCloth;
-			ColorHair = authoring.ColorHair;
-			ColorSkin = authoring.ColorSkin;
-			Type = authoring.Type;
-			MoveRange = authoring.MoveRange;
-			HealthCurrent = authoring.Health;
-			HealthMax = authoring.Health;
-			Speed = authoring.Speed;
-			HitAccuracy = authoring.HitAccuracy;
-			HitRange = authoring.HitRange;
-			HitDamage = authoring.HitDamage;
-			ActionPatterns = authoring.ActionPatterns;
-			Abilities = authoring.Abilities;
-		}
-
-		public void SetFacade(UnitFacade facade)
-		{
-			Facade = facade;
-		}
-
-		public void DestroyFacade()
-		{
-			GameObject.Destroy(Facade.gameObject);
-			Facade = null;
-		}
+		public UnitFacade Facade;
 
 		public override string ToString() => Name;
 	}

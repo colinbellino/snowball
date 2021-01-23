@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3
   Name: Gaius
+  Type: 0
   Sprite: {fileID: 3827289592664535785, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
   ColorCloth: {r: 0.6039216, g: 0.13333334, b: 0.015686275, a: 1}
   ColorHair: {r: 0.6313726, g: 0.59607846, b: 0.6039216, a: 1}
   ColorSkin: {r: 0.9622642, g: 0.8367039, b: 0.71413314, a: 1}
-  Type: 0
   MoveRange: 8
   Health: 1
   Speed: 5
   HitAccuracy: 100
   HitRange: 10
   HitDamage: 1
+  BuildRange: 1
   ActionPatterns: 0
   Abilities: 0000000001000000

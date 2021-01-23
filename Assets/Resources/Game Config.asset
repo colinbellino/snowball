@@ -202,6 +202,8 @@ MonoBehaviour:
   MenuCancelClip: {fileID: 8300000, guid: 80610ac3925faf74fb3ffb70c56d8292, type: 3}
   MusicVolume: 1
   SoundVolume: 1
+  UnitHitClip: {fileID: 8300000, guid: 48c7d4ba335c97648af223413b4befb4, type: 3}
+  UnitMissClip: {fileID: 8300000, guid: 14e04fb7b9c10804c96c73890f1faeb9, type: 3}
   SkipTitle: 0
   DebugTurn: 0
   _startingParty:
