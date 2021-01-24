@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "af1a3958911535ac40c439c191cd6122ea6d7254"
+      "hash": "aabce53c35c0c7ee85a98121b9bc2453f15c03dd"
     },
     "com.colinbellino.plugins.pixelfonts": {
       "version": "https://github.com/colinbellino/unity-private-plugins.git?path=Assets/Plugins/PixelFonts/",

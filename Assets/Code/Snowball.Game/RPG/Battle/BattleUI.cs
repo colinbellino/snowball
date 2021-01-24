@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -168,7 +169,7 @@ namespace Snowball.Game
 				image.sprite = unit.Sprite;
 				// Normally this is done by unity when we call SetColor but not for UnityEngine.UI.Image
 				var materialInstance = Instantiate(image.material);
-				UnitHelpers.ApplyColors(materialInstance, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+				ApplyColors(materialInstance, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
 				image.material = materialInstance;
 
 				image.gameObject.SetActive(true);
