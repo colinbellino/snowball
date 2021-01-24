@@ -13,7 +13,7 @@ namespace Snowball.Game
 
 			_ui.HideAll();
 
-			_audio.StopMusic();
+			_ = _audio.StopMusic();
 			await Game.Instance.Transition.StartTransition(Color.white);
 
 			_board.ClearArea();

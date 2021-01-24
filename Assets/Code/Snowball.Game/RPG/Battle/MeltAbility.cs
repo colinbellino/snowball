@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -29,7 +30,7 @@ namespace Snowball.Game
 
 			actor.HealthCurrent = 0;
 
-			await actor.Facade.AnimateMelt();
+			await AnimateMelt(actor.Facade);
 			turnManager.SortedUnits.Remove(actor);
 		}
 	}

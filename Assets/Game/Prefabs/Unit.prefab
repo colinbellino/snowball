@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1108053048798086605
 RectTransform:
   m_ObjectHideFlags: 0
@@ -289,11 +289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d367224a66ef45aeb078068518d7c43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bodyPivot: {fileID: 6051934595333448455}
-  _bodyRenderer: {fileID: 251671757569734556}
-  _leftHandRenderer: {fileID: 3389336419954609205}
-  _rightHandRenderer: {fileID: 1556450675582927188}
-  _audioSource: {fileID: 2364297030824595305}
+  BodyPivot: {fileID: 6051934595333448455}
+  BodyRenderer: {fileID: 251671757569734556}
+  LeftHandRenderer: {fileID: 3389336419954609205}
+  RightHandRenderer: {fileID: 1556450675582927188}
+  AudioSource: {fileID: 2364297030824595305}
 --- !u!114 &6928755102110736747
 MonoBehaviour:
   m_ObjectHideFlags: 0

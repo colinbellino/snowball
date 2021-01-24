@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -37,18 +38,18 @@ namespace Snowball.Game
 			var actor = turnManager.Turn.Unit;
 			var plan = turnManager.Turn.Plan;
 
-			var direction = UnitHelpers.VectorToDirection(plan.ActionDestination - actor.GridPosition);
+			var direction = VectorToDirection(plan.ActionDestination - actor.GridPosition);
 
 			var needsToChangeDirection = direction != actor.Direction;
 			if (needsToChangeDirection)
 			{
-				await actor.Facade.AnimateChangeDirection(direction);
+				await AnimateChangeDirection(actor.Facade, direction);
 				actor.Direction = direction;
 			}
-			await actor.Facade.AnimateBuild(direction);
+			await AnimateBuild(actor.Facade, direction);
 
-			var newUnit = UnitHelpers.Create(_database.Units[_config.SnowmanUnitId]);
-			newUnit.Facade = UnitHelpers.SpawnUnitFacade(
+			var newUnit = Create(_database.Units[_config.SnowmanUnitId]);
+			newUnit.Facade = SpawnUnitFacade(
 				_config.UnitPrefab,
 				newUnit,
 				plan.ActionDestination,
@@ -57,7 +58,7 @@ namespace Snowball.Game
 				direction
 			);
 
-			await newUnit.Facade.AnimateSpawn();
+			await AnimateSpawn(newUnit.Facade);
 
 			turnManager.SortedUnits.Add(newUnit);
 		}

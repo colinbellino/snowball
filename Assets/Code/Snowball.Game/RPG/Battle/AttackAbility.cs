@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -50,16 +51,16 @@ namespace Snowball.Game
 			}
 
 			var aimDirection = ((Vector3)(plan.ActionDestination - actor.GridPosition)).normalized;
-			var direction = UnitHelpers.VectorToDirection(aimDirection);
+			var direction = VectorToDirection(aimDirection);
 
 			var needsToChangeDirection = direction != actor.Direction;
 			if (needsToChangeDirection)
 			{
-				await actor.Facade.AnimateChangeDirection(direction);
+				await AnimateChangeDirection(actor.Facade, direction);
 				actor.Direction = direction;
 			}
 
-			await actor.Facade.AnimateAttack(aimDirection);
+			await AnimateAttack(actor.Facade, aimDirection);
 
 			await ShootProjectile(actor.GridPosition, plan.ActionDestination);
 
@@ -106,27 +107,27 @@ namespace Snowball.Game
 
 		private async UniTask Hit(Unit unit, int amount)
 		{
-			unit.Facade.PlaySound(_config.UnitHitClip);
+			PlaySound(unit.Facade, _config.UnitHitClip);
 			unit.HealthCurrent = Math.Max(unit.HealthCurrent - amount, 0);
 
 			await UniTask.WhenAll(
-				unit.Facade.AnimateHit((int) unit.Direction),
+				AnimateHit(unit.Facade, (int) unit.Direction),
 				_spawner.SpawnText(_config.DamageTextPrefab, amount.ToString(), unit.GridPosition + Vector3.up)
 			);
 
 			if (unit.HealthCurrent <= 0)
 			{
-				unit.Facade.PlaySound(_config.UnitDeathClip);
-				await unit.Facade.AnimateDeath();
+				PlaySound(unit.Facade, _config.UnitDeathClip);
+				await AnimateDeath(unit.Facade);
 			}
 		}
 
 		private async UniTask Evade(Unit unit)
 		{
-			unit.Facade.PlaySound(_config.UnitMissClip);
+			PlaySound(unit.Facade, _config.UnitMissClip);
 
 			await UniTask.WhenAll(
-				unit.Facade.AnimateEvade((int) unit.Direction),
+				AnimateEvade(unit.Facade, (int) unit.Direction),
 				_spawner.SpawnText(_config.DamageTextPrefab, "Miss", unit.GridPosition + Vector3.up)
 			);
 		}

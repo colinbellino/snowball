@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -22,8 +23,8 @@ namespace Snowball.Game
 			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
-				var unit = UnitHelpers.Create(_database.Units[_state.Party[index]]);
-				unit.Facade = UnitHelpers.SpawnUnitFacade(
+				var unit = Create(_database.Units[_state.Party[index]]);
+				unit.Facade = SpawnUnitFacade(
 					_config.UnitPrefab,
 					unit,
 					position,
@@ -38,8 +39,8 @@ namespace Snowball.Game
 			for (var index = 0; index < encounter.Foes.Count; index++)
 			{
 				var position = new Vector3Int(encounter.Area.FoeSpawnPoints[index].x, encounter.Area.FoeSpawnPoints[index].y, 0);
-				var unit = UnitHelpers.Create(encounter.Foes[index]);
-				unit.Facade = UnitHelpers.SpawnUnitFacade(
+				var unit = Create(encounter.Foes[index]);
+				unit.Facade = SpawnUnitFacade(
 					_config.UnitPrefab,
 					unit,
 					position,
@@ -67,7 +68,7 @@ namespace Snowball.Game
 			_board.DrawBlockWalk(_turnManager.BlockGrid);
 			#endif
 
-			_audio.PlayMusic(_config.BattleMusic, false, 0.5f);
+			_ = _audio.PlayMusic(_config.BattleMusic, false, 0.5f);
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}

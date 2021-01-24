@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -15,8 +16,8 @@ namespace Snowball.Game
 				_turnManager.WalkGrid
 			);
 
-			await _turn.Unit.Facade.MoveOnPath(path);
-			await _turn.Unit.Facade.AnimateChangeDirection(_turn.Unit.Direction);
+			await MoveOnPath(_turn.Unit.Facade, path);
+			await AnimateChangeDirection(_turn.Unit.Facade, _turn.Unit.Direction);
 
 			_turn.Unit.GridPosition = _turn.Plan.MoveDestination;
 			_turn.HasMoved = true;
