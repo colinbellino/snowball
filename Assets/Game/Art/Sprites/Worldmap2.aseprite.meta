@@ -476,6 +476,195 @@ ScriptedImporter:
   - first:
       213: -2219407613550622840
     second: Worldmap2_34
+  - first:
+      213: 2610555894223056053
+    second: Worldmap2_0
+  - first:
+      213: 6426172057797693106
+    second: Worldmap2_1
+  - first:
+      213: -449768686831993973
+    second: Worldmap2_2
+  - first:
+      213: -7568868330700792316
+    second: Worldmap2_3
+  - first:
+      213: -4625628248543865771
+    second: Worldmap2_4
+  - first:
+      213: 8520950212428290933
+    second: Worldmap2_5
+  - first:
+      213: 288015682310783218
+    second: Worldmap2_6
+  - first:
+      213: 8939601693732466048
+    second: Worldmap2_7
+  - first:
+      213: -2925574048200024335
+    second: Worldmap2_8
+  - first:
+      213: -1924501232039061220
+    second: Worldmap2_9
+  - first:
+      213: 8271640349889875991
+    second: Worldmap2_10
+  - first:
+      213: -1698493131473987553
+    second: Worldmap2_11
+  - first:
+      213: 72309798543964101
+    second: Worldmap2_12
+  - first:
+      213: -5334818541621118165
+    second: Worldmap2_13
+  - first:
+      213: -7789791523022039226
+    second: Worldmap2_14
+  - first:
+      213: -6133951809479600165
+    second: Worldmap2_15
+  - first:
+      213: -2659426265240469029
+    second: Worldmap2_16
+  - first:
+      213: -7597403656426979036
+    second: Worldmap2_17
+  - first:
+      213: 7102472577155048930
+    second: Worldmap2_18
+  - first:
+      213: -3876913112068558545
+    second: Worldmap2_19
+  - first:
+      213: -1469136226710915410
+    second: Worldmap2_20
+  - first:
+      213: 6924789603945690197
+    second: Worldmap2_21
+  - first:
+      213: -1919441755968753088
+    second: Worldmap2_22
+  - first:
+      213: 6934372280085602032
+    second: Worldmap2_23
+  - first:
+      213: -6590476874679888762
+    second: Worldmap2_24
+  - first:
+      213: 1211742449395432042
+    second: Worldmap2_25
+  - first:
+      213: 6198314839444049057
+    second: Worldmap2_26
+  - first:
+      213: 2455051467448928307
+    second: Worldmap2_27
+  - first:
+      213: -754174888099233828
+    second: Worldmap2_28
+  - first:
+      213: -5222158816558514929
+    second: Worldmap2_29
+  - first:
+      213: 984251369215944215
+    second: Worldmap2_30
+  - first:
+      213: -1684936530279065748
+    second: Worldmap2_31
+  - first:
+      213: 1819523466648317236
+    second: Worldmap2_32
+  - first:
+      213: 8707278544108514387
+    second: Worldmap2_33
+  - first:
+      213: -2219407613550622840
+    second: Worldmap2_34
+  - first:
+      213: -2993662490447856260
+    second: Worldmap2_35
+  - first:
+      213: 4093413025856334022
+    second: Worldmap2_36
+  - first:
+      213: 609875865163425756
+    second: Worldmap2_37
+  - first:
+      213: -1702443451228151710
+    second: Worldmap2_38
+  - first:
+      213: -4481375692416341943
+    second: Worldmap2_39
+  - first:
+      213: 140868762426908250
+    second: Worldmap2_40
+  - first:
+      213: 7681989923279279838
+    second: Worldmap2_41
+  - first:
+      213: -5414843508003645290
+    second: Worldmap2_42
+  - first:
+      213: -4851475943150980668
+    second: Worldmap2_43
+  - first:
+      213: 5244279800229446627
+    second: Worldmap2_44
+  - first:
+      213: 312070776888453774
+    second: Worldmap2_45
+  - first:
+      213: -2942789812005903755
+    second: Worldmap2_46
+  - first:
+      213: -5043744690805626629
+    second: Worldmap2_47
+  - first:
+      213: 7191812328174451558
+    second: Worldmap2_48
+  - first:
+      213: 5266217428464788683
+    second: Worldmap2_49
+  - first:
+      213: -190292533068650043
+    second: Worldmap2_50
+  - first:
+      213: -2454862465478831983
+    second: Worldmap2_51
+  - first:
+      213: 2320983142511171074
+    second: Worldmap2_52
+  - first:
+      213: -7737957632875462610
+    second: Worldmap2_53
+  - first:
+      213: 2596233716393064224
+    second: Worldmap2_54
+  - first:
+      213: -8360677559206612668
+    second: Worldmap2_55
+  - first:
+      213: -1069708366461503136
+    second: Worldmap2_56
+  - first:
+      213: -8964417998048678973
+    second: Worldmap2_57
+  - first:
+      213: -636086435537480080
+    second: Worldmap2_58
+  - first:
+      213: 8010474284782074501
+    second: Worldmap2_59
+  - first:
+      213: 1931961613318951737
+    second: Worldmap2_60
+  - first:
+      213: -7044772402691495996
+    second: Worldmap2_61
+  - first:
+      213: -9125523633375608807
+    second: Worldmap2_62
   externalObjects: {}
   serializedVersion: 2
   userData: 
@@ -546,7 +735,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 0
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -558,7 +747,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 8
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -570,7 +759,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 16
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -582,7 +771,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 24
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -594,7 +783,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 32
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -606,7 +795,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 40
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -618,7 +807,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 32
+      y: 64
       width: 8
       height: 8
     alignment: 0
@@ -630,7 +819,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 0
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -642,7 +831,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 8
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -654,7 +843,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 16
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -666,7 +855,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 24
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -678,7 +867,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 32
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -690,7 +879,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 40
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -702,7 +891,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 24
+      y: 56
       width: 8
       height: 8
     alignment: 0
@@ -714,7 +903,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 0
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -726,7 +915,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 8
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -738,7 +927,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 16
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -750,7 +939,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 24
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -762,7 +951,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 32
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -774,7 +963,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 40
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -786,7 +975,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 16
+      y: 48
       width: 8
       height: 8
     alignment: 0
@@ -798,7 +987,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 0
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -810,7 +999,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 8
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -822,7 +1011,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 16
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -834,7 +1023,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 24
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -846,7 +1035,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 32
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -858,7 +1047,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 40
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -870,7 +1059,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 8
+      y: 40
       width: 8
       height: 8
     alignment: 0
@@ -882,7 +1071,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 0
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -894,7 +1083,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 8
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -906,7 +1095,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 16
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -918,7 +1107,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 24
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -930,7 +1119,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 32
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -942,7 +1131,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 40
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -954,7 +1143,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 0
+      y: 32
       width: 8
       height: 8
     alignment: 0
@@ -962,5 +1151,341 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
     spriteID: 887848ec8841331e0800000000000000
+  - name: Worldmap2_35
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: c7db17773df5476d0800000000000000
+  - name: Worldmap2_36
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 6c8af1d8579bec830800000000000000
+  - name: Worldmap2_37
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: cd7662c3ed6b67800800000000000000
+  - name: Worldmap2_38
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 2602b5773b4bf58e0800000000000000
+  - name: Worldmap2_39
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 94824741d84fec1c0800000000000000
+  - name: Worldmap2_40
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: a5e9760a46774f100800000000000000
+  - name: Worldmap2_41
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 24
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: ed611316229eb9a60800000000000000
+  - name: Worldmap2_42
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 698dc1fb48c9ad4b0800000000000000
+  - name: Worldmap2_43
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 4c1f12c75581cacb0800000000000000
+  - name: Worldmap2_44
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 3e3ce6361bc67c840800000000000000
+  - name: Worldmap2_45
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: e8a6739d7b2b45400800000000000000
+  - name: Worldmap2_46
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 572efbee14c1927d0800000000000000
+  - name: Worldmap2_47
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: bf8a4c63de4010ab0800000000000000
+  - name: Worldmap2_48
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 16
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 66bfc1865337ec360800000000000000
+  - name: Worldmap2_49
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: bc46d9d79dc551940800000000000000
+  - name: Worldmap2_50
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 5c9a80b03f1fb5df0800000000000000
+  - name: Worldmap2_51
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 190d1b418939eedd0800000000000000
+  - name: Worldmap2_52
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 2065c0bfed9c53020800000000000000
+  - name: Worldmap2_53
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: e208f65c7804d9490800000000000000
+  - name: Worldmap2_54
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 02730834fcca70420800000000000000
+  - name: Worldmap2_55
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 8
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 441f8e18e08e8fb80800000000000000
+  - name: Worldmap2_56
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 0697cc388e1a721f0800000000000000
+  - name: Worldmap2_57
+    rect:
+      serializedVersion: 2
+      x: 8
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 3cba038835df79380800000000000000
+  - name: Worldmap2_58
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 076185bc1ca2c27f0800000000000000
+  - name: Worldmap2_59
+    rect:
+      serializedVersion: 2
+      x: 24
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 58a36d2bbebea2f60800000000000000
+  - name: Worldmap2_60
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 9331191f9d4bfca10800000000000000
+  - name: Worldmap2_61
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 4c7291613d0fb3e90800000000000000
+  - name: Worldmap2_62
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 0
+      width: 8
+      height: 8
+    alignment: 0
+    pivot: {x: 0, y: 0}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    tessellationDetail: 0
+    spriteID: 9100733ca90ab5180800000000000000
   spriteRects: []
   selectedImporter: 1
