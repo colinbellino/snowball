@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9bd395213f44c279293f051d7143c19, type: 3}
-  m_Name: 3 - City A
+  m_Name: 6 - Bridge
   m_EditorClassIdentifier: 
-  Id: 3
-  Name: City A
-  Area: {fileID: 11400000, guid: 9fa7dec324aaf3841ba4dec8ae90c91f, type: 2}
+  Id: 6
+  Name: Bridge
+  Area: {fileID: 11400000, guid: 9741bb0b3ea50cf4e9b91c792019fbe9, type: 2}
   Foes:
-  - {fileID: 11400000, guid: dafb99f4254952546a49b59994d913a7, type: 2}
+  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  TeamColor: {r: 0.4012752, g: 0, b: 0.7735849, a: 1}
   StartConversation: []

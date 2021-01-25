@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -12,8 +13,9 @@ namespace Snowball.Game
 	{
 		public int Id;
 		public string Name;
-		public Area Area;
-		public List<UnitAuthoring> Foes;
+		[Required] public Area Area;
+		[Required] public List<UnitAuthoring> Foes;
+		[Required] public Color TeamColor = Color.red;
 		public ConversationMessage[] StartConversation;
 
 #if UNITY_EDITOR

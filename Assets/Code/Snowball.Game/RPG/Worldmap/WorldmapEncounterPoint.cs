@@ -37,6 +37,8 @@ namespace Snowball.Game
 		{
 			var color = cleared ? new Color(0.2f, 0.6f, 0.2f, 1f) : new Color(0.8f, 0.2f, 0.2f, 1f);
 			_spriteRenderer.material.SetColor("ReplacementColor1", color);
+			_spriteRenderer.material.SetColor("ReplacementColor2", _spriteRenderer.material.GetColor("OriginalColor2"));
+			_spriteRenderer.material.SetColor("ReplacementColor3", _spriteRenderer.material.GetColor("OriginalColor3"));
 			_text.text = encounter.Name;
 		}
 	}
