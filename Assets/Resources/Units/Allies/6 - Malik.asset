@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
+  m_Name: 6 - Malik
+  m_EditorClassIdentifier: 
+  Id: 6
+  Name: Malik
+  Type: 0
+  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
+  ColorCloth: {r: 0.2663679, g: 0.09119487, b: 1, a: 1}
+  ColorHair: {r: 0.3490566, g: 0.1790102, b: 0, a: 1}
+  ColorSkin: {r: 0.8584906, g: 0.6935757, b: 0.53183216, a: 1}
+  MoveRange: 10
+  Health: 3
+  Speed: 5
+  HitAccuracy: 100
+  HitRange: 10
+  HitDamage: 2
+  BuildRange: 1
+  ActionPatterns: 0
+  Abilities: 0000000001000000

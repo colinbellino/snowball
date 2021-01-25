@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7c3330f767f9018459e04482d6727f41
+guid: f6bc9e44afcc0a54b80f76fde0f93395
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -32,8 +32,8 @@ ScriptedImporter:
     wrapModeV: 0
     wrapModeW: 0
     alphaIsTransparency: 1
-    spriteMode: 1
-    spritePixelsPerUnit: 16
+    spriteMode: 2
+    spritePixelsPerUnit: 8
     spriteTessellationDetail: 0
     spriteExtrude: 1
     spriteMeshType: 1
@@ -68,17 +68,17 @@ ScriptedImporter:
   animationSettings: []
   texture: {instanceID: 0}
   spriteImportData:
-  - name: WorldmapEncounter
+  - name: Panel
     rect:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 16
-      height: 16
+      width: 8
+      height: 8
     alignment: 0
     pivot: {x: 0.5, y: 0.5}
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 1, y: 1, z: 1, w: 1}
     tessellationDetail: 0
-    spriteID: f3aa39df60f63074990a0283dc779538
+    spriteID: f1e33ec2dd204254c9d3a8c77e54748a
   spriteRects: []
   selectedImporter: 1

@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9bd395213f44c279293f051d7143c19, type: 3}
-  m_Name: 2 - Road A
+  m_Name: 4 - Road
   m_EditorClassIdentifier: 
-  Id: 2
-  Name: Road A
-  Area: {fileID: 11400000, guid: 281dd3fd1e724ad47820e74bd3dcf3b6, type: 2}
+  Id: 4
+  Name: Road
+  Area: {fileID: 11400000, guid: 0f51ee6ec569e57499d596e493a7cf77, type: 2}
   Foes:
-  - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  TeamColor: {r: 0.7924528, g: 0.5239328, b: 0.06479169, a: 1}
+  StartConversation: []

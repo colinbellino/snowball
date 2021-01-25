@@ -19,8 +19,6 @@ namespace Snowball.Game
 
 		private AreaEditor _current;
 
-		private bool IsMainScene => SceneManager.GetActiveScene().name == "Main";
-
 		[MenuItem("Snowball/Level Editor")]
 		private static void OpenWindow()
 		{
@@ -38,7 +36,6 @@ namespace Snowball.Game
 
 		[PropertyOrder(0)]
 		[ButtonGroup("Actions")] [Button("Back to main scene", ButtonSizes.Medium)]
-		[DisableIf(nameof(IsMainScene))]
 		private void OpenMainScene()
 		{
 			EditorSceneManager.CloseScene(SceneManager.GetActiveScene(), false);
@@ -46,8 +43,17 @@ namespace Snowball.Game
 
 			if (_current != null)
 			{
+				Save();
 				_current.Opened = false;
 			}
+		}
+
+		[PropertyOrder(0)]
+		[ButtonGroup("Actions")] [Button("Save", ButtonSizes.Medium)]
+		public void Save()
+		{
+			var areaCreation = FindObjectOfType<AreaCreation>();
+			areaCreation.Save(_current.Area);
 		}
 
 		private void Refresh()
@@ -77,12 +83,6 @@ namespace Snowball.Game
 				_current = areaEditor;
 			}
 		}
-
-		public void Save()
-		{
-			var areaCreation = FindObjectOfType<AreaCreation>();
-			areaCreation.Save(_current.Area);
-		}
 	}
 
 	[HideReferenceObjectPicker]
@@ -98,20 +98,20 @@ namespace Snowball.Game
 
 		[HorizontalGroup("Base/B", 80)]
 		[VerticalGroup("Base/B/A")]
-		[HideIf("Opened")]
+		// [HideIf("Opened")]
 		[Button]
 		private void Open()
 		{
 			Window.Open(this);
 		}
-
-		[VerticalGroup("Base/B/A")]
-		[ShowIf("Opened")]
-		[Button, GUIColor(0f, 1f, 0f)]
-		private void Save()
-		{
-			Window.Save();
-		}
+		//
+		// [VerticalGroup("Base/B/A")]
+		// [ShowIf("Opened")]
+		// [Button, GUIColor(0f, 1f, 0f)]
+		// private void Save()
+		// {
+		// 	Window.Save();
+		// }
 	}
 }
 #endif

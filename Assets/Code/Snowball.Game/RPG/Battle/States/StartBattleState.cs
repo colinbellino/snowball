@@ -22,6 +22,11 @@ namespace Snowball.Game
 			var allUnits = new List<Unit>();
 			for (var index = 0; index < encounter.Area.AllySpawnPoints.Count; index++)
 			{
+				if (index > _state.Party.Count - 1)
+				{
+					break;
+				}
+
 				var position = new Vector3Int(encounter.Area.AllySpawnPoints[index].x, encounter.Area.AllySpawnPoints[index].y, 0);
 				var unit = Create(_database.Units[_state.Party[index]]);
 				unit.Facade = SpawnUnitFacade(
@@ -48,6 +53,7 @@ namespace Snowball.Game
 					Unit.Alliances.Foe,
 					Unit.Directions.Left
 				);
+				ApplyClothColor(unit.Facade.BodyRenderer.material, encounter.TeamColor);
 
 				allUnits.Add(unit);
 			}

@@ -55,6 +55,12 @@ namespace Snowball.Game
 		public void Tick()
 		{
 #if UNITY_EDITOR
+			if (Keyboard.current.backquoteKey.wasPressedThisFrame)
+			{
+				_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
+				return;
+			}
+
 			if (Keyboard.current.f1Key.wasPressedThisFrame)
 			{
 				StartBattle(0);
@@ -70,6 +76,24 @@ namespace Snowball.Game
 			if (Keyboard.current.f3Key.wasPressedThisFrame)
 			{
 				StartBattle(2);
+				return;
+			}
+
+			if (Keyboard.current.f4Key.wasPressedThisFrame)
+			{
+				StartBattle(3);
+				return;
+			}
+
+			if (Keyboard.current.f5Key.wasPressedThisFrame)
+			{
+				StartBattle(4);
+				return;
+			}
+
+			if (Keyboard.current.f6Key.wasPressedThisFrame)
+			{
+				StartBattle(5);
 				return;
 			}
 #endif

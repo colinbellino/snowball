@@ -11,7 +11,7 @@ namespace Snowball.Game
 	public class TurnManager
 	{
 		private const int _turnActivation = 100;
-		private const int _turnCost = 60;
+		private const int _turnCost = 100;
 		private const int _moveCost = 20;
 		private const int _actionCost = 20;
 
@@ -113,14 +113,14 @@ namespace Snowball.Game
 		private void ConsumeChargeTime(Turn turn)
 		{
 			var cost = _turnCost;
-			if (turn.HasMoved)
-			{
-				cost += _moveCost;
-			}
-			if (turn.HasActed)
-			{
-				cost += _actionCost;
-			}
+			// if (turn.HasMoved)
+			// {
+			// 	cost += _moveCost;
+			// }
+			// if (turn.HasActed)
+			// {
+			// 	cost += _actionCost;
+			// }
 
 			turn.Unit.ChargeTime -= cost;
 		}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: WorldmapWater
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 984251369215944215, guid: 7d0f4ab0ecc55bb4b9f61b67b81b9d22,
+  m_DefaultSprite: {fileID: -2219407613550622840, guid: 7d0f4ab0ecc55bb4b9f61b67b81b9d22,
     type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1

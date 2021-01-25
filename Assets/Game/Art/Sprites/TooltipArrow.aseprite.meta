@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7c3330f767f9018459e04482d6727f41
+guid: 04995469bc070e84b97de89d5b2822aa
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -33,10 +33,10 @@ ScriptedImporter:
     wrapModeW: 0
     alphaIsTransparency: 1
     spriteMode: 1
-    spritePixelsPerUnit: 16
+    spritePixelsPerUnit: 8
     spriteTessellationDetail: 0
-    spriteExtrude: 1
-    spriteMeshType: 1
+    spriteExtrude: 0
+    spriteMeshType: 0
     spriteAlignment: 0
     spritePivot: {x: 0, y: 0}
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -68,17 +68,17 @@ ScriptedImporter:
   animationSettings: []
   texture: {instanceID: 0}
   spriteImportData:
-  - name: WorldmapEncounter
+  - name: TooltipArrow
     rect:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 16
-      height: 16
+      width: 8
+      height: 8
     alignment: 0
     pivot: {x: 0.5, y: 0.5}
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
-    spriteID: f3aa39df60f63074990a0283dc779538
+    spriteID: ded74fc4cd8bca44a84d986ee85c5535
   spriteRects: []
   selectedImporter: 1
