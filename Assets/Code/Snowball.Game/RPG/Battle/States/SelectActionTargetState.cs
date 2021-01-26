@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -71,7 +72,8 @@ namespace Snowball.Game
 			if (_turn.Plan.ActionDestination != _turn.Unit.GridPosition)
 			{
 				MoveTargetCursor(_turn.Plan.ActionDestination);
-				await UniTask.Delay(300);
+
+				await UniTask.Delay(800);
 			}
 		}
 
@@ -85,6 +87,13 @@ namespace Snowball.Game
 				_turnManager.GetActiveUnits()
 			);
 			_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
+
+			var target = _turnManager.SortedUnits.Find(unit => unit.GridPosition == cursorPosition);
+			if (_validTargets.Contains(cursorPosition) && target != null)
+			{
+				ShowInfos(target);
+				SetInfosHit(target, $"{hitChance}%");
+			}
 		}
 	}
 }

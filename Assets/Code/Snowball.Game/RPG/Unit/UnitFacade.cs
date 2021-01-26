@@ -19,6 +19,7 @@ namespace Snowball.Game
 		[SerializeField] public Image InfosLeftHandImage;
 		[SerializeField] public Image InfosRightHandImage;
 		[SerializeField] public Text InfosHealthText;
+		[SerializeField] public Text InfosHitText;
 		[SerializeField] public Image InfosHealthImage;
 	}
 }
