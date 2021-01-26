@@ -97,6 +97,19 @@ namespace Snowball.Game
 			#endif
 		}
 
+		protected override void OnCursorMove()
+		{
+			base.OnCursorMove();
+
+			_ui.HideTargetInfos();
+
+			var selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
+			if (selectedUnit != null)
+			{
+				_ui.ShowTargetInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+			}
+		}
+
 		// TODO: Replace this with OnConfirm.
 		// This means we have to update the current action selected in the UI (OnActionChanged) and have OnConfirm simply use _currentAction
 		private void OnActionClicked(BattleActions action)

@@ -24,8 +24,6 @@ namespace Snowball.Game
 		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
 
-		protected Unit _selectedUnit;
-
 		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
 		{
 			_machine = machine;
@@ -68,22 +66,6 @@ namespace Snowball.Game
 				if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 				{
 					_cursorPosition = cursorPosition;
-
-					if (_selectedUnit != null)
-					{
-						_ui.HideTargetInfos();
-					}
-
-					if(IsOverUI(mousePosition) == false)
-					{
-						var newlySelectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
-						if (newlySelectedUnit != null)
-						{
-							_ui.ShowTargetInfos(newlySelectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
-
-							_selectedUnit = newlySelectedUnit;
-						}
-					}
 
 					OnCursorMove();
 				}

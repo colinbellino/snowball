@@ -87,9 +87,10 @@ namespace Snowball.Game
 				_turnManager.GetActiveUnits()
 			);
 			_ui.HighlightAttackTarget(_turn.Unit.GridPosition, cursorPosition, hitChance);
+			_ui.HideTargetInfos();
 
 			var target = _turnManager.SortedUnits.Find(unit => unit.GridPosition == cursorPosition);
-			if (_validTargets.Contains(cursorPosition) && target != null)
+			if (_validTargets.Contains(cursorPosition) && target != null && target != _turn.Unit)
 			{
 				_ui.ShowTargetInfos(target, _database.Encounters[_state.CurrentEncounter].TeamColor);
 				_ui.ShowHitRate(hitChance);
