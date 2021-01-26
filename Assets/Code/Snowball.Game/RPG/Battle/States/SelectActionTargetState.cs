@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -33,6 +32,7 @@ namespace Snowball.Game
 
 			_ui.SetTurnUnit(null);
 			_ui.ClearTarget();
+			_ui.HideHitRate();
 			_board.ClearHighlight();
 
 			return default;
@@ -91,8 +91,12 @@ namespace Snowball.Game
 			var target = _turnManager.SortedUnits.Find(unit => unit.GridPosition == cursorPosition);
 			if (_validTargets.Contains(cursorPosition) && target != null)
 			{
-				ShowInfos(target);
-				SetInfosHit(target, $"{hitChance}%");
+				_ui.ShowTargetInfos(target, _database.Encounters[_state.CurrentEncounter].TeamColor);
+				_ui.ShowHitRate(hitChance);
+			}
+			else
+			{
+				_ui.HideHitRate();
 			}
 		}
 	}
