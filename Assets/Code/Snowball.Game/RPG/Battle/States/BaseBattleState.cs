@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -36,10 +35,7 @@ namespace Snowball.Game
 
 		public virtual UniTask Enter()
 		{
-			foreach (var unit in _turnManager.SortedUnits)
-			{
-				HideInfos(unit);
-			}
+			_ui.HideTargetInfos();
 
 			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
@@ -75,7 +71,7 @@ namespace Snowball.Game
 
 					if (_selectedUnit != null)
 					{
-						HideInfos(_selectedUnit);
+						_ui.HideTargetInfos();
 					}
 
 					if(IsOverUI(mousePosition) == false)
@@ -83,7 +79,7 @@ namespace Snowball.Game
 						var newlySelectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
 						if (newlySelectedUnit != null)
 						{
-							ShowInfos(newlySelectedUnit);
+							_ui.ShowTargetInfos(newlySelectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
 
 							_selectedUnit = newlySelectedUnit;
 						}

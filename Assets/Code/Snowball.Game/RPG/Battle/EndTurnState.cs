@@ -10,6 +10,8 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
+			_ui.HideAll();
+
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 	}
