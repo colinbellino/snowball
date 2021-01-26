@@ -12249,7 +12249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108105012}
   - component: {fileID: 1108105011}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Aim Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13252,7 +13252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251520760}
   - component: {fileID: 1251520761}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Move Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13596,7 +13596,7 @@ GameObject:
   - component: {fileID: 1331775720}
   - component: {fileID: 1331775722}
   - component: {fileID: 1331775721}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15225,7 +15225,7 @@ GameObject:
   - component: {fileID: 1688521303}
   - component: {fileID: 1688521302}
   - component: {fileID: 1688521301}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

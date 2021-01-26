@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
@@ -23,7 +25,7 @@ namespace Snowball.Game
 		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
 
-		private Unit _selectedUnit;
+		protected Unit _selectedUnit;
 
 		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
 		{
@@ -34,6 +36,11 @@ namespace Snowball.Game
 
 		public virtual UniTask Enter()
 		{
+			foreach (var unit in _turnManager.SortedUnits)
+			{
+				HideInfos(unit);
+			}
+
 			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_controls.Gameplay.Confirm.performed += OnConfirmPerformed;
@@ -65,20 +72,46 @@ namespace Snowball.Game
 				if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 				{
 					_cursorPosition = cursorPosition;
+
+					if (_selectedUnit != null)
+					{
+						HideInfos(_selectedUnit);
+					}
+
+					if(IsOverUI(mousePosition) == false)
+					{
+						var newlySelectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
+						if (newlySelectedUnit != null)
+						{
+							ShowInfos(newlySelectedUnit);
+
+							_selectedUnit = newlySelectedUnit;
+						}
+					}
+
 					OnCursorMove();
 				}
+			}
+		}
 
-				if (_selectedUnit != null)
-				{
-					HideInfos(_selectedUnit);
-				}
+		private static bool IsOverUI(Vector2 mousePosition)
+		{
+			var pointerData = new PointerEventData(EventSystem.current)
+			{
+				position = mousePosition,
+			};
+			var results = new List<RaycastResult>();
 
-				_selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
-				if (_selectedUnit != null)
+			EventSystem.current.RaycastAll(pointerData, results);
+			foreach (var result in results)
+			{
+				if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
 				{
-					ShowInfos(_selectedUnit);
+					return true;
 				}
 			}
+
+			return false;
 		}
 
 		private void OnConfirmPerformed(InputAction.CallbackContext context)

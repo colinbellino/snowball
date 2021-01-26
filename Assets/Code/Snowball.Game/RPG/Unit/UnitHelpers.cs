@@ -79,8 +79,8 @@ namespace Snowball.Game
 			unit.Facade.InfosBodyImage.sprite = unit.Sprite;
 			unit.Facade.InfosBodyImage.material = Object.Instantiate(unit.Facade.InfosBodyImage.material);
 			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
-			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
-			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			ApplyColors(unit.Facade.InfosLeftHandImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			ApplyColors(unit.Facade.InfosRightHandImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
 		}
 
 		public static async UniTask MoveOnPath(UnitFacade facade, List<Vector3Int> path)
@@ -173,12 +173,18 @@ namespace Snowball.Game
 		public static void ShowInfos(Unit unit)
 		{
 			unit.Facade.InfosNameText.text = unit.Name;
-			unit.Facade.InfosHealthText.text = $"{unit.HealthCurrent} / {unit.HealthMax}";
+			unit.Facade.InfosHitText.text = "";
+			unit.Facade.InfosHealthText.text = $"{unit.HealthCurrent}/{unit.HealthMax}";
 			var scale = unit.Facade.InfosHealthImage.transform.localScale;
 			scale.x = (float) unit.HealthCurrent / unit.HealthMax;
 			unit.Facade.InfosHealthImage.transform.localScale = scale;
 			unit.Facade.InfosBodyImage.transform.rotation = unit.Facade.BodyRenderer.transform.rotation;
 			unit.Facade.InfosCanvas.gameObject.SetActive(true);
+		}
+
+		public static void SetInfosHit(Unit unit, string hitText)
+		{
+			unit.Facade.InfosHitText.text = hitText;
 		}
 
 		public static void HideInfos(Unit unit)
