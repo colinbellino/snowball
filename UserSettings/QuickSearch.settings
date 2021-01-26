@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "unit"
+	"last_search.AB59B443" = "unit."
 }
 providers = {
 	asset = {
