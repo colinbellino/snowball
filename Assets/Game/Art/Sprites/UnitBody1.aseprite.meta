@@ -35,8 +35,8 @@ ScriptedImporter:
     spriteMode: 1
     spritePixelsPerUnit: 8
     spriteTessellationDetail: 0
-    spriteExtrude: 1
-    spriteMeshType: 1
+    spriteExtrude: 0
+    spriteMeshType: 0
     spriteAlignment: 0
     spritePivot: {x: 0, y: 0}
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -79,6 +79,6 @@ ScriptedImporter:
     pivot: {x: 0.5, y: 0.5}
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
-    spriteID: 2c1a1812206e1ca4588b88bdaf43c141
+    spriteID: 71150732b31c24b68af086af61ec494c
   spriteRects: []
   selectedImporter: 1
