@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Snowball.Game.UnitHelpers;
 
 namespace Snowball.Game
 {
@@ -21,6 +22,8 @@ namespace Snowball.Game
 		protected AudioPlayer _audio => _game.AudioPlayer;
 		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
+
+		private Unit _selectedUnit;
 
 		protected BaseBattleState(BattleStateMachine machine, TurnManager turnManager)
 		{
@@ -53,16 +56,27 @@ namespace Snowball.Game
 
 		public virtual void Tick()
 		{
-			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
-			{
-				var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
-				var mouseWorldPosition = _game.Camera.ScreenToWorldPoint(mousePosition);
-				var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.GridSize, _config.GridOffset);
+			var mousePosition = _controls.Gameplay.MousePosition.ReadValue<Vector2>();
+			var mouseWorldPosition = _game.Camera.ScreenToWorldPoint(mousePosition);
+			var cursorPosition = GridHelpers.GetCursorPosition(mouseWorldPosition, _config.GridSize, _config.GridOffset);
 
-				if (cursorPosition != _cursorPosition)
+			if (cursorPosition != _cursorPosition)
+			{
+				if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 				{
 					_cursorPosition = cursorPosition;
 					OnCursorMove();
+				}
+
+				if (_selectedUnit != null)
+				{
+					HideInfos(_selectedUnit);
+				}
+
+				_selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
+				if (_selectedUnit != null)
+				{
+					ShowInfos(_selectedUnit);
 				}
 			}
 		}

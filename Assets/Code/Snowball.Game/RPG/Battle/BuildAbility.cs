@@ -49,7 +49,7 @@ namespace Snowball.Game
 			await AnimateBuild(actor.Facade, direction);
 
 			var newUnit = Create(_database.Units[_config.SnowmanUnitId]);
-			newUnit.Facade = SpawnUnitFacade(
+			SpawnUnitFacade(
 				_config.UnitPrefab,
 				newUnit,
 				plan.ActionDestination,

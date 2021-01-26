@@ -24,7 +24,7 @@ namespace Snowball.Game
 		public Grid EmptyGrid { get; private set; }
 		public Grid BlockGrid { get; private set; }
 		public Grid WalkGrid { get; private set; }
-		public List<Unit> SortedUnits { get; private set; }
+		public List<Unit> SortedUnits { get; private set; } = new List<Unit>();
 
 		public void Start(List<Unit> units, Area area, Vector2Int gridOffset, TilesData tilesData)
 		{

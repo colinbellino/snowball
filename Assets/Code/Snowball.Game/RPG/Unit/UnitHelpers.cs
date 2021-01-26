@@ -7,22 +7,20 @@ namespace Snowball.Game
 {
 	public static class UnitHelpers
 	{
-		public static UnitFacade SpawnUnitFacade(
+		public static void SpawnUnitFacade(
 			UnitFacade prefab, Unit unit,
 			Vector3Int position,
 			Unit.Drivers driver, Unit.Alliances alliance, Unit.Directions direction
 		)
 		{
-			var facade = Object.Instantiate(prefab);
-
+			unit.Facade = Object.Instantiate(prefab);
 			unit.GridPosition = position;
 			unit.Direction = direction;
 			unit.Driver = driver;
 			unit.Alliance = alliance;
 
-			InitFacade(facade, unit);
-
-			return facade;
+			InitFacade(unit.Facade, unit);
+			HideInfos(unit);
 		}
 
 		public static Unit.Directions VectorToDirection(Vector3 vector)
@@ -37,9 +35,10 @@ namespace Snowball.Game
 			material.SetColor("ReplacementColor3", skinColor);
 		}
 
-		public static void ApplyClothColor(Material material, Color clothColor)
+		public static void ApplyClothColor(UnitFacade facade, Color clothColor)
 		{
-			material.SetColor("ReplacementColor1", clothColor);
+			facade.BodyRenderer.material.SetColor("ReplacementColor1", clothColor);
+			facade.InfosBodyImage.material.SetColor("ReplacementColor1", clothColor);
 		}
 
 		public static Unit Create(UnitAuthoring authoring)
@@ -76,6 +75,12 @@ namespace Snowball.Game
 			facade.transform.position = new Vector3(unit.GridPosition.x, unit.GridPosition.y, 0f);
 			facade.BodyRenderer.sprite = unit.Sprite;
 			facade.BodyRenderer.transform.Rotate(new Vector3(0f, unit.Direction > 0 ? 0f : 180f, 0f));
+
+			unit.Facade.InfosBodyImage.sprite = unit.Sprite;
+			unit.Facade.InfosBodyImage.material = Object.Instantiate(unit.Facade.InfosBodyImage.material);
+			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
+			ApplyColors(unit.Facade.InfosBodyImage.material, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
 		}
 
 		public static async UniTask MoveOnPath(UnitFacade facade, List<Vector3Int> path)
@@ -163,6 +168,22 @@ namespace Snowball.Game
 				.Append(facade.BodyPivot.transform.DORotate(new Vector3(0f, 0f, 0f), 0.1f))
 				.Join(facade.BodyPivot.transform.DOScaleY(1f, 0.1f))
 			;
+		}
+
+		public static void ShowInfos(Unit unit)
+		{
+			unit.Facade.InfosNameText.text = unit.Name;
+			unit.Facade.InfosHealthText.text = $"{unit.HealthCurrent} / {unit.HealthMax}";
+			var scale = unit.Facade.InfosHealthImage.transform.localScale;
+			scale.x = (float) unit.HealthCurrent / unit.HealthMax;
+			unit.Facade.InfosHealthImage.transform.localScale = scale;
+			unit.Facade.InfosBodyImage.transform.rotation = unit.Facade.BodyRenderer.transform.rotation;
+			unit.Facade.InfosCanvas.gameObject.SetActive(true);
+		}
+
+		public static void HideInfos(Unit unit)
+		{
+			unit.Facade.InfosCanvas.gameObject.SetActive(false);
 		}
 
 		private static void SetName(UnitFacade facade, string value)

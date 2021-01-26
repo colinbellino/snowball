@@ -79,6 +79,6 @@ ScriptedImporter:
     pivot: {x: 0.5, y: 0.5}
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
-    spriteID: 0d79ce46fe22f0b4b85a0d288df01c47
+    spriteID: 5d42d69f9fa6748d0b9e512107d0a1e7
   spriteRects: []
   selectedImporter: 1
