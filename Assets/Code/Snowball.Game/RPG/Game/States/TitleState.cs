@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,7 +40,7 @@ namespace Snowball.Game
 			Game.Instance.TitleUI.NewGameButtonClicked += OnNewGameButtonClicked;
 			Game.Instance.TitleUI.QuitButtonClicked += OnQuitButtonClicked;
 
-			Game.Instance.Controls.Global.Pause.performed += OnPausePerfomed;
+			Game.Instance.Controls.Global.Pause.performed += OnPausePerformed;
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 		}
@@ -52,7 +51,7 @@ namespace Snowball.Game
 			Game.Instance.TitleUI.NewGameButtonClicked -= OnNewGameButtonClicked;
 			Game.Instance.TitleUI.QuitButtonClicked -= OnQuitButtonClicked;
 
-			Game.Instance.Controls.Global.Pause.performed -= OnPausePerfomed;
+			Game.Instance.Controls.Global.Pause.performed -= OnPausePerformed;
 
 			await Game.Instance.Transition.StartTransition(Color.white);
 
@@ -106,7 +105,7 @@ namespace Snowball.Game
 #endif
 		}
 
-		private void OnPausePerfomed(InputAction.CallbackContext obj)
+		private void OnPausePerformed(InputAction.CallbackContext obj)
 		{
 			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}

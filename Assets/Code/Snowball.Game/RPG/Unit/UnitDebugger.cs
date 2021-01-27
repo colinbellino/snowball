@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Snowball.Game
@@ -45,4 +44,3 @@ namespace Snowball.Game
 		}
 	}
 }
-#endif
