@@ -14,6 +14,8 @@ namespace Snowball.Game
 
 			_stateMachine = new GameStateMachine(Game.Instance.Config, Game.Instance.Worldmap, Game.Instance.State, Game.Instance.AudioPlayer);
 			_stateMachine.Start();
+
+			Game.Instance.Controls.Global.Enable();
 		}
 
 		private void Update()

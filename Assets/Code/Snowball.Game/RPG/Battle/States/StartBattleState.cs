@@ -58,7 +58,7 @@ namespace Snowball.Game
 				allUnits.Add(unit);
 			}
 
-			_controls.Enable();
+			_controls.Gameplay.Enable();
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 

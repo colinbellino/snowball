@@ -11,6 +11,8 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
+			_controls.Gameplay.Disable();
+
 			_ui.HideAll();
 
 			_ = _audio.StopMusic();

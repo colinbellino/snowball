@@ -15,6 +15,33 @@ public class @GameControls : IInputActionCollection, IDisposable
     ""name"": ""GameControls"",
     ""maps"": [
         {
+            ""name"": ""Global"",
+            ""id"": ""4697eda8-c6f8-489f-8788-f4213e440af3"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""44280f62-7e08-44fb-8ad7-f6b524301f72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a7d3969f-5af0-4c29-9c13-705c2c46144c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Gameplay"",
             ""id"": ""c19e3e3c-441e-46e6-a672-6a07327dc34a"",
             ""actions"": [
@@ -241,6 +268,9 @@ public class @GameControls : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": []
 }");
+        // Global
+        m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
+        m_Global_Pause = m_Global.FindAction("Pause", throwIfNotFound: true);
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
@@ -293,6 +323,39 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         asset.Disable();
     }
+
+    // Global
+    private readonly InputActionMap m_Global;
+    private IGlobalActions m_GlobalActionsCallbackInterface;
+    private readonly InputAction m_Global_Pause;
+    public struct GlobalActions
+    {
+        private @GameControls m_Wrapper;
+        public GlobalActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Global_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_Global; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GlobalActions set) { return set.Get(); }
+        public void SetCallbacks(IGlobalActions instance)
+        {
+            if (m_Wrapper.m_GlobalActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnPause;
+            }
+            m_Wrapper.m_GlobalActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+            }
+        }
+    }
+    public GlobalActions @Global => new GlobalActions(this);
 
     // Gameplay
     private readonly InputActionMap m_Gameplay;
@@ -358,6 +421,10 @@ public class @GameControls : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+    public interface IGlobalActions
+    {
+        void OnPause(InputAction.CallbackContext context);
+    }
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);

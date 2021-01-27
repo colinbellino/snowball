@@ -37,10 +37,22 @@ namespace Snowball.Game
 
 			_ = _audio.PlayMusic(_config.WorldmapMusic, false, 0.5f);
 			await Game.Instance.Transition.EndTransition(Color.white);
+
+			Game.Instance.Controls.Global.Pause.performed += OnCancelPerformed;
+
+			Game.Instance.PauseUI.ContinueClicked += OnContinueClicked;
+			Game.Instance.PauseUI.QuitClicked += OnQuitClicked;
 		}
+
+		public void Tick() { }
 
 		public async UniTask Exit()
 		{
+			Game.Instance.Controls.Global.Pause.performed -= OnCancelPerformed;
+
+			Game.Instance.PauseUI.ContinueClicked -= OnContinueClicked;
+			Game.Instance.PauseUI.QuitClicked -= OnQuitClicked;
+
 			_ = _audio.StopMusic();
 			await Game.Instance.Transition.StartTransition(Color.white);
 
@@ -50,22 +62,27 @@ namespace Snowball.Game
 			GameObject.Destroy(_snowballEffect.gameObject);
 		}
 
-		public void Tick()
-		{
-#if UNITY_EDITOR
-			if (Keyboard.current.escapeKey.wasPressedThisFrame)
-			{
-				_machine.Fire(GameStateMachine.Triggers.BackToTitle);
-			}
-#endif
-		}
-
 		private void OnEncounterClicked(int encounterIndex)
 		{
 			var encounterId = _config.Encounters[encounterIndex];
 			_state.CurrentEncounter = encounterId;
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
+		}
+
+		private void OnCancelPerformed(InputAction.CallbackContext obj)
+		{
+			Game.Instance.Pause.Toggle();
+		}
+
+		private void OnContinueClicked()
+		{
+			Game.Instance.Pause.Toggle();
+		}
+
+		private void OnQuitClicked()
+		{
+			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 	}
 }
