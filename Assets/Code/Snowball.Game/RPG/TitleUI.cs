@@ -20,18 +20,25 @@ namespace Snowball.Game
 			Hide();
 		}
 
-		private void OnEnable()
+		public void Show(bool hasSaveFile)
 		{
+			_root.SetActive(true);
+
 			_startButton.onClick.AddListener(OnStartButtonClicked);
 			_newGameButton.onClick.AddListener(OnNewGameButtonClicked);
 			_quitButton.onClick.AddListener(OnQuitButtonClicked);
+
+			_startButton.GetComponentInChildren<Text>().text = hasSaveFile ? "Continue" : "Start";
+			_newGameButton.gameObject.SetActive(hasSaveFile);
 		}
 
-		private void OnDisable()
+		public void Hide()
 		{
 			_startButton.onClick.RemoveListener(OnStartButtonClicked);
 			_newGameButton.onClick.RemoveListener(OnNewGameButtonClicked);
 			_quitButton.onClick.RemoveListener(OnQuitButtonClicked);
+
+			_root.SetActive(false);
 		}
 
 		private void OnStartButtonClicked() => StartButtonClicked?.Invoke();
@@ -39,14 +46,5 @@ namespace Snowball.Game
 		private void OnNewGameButtonClicked() => NewGameButtonClicked?.Invoke();
 
 		private void OnQuitButtonClicked() => QuitButtonClicked?.Invoke();
-
-		public void Show(bool hasSaveFile)
-		{
-			_startButton.GetComponentInChildren<Text>().text = hasSaveFile ? "Continue" : "Start";
-			_newGameButton.gameObject.SetActive(hasSaveFile);
-			_root.SetActive(true);
-		}
-
-		public void Hide() => _root.SetActive(false);
 	}
 }
