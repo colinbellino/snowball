@@ -12,19 +12,15 @@ namespace Snowball.Game
 	public class BattleUI : MonoBehaviour
 	{
 		[Serializable]
-		private class ActionButtons : UnitySerializedDictionary<BattleActions, Button> { }
+		private class ActionButtons : UnitySerializedDictionary<BattleActions, ButtonUI> { }
 
 		[Serializable]
 		private class CursorColorsDictionary : UnitySerializedDictionary<CursorColors, Color> { }
 
 		private enum CursorColors { Default, Success, Warning, Error }
 
-		[Title("Turn order")]
-		[SerializeField][Required] private GameObject _turnOrderRoot;
-		[SerializeField][Required] private GameObject _turnOrderUnitsRoot;
 		[Title("Menu")]
 		[SerializeField][Required] private GameObject _actionsRoot;
-		[SerializeField][Required] private Text _actionsTitle;
 		[SerializeField][Required] private ActionButtons _actionButtons;
 		[Title("Cursors")]
 		[SerializeField][Required] private SpriteRenderer _moveCursor;
@@ -52,8 +48,7 @@ namespace Snowball.Game
 		{
 			foreach (var item in _actionButtons)
 			{
-				item.Value.onClick.AddListener(OnBattleActionClicked(item.Key));
-				// item.Value.GetComponentInChildren<Text>().text = item.Key.ToString();
+				item.Value.OnClick.AddListener(OnBattleActionClicked(item.Key));
 			}
 		}
 
@@ -61,7 +56,7 @@ namespace Snowball.Game
 		{
 			foreach (var item in _actionButtons)
 			{
-				item.Value.onClick.RemoveListener(OnBattleActionClicked(item.Key));
+				item.Value.OnClick.RemoveListener(OnBattleActionClicked(item.Key));
 			}
 		}
 
@@ -70,7 +65,7 @@ namespace Snowball.Game
 			_ = HideActionsMenu();
 			ClearMovePath();
 			ClearTarget();
-			HideActionsMenu();
+			_ = HideActionsMenu();
 			HideActorInfos();
 			HideTargetInfos();
 			HideHitRate();
@@ -90,19 +85,21 @@ namespace Snowball.Game
 			}
 		}
 
-		public void ShowActionsMenu() => _actionsRoot.SetActive(true);
+		public void ShowActionsMenu()
+		{
+			_actionsRoot.SetActive(true);
+		}
 
-		// TODO: Animate this
-		public async UniTask HideActionsMenu()
+		public UniTask HideActionsMenu()
 		{
 			_actionsRoot.SetActive(false);
 
-			await UniTask.Delay(100);
+			return default;
 		}
 
 		public void ToggleButton(BattleActions action, bool value)
 		{
-			_actionButtons[action].interactable = value;
+			_actionButtons[action].Toggle(value);
 		}
 
 		public void HighlightMovePath(List<Vector3Int> path)
@@ -157,29 +154,6 @@ namespace Snowball.Game
 			_aimCursorText.text = "";
 		}
 
-		public void SetTurnOrder(List<Unit> units)
-		{
-			foreach (Transform child in _turnOrderUnitsRoot.transform)
-			{
-				child.gameObject.SetActive(false);
-			}
-
-			for (var unitIndex = 0; unitIndex < units.Count; unitIndex++)
-			{
-				var unit = units[unitIndex];
-				var child = _turnOrderUnitsRoot.transform.GetChild(unitIndex);
-
-				var image = child.GetComponent<Image>();
-				image.sprite = unit.Sprite;
-				// Normally this is done by unity when we call SetColor but not for UnityEngine.UI.Image
-				var materialInstance = Instantiate(image.material);
-				ApplyColors(materialInstance, unit.ColorCloth, unit.ColorHair, unit.ColorSkin);
-				image.material = materialInstance;
-
-				image.gameObject.SetActive(true);
-			}
-		}
-
 		public void ShowActorInfos(Unit unit, Color teamColor) => ShowInfos(_actorInfosPanel, unit, teamColor);
 
 		public void HideActorInfos() => HideInfos(_actorInfosPanel);
@@ -206,7 +180,7 @@ namespace Snowball.Game
 			var scale = infos.InfosHealthImage.transform.localScale;
 			scale.x = (float) unit.HealthCurrent / unit.HealthMax;
 			infos.InfosHealthImage.transform.localScale = scale;
-			infos.InfosBodyImage.transform.rotation = unit.Facade.BodyRenderer.transform.rotation;
+			// infos.InfosBodyImage.transform.rotation = unit.Facade.BodyRenderer.transform.rotation;
 
 			infos.InfosBodyImage.sprite = unit.Sprite;
 			infos.InfosBodyImage.material = Instantiate(infos.InfosBodyImage.material);

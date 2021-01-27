@@ -33,7 +33,6 @@ namespace Snowball.Game
 			}
 
 			_ui.SetTurnUnit(_turn.Unit);
-			_ui.SetTurnOrder(_turnManager.GetTurnOrder());
 			_ui.OnActionClicked += OnActionClicked;
 
 			if (_turn.Unit.Driver == Unit.Drivers.Computer)
@@ -101,12 +100,12 @@ namespace Snowball.Game
 		{
 			base.OnCursorMove();
 
-			_ui.HideTargetInfos();
+			_ui.ShowActorInfos(_turn.Unit, _database.Encounters[_state.CurrentEncounter].TeamColor);
 
 			var selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
 			if (selectedUnit != null)
 			{
-				_ui.ShowTargetInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+				_ui.ShowActorInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
 			}
 		}
 
