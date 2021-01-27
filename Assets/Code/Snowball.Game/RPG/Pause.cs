@@ -13,6 +13,11 @@ namespace Snowball.Game
 			_ui = ui;
 		}
 
+		~Pause()
+		{
+			Time.timeScale = 1f;
+		}
+
 		public void Toggle()
 		{
 			if (_paused)

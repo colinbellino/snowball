@@ -25,7 +25,7 @@ namespace Snowball.Game
 				return;
 			}
 
-			if (_turn.HasActed && (_turn.HasMoved || _turn.Plan.NeedsToMove == false))
+			if (_turn.HasActed && (_turn.HasMoved || _turn.Unit.Driver == Unit.Drivers.Computer && _turn.Plan.NeedsToMove == false))
 			{
 				_machine.Fire(BattleStateMachine.Triggers.TurnEnded);
 				return;
