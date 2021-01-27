@@ -24,6 +24,7 @@ namespace Snowball.Game
 		public Grid EmptyGrid { get; private set; }
 		public Grid BlockGrid { get; private set; }
 		public Grid WalkGrid { get; private set; }
+		public Grid BuildGrid { get; private set; }
 		public List<Unit> SortedUnits { get; private set; } = new List<Unit>();
 
 		public void Start(List<Unit> units, Area area, Vector2Int gridOffset, TilesData tilesData)
@@ -36,6 +37,7 @@ namespace Snowball.Game
 			EmptyGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsEmpty);
 			BlockGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsBlocking);
 			WalkGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsWalkable);
+			BuildGrid = GridHelpers.GenerateGrid(area, gridOffset, tilesData, GridHelpers.IsBuildable);
 		}
 
 		public void NextTurn()

@@ -51,6 +51,34 @@ namespace Snowball.Game
 			return false;
 		}
 
+		public static bool IsBuildable(int x, int y, int index, Area area, TilesData tilesData)
+		{
+			var tileData = tilesData[area.Tiles[index]];
+			if (tileData.Climbable)
+			{
+				return false;
+			}
+
+			if (tileData.Blocking)
+			{
+				return false;
+			}
+
+			// Check if the tile below is walkable (ground)
+			if (y > 0)
+			{
+				var belowIndex = x + (y - 1) * area.Size.x;
+				var belowTileId = area.Tiles[belowIndex];
+
+				if (tilesData[belowTileId].Walkable && tilesData[belowTileId].Climbable == false)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		public static Grid GenerateGrid(Area area, Vector2Int offset, TilesData tilesData, Func<int, int, int, Area, TilesData, bool> Check)
 		{
 			var data = new bool[area.Size.x, area.Size.y];
@@ -109,6 +137,30 @@ namespace Snowball.Game
 				{
 					return unit.Alliance == actor.Alliance ? 0 : -1;
 				}
+
+				return 1;
+			};
+			var nodes = Pathfinding.GetTilesInRange(startNode, maxDistance, grid, Pathfinding.DistanceType.Euclidean, Check);
+
+			return nodes.Select(node => (Vector3Int) node).ToList();
+		}
+
+		public static List<Vector3Int> GetBuildTilesInRange(Vector3Int start, Unit actor, int maxDistance, Grid grid, List<Unit> allUnits)
+		{
+			var startNode = grid.nodes[start.x, start.y];
+
+			Func<Node, int> Check = (node) =>
+			{
+				// if (node == startNode)
+				// {
+				// 	return 0;
+				// }
+				//
+				// var unit = GetUnitInNode(node, allUnits);
+				// if (unit != null)
+				// {
+				// 	return unit.Alliance == actor.Alliance ? 0 : -1;
+				// }
 
 				return 1;
 			};
