@@ -100,12 +100,12 @@ namespace Snowball.Game
 		{
 			base.OnCursorMove();
 
-			_ui.ShowActorInfos(_turn.Unit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+			_ui.HideTargetInfos();
 
 			var selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
 			if (selectedUnit != null)
 			{
-				_ui.ShowActorInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+				_ui.ShowTargetInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
 			}
 		}
 
