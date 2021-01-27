@@ -12,7 +12,7 @@ namespace Snowball.Game
 		public BattleUI BattleUI { get; }
 		public TitleUI TitleUI { get; }
 		public CreditsUI CreditsUI { get; }
-		public ConversationUI ConversationUI { get; }
+		public PauseUI PauseUI { get; }
 		public Board Board { get; }
 		public Worldmap Worldmap { get; }
 		public GameState State { get; }
@@ -21,6 +21,9 @@ namespace Snowball.Game
 		public TransitionManager Transition { get; }
 		public ComputerPlayerUnit CPU { get; }
 		public Conversation Conversation { get; }
+		public Pause Pause { get; }
+
+		private ConversationUI ConversationUI;
 
 		public static Game Instance { get; private set; }
 
@@ -39,6 +42,7 @@ namespace Snowball.Game
 			TitleUI = GameObject.FindObjectOfType<TitleUI>();
 			CreditsUI = GameObject.FindObjectOfType<CreditsUI>();
 			ConversationUI = GameObject.FindObjectOfType<ConversationUI>();
+			PauseUI = GameObject.FindObjectOfType<PauseUI>();
 			Board = GameObject.FindObjectOfType<Board>();
 			Worldmap = GameObject.FindObjectOfType<Worldmap>();
 			Transition = GameObject.FindObjectOfType<TransitionManager>();
@@ -48,6 +52,7 @@ namespace Snowball.Game
 			State = new GameState();
 			Database = new Database();
 			Conversation = new Conversation(ConversationUI);
+			Pause = new Pause(PauseUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
 			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
 
@@ -58,6 +63,8 @@ namespace Snowball.Game
 				Assert.IsNotNull(BattleUI);
 				Assert.IsNotNull(TitleUI);
 				Assert.IsNotNull(CreditsUI);
+				Assert.IsNotNull(ConversationUI);
+				Assert.IsNotNull(PauseUI);
 				Assert.IsNotNull(Board);
 				Assert.IsNotNull(Worldmap);
 				Assert.IsNotNull(Camera);
@@ -69,12 +76,5 @@ namespace Snowball.Game
 		{
 			Instance = new Game();
 		}
-
-		#if UNITY_EDITOR
-		public static void InitForDebug()
-		{
-			Instance = new Game(true);
-		}
-		#endif
 	}
 }

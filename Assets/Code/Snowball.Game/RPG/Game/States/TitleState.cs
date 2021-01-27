@@ -37,19 +37,26 @@ namespace Snowball.Game
 			#endif
 
 			Game.Instance.TitleUI.Show(hasSaveFile);
-			Game.Instance.TitleUI.StartButtonClicked += OnStartButtonClicked;
+			Game.Instance.TitleUI.StartButtonClicked += ContinueGame;
 			Game.Instance.TitleUI.NewGameButtonClicked += OnNewGameButtonClicked;
+			Game.Instance.TitleUI.QuitButtonClicked += OnQuitButtonClicked;
+
+			Game.Instance.Controls.Global.Pause.performed += OnPausePerfomed;
 
 			await Game.Instance.Transition.EndTransition(Color.white);
 		}
 
 		public async UniTask Exit()
 		{
+			Game.Instance.TitleUI.StartButtonClicked -= ContinueGame;
+			Game.Instance.TitleUI.NewGameButtonClicked -= OnNewGameButtonClicked;
+			Game.Instance.TitleUI.QuitButtonClicked -= OnQuitButtonClicked;
+
+			Game.Instance.Controls.Global.Pause.performed -= OnPausePerfomed;
+
 			await Game.Instance.Transition.StartTransition(Color.white);
 
 			Game.Instance.TitleUI.Hide();
-			Game.Instance.TitleUI.StartButtonClicked -= OnStartButtonClicked;
-			Game.Instance.TitleUI.NewGameButtonClicked -= OnNewGameButtonClicked;
 		}
 
 		public void Tick()
@@ -97,15 +104,11 @@ namespace Snowball.Game
 				return;
 			}
 #endif
+		}
 
-			if (Keyboard.current.escapeKey.wasPressedThisFrame)
-			{
-#if UNITY_EDITOR
-				EditorApplication.isPlaying = false;
-#else
-				UnityEngine.Application.Quit();
-#endif
-			}
+		private void OnPausePerfomed(InputAction.CallbackContext obj)
+		{
+			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 
 		private void StartBattle(int battleIndex)
@@ -116,7 +119,7 @@ namespace Snowball.Game
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
 
-		private void OnStartButtonClicked()
+		private void ContinueGame()
 		{
 			var introEncounter = Game.Instance.Database.Encounters[Game.Instance.Config.Encounters[0]];
 			if (Game.Instance.State.EncountersDone.Contains(introEncounter.Id))
@@ -134,7 +137,12 @@ namespace Snowball.Game
 		private void OnNewGameButtonClicked()
 		{
 			ResetGameState();
-			OnStartButtonClicked();
+			ContinueGame();
+		}
+
+		private void OnQuitButtonClicked()
+		{
+			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 
 		private static void ResetGameState()

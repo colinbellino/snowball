@@ -13,6 +13,7 @@ namespace Snowball.Game
 			Battle,
 			Worldmap,
 			Credits,
+			Quit,
 		}
 		public enum Triggers
 		{
@@ -21,6 +22,7 @@ namespace Snowball.Game
 			StartWorldmap,
 			StartCredits,
 			BackToTitle,
+			Quit,
 		}
 
 		private readonly Dictionary<States, IState> _states;
@@ -36,6 +38,7 @@ namespace Snowball.Game
 				{ States.Worldmap, new WorldmapState(this, worldmap, config, state, audioPlayer) },
 				{ States.Battle, new BattleState(this) },
 				{ States.Credits, new CreditsState(this) },
+				{ States.Quit, new QuitState(this) },
 			};
 
 			_machine = new StateMachine<States, Triggers>(States.Bootstrap);
@@ -46,15 +49,18 @@ namespace Snowball.Game
 
 			_machine.Configure(States.Title)
 				.Permit(Triggers.StartBattle, States.Battle)
-				.Permit(Triggers.StartWorldmap, States.Worldmap);
+				.Permit(Triggers.StartWorldmap, States.Worldmap)
+				.Permit(Triggers.Quit, States.Quit);
 
 			_machine.Configure(States.Worldmap)
 				.Permit(Triggers.BackToTitle, States.Title)
-				.Permit(Triggers.StartBattle, States.Battle);
+				.Permit(Triggers.StartBattle, States.Battle)
+				.Permit(Triggers.Quit, States.Quit);
 
 			_machine.Configure(States.Battle)
 				.Permit(Triggers.StartWorldmap, States.Worldmap)
-				.Permit(Triggers.StartCredits, States.Credits);
+				.Permit(Triggers.StartCredits, States.Credits)
+				.Permit(Triggers.Quit, States.Quit);
 
 			_machine.Configure(States.Credits)
 				.Permit(Triggers.Done, States.Title);

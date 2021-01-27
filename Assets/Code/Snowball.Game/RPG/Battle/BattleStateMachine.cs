@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Stateless;
-using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -31,6 +30,7 @@ namespace Snowball.Game
 			TurnEnded,
 			Cancelled,
 			Done,
+			Paused,
 			Victory,
 			Defeat,
 		}

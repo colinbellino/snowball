@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Snowball.Game
 {
@@ -87,13 +86,7 @@ namespace Snowball.Game
 
 		protected override void OnCancel()
 		{
-			#if UNITY_EDITOR
-			if (Keyboard.current.escapeKey.wasPressedThisFrame)
-			{
-				Debug.Log("DEBUG: Abandoning fight");
-				_machine.Fire(BattleStateMachine.Triggers.Defeat);
-			}
-			#endif
+			_machine.Fire(BattleStateMachine.Triggers.Paused);
 		}
 
 		protected override void OnCursorMove()

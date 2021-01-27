@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Snowball.Game
 {
@@ -25,12 +26,22 @@ namespace Snowball.Game
 			_battleMachine.Start();
 			_battleMachine.BattleEnded += OnBattleEnded;
 
+			Game.Instance.Controls.Global.Pause.performed += OnCancelPerformed;
+
+			Game.Instance.PauseUI.ContinueClicked += OnContinueClicked;
+			Game.Instance.PauseUI.QuitClicked += OnQuitClicked;
+
 			return default;
 		}
 
 		public UniTask Exit()
 		{
 			_battleMachine.BattleEnded -= OnBattleEnded;
+
+			Game.Instance.Controls.Global.Pause.performed -= OnCancelPerformed;
+
+			Game.Instance.PauseUI.ContinueClicked -= OnContinueClicked;
+			Game.Instance.PauseUI.QuitClicked -= OnQuitClicked;
 
 			GameObject.Destroy(_snowballEffect.gameObject);
 
@@ -61,6 +72,21 @@ namespace Snowball.Game
 			}
 
 			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
+		}
+
+		private void OnCancelPerformed(InputAction.CallbackContext obj)
+		{
+			Game.Instance.Pause.Toggle();
+		}
+
+		private void OnContinueClicked()
+		{
+			Game.Instance.Pause.Toggle();
+		}
+
+		private void OnQuitClicked()
+		{
+			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 	}
 }
