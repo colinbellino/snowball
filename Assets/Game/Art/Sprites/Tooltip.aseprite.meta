@@ -36,7 +36,7 @@ ScriptedImporter:
     spritePixelsPerUnit: 8
     spriteTessellationDetail: 0
     spriteExtrude: 1
-    spriteMeshType: 1
+    spriteMeshType: 0
     spriteAlignment: 0
     spritePivot: {x: 0, y: 0}
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
