@@ -64,7 +64,7 @@ namespace Snowball.Game
 
 			if (encounter.StartConversation.Length > 0)
 			{
-				await Game.Instance.Conversation.Start(encounter.StartConversation);
+				await Game.Instance.Conversation.Start(encounter.StartConversation, encounter);
 			}
 
 			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);

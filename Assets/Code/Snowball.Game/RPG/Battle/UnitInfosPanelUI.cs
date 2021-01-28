@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Snowball.Game
 {
-	public class UnitInfosPanel : MonoBehaviour
+	public class UnitInfosPanelUI : MonoBehaviour
 	{
 		[Title("Infos")]
 		[SerializeField] public GameObject InfosRoot;

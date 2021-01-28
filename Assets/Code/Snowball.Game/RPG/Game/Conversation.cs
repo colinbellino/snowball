@@ -9,8 +9,9 @@ namespace Snowball.Game
 	[Serializable]
 	public class ConversationMessage
 	{
-		[TextArea] public string Text;
+		[TextArea(5, 5)] public string Text;
 		public UnitAuthoring Unit;
+		public TextAnchor Alignment;
 	}
 
 	public class Conversation
@@ -22,13 +23,16 @@ namespace Snowball.Game
 			_ui = ui;
 		}
 
-		public async UniTask Start(ConversationMessage[] messages)
+		public async UniTask Start(ConversationMessage[] messages, EncounterAuthoring encounter)
 		{
 			var queue = new Queue<ConversationMessage>(messages);
 
 			_ui.Show();
 
-			await _ui.SetMessage(queue.Dequeue());
+			{
+				var message = queue.Dequeue();
+				await _ui.SetMessage(message, encounter.Foes.Contains(message.Unit) ? encounter.TeamColor : message.Unit.ColorCloth);
+			}
 
 			while (true)
 			{
@@ -41,7 +45,10 @@ namespace Snowball.Game
 						break;
 					}
 
-					await _ui.SetMessage(queue.Dequeue());
+					{
+						var message = queue.Dequeue();
+						await _ui.SetMessage(message, encounter.Foes.Contains(message.Unit) ? encounter.TeamColor : message.Unit.ColorCloth);
+					}
 				}
 			}
 
