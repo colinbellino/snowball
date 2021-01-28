@@ -27,13 +27,11 @@ namespace Snowball.Game
 				ResetGameState();
 			}
 
-			#if UNITY_EDITOR
-			if (Game.Instance.Config.SkipTitle)
+			if (GameConfig.GetDebug(Game.Instance.Config.DebugSkipTitle))
 			{
 				StartBattle(0);
 				return;
 			}
-			#endif
 
 			Game.Instance.TitleUI.Show(hasSaveFile);
 			Game.Instance.TitleUI.StartButtonClicked += ContinueGame;

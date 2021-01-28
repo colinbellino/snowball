@@ -28,9 +28,11 @@ namespace Snowball.Game
 		private readonly Dictionary<States, IState> _states;
 		private readonly StateMachine<States, Triggers> _machine;
 		private IState _currentState;
+		private bool _debug;
 
-		public GameStateMachine(GameConfig config, Worldmap worldmap, GameState state, AudioPlayer audioPlayer)
+		public GameStateMachine(bool debug, GameConfig config, Worldmap worldmap, GameState state, AudioPlayer audioPlayer)
 		{
+			_debug = debug;
 			_states = new Dictionary<States, IState>
 			{
 				{ States.Bootstrap, new BootstrapState(this) },
@@ -84,13 +86,19 @@ namespace Snowball.Game
 				await _currentState.Exit();
 			}
 
-			if (_states.ContainsKey(transition.Destination) == false)
+			if (_debug)
 			{
-				throw new Exception("Missing state class for: " + transition.Destination);
+				if (_states.ContainsKey(transition.Destination) == false)
+				{
+					throw new Exception("Missing state class for: " + transition.Destination);
+				}
 			}
 
 			_currentState = _states[transition.Destination];
-			// Debug.Log($"{source.UnderlyingState} -> {destination.UnderlyingState}");
+			if (_debug)
+			{
+				UnityEngine.Debug.Log($"{transition.Source} -> {transition.Destination}");
+			}
 
 			await _currentState.Enter();
 		}

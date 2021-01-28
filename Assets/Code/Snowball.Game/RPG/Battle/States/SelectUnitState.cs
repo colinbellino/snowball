@@ -15,8 +15,7 @@ namespace Snowball.Game
 
 			while (_turn == null)
 			{
-				#if UNITY_EDITOR
-				if (_config.DebugTurn)
+				if (GameConfig.GetDebug(_config.DebugTurn))
 				{
 					foreach (var unit in _turnManager.SortedUnits)
 					{
@@ -26,7 +25,6 @@ namespace Snowball.Game
 					Debug.Log("press SPACE to continue");
 					await UniTask.WaitUntil(() => UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame);
 				}
-				#endif
 
 				_turnManager.NextTurn();
 			}

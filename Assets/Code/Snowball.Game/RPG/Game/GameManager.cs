@@ -12,7 +12,7 @@ namespace Snowball.Game
 
 			Cursor.SetCursor(Game.Instance.Config.MouseCursor, Vector2.zero, CursorMode.Auto);
 
-			_stateMachine = new GameStateMachine(Game.Instance.Config, Game.Instance.Worldmap, Game.Instance.State, Game.Instance.AudioPlayer);
+			_stateMachine = new GameStateMachine(GameConfig.GetDebug(Game.Instance.Config.DebugFSM), Game.Instance.Config, Game.Instance.Worldmap, Game.Instance.State, Game.Instance.AudioPlayer);
 			_stateMachine.Start();
 
 			Game.Instance.Controls.Global.Enable();
