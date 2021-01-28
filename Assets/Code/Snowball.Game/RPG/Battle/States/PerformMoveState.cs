@@ -17,8 +17,7 @@ namespace Snowball.Game
 			);
 
 			await MoveOnPath(_turn.Unit.Facade, path);
-			await AnimateChangeDirection(_turn.Unit.Facade, _turn.Unit.Direction);
-
+			_turn.Unit.Direction = VectorToDirection(path[path.Count - 1] - path[path.Count - 2]);
 			_turn.Unit.GridPosition = _turn.Plan.MoveDestination;
 			_turn.HasMoved = true;
 
