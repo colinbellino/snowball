@@ -1,5 +1,4 @@
-﻿using CGTespy.UI;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,7 @@ namespace Snowball.Game
 		{
 			_name.text = $"<color=\"#{ColorUtility.ToHtmlStringRGB(message.Unit.ColorCloth)}\">{message.Unit.Name}</color>";
 			_text.text = message.Text;
-			_transform.ApplyAnchorPreset(message.Alignment, alsoSetPosition: true);
+			AlignUI(_transform, message.Alignment);
 
 			_bodyImage.sprite = message.Unit.Sprite;
 			_bodyImage.material = Instantiate(_bodyImage.material);
@@ -30,6 +29,24 @@ namespace Snowball.Game
 			_layout.enabled = false;
 			await UniTask.NextFrame();
 			_layout.enabled = true;
+		}
+
+		private static void AlignUI(RectTransform transform, UIAlignments alignment)
+		{
+			if (alignment == UIAlignments.TopLeft)
+			{
+				transform.anchorMin = new Vector2(0f, 1f);
+				transform.anchorMax = new Vector2(0f, 1f);
+				transform.pivot = new Vector2(0f, 1f);
+				transform.anchoredPosition = new Vector2(0f, 0f);
+			}
+			else
+			{
+				transform.anchorMin = new Vector2(1f, 1f);
+				transform.anchorMax = new Vector2(1f, 1f);
+				transform.pivot = new Vector2(1f, 1f);
+				transform.anchoredPosition = new Vector2(0f, 0f);
+			}
 		}
 	}
 }
