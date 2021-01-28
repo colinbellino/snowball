@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Snowball.Game
 {
@@ -22,6 +23,17 @@ namespace Snowball.Game
 		{
 			Game.Instance?.AudioPlayer.Tick();
 			_stateMachine?.Tick();
+
+			#if UNITY_EDITOR
+			if (Keyboard.current.f11Key.wasPressedThisFrame)
+			{
+				Time.timeScale = 1;
+			}
+			if (Keyboard.current.f12Key.wasPressedThisFrame)
+			{
+				Time.timeScale += 2;
+			}
+			#endif
 		}
 	}
 }
