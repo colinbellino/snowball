@@ -151,16 +151,16 @@ namespace Snowball.Game
 
 			Func<Node, int> Check = (node) =>
 			{
-				// if (node == startNode)
-				// {
-				// 	return 0;
-				// }
-				//
-				// var unit = GetUnitInNode(node, allUnits);
-				// if (unit != null)
-				// {
-				// 	return unit.Alliance == actor.Alliance ? 0 : -1;
-				// }
+				if (node == startNode)
+				{
+					return 0;
+				}
+
+				var unit = GetUnitInNode(node, allUnits);
+				if (unit != null)
+				{
+					return 0;
+				}
 
 				return 1;
 			};
