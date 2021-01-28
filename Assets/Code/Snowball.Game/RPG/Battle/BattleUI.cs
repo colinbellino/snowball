@@ -33,8 +33,8 @@ namespace Snowball.Game
 		[SerializeField][Required] private GameObject _currentUnitCursor;
 		[Title("Infos")]
 		[SerializeField][Required] private Text _hitRateText;
-		[SerializeField][Required] private UnitInfosPanel _actorInfosPanel;
-		[SerializeField][Required] private UnitInfosPanel _targetInfosPanel;
+		[SerializeField][Required] private UnitInfosPanelUI _actorInfosPanel;
+		[SerializeField][Required] private UnitInfosPanelUI _targetInfosPanel;
 
 		public event Action<BattleActions> OnActionClicked;
 		private static readonly Vector3 OUT_OF_SCREEN_POSITION = new Vector3(999, 999, 0);
@@ -173,7 +173,7 @@ namespace Snowball.Game
 			_hitRateText.gameObject.SetActive(false);
 		}
 
-		private static void ShowInfos(UnitInfosPanel infos, Unit unit, Color teamColor)
+		private static void ShowInfos(UnitInfosPanelUI infos, Unit unit, Color teamColor)
 		{
 			infos.InfosNameText.text = unit.Name;
 			infos.InfosHealthText.text = $"{unit.HealthCurrent}/{unit.HealthMax}";
@@ -196,7 +196,7 @@ namespace Snowball.Game
 			infos.InfosRoot.SetActive(true);
 		}
 
-		private static void HideInfos(UnitInfosPanel infos)
+		private static void HideInfos(UnitInfosPanelUI infos)
 		{
 			infos.InfosRoot.SetActive(false);
 		}
