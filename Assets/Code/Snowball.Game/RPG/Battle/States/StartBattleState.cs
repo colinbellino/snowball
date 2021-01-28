@@ -13,7 +13,7 @@ namespace Snowball.Game
 		{
 			await base.Enter();
 
-			var encounter = _database.Encounters[_state.CurrentEncounter];
+			var encounter = _database.Encounters[_state.CurrentEncounterId];
 
 			Debug.Log($"Starting battle: {encounter.Name}");
 			_board.DrawArea(encounter.Area);
@@ -33,7 +33,7 @@ namespace Snowball.Game
 					_config.UnitPrefab,
 					unit,
 					position,
-					Unit.Drivers.Human,
+					_state.Guests.Contains(unit.Id) ? Unit.Drivers.Computer : Unit.Drivers.Human,
 					Unit.Alliances.Ally,
 					Unit.Directions.Right
 				);

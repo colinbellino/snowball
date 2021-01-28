@@ -92,7 +92,7 @@ namespace Snowball.Game
 			var target = _turnManager.SortedUnits.Find(unit => unit.GridPosition == cursorPosition);
 			if (_validTargets.Contains(cursorPosition) && target != null && target != _turn.Unit)
 			{
-				_ui.ShowTargetInfos(target, _database.Encounters[_state.CurrentEncounter].TeamColor);
+				_ui.ShowTargetInfos(target, _database.Encounters[_state.CurrentEncounterId].TeamColor);
 				_ui.ShowHitRate(hitChance);
 			}
 			else

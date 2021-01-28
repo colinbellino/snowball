@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: 2 - Rena
+  m_Name: Snowpal
   m_EditorClassIdentifier: 
-  Id: 2
-  Name: Rena
-  Type: 0
-  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
-  ColorCloth: {r: 0.07164464, g: 0.6509434, b: 0.17035916, a: 1}
-  ColorHair: {r: 0.21960786, g: 0.11764707, b: 0.69803923, a: 1}
-  ColorSkin: {r: 0.9150943, g: 0.69136363, b: 0.47193536, a: 1}
-  MoveRange: 10
-  Health: 3
-  Speed: 5
+  Id: 99
+  Name: Snowpal
+  Type: 1
+  Sprite: {fileID: 430705962536534389, guid: 4273ef8b92fd1fb419e4eb9cafeade11, type: 3}
+  ColorCloth: {r: 0.35686275, g: 0.43137258, b: 0.882353, a: 1}
+  ColorHair: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
+  ColorSkin: {r: 0.5529412, g: 0.3372549, b: 0.23137257, a: 1}
+  MoveRange: 0
+  Health: 1
+  Speed: 4
   HitAccuracy: 100
   HitRange: 10
-  HitDamage: 2
+  HitDamage: 1
   BuildRange: 1
   ActionPatterns: 0
-  Abilities: 0000000001000000
+  Abilities: 02000000
