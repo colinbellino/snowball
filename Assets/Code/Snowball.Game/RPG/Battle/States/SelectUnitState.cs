@@ -29,7 +29,7 @@ namespace Snowball.Game
 				_turnManager.NextTurn();
 			}
 
-			_ui.ShowActorInfos(_turn.Unit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+			_ui.ShowActorInfos(_turn.Unit, _database.Encounters[_state.CurrentEncounterId].TeamColor);
 
 			_machine.Fire(BattleStateMachine.Triggers.UnitSelected);
 		}

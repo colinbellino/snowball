@@ -1,6 +1,7 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -13,6 +14,7 @@ namespace Snowball.Game
 		public int Id;
 		public string Name = "Annyong";
 		public Unit.Types Type;
+		public bool Guest;
 
 		[Title("Visuals")]
 		public Sprite Sprite;
@@ -36,13 +38,21 @@ namespace Snowball.Game
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
-			var fileName = $"{Id} - {Name}";
+			var guestText = Guest ? " (Guest)" : "";
+			var fileName = $"{Name}{guestText}";
 			if (name != fileName)
 			{
-				var assetPath = AssetDatabase.GetAssetPath(this.GetInstanceID());
+				var assetPath = AssetDatabase.GetAssetPath(GetInstanceID());
 				AssetDatabase.RenameAsset(assetPath, fileName);
 				AssetDatabase.SaveAssets();
 			}
+		}
+
+		[Button]
+		private void GenerateId()
+		{
+			Id = Random.Range(0, int.MaxValue);
+			OnValidate();
 		}
 #endif
 	}

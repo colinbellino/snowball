@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: 3 - Gaius
+  m_Name: Malik
   m_EditorClassIdentifier: 
-  Id: 3
-  Name: Gaius
+  Id: 1523167977
+  Name: Malik
   Type: 0
-  Sprite: {fileID: 3827289592664535785, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
-  ColorCloth: {r: 0.6039216, g: 0.13333334, b: 0.015686275, a: 1}
-  ColorHair: {r: 0.6313726, g: 0.59607846, b: 0.6039216, a: 1}
-  ColorSkin: {r: 0.9622642, g: 0.8367039, b: 0.71413314, a: 1}
-  MoveRange: 8
-  Health: 1
+  Guest: 0
+  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
+  ColorCloth: {r: 0.2663679, g: 0.09119487, b: 1, a: 1}
+  ColorHair: {r: 0.3490566, g: 0.1790102, b: 0, a: 1}
+  ColorSkin: {r: 0.8018868, g: 0.5900676, b: 0.38329175, a: 1}
+  MoveRange: 10
+  Health: 3
   Speed: 5
   HitAccuracy: 100
   HitRange: 10
-  HitDamage: 1
+  HitDamage: 2
   BuildRange: 1
   ActionPatterns: 0
-  Abilities: 0000000001000000
+  Abilities: 00000000

@@ -98,7 +98,7 @@ namespace Snowball.Game
 			var selectedUnit = _turnManager.SortedUnits.Find(unit => unit.GridPosition == _cursorPosition);
 			if (selectedUnit != null)
 			{
-				_ui.ShowTargetInfos(selectedUnit, _database.Encounters[_state.CurrentEncounter].TeamColor);
+				_ui.ShowTargetInfos(selectedUnit, _database.Encounters[_state.CurrentEncounterId].TeamColor);
 			}
 		}
 

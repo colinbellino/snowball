@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: 99 - Snowpal
+  m_Name: Anri
   m_EditorClassIdentifier: 
-  Id: 99
-  Name: Snowpal
-  Type: 1
-  Sprite: {fileID: 430705962536534389, guid: 4273ef8b92fd1fb419e4eb9cafeade11, type: 3}
-  ColorCloth: {r: 0.35686275, g: 0.43137258, b: 0.882353, a: 1}
-  ColorHair: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
-  ColorSkin: {r: 0.5529412, g: 0.3372549, b: 0.23137257, a: 1}
-  MoveRange: 0
-  Health: 1
+  Id: 736706560
+  Name: Anri
+  Type: 0
+  Sprite: {fileID: 4827980482346254395, guid: 2cae62b046bcaae4baa69118ea0e4eca, type: 3}
+  ColorCloth: {r: 0.015686275, g: 0.70980394, b: 0.9921569, a: 1}
+  ColorHair: {r: 0.7019608, g: 0.4901961, b: 0.050980397, a: 1}
+  ColorSkin: {r: 0.8679245, g: 0.73817986, b: 0.6195561, a: 1}
+  MoveRange: 12
+  Health: 2
   Speed: 4
   HitAccuracy: 100
-  HitRange: 10
+  HitRange: 20
   HitDamage: 1
   BuildRange: 1
-  ActionPatterns: 0
-  Abilities: 02000000
+  ActionPatterns: 1
+  Abilities: 0000000001000000

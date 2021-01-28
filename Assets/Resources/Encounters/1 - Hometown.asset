@@ -16,25 +16,26 @@ MonoBehaviour:
   Name: Hometown
   Area: {fileID: 11400000, guid: 33441d1d231754823b206b3ff8668d7c, type: 2}
   Foes:
-  - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
   - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  - {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
+  - {fileID: 11400000, guid: dafb99f4254952546a49b59994d913a7, type: 2}
   TeamColor: {r: 0.8117647, g: 0.015686275, b: 0, a: 1}
   StartConversation:
   - Text: Alright newbie, i'm giving you a chance, show us what you got! Remember
       we play as a team, don't let us down...
-    Unit: {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
+    Unit: {fileID: 11400000, guid: d7e6ead57a52601408a1165116474971, type: 2}
     Alignment: 0
   - Text: Thanks for letting me try out, you won't be disappointed!
     Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
     Alignment: 0
   - Text: Right... Just try to not get knocked out, alright?
-    Unit: {fileID: 11400000, guid: 722d62003f58940e1b1da3dcb42208b2, type: 2}
+    Unit: {fileID: 11400000, guid: d7e6ead57a52601408a1165116474971, type: 2}
     Alignment: 0
   - Text: Don't worry about me, i was born for this!
     Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
     Alignment: 0
   - Text: Are you kids ready? It's freezing today...
-    Unit: {fileID: 11400000, guid: df6591be074c64572b8af943a41f9bfc, type: 2}
+    Unit: {fileID: 11400000, guid: dafb99f4254952546a49b59994d913a7, type: 2}
     Alignment: 2
   - Text: Yeah, let's do this.
     Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}

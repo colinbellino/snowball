@@ -28,6 +28,15 @@ namespace Snowball.Game
 			}
 
 			var result = _turnManager.GetBattleResult();
+
+			// Give control of all the party to the player after the tutorial
+			var justWonFirstBattle = result == BattleResults.Victory && _state.CurrentEncounterId == _config.Encounters[0];
+			if (justWonFirstBattle)
+			{
+				Debug.Log("z");
+				_state.Guests.Clear();
+			}
+
 			_machine.FireBattleEnded(result);
 		}
 	}

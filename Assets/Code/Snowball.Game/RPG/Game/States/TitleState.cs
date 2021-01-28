@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,7 +30,7 @@ namespace Snowball.Game
 
 			if (GameConfig.GetDebug(Game.Instance.Config.DebugSkipTitle))
 			{
-				StartBattle(0);
+				ContinueGame();
 				return;
 			}
 
@@ -111,7 +112,7 @@ namespace Snowball.Game
 		private void StartBattle(int battleIndex)
 		{
 			var encounterId = Game.Instance.Config.Encounters[battleIndex];
-			Game.Instance.State.CurrentEncounter = encounterId;
+			Game.Instance.State.CurrentEncounterId = encounterId;
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
@@ -125,7 +126,7 @@ namespace Snowball.Game
 			}
 			else
 			{
-				Game.Instance.State.CurrentEncounter = Game.Instance.Config.Encounters[0];
+				Game.Instance.State.CurrentEncounterId = Game.Instance.Config.Encounters[0];
 
 				_machine.Fire(GameStateMachine.Triggers.StartBattle);
 			}
@@ -144,10 +145,19 @@ namespace Snowball.Game
 
 		private static void ResetGameState()
 		{
-			Game.Instance.State.CurrentEncounter = -1;
+			Game.Instance.State.CurrentEncounterId = -1;
 			Game.Instance.State.EncountersDone = new List<int>();
 			Game.Instance.State.Party = Game.Instance.Config.StartingParty;
-			Debug.Log("Creating save.");
+			Game.Instance.State.Guests = new List<int>();
+
+			for (var unitIndex = 0; unitIndex < Game.Instance.Config.StartingParty.Count; unitIndex++)
+			{
+				if (unitIndex > 0)
+				{
+					Game.Instance.State.Guests.Add(Game.Instance.Config.StartingParty[unitIndex]);
+				}
+			}
+			Debug.Log("Creating empty save.");
 		}
 	}
 }

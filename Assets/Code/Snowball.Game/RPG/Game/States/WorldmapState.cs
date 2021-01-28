@@ -65,7 +65,15 @@ namespace Snowball.Game
 		private void OnEncounterClicked(int encounterIndex)
 		{
 			var encounterId = _config.Encounters[encounterIndex];
-			_state.CurrentEncounter = encounterId;
+
+			if (_state.EncountersDone.Contains(encounterId))
+			{
+				Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuErrorClip);
+				return;
+			}
+
+			Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuConfirmClip);
+			_state.CurrentEncounterId = encounterId;
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}

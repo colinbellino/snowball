@@ -55,9 +55,9 @@ namespace Snowball.Game
 
 		private void OnBattleEnded(BattleResults result)
 		{
-			var encounterId = Game.Instance.State.CurrentEncounter;
+			var encounterId = Game.Instance.State.CurrentEncounterId;
 
-			Game.Instance.State.CurrentEncounter = -1;
+			Game.Instance.State.CurrentEncounterId = -1;
 
 			if (result == BattleResults.Victory)
 			{
