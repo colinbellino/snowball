@@ -208,6 +208,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ffdd3a0d-6e79-4f95-87cc-594d5383470f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2d6e55a6-6885-420b-9806-433449fb0282",
                     "path": "<Mouse>/position",
                     "interactions": "",

@@ -16,7 +16,7 @@ filters = {
 	asset = true
 }
 scopes = {
-	"last_search.AB59B443" = "ain"
+	"last_search.AB59B443" = "gamecon"
 }
 providers = {
 	asset = {

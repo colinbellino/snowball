@@ -21,6 +21,8 @@ namespace Snowball.Game
 		protected StuffSpawner _spawner => _game.Spawner;
 		protected Board _board => _game.Board;
 		protected AudioPlayer _audio => _game.AudioPlayer;
+		protected TransitionManager _transition => _game.Transition;
+		protected Conversation _conversation => _game.Conversation;
 		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
 

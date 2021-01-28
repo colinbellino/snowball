@@ -17,6 +17,7 @@ namespace Snowball.Game
 		[Required] public List<UnitAuthoring> Foes;
 		[Required] public Color TeamColor = Color.red;
 		public ConversationMessage[] StartConversation;
+		public ConversationMessage[] EndConversation;
 
 #if UNITY_EDITOR
 		private void OnValidate()

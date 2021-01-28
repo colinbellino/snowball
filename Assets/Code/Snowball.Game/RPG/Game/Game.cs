@@ -51,10 +51,10 @@ namespace Snowball.Game
 			Controls = new GameControls();
 			State = new GameState();
 			Database = new Database();
-			Conversation = new Conversation(ConversationUI);
+			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
+			Conversation = new Conversation(ConversationUI, Config, AudioPlayer, Controls);
 			Pause = new Pause(PauseUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
-			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
 
 			if (suppressError == false)
 			{

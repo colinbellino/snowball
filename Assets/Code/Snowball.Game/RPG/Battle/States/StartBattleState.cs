@@ -60,11 +60,11 @@ namespace Snowball.Game
 
 			_controls.Gameplay.Enable();
 
-			await Game.Instance.Transition.EndTransition(Color.white);
+			await _transition.EndTransition(Color.white);
 
 			if (encounter.StartConversation.Length > 0)
 			{
-				await Game.Instance.Conversation.Start(encounter.StartConversation, encounter);
+				await _conversation.Start(encounter.StartConversation, encounter);
 			}
 
 			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);
