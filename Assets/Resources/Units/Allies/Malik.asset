@@ -25,7 +25,7 @@ MonoBehaviour:
   Speed: 5
   HitAccuracy: 100
   HitRange: 10
-  HitDamage: 2
+  HitDamage: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

@@ -132,6 +132,16 @@ namespace Snowball.Game
 			;
 		}
 
+		public static async UniTask AnimateResurrection(UnitFacade facade)
+		{
+			await DOTween.Sequence()
+				.Append(facade.LeftHandRenderer.transform.DOLocalMove(Vector3.zero, 0.1f))
+				.Join(facade.RightHandRenderer.transform.DOLocalMove(Vector3.zero, 0.1f))
+				.Join(facade.BodyRenderer.transform.DORotate(new Vector3(0f, 0f, 0f), 0.3f))
+				.Join(facade.BodyRenderer.transform.DOScale(1, 0.3f))
+			;
+		}
+
 		public static async UniTask AnimateMelt(UnitFacade facade)
 		{
 			await facade.BodyPivot.DOScaleY(0, 0.3f);

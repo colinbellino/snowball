@@ -17,15 +17,24 @@ namespace Snowball.Game
 	public class Conversation
 	{
 		private readonly ConversationUI _ui;
+		private readonly GameConfig _config;
+		private readonly AudioPlayer _audio;
+		private readonly GameControls _controls;
+		private bool _confirmWasPerformed;
 
-		public Conversation(ConversationUI ui)
+		public Conversation(ConversationUI ui, GameConfig config, AudioPlayer audioPlayer, GameControls controls)
 		{
 			_ui = ui;
+			_config = config;
+			_audio = audioPlayer;
+			_controls = controls;
 		}
 
 		public async UniTask Start(ConversationMessage[] messages, EncounterAuthoring encounter)
 		{
 			var queue = new Queue<ConversationMessage>(messages);
+
+			_controls.Gameplay.Confirm.performed += OnConfirmPerformed;
 
 			_ui.Show();
 
@@ -36,14 +45,18 @@ namespace Snowball.Game
 
 			while (true)
 			{
+				_confirmWasPerformed = false;
+
 				await UniTask.NextFrame();
 
-				if (Keyboard.current.spaceKey.wasPressedThisFrame)
+				if (_confirmWasPerformed)
 				{
 					if (queue.Count == 0)
 					{
 						break;
 					}
+
+					_audio.PlaySoundEffect(_config.MenuConfirmClip);
 
 					{
 						var message = queue.Dequeue();
@@ -52,7 +65,14 @@ namespace Snowball.Game
 				}
 			}
 
+			_controls.Gameplay.Confirm.performed -= OnConfirmPerformed;
+
 			_ui.Hide();
+		}
+
+		private void OnConfirmPerformed(InputAction.CallbackContext context)
+		{
+			_confirmWasPerformed = true;
 		}
 	}
 }
