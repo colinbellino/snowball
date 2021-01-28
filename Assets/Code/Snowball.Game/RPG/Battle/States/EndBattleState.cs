@@ -21,7 +21,7 @@ namespace Snowball.Game
 			{
 				foreach (var unit in _turnManager.SortedUnits.Where(unit => unit.Alliance == Unit.Alliances.Ally))
 				{
-					UnitHelpers.AnimateResurrection(unit.Facade);
+					_ = UnitHelpers.AnimateResurrection(unit.Facade);
 				}
 				await _conversation.Start(encounter.EndConversation, encounter);
 			}

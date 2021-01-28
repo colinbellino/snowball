@@ -11,8 +11,10 @@ namespace Snowball.Game
 	{
 		[TextArea(5, 5)] public string Text;
 		public UnitAuthoring Unit;
-		public TextAnchor Alignment;
+		public UIAlignments Alignment;
 	}
+
+	public enum UIAlignments { TopLeft, TopRight }
 
 	public class Conversation
 	{
@@ -56,7 +58,7 @@ namespace Snowball.Game
 						break;
 					}
 
-					_audio.PlaySoundEffect(_config.MenuConfirmClip);
+					_ = _audio.PlaySoundEffect(_config.MenuConfirmClip);
 
 					{
 						var message = queue.Dequeue();
