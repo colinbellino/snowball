@@ -55,12 +55,22 @@ namespace Snowball.Game
 		[Required] public AudioClip UnitDeathClip;
 
 		[Title("Debug")]
-		public bool SkipTitle;
+		public bool DebugSkipTitle;
 		public bool DebugTurn;
+		public bool DebugFSM;
 		[SerializeField] private List<UnitAuthoring> _startingParty;
 		[Required] public List<int> StartingParty => _startingParty.Select(unit => unit.Id).ToList();
 		[Required] public Vector3Int WorldmapStart;
 		[SerializeField] private UnitAuthoring _snowpalUnit;
 		[Required] public int SnowmanUnitId => _snowpalUnit.Id;
+
+		public static bool GetDebug(bool value)
+		{
+			#if UNITY_EDITOR
+				return value;
+			#endif
+
+			return false;
+		}
 	}
 }
