@@ -49,6 +49,7 @@ namespace Snowball.Game
 		[Required] public AudioClip MenuErrorClip;
 		[Required] public AudioClip MenuConfirmClip;
 		[Required] public AudioClip MenuCancelClip;
+		[Required] public AudioClip MenuConversationClip;
 		[Range(0f, 1f)] public float MusicVolume = 1f;
 		[Range(0f, 1f)] public float SoundVolume = 1f;
 

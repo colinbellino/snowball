@@ -206,6 +206,8 @@ MonoBehaviour:
   MenuErrorClip: {fileID: 8300000, guid: 5c9bf440048d687408b363d4bb57df24, type: 3}
   MenuConfirmClip: {fileID: 8300000, guid: 4c1368389c5532e4faa388da887d74e9, type: 3}
   MenuCancelClip: {fileID: 8300000, guid: 80610ac3925faf74fb3ffb70c56d8292, type: 3}
+  MenuConversationClip: {fileID: 8300000, guid: 0716cfff5c54dd542a774a3995d00888,
+    type: 3}
   MusicVolume: 0.8
   SoundVolume: 1
   UnitHitClip: {fileID: 8300000, guid: 48c7d4ba335c97648af223413b4befb4, type: 3}
