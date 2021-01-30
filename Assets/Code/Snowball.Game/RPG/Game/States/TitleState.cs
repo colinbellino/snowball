@@ -41,7 +41,7 @@ namespace Snowball.Game
 
 			Game.Instance.Controls.Global.Pause.performed += OnPausePerformed;
 
-			await Game.Instance.Transition.EndTransition(Color.white);
+			await Game.Instance.Transition.EndTransition();
 		}
 
 		public async UniTask Exit()

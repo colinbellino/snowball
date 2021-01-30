@@ -211,12 +211,12 @@ MonoBehaviour:
   UnitHitClip: {fileID: 8300000, guid: 48c7d4ba335c97648af223413b4befb4, type: 3}
   UnitMissClip: {fileID: 8300000, guid: 14e04fb7b9c10804c96c73890f1faeb9, type: 3}
   UnitDeathClip: {fileID: 8300000, guid: ffc5f2c2a2042cf4e9e46cb858c5f4c7, type: 3}
-  DebugSkipTitle: 1
+  DebugSkipTitle: 0
   DebugTurn: 0
   DebugFSM: 1
   _startingParty:
   - {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
-  - {fileID: 11400000, guid: b38ed14d12e518349919b14295cc7ace, type: 2}
   - {fileID: 11400000, guid: d7e6ead57a52601408a1165116474971, type: 2}
+  - {fileID: 11400000, guid: b38ed14d12e518349919b14295cc7ace, type: 2}
   WorldmapStart: {x: 9, y: 7, z: 0}
   _snowpalUnit: {fileID: 11400000, guid: 590af672022a790419e5e5b9fa795112, type: 2}

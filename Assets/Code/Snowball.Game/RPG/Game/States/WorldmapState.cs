@@ -36,7 +36,7 @@ namespace Snowball.Game
 			_worldmap.EncounterClicked += OnEncounterClicked;
 
 			_ = _audio.PlayMusic(_config.WorldmapMusic, false, 0.5f);
-			await Game.Instance.Transition.EndTransition(Color.white);
+			await Game.Instance.Transition.EndTransition();
 
 			Game.Instance.Controls.Global.Pause.performed += OnCancelPerformed;
 
@@ -46,34 +46,39 @@ namespace Snowball.Game
 
 		public void Tick() { }
 
-		public async UniTask Exit()
+		public UniTask Exit()
 		{
 			Game.Instance.Controls.Global.Pause.performed -= OnCancelPerformed;
 
 			Game.Instance.PauseUI.ContinueClicked -= OnContinueClicked;
 			Game.Instance.PauseUI.QuitClicked -= OnQuitClicked;
 
-			_ = _audio.StopMusic();
-			await Game.Instance.Transition.StartTransition(Color.white);
-
 			_worldmap.EncounterClicked -= OnEncounterClicked;
+
+			_ = _audio.StopMusic();
+
 			_worldmap.Hide();
 
 			GameObject.Destroy(_snowballEffect.gameObject);
+
+			return default;
 		}
 
-		private void OnEncounterClicked(int encounterIndex)
+		private async void OnEncounterClicked(int encounterIndex)
 		{
 			var encounterId = _config.Encounters[encounterIndex];
 
 			if (_state.EncountersDone.Contains(encounterId))
 			{
-				Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuErrorClip);
+				_ = Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuErrorClip);
 				return;
 			}
 
-			Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuConfirmClip);
+			_ = Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuConfirmClip);
 			_state.CurrentEncounterId = encounterId;
+
+			Game.Instance.Transition.SetText(Game.Instance.Database.Encounters[encounterId].Name, Color.white);
+			await Game.Instance.Transition.StartTransition(Color.black, true);
 
 			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
