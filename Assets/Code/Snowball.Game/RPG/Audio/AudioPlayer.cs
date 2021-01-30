@@ -17,9 +17,6 @@ namespace Snowball.Game
 		{
 			_config = config;
 			_musicSource = musicSource;
-
-			SetMusicVolume(_config.MusicVolume);
-			SetSoundVolume(_config.SoundVolume);
 		}
 
 		public void Tick()
@@ -66,18 +63,24 @@ namespace Snowball.Game
 			}
 		}
 
+		public void Bla()
+		{
+			_config.AudioMixer.TransitionToSnapshots(new[] { _config.PauseAudioSnapshot }, new float[]{ 0 }, 0f);
+		}
+
 		public async UniTask StopMusic(float fadeDuration = 0.5f)
 		{
 			await _musicSource.DOFade(0f, fadeDuration);
 		}
 
-		private void OnPaused() => SetMusicVolume(-25);
-
-		private void OnResumed() => SetMusicVolume(_config.MusicVolume);
-
-		private void SetMusicVolume(float volume)
+		public void SetMusicVolume(float volume)
 		{
 			_config.AudioMixer.SetFloat("MusicVolume", ConvertToMixerVolume(volume));
+		}
+
+		public void SetSoundVolume(float volume)
+		{
+			_config.AudioMixer.SetFloat("SoundVolume", ConvertToMixerVolume(volume));
 		}
 
 		/**
@@ -89,11 +92,6 @@ namespace Snowball.Game
 		private static float ConvertToMixerVolume(float volume)
 		{
 			return (volume - 1f) * 80f;
-		}
-
-		private void SetSoundVolume(float volume)
-		{
-			_config.AudioMixer.SetFloat("SoundVolume", ConvertToMixerVolume(volume));
 		}
 
 		// TODO: Use polling instead of creating game object each time

@@ -67,9 +67,9 @@ Material:
     - OriginalColor3: {r: 0.9333334, g: 0.76470596, b: 0.6039216, a: 1}
     - OriginalColor3_: {r: 0.5660378, g: 0.39114535, b: 0.22249907, a: 1}
     - ReplacementColor0: {r: 0.14099309, g: 0.7264151, b: 0.086804256, a: 1}
-    - ReplacementColor1: {r: 0.2663679, g: 0.09119487, b: 1, a: 1}
-    - ReplacementColor2: {r: 0.3490566, g: 0.1790102, b: 0, a: 1}
-    - ReplacementColor3: {r: 0.8018868, g: 0.5900676, b: 0.38329175, a: 1}
+    - ReplacementColor1: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
+    - ReplacementColor2: {r: 1, g: 0.86385626, b: 0.25157225, a: 1}
+    - ReplacementColor3: {r: 0.909804, g: 0.7568628, b: 0.6117647, a: 1}
     - Vector4_75182d4f77e745e9b100a8fb6e91b7f9: {r: 1.2, g: 1.2, b: 1.2, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
