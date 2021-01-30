@@ -145,6 +145,7 @@ namespace Snowball.Game
 
 		private static void ResetGameState()
 		{
+			Game.Instance.State.Version = Application.version;
 			Game.Instance.State.CurrentEncounterId = -1;
 			Game.Instance.State.EncountersDone = new List<int>();
 			Game.Instance.State.Party = Game.Instance.Config.StartingParty;
