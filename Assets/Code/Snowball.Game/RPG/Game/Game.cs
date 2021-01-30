@@ -53,7 +53,7 @@ namespace Snowball.Game
 			Database = new Database();
 			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
 			Conversation = new Conversation(ConversationUI, Config, AudioPlayer, Controls);
-			Pause = new Pause(PauseUI);
+			Pause = new Pause(Config, AudioPlayer, PauseUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
 
 			if (suppressError == false)

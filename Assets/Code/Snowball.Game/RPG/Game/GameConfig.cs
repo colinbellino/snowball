@@ -41,6 +41,8 @@ namespace Snowball.Game
 		[Required] public AudioMixer AudioMixer;
 		[Required] public AudioMixerGroup MusicAudioMixerGroup;
 		[Required] public AudioMixerGroup SoundsAudioMixerGroup;
+		[Required] public AudioMixerSnapshot DefaultAudioSnapshot;
+		[Required] public AudioMixerSnapshot PauseAudioSnapshot;
 		[Required] public AudioClip TitleMusic;
 		[Required] public AudioClip WorldmapMusic;
 		[Required] public AudioClip BattleMusic;

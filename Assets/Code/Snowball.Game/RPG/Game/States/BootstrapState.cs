@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Snowball.Game
 {
@@ -15,6 +16,11 @@ namespace Snowball.Game
 		{
 			DatabaseHelpers.LoadFromResources(Game.Instance.Database);
 			DatabaseHelpers.PrepareAbilities(Game.Instance.Database, Game.Instance.Config, Game.Instance.Spawner);
+
+			Game.Instance.AudioPlayer.SetMusicVolume(Game.Instance.Config.MusicVolume);
+			Game.Instance.AudioPlayer.SetSoundVolume(Game.Instance.Config.SoundVolume);
+
+			Time.timeScale = 1f;
 
 			_machine.Fire(GameStateMachine.Triggers.Done);
 
