@@ -60,12 +60,20 @@ namespace Snowball.Game
 
 			_controls.Gameplay.Enable();
 
-			await _transition.EndTransition(Color.white);
+			await UniTask.Delay(1000);
+			await _transition.EndTransition();
 
 			if (encounter.StartConversation.Length > 0)
 			{
 				await _conversation.Start(encounter.StartConversation, encounter);
 			}
+
+			await _audio.PlayMusic(_config.BattleMusic, false, 0.5f);
+
+			// _transition.SetText("Snowball fight start!", Color.white);
+			// await _transition.StartTransition(new Color(0f, 0f, 0f, 0.5f), true);
+			// await UniTask.Delay(750);
+			// await _transition.EndTransition(new Color(0f, 0f, 0f, 0.5f), true);
 
 			_turnManager.Start(allUnits, encounter.Area, _config.GridOffset, _config.TilesData);
 
@@ -73,8 +81,6 @@ namespace Snowball.Game
 			_board.DrawGridWalk(_turnManager.WalkGrid);
 			_board.DrawBlockWalk(_turnManager.BlockGrid);
 			#endif
-
-			_ = _audio.PlayMusic(_config.BattleMusic, false, 0.5f);
 
 			_machine.Fire(BattleStateMachine.Triggers.BattleStarted);
 		}

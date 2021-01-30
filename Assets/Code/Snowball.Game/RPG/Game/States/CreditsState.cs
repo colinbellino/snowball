@@ -17,7 +17,7 @@ namespace Snowball.Game
 			Game.Instance.CreditsUI.Show();
 
 			await UniTask.Delay(3000);
-			await Game.Instance.Transition.EndTransition(Color.white);
+			await Game.Instance.Transition.EndTransition();
 
 			Game.Instance.CreditsUI.Hide();
 

@@ -12,10 +12,13 @@ namespace Snowball.Game
 		[SerializeField] [Required] private Image _pane1;
 		[SerializeField] [Required] private Image _pane2;
 		[SerializeField] [Required] private Image _pane3;
+		[SerializeField] [Required] private Text _text;
 
-		public async UniTask StartTransition(Color color)
+		public async UniTask StartTransition(Color color, bool showText = false)
 		{
 			_pane1.color = _pane2.color = _pane3.color = color;
+
+			_text.gameObject.SetActive(showText);
 
 			await DOTween.Sequence()
 				.SetUpdate(true)
@@ -26,9 +29,9 @@ namespace Snowball.Game
 			await UniTask.Delay(TimeSpan.FromSeconds(0.2f), ignoreTimeScale: true);
 		}
 
-		public async UniTask EndTransition(Color color)
+		public async UniTask EndTransition(bool showText = false)
 		{
-			_pane1.color = _pane2.color = _pane3.color = color;
+			_text.gameObject.SetActive(showText);
 
 			await DOTween.Sequence()
 				.SetUpdate(true)
@@ -37,6 +40,12 @@ namespace Snowball.Game
 				.Join(_pane3.rectTransform.DOAnchorPosX(-1920f, 0.5f).SetDelay(0.1f))
 			;
 			await UniTask.Delay(TimeSpan.FromSeconds(0.2f), ignoreTimeScale: true);
+		}
+
+		public void SetText(string text, Color color)
+		{
+			_text.text = text;
+			_text.color = color;
 		}
 	}
 }

@@ -84,11 +84,11 @@ namespace Snowball.Game
 		}
 
 		/**
-		Convert to the volume range the unity audio mixer is expecting.
-		<br />0   => -80
-		<br />0.5 => -40
-		<br />1   => 0
-		 */
+			Convert to the volume range the unity audio mixer is expecting.
+			<br />0   => -80
+			<br />0.5 => -40
+			<br />1   => 0
+		*/
 		private static float ConvertToMixerVolume(float volume)
 		{
 			return (volume - 1f) * 80f;
