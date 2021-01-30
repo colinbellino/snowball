@@ -54,9 +54,6 @@ namespace Snowball.Game
 			Game.Instance.PauseUI.QuitClicked -= OnQuitClicked;
 
 			_worldmap.EncounterClicked -= OnEncounterClicked;
-
-			_ = _audio.StopMusic();
-
 			_worldmap.Hide();
 
 			GameObject.Destroy(_snowballEffect.gameObject);
@@ -76,6 +73,8 @@ namespace Snowball.Game
 
 			_ = Game.Instance.AudioPlayer.PlaySoundEffect(Game.Instance.Config.MenuConfirmClip);
 			_state.CurrentEncounterId = encounterId;
+
+			_ = _audio.StopMusic();
 
 			Game.Instance.Transition.SetText(Game.Instance.Database.Encounters[encounterId].Name, Color.white);
 			await Game.Instance.Transition.StartTransition(Color.black, true);

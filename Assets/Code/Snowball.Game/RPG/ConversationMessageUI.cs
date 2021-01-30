@@ -16,9 +16,10 @@ namespace Snowball.Game
 
 		public async UniTask SetMessage(ConversationMessage message, Color teamColor)
 		{
-			_name.text = $"<color=\"#{ColorUtility.ToHtmlStringRGB(message.Unit.ColorCloth)}\">{message.Unit.Name}</color>";
-			_text.text = message.Text;
 			AlignUI(_transform, message.Alignment);
+
+			_name.text = $"<color=\"#{ColorUtility.ToHtmlStringRGB(message.Unit.ColorCloth)}\">{message.Unit.Name}</color>";
+			_text.text = "";
 
 			_bodyImage.sprite = message.Unit.Sprite;
 			_bodyImage.material = Instantiate(_bodyImage.material);
@@ -29,6 +30,13 @@ namespace Snowball.Game
 			_layout.enabled = false;
 			await UniTask.NextFrame();
 			_layout.enabled = true;
+
+			for (var characterIndex = 0; characterIndex < message.Text.Length; characterIndex++)
+			{
+				_text.text += message.Text[characterIndex];
+
+				await UniTask.Delay(10);
+			}
 		}
 
 		private static void AlignUI(RectTransform transform, UIAlignments alignment)

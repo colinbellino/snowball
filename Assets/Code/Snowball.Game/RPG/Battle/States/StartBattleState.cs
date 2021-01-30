@@ -61,14 +61,13 @@ namespace Snowball.Game
 			_controls.Gameplay.Enable();
 
 			await UniTask.Delay(1000);
+			await _audio.PlayMusic(_config.BattleMusic, false, 0.5f);
 			await _transition.EndTransition();
 
 			if (encounter.StartConversation.Length > 0)
 			{
 				await _conversation.Start(encounter.StartConversation, encounter);
 			}
-
-			await _audio.PlayMusic(_config.BattleMusic, false, 0.5f);
 
 			// _transition.SetText("Snowball fight start!", Color.white);
 			// await _transition.StartTransition(new Color(0f, 0f, 0f, 0.5f), true);

@@ -42,6 +42,7 @@ namespace Snowball.Game
 
 			{
 				var message = queue.Dequeue();
+				_ = _audio.PlaySoundEffect(_config.MenuConversationClip);
 				await _ui.SetMessage(message, encounter.Foes.Contains(message.Unit) ? encounter.TeamColor : message.Unit.ColorCloth);
 			}
 
@@ -58,10 +59,9 @@ namespace Snowball.Game
 						break;
 					}
 
-					_ = _audio.PlaySoundEffect(_config.MenuConfirmClip);
-
 					{
 						var message = queue.Dequeue();
+						_ = _audio.PlaySoundEffect(_config.MenuConversationClip);
 						await _ui.SetMessage(message, encounter.Foes.Contains(message.Unit) ? encounter.TeamColor : message.Unit.ColorCloth);
 					}
 				}
