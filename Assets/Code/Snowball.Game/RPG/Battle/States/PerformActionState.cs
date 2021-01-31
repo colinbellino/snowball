@@ -27,5 +27,10 @@ namespace Snowball.Game
 
 			return default;
 		}
+
+		protected override void OnPause()
+		{
+			PauseManager.Pause();
+		}
 	}
 }

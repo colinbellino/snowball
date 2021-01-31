@@ -24,7 +24,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""44280f62-7e08-44fb-8ad7-f6b524301f72"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=1)""
                 }
             ],
             ""bindings"": [
@@ -36,6 +36,33 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PauseMenu"",
+            ""id"": ""3b75de95-4cd5-4617-a748-b5b213cd4414"",
+            ""actions"": [
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ede4be9-abbb-446f-978f-b69791b00a57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""37d54db8-25d8-41bb-9360-996d85c587f8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -59,7 +86,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""59e2b5e2-a2c3-4160-9526-b74d6651644b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=1)""
                 },
                 {
                     ""name"": ""Cancel"",
@@ -67,21 +94,13 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""c34bc2a5-f988-403c-a49c-63a70f076efa"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=1)""
                 },
                 {
                     ""name"": ""Mouse Position"",
                     ""type"": ""Value"",
                     ""id"": ""5f88aa2d-5d18-4935-bd3e-c1dec0958914"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Left Click"",
-                    ""type"": ""Value"",
-                    ""id"": ""6c759bf9-b919-4b0d-ae2d-b6436c5f3ab2"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -243,19 +262,8 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4b9c5711-9c8e-4f6b-afbc-689acbea82d6"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Left Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cf9bd2e7-e9e6-49ae-a039-1cd50f7c0747"",
-                    ""path"": ""<Keyboard>/backspace"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -282,13 +290,15 @@ public class @GameControls : IInputActionCollection, IDisposable
         // Global
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_Pause = m_Global.FindAction("Pause", throwIfNotFound: true);
+        // PauseMenu
+        m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
+        m_PauseMenu_Cancel = m_PauseMenu.FindAction("Cancel", throwIfNotFound: true);
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Confirm = m_Gameplay.FindAction("Confirm", throwIfNotFound: true);
         m_Gameplay_Cancel = m_Gameplay.FindAction("Cancel", throwIfNotFound: true);
         m_Gameplay_MousePosition = m_Gameplay.FindAction("Mouse Position", throwIfNotFound: true);
-        m_Gameplay_LeftClick = m_Gameplay.FindAction("Left Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -368,6 +378,39 @@ public class @GameControls : IInputActionCollection, IDisposable
     }
     public GlobalActions @Global => new GlobalActions(this);
 
+    // PauseMenu
+    private readonly InputActionMap m_PauseMenu;
+    private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
+    private readonly InputAction m_PauseMenu_Cancel;
+    public struct PauseMenuActions
+    {
+        private @GameControls m_Wrapper;
+        public PauseMenuActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Cancel => m_Wrapper.m_PauseMenu_Cancel;
+        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IPauseMenuActions instance)
+        {
+            if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
+            {
+                @Cancel.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+            }
+            m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+            }
+        }
+    }
+    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
+
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
@@ -375,7 +418,6 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Confirm;
     private readonly InputAction m_Gameplay_Cancel;
     private readonly InputAction m_Gameplay_MousePosition;
-    private readonly InputAction m_Gameplay_LeftClick;
     public struct GameplayActions
     {
         private @GameControls m_Wrapper;
@@ -384,7 +426,6 @@ public class @GameControls : IInputActionCollection, IDisposable
         public InputAction @Confirm => m_Wrapper.m_Gameplay_Confirm;
         public InputAction @Cancel => m_Wrapper.m_Gameplay_Cancel;
         public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
-        public InputAction @LeftClick => m_Wrapper.m_Gameplay_LeftClick;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -406,9 +447,6 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @MousePosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMousePosition;
-                @LeftClick.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeftClick;
-                @LeftClick.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeftClick;
-                @LeftClick.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeftClick;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -425,9 +463,6 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
-                @LeftClick.started += instance.OnLeftClick;
-                @LeftClick.performed += instance.OnLeftClick;
-                @LeftClick.canceled += instance.OnLeftClick;
             }
         }
     }
@@ -436,12 +471,15 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         void OnPause(InputAction.CallbackContext context);
     }
+    public interface IPauseMenuActions
+    {
+        void OnCancel(InputAction.CallbackContext context);
+    }
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnLeftClick(InputAction.CallbackContext context);
     }
 }

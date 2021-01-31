@@ -84,9 +84,9 @@ namespace Snowball.Game
 			_ui.OnActionClicked -= OnActionClicked;
 		}
 
-		protected override void OnCancel()
+		protected override void OnPause()
 		{
-			_machine.Fire(BattleStateMachine.Triggers.Paused);
+			PauseManager.Pause();
 		}
 
 		protected override void OnCursorMove()

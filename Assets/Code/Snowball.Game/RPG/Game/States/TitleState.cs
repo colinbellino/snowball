@@ -38,21 +38,7 @@ namespace Snowball.Game
 				Game.Instance.State.Set(CreateDefaultState());
 			}
 
-			// if (GameConfig.GetDebug(Game.Instance.Config.DebugSkipTitle))
-			if (true)
-			{
-				ContinueGame();
-				return;
-			}
-
-			Game.Instance.TitleUI.Show(hasSaveFile);
-			Game.Instance.TitleUI.StartButtonClicked += ContinueGame;
-			Game.Instance.TitleUI.NewGameButtonClicked += OnNewGameButtonClicked;
-			Game.Instance.TitleUI.QuitButtonClicked += OnQuitButtonClicked;
-
-			Game.Instance.Controls.Global.Pause.performed += OnPausePerformed;
-
-			await Game.Instance.Transition.EndTransition();
+			ContinueGame();
 		}
 
 		public async UniTask Exit()

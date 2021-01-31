@@ -21,7 +21,7 @@ namespace Snowball.Game
 		public TransitionManager Transition { get; }
 		public ComputerPlayerUnit CPU { get; }
 		public Conversation Conversation { get; }
-		public Pause Pause { get; }
+		public PauseManager PauseManager { get; }
 
 		private ConversationUI ConversationUI;
 
@@ -53,7 +53,7 @@ namespace Snowball.Game
 			Database = new Database();
 			AudioPlayer = new AudioPlayer(Config, _musicAudioSource);
 			Conversation = new Conversation(ConversationUI, Config, AudioPlayer, Controls);
-			Pause = new Pause(Config, AudioPlayer, PauseUI);
+			PauseManager = new PauseManager(Config, Controls, PauseUI);
 			CPU = new ComputerPlayerUnit(Database, Config, Spawner);
 
 			if (suppressError == false)

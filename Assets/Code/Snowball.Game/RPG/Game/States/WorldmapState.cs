@@ -44,7 +44,46 @@ namespace Snowball.Game
 			Game.Instance.PauseUI.QuitClicked += OnQuitClicked;
 		}
 
-		public void Tick() { }
+		public void Tick()
+		{
+#if UNITY_EDITOR
+			if (Keyboard.current.f1Key.wasPressedThisFrame)
+			{
+				StartBattle(0);
+				return;
+			}
+
+			if (Keyboard.current.f2Key.wasPressedThisFrame)
+			{
+				StartBattle(1);
+				return;
+			}
+
+			if (Keyboard.current.f3Key.wasPressedThisFrame)
+			{
+				StartBattle(2);
+				return;
+			}
+
+			if (Keyboard.current.f4Key.wasPressedThisFrame)
+			{
+				StartBattle(3);
+				return;
+			}
+
+			if (Keyboard.current.f5Key.wasPressedThisFrame)
+			{
+				StartBattle(4);
+				return;
+			}
+
+			if (Keyboard.current.f6Key.wasPressedThisFrame)
+			{
+				StartBattle(5);
+				return;
+			}
+#endif
+		}
 
 		public UniTask Exit()
 		{
@@ -59,6 +98,14 @@ namespace Snowball.Game
 			GameObject.Destroy(_snowballEffect.gameObject);
 
 			return default;
+		}
+
+		private void StartBattle(int battleIndex)
+		{
+			var encounterId = Game.Instance.Config.Encounters[battleIndex];
+			Game.Instance.State.CurrentEncounterId = encounterId;
+
+			_machine.Fire(GameStateMachine.Triggers.StartBattle);
 		}
 
 		private async void OnEncounterClicked(int encounterIndex)
@@ -84,12 +131,12 @@ namespace Snowball.Game
 
 		private void OnCancelPerformed(InputAction.CallbackContext obj)
 		{
-			Game.Instance.Pause.Toggle();
+			Game.Instance.PauseManager.Pause();
 		}
 
 		private void OnContinueClicked()
 		{
-			Game.Instance.Pause.Toggle();
+			Game.Instance.PauseManager.Resume();
 		}
 
 		private void OnQuitClicked()

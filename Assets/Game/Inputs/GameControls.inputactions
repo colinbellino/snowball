@@ -11,7 +11,7 @@
                     "id": "44280f62-7e08-44fb-8ad7-f6b524301f72",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=1)"
                 }
             ],
             "bindings": [
@@ -23,6 +23,33 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseMenu",
+            "id": "3b75de95-4cd5-4617-a748-b5b213cd4414",
+            "actions": [
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "9ede4be9-abbb-446f-978f-b69791b00a57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "37d54db8-25d8-41bb-9360-996d85c587f8",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -46,7 +73,7 @@
                     "id": "59e2b5e2-a2c3-4160-9526-b74d6651644b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=1)"
                 },
                 {
                     "name": "Cancel",
@@ -54,21 +81,13 @@
                     "id": "c34bc2a5-f988-403c-a49c-63a70f076efa",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=1)"
                 },
                 {
                     "name": "Mouse Position",
                     "type": "Value",
                     "id": "5f88aa2d-5d18-4935-bd3e-c1dec0958914",
                     "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Left Click",
-                    "type": "Value",
-                    "id": "6c759bf9-b919-4b0d-ae2d-b6436c5f3ab2",
-                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -230,19 +249,8 @@
                 },
                 {
                     "name": "",
-                    "id": "4b9c5711-9c8e-4f6b-afbc-689acbea82d6",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Left Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cf9bd2e7-e9e6-49ae-a039-1cd50f7c0747",
-                    "path": "<Keyboard>/backspace",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
