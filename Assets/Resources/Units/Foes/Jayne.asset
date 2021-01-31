@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
-  m_Name: Ursula
+  m_Name: Jayne
   m_EditorClassIdentifier: 
-  Id: 999212366
-  Name: Ursula
+  Id: 273233954
+  Name: Jayne
   Type: 0
   Guest: 0
-  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
-  ColorCloth: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
-  ColorHair: {r: 1, g: 0.86385626, b: 0.25157225, a: 1}
-  ColorSkin: {r: 0.909804, g: 0.7568628, b: 0.6117647, a: 1}
+  Sprite: {fileID: -7790507309427031039, guid: a8e0a64acef2ced4e9dc0f11c725c706, type: 3}
+  ColorCloth: {r: 0.011764707, g: 0.5647059, b: 0.79215693, a: 1}
+  ColorHair: {r: 1, g: 0.4781475, b: 0, a: 1}
+  ColorSkin: {r: 1, g: 0.8275862, b: 0.6666666, a: 1}
   MoveRange: 8
-  Health: 1
-  Speed: 5
+  Health: 8
+  Speed: 12
   HitAccuracy: 100
-  HitRange: 12
+  HitRange: 8
   HitDamage: 1
   BuildRange: 1
   ActionPatterns: 0

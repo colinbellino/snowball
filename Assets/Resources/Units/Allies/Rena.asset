@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Rena
   Type: 0
   Guest: 0
-  Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
+  Sprite: {fileID: 8185331927579283179, guid: bf870d7bae32ffc4fa4ecd8f1ed779ed, type: 3}
   ColorCloth: {r: 0.07164464, g: 0.6509434, b: 0.17035916, a: 1}
   ColorHair: {r: 0.21960786, g: 0.11764707, b: 0.69803923, a: 1}
   ColorSkin: {r: 0.9150943, g: 0.69136363, b: 0.47193536, a: 1}
