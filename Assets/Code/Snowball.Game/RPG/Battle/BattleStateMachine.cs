@@ -120,7 +120,7 @@ namespace Snowball.Game
 
 			if (_states.ContainsKey(transition.Destination) == false)
 			{
-				throw new Exception("Missing state class for: " + transition.Destination);
+				UnityEngine.Debug.LogError("Missing state class for: " + transition.Destination);
 			}
 
 			_currentState = _states[transition.Destination];

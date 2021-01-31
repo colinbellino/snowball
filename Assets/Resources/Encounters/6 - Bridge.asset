@@ -16,6 +16,7 @@ MonoBehaviour:
   Name: Bridge
   Area: {fileID: 11400000, guid: 9741bb0b3ea50cf4e9b91c792019fbe9, type: 2}
   Foes:
-  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
+  - {fileID: 11400000, guid: 2354240fcab91cf448a7673bed562445, type: 2}
   TeamColor: {r: 0.4012752, g: 0, b: 0.7735849, a: 1}
   StartConversation: []
+  EndConversation: []

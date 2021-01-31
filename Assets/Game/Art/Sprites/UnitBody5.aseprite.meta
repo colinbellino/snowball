@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2cae62b046bcaae4baa69118ea0e4eca
+guid: 3c806692cf0b9ea46a4fc28d8276e19c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -68,7 +68,7 @@ ScriptedImporter:
   animationSettings: []
   texture: {instanceID: 0}
   spriteImportData:
-  - name: UnitBody2
+  - name: UnitBody5
     rect:
       serializedVersion: 2
       x: 0
@@ -79,6 +79,6 @@ ScriptedImporter:
     pivot: {x: 0.5, y: 0.5}
     border: {x: 0, y: 0, z: 0, w: 0}
     tessellationDetail: 0
-    spriteID: b453d73773aafbd4488ccefba928d649
+    spriteID: 60f389c84ac2984499bc91008462edf0
   spriteRects: []
   selectedImporter: 1

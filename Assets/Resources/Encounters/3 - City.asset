@@ -16,6 +16,7 @@ MonoBehaviour:
   Name: City
   Area: {fileID: 11400000, guid: 9fa7dec324aaf3841ba4dec8ae90c91f, type: 2}
   Foes:
-  - {fileID: 11400000, guid: dafb99f4254952546a49b59994d913a7, type: 2}
-  TeamColor: {r: 0, g: 0.18141647, b: 0.7830189, a: 1}
+  - {fileID: 11400000, guid: 2df4ca98040a55843a9d8e3447f64f14, type: 2}
+  TeamColor: {r: 0.17254902, g: 0.3529412, b: 0.64705884, a: 1}
   StartConversation: []
+  EndConversation: []

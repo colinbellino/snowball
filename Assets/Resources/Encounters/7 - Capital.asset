@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 7
   Name: Capital
-  Area: {fileID: 11400000, guid: 9fa7dec324aaf3841ba4dec8ae90c91f, type: 2}
+  Area: {fileID: 11400000, guid: f6ab09c5909365d47a262980c736d2b3, type: 2}
   Foes:
-  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
-  TeamColor: {r: 1, g: 0.114046305, b: 0, a: 1}
+  - {fileID: 11400000, guid: 6116acb5964b33649a67365bf86ddfac, type: 2}
+  - {fileID: 11400000, guid: 8126dde2ef21bc2438f866db3a9b6002, type: 2}
+  - {fileID: 11400000, guid: ab5bacd54bb2136409111c9b4ce6f267, type: 2}
+  TeamColor: {r: 0.9339623, g: 0.600078, b: 0, a: 1}
   StartConversation: []
+  EndConversation: []

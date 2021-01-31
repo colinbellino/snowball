@@ -16,7 +16,8 @@ MonoBehaviour:
   Name: Road
   Area: {fileID: 11400000, guid: 0f51ee6ec569e57499d596e493a7cf77, type: 2}
   Foes:
-  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
-  - {fileID: 11400000, guid: 2b92dbe09737d491f9655ae1fdac4d2e, type: 2}
-  TeamColor: {r: 0.7924528, g: 0.5239328, b: 0.06479169, a: 1}
+  - {fileID: 11400000, guid: 7488737cacff75b41a50930434739fc2, type: 2}
+  - {fileID: 11400000, guid: cb0f1993c353c2b4e9faaec1603dbfdd, type: 2}
+  TeamColor: {r: 0.5377358, g: 0.043965787, b: 0.24648136, a: 1}
   StartConversation: []
+  EndConversation: []
