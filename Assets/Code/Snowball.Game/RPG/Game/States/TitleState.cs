@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,14 +20,26 @@ namespace Snowball.Game
 
 			if (hasSaveFile)
 			{
-				Game.Instance.State.Update(SaveHelpers.LoadFromFile());
+				var save = SaveHelpers.LoadFromFile();
+				if (save.Version != Application.version)
+				{
+					Debug.Log("Resetting save file (incompatible version).");
+					Game.Instance.State.Set(CreateDefaultState());
+					SaveHelpers.SaveToFile(Game.Instance.State);
+				}
+				else
+				{
+					Game.Instance.State.Set(save);
+				}
 			}
 			else
 			{
-				ResetGameState();
+				Debug.Log("Resetting save file (file not found).");
+				Game.Instance.State.Set(CreateDefaultState());
 			}
 
-			if (GameConfig.GetDebug(Game.Instance.Config.DebugSkipTitle))
+			// if (GameConfig.GetDebug(Game.Instance.Config.DebugSkipTitle))
+			if (true)
 			{
 				ContinueGame();
 				return;
@@ -52,7 +63,7 @@ namespace Snowball.Game
 
 			Game.Instance.Controls.Global.Pause.performed -= OnPausePerformed;
 
-			await Game.Instance.Transition.StartTransition(Color.white);
+			await Game.Instance.Transition.StartTransition(Color.black);
 
 			Game.Instance.TitleUI.Hide();
 		}
@@ -134,7 +145,7 @@ namespace Snowball.Game
 
 		private void OnNewGameButtonClicked()
 		{
-			ResetGameState();
+			Game.Instance.State.Set(CreateDefaultState());
 			ContinueGame();
 		}
 
@@ -143,22 +154,24 @@ namespace Snowball.Game
 			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 
-		private static void ResetGameState()
+		private static GameState CreateDefaultState()
 		{
-			Game.Instance.State.Version = Application.version;
-			Game.Instance.State.CurrentEncounterId = -1;
-			Game.Instance.State.EncountersDone = new List<int>();
-			Game.Instance.State.Party = Game.Instance.Config.StartingParty;
-			Game.Instance.State.Guests = new List<int>();
+			var state = new GameState();
+			state.Version = Application.version;
+			state.CurrentEncounterId = -1;
+			state.EncountersDone = new List<int>();
+			state.Party = Game.Instance.Config.StartingParty;
+			state.Guests = new List<int>();
 
 			for (var unitIndex = 0; unitIndex < Game.Instance.Config.StartingParty.Count; unitIndex++)
 			{
 				if (unitIndex > 0)
 				{
-					Game.Instance.State.Guests.Add(Game.Instance.Config.StartingParty[unitIndex]);
+					state.Guests.Add(Game.Instance.Config.StartingParty[unitIndex]);
 				}
 			}
-			Debug.Log("Creating empty save.");
+
+			return state;
 		}
 	}
 }

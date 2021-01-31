@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
   m_Name: Rena
   m_EditorClassIdentifier: 
-  Id: 2089719535
+  Id: 3
   Name: Rena
   Type: 0
   Guest: 0

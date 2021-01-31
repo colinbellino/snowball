@@ -46,7 +46,7 @@ MonoBehaviour:
       play our cards just right...
     Unit: {fileID: 11400000, guid: d7e6ead57a52601408a1165116474971, type: 2}
     Alignment: 0
-  - Text: Yusss, welcome to the team newbie. We got this!
+  - Text: Welcome to the team newbie!
     Unit: {fileID: 11400000, guid: b38ed14d12e518349919b14295cc7ace, type: 2}
     Alignment: 0
   - Text: I've got a name you know...
@@ -55,6 +55,9 @@ MonoBehaviour:
   - Text: Now that i'm in the team and all, could you stop calling me newbie?
     Unit: {fileID: 11400000, guid: 57ef562584e5549aa9380a5c83b4e577, type: 2}
     Alignment: 0
-  - Text: Fair enough. Let's go Anri.
+  - Text: Sorry Anri...
+    Unit: {fileID: 11400000, guid: b38ed14d12e518349919b14295cc7ace, type: 2}
+    Alignment: 0
+  - Text: Fair enough. Let's go Anri!
     Unit: {fileID: 11400000, guid: d7e6ead57a52601408a1165116474971, type: 2}
     Alignment: 0

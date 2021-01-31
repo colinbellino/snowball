@@ -11,8 +11,9 @@ namespace Snowball.Game
 		public List<int> Party;
 		public List<int> Guests;
 
-		public void Update(GameState save)
+		public void Set(GameState save)
 		{
+			Version = save.Version;
 			CurrentEncounterId = save.CurrentEncounterId;
 			EncountersDone = save.EncountersDone;
 			Party = save.Party;

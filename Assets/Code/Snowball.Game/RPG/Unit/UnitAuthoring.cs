@@ -14,7 +14,6 @@ namespace Snowball.Game
 		public int Id;
 		public string Name = "Annyong";
 		public Unit.Types Type;
-		public bool Guest;
 
 		[Title("Visuals")]
 		public Sprite Sprite;
@@ -38,8 +37,7 @@ namespace Snowball.Game
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
-			var guestText = Guest ? " (Guest)" : "";
-			var fileName = $"{Name}{guestText}";
+			var fileName = $"{Name}";
 			if (name != fileName)
 			{
 				var assetPath = AssetDatabase.GetAssetPath(GetInstanceID());
