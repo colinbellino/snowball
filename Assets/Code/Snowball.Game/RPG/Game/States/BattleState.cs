@@ -26,8 +26,6 @@ namespace Snowball.Game
 			_battleMachine.Start();
 			_battleMachine.BattleEnded += OnBattleEnded;
 
-			Game.Instance.Controls.Global.Pause.performed += OnCancelPerformed;
-
 			Game.Instance.PauseUI.ContinueClicked += OnContinueClicked;
 			Game.Instance.PauseUI.QuitClicked += OnQuitClicked;
 
@@ -37,8 +35,6 @@ namespace Snowball.Game
 		public UniTask Exit()
 		{
 			_battleMachine.BattleEnded -= OnBattleEnded;
-
-			Game.Instance.Controls.Global.Pause.performed -= OnCancelPerformed;
 
 			Game.Instance.PauseUI.ContinueClicked -= OnContinueClicked;
 			Game.Instance.PauseUI.QuitClicked -= OnQuitClicked;
@@ -74,14 +70,9 @@ namespace Snowball.Game
 			_machine.Fire(GameStateMachine.Triggers.StartWorldmap);
 		}
 
-		private void OnCancelPerformed(InputAction.CallbackContext obj)
-		{
-			Game.Instance.Pause.Toggle();
-		}
-
 		private void OnContinueClicked()
 		{
-			Game.Instance.Pause.Toggle();
+			Game.Instance.PauseManager.Resume();
 		}
 
 		private void OnQuitClicked()

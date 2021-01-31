@@ -30,7 +30,6 @@ namespace Snowball.Game
 			TurnEnded,
 			Cancelled,
 			Done,
-			Paused,
 			Victory,
 			Defeat,
 		}

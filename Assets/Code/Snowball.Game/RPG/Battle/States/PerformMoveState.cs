@@ -23,5 +23,10 @@ namespace Snowball.Game
 
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
+
+		protected override void OnPause()
+		{
+			PauseManager.Pause();
+		}
 	}
 }

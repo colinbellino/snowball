@@ -23,6 +23,7 @@ namespace Snowball.Game
 		protected AudioPlayer _audio => _game.AudioPlayer;
 		protected TransitionManager _transition => _game.Transition;
 		protected Conversation _conversation => _game.Conversation;
+		protected PauseManager PauseManager => _game.PauseManager;
 		protected ComputerPlayerUnit _cpu => _game.CPU;
 		protected Turn _turn => _turnManager.Turn;
 
@@ -42,19 +43,21 @@ namespace Snowball.Game
 				_controls.Gameplay.Confirm.performed += OnConfirmPerformed;
 				_controls.Gameplay.Cancel.performed += OnCancelPerformed;
 			}
+			_controls.Global.Pause.performed += OnPausePerformed;
 
 			return default;
 		}
 
-		public virtual UniTask Exit()
+		public virtual async UniTask Exit()
 		{
 			if (_turn != null && _turn.Unit.Driver == Unit.Drivers.Human)
 			{
 				_controls.Gameplay.Confirm.performed -= OnConfirmPerformed;
 				_controls.Gameplay.Cancel.performed -= OnCancelPerformed;
 			}
+			_controls.Global.Pause.performed -= OnPausePerformed;
 
-			return default;
+			await UniTask.NextFrame();
 		}
 
 		public virtual void Tick()
@@ -74,26 +77,6 @@ namespace Snowball.Game
 			}
 		}
 
-		private static bool IsOverUI(Vector2 mousePosition)
-		{
-			var pointerData = new PointerEventData(EventSystem.current)
-			{
-				position = mousePosition,
-			};
-			var results = new List<RaycastResult>();
-
-			EventSystem.current.RaycastAll(pointerData, results);
-			foreach (var result in results)
-			{
-				if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		private void OnConfirmPerformed(InputAction.CallbackContext context)
 		{
 			OnConfirm();
@@ -104,10 +87,17 @@ namespace Snowball.Game
 			OnCancel();
 		}
 
+		private void OnPausePerformed(InputAction.CallbackContext context)
+		{
+			OnPause();
+		}
+
 		protected virtual void OnConfirm() { }
 
 		protected virtual void OnCancel() { }
 
 		protected virtual void OnCursorMove() { }
+
+		protected virtual void OnPause() { }
 	}
 }
