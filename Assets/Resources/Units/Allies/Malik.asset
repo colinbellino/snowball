@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79839f5773cb4cd3a7f5cfbaeefef29b, type: 3}
   m_Name: Malik
   m_EditorClassIdentifier: 
-  Id: 1523167977
+  Id: 2
   Name: Malik
   Type: 0
   Guest: 0
