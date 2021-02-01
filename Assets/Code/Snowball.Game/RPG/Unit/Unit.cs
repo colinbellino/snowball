@@ -27,6 +27,7 @@ namespace Snowball.Game
 		public int HitAccuracy;
 		public int HitRange;
 		public int HitDamage;
+		public int HitDamageVariation;
 		public int BuildRange;
 		public Vector3Int GridPosition;
 		public Directions Direction;

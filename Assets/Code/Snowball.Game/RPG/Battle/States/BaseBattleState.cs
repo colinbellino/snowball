@@ -75,6 +75,13 @@ namespace Snowball.Game
 					OnCursorMove();
 				}
 			}
+
+			#if UNITY_EDITOR
+			if (Keyboard.current.f9Key.wasPressedThisFrame)
+			{
+				_machine.Fire(BattleStateMachine.Triggers.Victory);
+			}
+			#endif
 		}
 
 		private void OnConfirmPerformed(InputAction.CallbackContext context)

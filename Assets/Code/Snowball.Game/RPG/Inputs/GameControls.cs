@@ -42,33 +42,6 @@ public class @GameControls : IInputActionCollection, IDisposable
             ]
         },
         {
-            ""name"": ""PauseMenu"",
-            ""id"": ""3b75de95-4cd5-4617-a748-b5b213cd4414"",
-            ""actions"": [
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""9ede4be9-abbb-446f-978f-b69791b00a57"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""37d54db8-25d8-41bb-9360-996d85c587f8"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""Gameplay"",
             ""id"": ""c19e3e3c-441e-46e6-a672-6a07327dc34a"",
             ""actions"": [
@@ -283,6 +256,82 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PauseMenu"",
+            ""id"": ""3b75de95-4cd5-4617-a748-b5b213cd4414"",
+            ""actions"": [
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ede4be9-abbb-446f-978f-b69791b00a57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""37d54db8-25d8-41bb-9360-996d85c587f8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Credits"",
+            ""id"": ""ed00d9d3-a72d-4134-9d86-1f114b07b13b"",
+            ""actions"": [
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""8159b8e3-4680-4d3d-9414-75d3b3ad3133"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d6e09fdd-0c1c-4224-9838-8e0f1bdd5800"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f3844da-458a-4cba-9432-4b1cf556062c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14478250-4f7c-4e9e-ada4-937e197a5b42"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -290,15 +339,18 @@ public class @GameControls : IInputActionCollection, IDisposable
         // Global
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_Pause = m_Global.FindAction("Pause", throwIfNotFound: true);
-        // PauseMenu
-        m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
-        m_PauseMenu_Cancel = m_PauseMenu.FindAction("Cancel", throwIfNotFound: true);
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Confirm = m_Gameplay.FindAction("Confirm", throwIfNotFound: true);
         m_Gameplay_Cancel = m_Gameplay.FindAction("Cancel", throwIfNotFound: true);
         m_Gameplay_MousePosition = m_Gameplay.FindAction("Mouse Position", throwIfNotFound: true);
+        // PauseMenu
+        m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
+        m_PauseMenu_Cancel = m_PauseMenu.FindAction("Cancel", throwIfNotFound: true);
+        // Credits
+        m_Credits = asset.FindActionMap("Credits", throwIfNotFound: true);
+        m_Credits_Confirm = m_Credits.FindAction("Confirm", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,39 +430,6 @@ public class @GameControls : IInputActionCollection, IDisposable
     }
     public GlobalActions @Global => new GlobalActions(this);
 
-    // PauseMenu
-    private readonly InputActionMap m_PauseMenu;
-    private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
-    private readonly InputAction m_PauseMenu_Cancel;
-    public struct PauseMenuActions
-    {
-        private @GameControls m_Wrapper;
-        public PauseMenuActions(@GameControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Cancel => m_Wrapper.m_PauseMenu_Cancel;
-        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
-        public void SetCallbacks(IPauseMenuActions instance)
-        {
-            if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
-            {
-                @Cancel.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
-            }
-            m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Cancel.started += instance.OnCancel;
-                @Cancel.performed += instance.OnCancel;
-                @Cancel.canceled += instance.OnCancel;
-            }
-        }
-    }
-    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
-
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
@@ -467,13 +486,75 @@ public class @GameControls : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // PauseMenu
+    private readonly InputActionMap m_PauseMenu;
+    private IPauseMenuActions m_PauseMenuActionsCallbackInterface;
+    private readonly InputAction m_PauseMenu_Cancel;
+    public struct PauseMenuActions
+    {
+        private @GameControls m_Wrapper;
+        public PauseMenuActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Cancel => m_Wrapper.m_PauseMenu_Cancel;
+        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
+        public void SetCallbacks(IPauseMenuActions instance)
+        {
+            if (m_Wrapper.m_PauseMenuActionsCallbackInterface != null)
+            {
+                @Cancel.started -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_PauseMenuActionsCallbackInterface.OnCancel;
+            }
+            m_Wrapper.m_PauseMenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+            }
+        }
+    }
+    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
+
+    // Credits
+    private readonly InputActionMap m_Credits;
+    private ICreditsActions m_CreditsActionsCallbackInterface;
+    private readonly InputAction m_Credits_Confirm;
+    public struct CreditsActions
+    {
+        private @GameControls m_Wrapper;
+        public CreditsActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Confirm => m_Wrapper.m_Credits_Confirm;
+        public InputActionMap Get() { return m_Wrapper.m_Credits; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CreditsActions set) { return set.Get(); }
+        public void SetCallbacks(ICreditsActions instance)
+        {
+            if (m_Wrapper.m_CreditsActionsCallbackInterface != null)
+            {
+                @Confirm.started -= m_Wrapper.m_CreditsActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_CreditsActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_CreditsActionsCallbackInterface.OnConfirm;
+            }
+            m_Wrapper.m_CreditsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+            }
+        }
+    }
+    public CreditsActions @Credits => new CreditsActions(this);
     public interface IGlobalActions
     {
         void OnPause(InputAction.CallbackContext context);
-    }
-    public interface IPauseMenuActions
-    {
-        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IGameplayActions
     {
@@ -481,5 +562,13 @@ public class @GameControls : IInputActionCollection, IDisposable
         void OnConfirm(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+    }
+    public interface IPauseMenuActions
+    {
+        void OnCancel(InputAction.CallbackContext context);
+    }
+    public interface ICreditsActions
+    {
+        void OnConfirm(InputAction.CallbackContext context);
     }
 }

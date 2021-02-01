@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 1857751726
   Name: Celeste
   Type: 0
-  Guest: 0
   Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
   ColorCloth: {r: 0.7921569, g: 0.011764727, b: 0.06012246, a: 1}
   ColorHair: {r: 0.3207547, g: 0.17880836, b: 0.14726472, a: 1}
   ColorSkin: {r: 0.8962264, g: 0.7588593, b: 0.6313041, a: 1}
-  MoveRange: 8
-  Health: 8
-  Speed: 12
+  MoveRange: 7
+  Health: 7
+  Speed: 5
   HitAccuracy: 100
   HitRange: 8
-  HitDamage: 1
+  HitDamage: 2
+  HitDamageVariation: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

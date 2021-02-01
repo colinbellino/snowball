@@ -93,7 +93,7 @@ namespace Snowball.Game
 				}
 			}
 
-			// If we have no ability (no best plan found), run towards the nearest foe.
+			// If we have no ability (no best plan found)
 			if (plan.Ability == null)
 			{
 				var foes = turnManager.GetActiveUnits()
@@ -104,17 +104,29 @@ namespace Snowball.Game
 
 				if (nearestFoe != null)
 				{
-					var walkPath = GridHelpers.FindPath(actor.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
-					walkPath.Reverse();
-
-					foreach (var position in walkPath)
+					if (Vector3.Distance(nearestFoe.GridPosition, actor.GridPosition) > actor.HitRange)
 					{
-						if (moveOptions.Contains(position))
+						// Run towards the nearest foe.
+						var walkPath = GridHelpers.FindPath(actor.GridPosition, nearestFoe.GridPosition, turnManager.WalkGrid);
+						walkPath.Reverse();
+
+						foreach (var position in walkPath)
 						{
-							plan.NeedsToMove = position != actor.GridPosition;
-							plan.MoveDestination = position;
-							break;
+							if (moveOptions.Contains(position))
+							{
+								plan.NeedsToMove = position != actor.GridPosition;
+								plan.MoveDestination = position;
+								break;
+							}
 						}
+					}
+					else
+					{
+						var randomDestination = moveOptions[Random.Range(0, moveOptions.Count)];
+						var walkPath = GridHelpers.FindPath(actor.GridPosition, randomDestination, turnManager.WalkGrid);
+						walkPath.Reverse();
+
+						plan.MoveDestination = randomDestination;
 					}
 				}
 			}

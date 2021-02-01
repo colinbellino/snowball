@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 999212366
   Name: Ursula
   Type: 0
-  Guest: 0
   Sprite: {fileID: -2795891625294991893, guid: b4265d525d64c304da0a6386855f6703, type: 3}
   ColorCloth: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
   ColorHair: {r: 1, g: 0.86385626, b: 0.25157225, a: 1}
   ColorSkin: {r: 0.909804, g: 0.7568628, b: 0.6117647, a: 1}
-  MoveRange: 8
-  Health: 1
+  MoveRange: 9
+  Health: 7
   Speed: 5
   HitAccuracy: 100
-  HitRange: 12
-  HitDamage: 1
+  HitRange: 8
+  HitDamage: 2
+  HitDamageVariation: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

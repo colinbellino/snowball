@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 1872923644
   Name: Theo
   Type: 0
-  Guest: 0
   Sprite: {fileID: 3827289592664535785, guid: 8af965f9728cd594eaa0cf4924010007, type: 3}
   ColorCloth: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
   ColorHair: {r: 0.23584908, g: 0.086577535, b: 0.023733223, a: 1}
   ColorSkin: {r: 0.909804, g: 0.7568628, b: 0.6117647, a: 1}
-  MoveRange: 8
-  Health: 3
-  Speed: 5
+  MoveRange: 7
+  Health: 7
+  Speed: 6
   HitAccuracy: 100
   HitRange: 20
-  HitDamage: 1
+  HitDamage: 2
+  HitDamageVariation: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

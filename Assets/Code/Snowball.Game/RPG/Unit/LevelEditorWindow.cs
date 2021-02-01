@@ -54,6 +54,7 @@ namespace Snowball.Game
 		{
 			var areaCreation = FindObjectOfType<AreaCreation>();
 			areaCreation.Save(_current.Area);
+			Debug.Log($"{_current.Area} saved!");
 		}
 
 		private void Refresh()

@@ -20,6 +20,7 @@ namespace Snowball.Game
 		}
 
 		public bool RequiresUnitTarget => true;
+		public bool DoesDamage => true;
 
 		public bool IsValidTarget(Unit actor, Unit target)
 		{
@@ -80,7 +81,8 @@ namespace Snowball.Game
 				if (didHit)
 				{
 					Debug.Log($"{actor} hit for {actor.HitDamage} damage! ({roll}/{hitChance})");
-					hitTasks.Add(Hit(target, actor.HitDamage));
+					var damage = actor.HitDamage + Random.Range(0, actor.HitDamageVariation + 1);
+					hitTasks.Add(Hit(target, damage));
 				}
 				else
 				{

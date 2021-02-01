@@ -65,7 +65,8 @@ namespace Snowball.Game
 				.Permit(Triggers.Quit, States.Quit);
 
 			_machine.Configure(States.Credits)
-				.Permit(Triggers.Done, States.Title);
+				.Permit(Triggers.Quit, States.Quit)
+				.Permit(Triggers.BackToTitle, States.Title);
 
 			_currentState = _states[_machine.State];
 		}

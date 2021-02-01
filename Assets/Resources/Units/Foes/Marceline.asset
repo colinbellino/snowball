@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 1991758500
   Name: Marceline
   Type: 0
-  Guest: 0
   Sprite: {fileID: -8964298720854551499, guid: 3c806692cf0b9ea46a4fc28d8276e19c, type: 3}
   ColorCloth: {r: 0.7921569, g: 0.011764727, b: 0.06012246, a: 1}
   ColorHair: {r: 0.084905684, g: 0.013791787, b: 0, a: 1}
   ColorSkin: {r: 1, g: 0.89564407, b: 0.7987421, a: 1}
-  MoveRange: 8
-  Health: 8
-  Speed: 12
+  MoveRange: 7
+  Health: 12
+  Speed: 5
   HitAccuracy: 100
   HitRange: 8
-  HitDamage: 1
+  HitDamage: 2
+  HitDamageVariation: 2
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

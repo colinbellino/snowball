@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 273233954
   Name: Jayne
   Type: 0
-  Guest: 0
   Sprite: {fileID: -7790507309427031039, guid: a8e0a64acef2ced4e9dc0f11c725c706, type: 3}
   ColorCloth: {r: 0.011764707, g: 0.5647059, b: 0.79215693, a: 1}
   ColorHair: {r: 1, g: 0.4781475, b: 0, a: 1}
   ColorSkin: {r: 1, g: 0.8275862, b: 0.6666666, a: 1}
-  MoveRange: 8
-  Health: 8
-  Speed: 12
-  HitAccuracy: 100
+  MoveRange: 7
+  Health: 12
+  Speed: 5
+  HitAccuracy: 90
   HitRange: 8
-  HitDamage: 1
+  HitDamage: 2
+  HitDamageVariation: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000
