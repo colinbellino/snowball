@@ -17,6 +17,7 @@ namespace Snowball.Game
 		}
 
 		public bool RequiresUnitTarget => false;
+		public bool DoesDamage => false;
 
 		public bool IsValidTarget(Unit actor, Unit target) => true;
 

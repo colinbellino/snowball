@@ -14,7 +14,7 @@ namespace Snowball.Game
 			_machine = machine;
 		}
 
-		public async UniTask Enter()
+		public UniTask Enter()
 		{
 			var hasSaveFile = SaveHelpers.HasFile();
 
@@ -39,6 +39,8 @@ namespace Snowball.Game
 			}
 
 			ContinueGame();
+
+			return default;
 		}
 
 		public async UniTask Exit()
@@ -140,7 +142,7 @@ namespace Snowball.Game
 			_machine.Fire(GameStateMachine.Triggers.Quit);
 		}
 
-		private static GameState CreateDefaultState()
+		public static GameState CreateDefaultState()
 		{
 			var state = new GameState();
 			state.Version = Application.version;

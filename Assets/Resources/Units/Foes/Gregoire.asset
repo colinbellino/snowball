@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 1620280266
   Name: Gregoire
   Type: 0
-  Guest: 0
   Sprite: {fileID: -1875141621306811350, guid: c49300bf619467647bc0f8f61d5de66e, type: 3}
   ColorCloth: {r: 0.6745098, g: 0.06666667, b: 0.16470589, a: 1}
   ColorHair: {r: 0.990566, g: 0.9437597, b: 0.735137, a: 1}
   ColorSkin: {r: 0.38679248, g: 0.25322038, b: 0.12649815, a: 1}
-  MoveRange: 8
-  Health: 10
-  Speed: 5
+  MoveRange: 7
+  Health: 26
+  Speed: 6
   HitAccuracy: 100
   HitRange: 12
-  HitDamage: 2
+  HitDamage: 3
+  HitDamageVariation: 2
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

@@ -168,6 +168,11 @@ namespace Snowball.Game
 			_hitRateText.gameObject.SetActive(true);
 		}
 
+		public void ShowDamage(int baseDamage, int variationDamage)
+		{
+			_hitRateText.text += $"\n{baseDamage - variationDamage} - {baseDamage + variationDamage}";
+		}
+
 		public void HideHitRate()
 		{
 			_hitRateText.gameObject.SetActive(false);

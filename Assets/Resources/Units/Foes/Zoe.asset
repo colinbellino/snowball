@@ -15,17 +15,17 @@ MonoBehaviour:
   Id: 852068322
   Name: Zoe
   Type: 0
-  Guest: 0
   Sprite: {fileID: -9074536199170972686, guid: 193713dee348e26418b79cb2e87b669e, type: 3}
   ColorCloth: {r: 0.011764707, g: 0.5647059, b: 0.79215693, a: 1}
   ColorHair: {r: 0.49097648, g: 0.10798619, b: 0.6132076, a: 1}
   ColorSkin: {r: 1, g: 0.8275862, b: 0.6666666, a: 1}
-  MoveRange: 8
-  Health: 8
-  Speed: 12
-  HitAccuracy: 100
+  MoveRange: 7
+  Health: 11
+  Speed: 5
+  HitAccuracy: 90
   HitRange: 8
-  HitDamage: 1
+  HitDamage: 3
+  HitDamageVariation: 1
   BuildRange: 1
   ActionPatterns: 0
   Abilities: 00000000

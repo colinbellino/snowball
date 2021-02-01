@@ -29,7 +29,7 @@ namespace Snowball.Game
 			_controls.Gameplay.Disable();
 
 			_ = _audio.StopMusic();
-			await _transition.StartTransition(Color.white);
+			await _transition.StartTransition(Color.black);
 
 			_board.ClearArea();
 			_board.HideEncounter();

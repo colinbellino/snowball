@@ -55,7 +55,7 @@ namespace Snowball.Game
 
 			Game.Instance.State.CurrentEncounterId = -1;
 
-			if (result == BattleResults.Victory)
+			if (result != BattleResults.Defeat)
 			{
 				Game.Instance.State.EncountersDone.Add(encounterId);
 

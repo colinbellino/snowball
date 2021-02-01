@@ -19,13 +19,11 @@ namespace Snowball.Game
 			_machine.Fire(BattleStateMachine.Triggers.Done);
 		}
 
-		public override UniTask Exit()
+		public override async UniTask Exit()
 		{
-			base.Exit();
+			await base.Exit();
 
 			_ui.SetTurnUnit(null);
-
-			return default;
 		}
 
 		protected override void OnPause()

@@ -26,16 +26,14 @@ namespace Snowball.Game
 			}
 		}
 
-		public override UniTask Exit()
+		public override async UniTask Exit()
 		{
-			base.Exit();
+			await base.Exit();
 
 			_ui.SetTurnUnit(null);
 			_ui.ClearTarget();
 			_ui.HideHitRate();
 			_board.ClearHighlight();
-
-			return default;
 		}
 
 		protected override void OnCursorMove()
@@ -94,6 +92,10 @@ namespace Snowball.Game
 			{
 				_ui.ShowTargetInfos(target, _database.Encounters[_state.CurrentEncounterId].TeamColor);
 				_ui.ShowHitRate(hitChance);
+				// if (_turn.Plan.Ability.DoesDamage)
+				// {
+				// 	_ui.ShowDamage(_turn.Unit.HitDamage, _turn.Unit.HitDamageVariation);
+				// }
 			}
 			else
 			{

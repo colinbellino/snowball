@@ -28,6 +28,7 @@ namespace Snowball.Game
 		public int HitAccuracy = 100;
 		public int HitRange = 10;
 		public int HitDamage = 1;
+		public int HitDamageVariation = 1;
 		public int BuildRange = 1;
 
 		[Title("AI")]

@@ -8,6 +8,7 @@ namespace Snowball.Game
 	public class MeltAbility : IAbility
 	{
 		public bool RequiresUnitTarget => false;
+		public bool DoesDamage => false;
 
 		public bool IsValidTarget(Unit actor, Unit target)
 		{

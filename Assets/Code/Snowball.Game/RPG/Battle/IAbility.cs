@@ -7,6 +7,7 @@ namespace Snowball.Game
 	public interface IAbility
 	{
 		bool RequiresUnitTarget { get; }
+		bool DoesDamage { get; }
 
 		bool IsValidTarget(Unit actor, Unit target);
 		List<Vector3Int> GetAreaOfEffect(Vector3Int destination);

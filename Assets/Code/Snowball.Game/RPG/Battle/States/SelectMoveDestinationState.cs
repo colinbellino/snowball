@@ -31,15 +31,13 @@ namespace Snowball.Game
 			}
 		}
 
-		public override UniTask Exit()
+		public override async UniTask Exit()
 		{
-			base.Exit();
+			await base.Exit();
 
 			_ui.ClearMovePath();
 			_ui.SetTurnUnit(null);
 			_board.ClearHighlight();
-
-			return default;
 		}
 
 		protected override void OnCursorMove()
